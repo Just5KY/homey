@@ -9,7 +9,7 @@
 export default {
     name: 'BookmarkBar',
     props: {
-        bookmarkList: []
+        bookmarkList: Array,
     },
     data: function() {
         return {
@@ -24,8 +24,7 @@ export default {
             }
             this.hidden = true;
         }
-    }
-    
+    },
 }
 </script>
 

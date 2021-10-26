@@ -4,16 +4,19 @@
         <br>This will be my badass lightweight home dashboard.
       </h1>
     </div>
-    <div class="card-container">
-        <ServiceCard v-for="srv in services" :key=srv.text :name=srv.name :url=srv.url :icon=srv.icon></ServiceCard>
+    <div class="service-container">
+        <ServiceCard v-for="srv in services" :key=srv.name :name=srv.name :url=srv.url :icon=srv.icon></ServiceCard>
     </div>
-    <BookmarkBar id="bookmark-bar" :bookmarkList="bookmarks"></BookmarkBar>
+    <div class="widget-container">
+      <APICard name="Zen Quotes API Card" url="https://zenquotes.io/api/random" :refreshInterval="120"></APICard>
+    </div>
+    <BookmarkBar :bookmarkList="bookmarks"></BookmarkBar>
 </template>
 
 <script>
 
 import ServiceCard from './components/ServiceCard.vue'
-//import APICard from './components/APICard.vue'
+import APICard from './components/APICard.vue'
 import BookmarkBar from './components/BookmarkBar.vue' 
 
 export default {
@@ -21,6 +24,7 @@ export default {
   components: {
     ServiceCard,
     BookmarkBar,
+    APICard,
   },
   data: function () {
     return {
@@ -42,7 +46,7 @@ export default {
       ],
       bookmarks: [
         { name: "Redacted", url: "https://redacted.ch" },
-        { name: "Hacker News", url: "https://news.ycombinator.com"}
+        { name: "Hacker News", url: "https://news.ycombinator.com"},
       ],
     }
   },
@@ -61,7 +65,7 @@ export default {
   margin-top: 60px;
 }
 
-.card-container {
+.service-container {
   width: 50%;
   margin: 0 auto;
 }

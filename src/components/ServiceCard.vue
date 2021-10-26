@@ -18,7 +18,7 @@ export default {
         getIconPath() {
             return '../assets/image'
         }
-    }
+    },
 };
 
 </script>
