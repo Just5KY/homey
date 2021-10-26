@@ -1,23 +1,26 @@
 <template>
     <div class="header">
-      <h1>Greetings planet! I'm learning Vue.js!<br>This will be my badass lightweight home dashboard.</h1>
+      <h1>Greetings planet! I'm learning Vue.js!
+        <br>This will be my badass lightweight home dashboard.
+      </h1>
     </div>
     <div class="card-container">
-    <div v-for="srv in services" :key=srv.text>
-      <ServiceCard :name=srv.name :url=srv.url :icon=srv.icon></ServiceCard>
+        <ServiceCard v-for="srv in services" :key=srv.text :name=srv.name :url=srv.url :icon=srv.icon></ServiceCard>
     </div>
-    </div>
-  
+    <BookmarkBar :bookmarkList="bookmarks"></BookmarkBar>
 </template>
 
 <script>
 
 import ServiceCard from './components/ServiceCard.vue'
+//import APICard from './components/APICard.vue'
+import BookmarkBar from './components/BookmarkBar.vue' 
 
 export default {
   name: 'App',
   components: {
     ServiceCard,
+    BookmarkBar,
   },
   data: function () {
     return {
@@ -36,6 +39,10 @@ export default {
           url: 'https://dokk.duckdns.org',
           icon: 'nextcloud.png',
         },
+      ],
+      bookmarks: [
+        { name: "Redacted", url: "https://redacted.ch" },
+        { name: "Hacker News", url: "https://news.ycombinator.com"}
       ],
     }
   },
