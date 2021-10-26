@@ -7,7 +7,7 @@
     <div class="card-container">
         <ServiceCard v-for="srv in services" :key=srv.text :name=srv.name :url=srv.url :icon=srv.icon></ServiceCard>
     </div>
-    <BookmarkBar :bookmarkList="bookmarks"></BookmarkBar>
+    <BookmarkBar id="bookmark-bar" :bookmarkList="bookmarks"></BookmarkBar>
 </template>
 
 <script>
@@ -45,6 +45,8 @@ export default {
         { name: "Hacker News", url: "https://news.ycombinator.com"}
       ],
     }
+  },
+  methods: {
   },
 }
 </script>

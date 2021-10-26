@@ -1,5 +1,6 @@
 <template>
-    <ul id="bookmark-bar">
+    <button id="toggle-button" @click=toggleHidden>Toggle Bookmarks</button>
+    <ul v-if="!this.hidden" id="bookmark-bar">
         <a class="bookmark-link" target="_blank" :href="b.url" v-for="b in bookmarkList" :key=b.name>{{b.name}}</a>
     </ul>
 </template>
@@ -15,6 +16,16 @@ export default {
             hidden: false,
         }
     },
+    methods: {
+        toggleHidden() {
+            if(this.hidden){
+                this.hidden = false;
+                return;
+            }
+            this.hidden = true;
+        }
+    }
+    
 }
 </script>
 
