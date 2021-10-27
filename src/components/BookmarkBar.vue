@@ -1,8 +1,11 @@
 <template>
-    <button id="toggle-button" @click=toggleHidden>Toggle Bookmarks</button>
-    <ul v-if="!this.hidden" id="bookmark-bar">
-        <a class="bookmark-link" target="_blank" :href="b.url" v-for="b in bookmarkList" :key=b.name>{{b.name}}</a>
-    </ul>
+    
+    <div id="bookmark-bar">
+        <button id="toggle-button" @click=toggleHidden>Toggle Bookmarks</button>
+        <span v-if="!this.hidden">
+            <a class="bookmark-link" target="_blank" :href="b.url" v-for="b in bookmarkList" :key=b.name>{{b.name}}</a>
+        </span>
+    </div>
 </template>
 
 <script>
@@ -30,7 +33,7 @@ export default {
 
 <style>
 #bookmark-bar{
-    border: 1px solid black;
+    /* border: 1px solid black; */
     width: 50%;
     margin: auto;
     padding: 0.5rem;

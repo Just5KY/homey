@@ -1,30 +1,31 @@
 <template>
     <div class="header">
-      <h1>Greetings planet! I'm learning Vue.js!
-        <br>This will be my badass lightweight home dashboard.
-      </h1>
+      <h1>This will be my badass lightweight home dashboard.</h1>
     </div>
+    <BookmarkBar :bookmarkList="bookmarks"></BookmarkBar>
     <div class="service-container">
         <ServiceCard v-for="srv in services" :key=srv.name :name=srv.name :url=srv.url :icon=srv.icon></ServiceCard>
     </div>
     <div class="widget-container">
-      <APICard name="Zen Quotes API Card" url="https://zenquotes.io/api/random" :refreshInterval="120"></APICard>
+      <ZenQuotesCard name="Zen Quote of the Day" url="https://zenquotes.io/api/random" :refreshInterval="30"></ZenQuotesCard>
+      <NicehashCard name="Miner Status" url="https://placeholder.url" :refreshInterval="5"></NicehashCard>
     </div>
-    <BookmarkBar :bookmarkList="bookmarks"></BookmarkBar>
 </template>
 
 <script>
 
-import ServiceCard from './components/ServiceCard.vue'
-import APICard from './components/APICard.vue'
 import BookmarkBar from './components/BookmarkBar.vue' 
+import ServiceCard from './components/ServiceCard.vue'
+import ZenQuotesCard from './components/ZenQuotesCard.vue'
+import NicehashCard from './components/NicehashCard.vue'
 
 export default {
   name: 'App',
   components: {
     ServiceCard,
     BookmarkBar,
-    APICard,
+    ZenQuotesCard,
+    NicehashCard,
   },
   data: function () {
     return {
@@ -72,5 +73,18 @@ export default {
 
 body {
   background-color: #3a4652;
+}
+
+.api-card{
+    border: 2px solid black;
+    width: 50%;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem auto 1rem auto;
+}
+
+.api-card > p {
+    font-size: 2rem;
+    color: bisque;
 }
 </style>

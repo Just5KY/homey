@@ -1,5 +1,5 @@
 <template>
-    <div class="api-card">
+    <div class="api-card" id="nicehash-card">
         <h3>{{this.name}}</h3>
         <p>{{this.message}}</p>
     </div>
@@ -11,7 +11,7 @@ const axios = require('axios').default;
 axios.defaults.withCredentials = false;
 
 export default {
-    name: "APICard",
+    name: "NicehashCard",
     props: {
         name: String,
         url: String,
@@ -25,11 +25,12 @@ export default {
     },
     methods: {
         fetchData() {
-            axios.get(this.url)
-                .then(response => (this.message = response.data[0]['q'] + ' - ' + response.data[0]['a']));
+            //axios.get(this.url)
+                //.then(response => (this.message = response.data[0]['q'] + ' - ' + response.data[0]['a']));
         },
     },
     mounted () {
+        this.message = "Loading..."
         this.fetchData();
         setInterval(() => this.fetchData(), this.refreshInterval * 1000);
     },
@@ -38,19 +39,5 @@ export default {
 </script>
 
 <style scoped>
-
-.api-card{
-    border: 2px solid black;
-    width: 50%;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin: 1rem auto 1rem auto;
-}
-
-.api-card > p {
-    font-size: 2rem;
-    color: bisque;
-}
-
 
 </style>
