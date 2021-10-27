@@ -18,6 +18,7 @@ import BookmarkBar from './components/BookmarkBar.vue'
 import ServiceCard from './components/ServiceCard.vue'
 import ZenQuotesCard from './components/ZenQuotesCard.vue'
 import NicehashCard from './components/NicehashCard.vue'
+// Navidrome API: http://music.mntn.top/rest/ping.view?u=steve=&p=babafrenchie8&v=1.16.1&c=apitest
 
 export default {
   name: 'App',
