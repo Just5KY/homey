@@ -1,7 +1,5 @@
 <template>
-    <div class="header">
-      <h1>This will be my badass lightweight home dashboard.</h1>
-    </div>
+    <TitleBar :title="title"></TitleBar>
     <BookmarkBar :bookmarkList="bookmarks"></BookmarkBar>
     <div class="service-container">
         <ServiceCard v-for="srv in services" :key=srv.name :name=srv.name :url=srv.url :icon=srv.icon></ServiceCard>
@@ -18,6 +16,8 @@ import BookmarkBar from './components/BookmarkBar.vue'
 import ServiceCard from './components/ServiceCard.vue'
 import ZenQuotesCard from './components/ZenQuotesCard.vue'
 import NicehashCard from './components/NicehashCard.vue'
+import TitleBar from './components/TitleBar.vue'
+
 // Navidrome API: http://music.mntn.top/rest/ping.view?u=steve=&p=babafrenchie8&v=1.16.1&c=apitest
 
 export default {
@@ -27,9 +27,11 @@ export default {
     BookmarkBar,
     ZenQuotesCard,
     NicehashCard,
+    TitleBar,
   },
   data: function () {
     return {
+      title: 'Safehouse',
       services: [
         { name: 'Whoogle', 
           url: 'https://mntn.top',
