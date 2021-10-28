@@ -1,11 +1,11 @@
 <template>
     <div id="title-bar">
         <h1>{{this.title}}</h1>
-        <div id="title-info-container">
-            <div>{{this.formattedTime}}</div>
-            <div>{{this.formattedDate}}</div>
-            <div>72 // Cloudy</div>
-        </div>
+        <span id="title-info-container">
+            <div class="title-info-element">{{this.formattedTime}}</div>
+            <div class="title-info-element">{{this.formattedDate}}</div>
+            <div class="title-info-element">72 // Cloudy</div>
+        </span>
     </div>
 </template>
 
@@ -42,11 +42,27 @@ export default {
 
 <style scoped>
 
+#title-bar {
+    text-align: left;
+}
 
+h1 {
+    width: 60%;
+    display: inline-block;
+}
 
 #title-info-container {
     margin-left: auto;
     margin-right: 0;
+    text-align: right;
+    width: 40%;
+    display: inline-block;
+}
+
+.title-info-element {
+    margin-left: auto;
+    margin-right: 0;
+    
 }
 
 </style>

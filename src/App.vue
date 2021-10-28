@@ -64,13 +64,16 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #a3a7ac;
-  margin-top: 60px;
 }
 
 .service-container {
-  width: 50%;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.widget-container {
+  width: 30%;
   margin: 0 auto;
 }
 
@@ -80,7 +83,6 @@ body {
 
 .api-card{
     border: 2px solid black;
-    width: 50%;
     padding: 1rem;
     border-radius: 0.5rem;
     margin: 1rem auto 1rem auto;
