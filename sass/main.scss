@@ -1,0 +1,21 @@
+// Main (entrypoint)
+
+@import "variables";
+@import "utilities";
+@import "grid";
+@import "animations";
+@import "button";
+@import "card-api";
+@import "card-service";
+@import "header";
+@import "body";
+
+// universal reset - remove default spacing
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit; // every element will inherit body's box-sizing
+    font-size: 16px;
+}

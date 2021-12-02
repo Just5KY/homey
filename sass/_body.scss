@@ -1,0 +1,24 @@
+// Body
+
+body {
+    box-sizing: border-box;
+    background-color: #282a36;
+}
+
+h1 {
+    color: $color-purple;
+}
+
+.main-grid {
+    padding: 25rem 0;
+    margin-top: -25vh;
+    margin-bottom: -25vh;
+}
+
+.webgl
+{
+    position: fixed;
+    top: -18%;
+    left: 17%;
+    outline: none;
+}

@@ -1,15 +1,14 @@
 # homey
 
-Homey is a self-hosted service dashboard inspired by Homer. It became clear that it would be a better idea to write something from scratch instead of heavily modify a Homer fork, becuase I wanted to:
-* Extend API functionality
-* Extend layout customization options
-* Remove all functionality I was not using
-* Add juicy CSS animations, WebGL toys, easter eggs, etc
-
-It also seemed like a good project to learn Vue.js - modular complexity with a few basic functions at the core.
+Homey is a home server dashboard loosely inspired by Homer. Built with:
+* SASS (layout; frontend)
+* Vue (reactive single page design)
+* Three.js & Tween.js (eyecandy)
+* Flask (fetch API data; local machine control)
 
 ## Project setup
 ```
-yarn install
-yarn serve
+npm i
+npm run compile:sass
+npm run serve
 ```

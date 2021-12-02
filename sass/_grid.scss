@@ -1,0 +1,35 @@
+.row {
+    max-width: $grid-width;
+    margin: 0 auto;         // Center block element inside parent block element
+    &:not(:last-child) {    // Do not add bottom margin to last row
+        margin-bottom: $grid-gutter-vertical;
+    }
+
+    @include clearfix;
+
+    .col-2-thirds {
+        width: calc(((100% - #{$grid-gutter-horizontal}*2) / 3) * 2);
+        float: left;
+        &:not(:last-child) {
+            margin-right: $grid-gutter-horizontal;
+        }
+    }
+    .col-1-third {
+        width: calc((100% - #{$grid-gutter-horizontal}*2) / 3);
+        float: left;
+        &:not(:last-child) {
+            margin-right: $grid-gutter-horizontal;
+        }
+    }
+
+    .col-1-quarter {
+        width: calc((100% - #{$grid-gutter-horizontal}*3) / 4);
+        float: left;
+        &:not(:last-child) {
+            margin-right: $grid-gutter-horizontal;
+        }
+    }
+}
+
+
+
