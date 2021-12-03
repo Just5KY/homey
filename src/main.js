@@ -69,7 +69,7 @@ frontWire.position.z += .5
 // animation
 const startHeight = 7
 // roof
-const tween = new TWEEN.Tween({x: 0, y: startHeight, z: 0 })
+const tween = new TWEEN.Tween({x: 0, y: startHeight - 2, z: 0 })
     .to({x: 0, y: .9, z: 0 }, 3000)
     .easing(TWEEN.Easing.Bounce.Out)
     .onUpdate(function ({ x, y, z }, elapsed) {
@@ -134,9 +134,9 @@ houseGroup.add(m4)
 houseGroup.add(roofMesh)
 houseGroup.add(chimneyMesh)
 //houseGroup.add(frontWire)
-houseGroup.scale.x = 0.25
-houseGroup.scale.y = 0.25
-houseGroup.scale.z = 0.25
+houseGroup.scale.x = .75
+houseGroup.scale.y = .75
+houseGroup.scale.z = .75
 scene.add(houseGroup)
 
 //Lights
@@ -161,8 +161,8 @@ function rotateDegrees(mesh, degrees){
 
 // Boilerplate
 const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
+    width: 120,
+    height: 160
 }
 
 // Camera

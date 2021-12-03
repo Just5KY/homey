@@ -1,7 +1,8 @@
 <template>
   <div class="header-container">
-    <h1>{{ title }}<span class="material-icons-outlined">settings</span></h1>
     <canvas class="webgl"></canvas>
+    <h1>{{ title }}</h1>
+    <span class="material-icons-outlined">settings</span>
   </div>
 </template>
 

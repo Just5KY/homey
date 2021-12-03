@@ -1,7 +1,7 @@
 <template>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <Header title="Safehouse"/>
+  <Header title="homey"/>
   <ServiceContainer/>
   <DockerContainer/>
   <CardContainer/>

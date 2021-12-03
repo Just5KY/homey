@@ -65,17 +65,24 @@
 
 .header-container {
   text-align: center;
-  background-color: #12c3a5; }
+  background-color: #44475a;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center; }
   .header-container h1 {
-    font-size: 7rem; }
+    font-size: 7rem;
+    font-weight: 200;
+    letter-spacing: .8rem; }
   .header-container span {
-    float: right;
-    font-size: 3.5rem; }
+    color: #6272a4;
+    margin: 1rem;
+    font-size: 3.5rem;
+    align-self: flex-start;
+    margin-left: auto; }
 
 .webgl {
-  position: fixed;
-  top: -37%;
-  left: 14%;
+  margin-top: 2rem;
   outline: none; }
 
 body {

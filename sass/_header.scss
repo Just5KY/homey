@@ -1,22 +1,29 @@
 .header-container {
     text-align: center;
-    background-color: #12c3a5;
+    background-color: $backgroundColor2;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
 
     & h1 {
         font-size: 7rem;
+        font-weight: 200;
+        letter-spacing: .8rem;
         //color: $cyan;
     }
 
     & span {    // Settings icon
-        float: right;
+        color: $commentColor;
+        margin: 1rem;
         font-size: 3.5rem;
+        align-self: flex-start;
+        margin-left: auto;
     }
 }
 
 .webgl
 {
-    position: fixed;
-    top: -37%;
-    left: 14%;
+    margin-top: 2rem;
     outline: none;
 }
