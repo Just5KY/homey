@@ -1,0 +1,17 @@
+.header-container {
+    text-align: center;
+
+    & h1 {
+        margin-top: 6.2rem;
+        font-size: 7rem;
+        color: $color-cyan;
+    }
+}
+
+.webgl
+{
+    position: fixed;
+    top: -37%;
+    left: 14%;
+    outline: none;
+}

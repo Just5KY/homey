@@ -1,8 +1,8 @@
 <template>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Homey Dashboard"/>
+  <Header title="Safehouse"/>
+  <ServiceContainer/>
 
   <div>
     MDI Icon Font:
@@ -14,22 +14,18 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/Header.vue'
+import ServiceContainer from './components/ServiceContainer.vue'
+//import DockerContainer from './components/DockerContainer.vue'
+//import CardContainer from './components/CardContainer.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Header,
+    ServiceContainer,
+    // DockerContainer,
+    // CardContainer
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Montserrat, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  margin-top: 60px;
-}
-</style>

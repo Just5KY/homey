@@ -10,12 +10,16 @@
 @import "header";
 @import "body";
 
-// universal reset - remove default spacing
+// Global styles
 *,
 *::after,
 *::before {
     margin: 0;
     padding: 0;
     box-sizing: inherit; // every element will inherit body's box-sizing
-    font-size: 16px;
+
+    font-size: 10px;
+    font-family: Montserrat, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }

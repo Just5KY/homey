@@ -2,11 +2,8 @@
 
 body {
     box-sizing: border-box;
-    background-color: #282a36;
-}
-
-h1 {
-    color: $color-purple;
+    background-color: $color-background;
+    color: $color-white;
 }
 
 .main-grid {
@@ -15,10 +12,9 @@ h1 {
     margin-bottom: -25vh;
 }
 
-.webgl
-{
-    position: fixed;
-    top: -18%;
-    left: 17%;
-    outline: none;
+.service-container {
+    text-align: center;
+    & h2 {
+        font-size: 3rem;
+    }
 }

@@ -10,7 +10,6 @@ import * as dat from 'dat.gui'
 
 createApp(App).mount('#app')
 
-
 // Debug
 //const gui = new dat.GUI()
 
