@@ -3,14 +3,6 @@
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <Header title="Safehouse"/>
   <ServiceContainer/>
-
-  <div>
-    MDI Icon Font:
-    <span class="material-icons-outlined">home</span> <!-- Outlined -->
-  </div>
-
-  <canvas class="webgl"></canvas>
-
 </template>
 
 <script>

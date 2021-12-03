@@ -1,10 +1,15 @@
 .header-container {
     text-align: center;
+    background-color: #12c3a5;
 
     & h1 {
-        margin-top: 6.2rem;
         font-size: 7rem;
-        color: $color-cyan;
+        //color: $color-cyan;
+    }
+
+    & span {    // Settings icon
+        float: right;
+        font-size: 3.5rem;
     }
 }
 

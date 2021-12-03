@@ -64,11 +64,13 @@
     transform: translate(0); } }
 
 .header-container {
-  text-align: center; }
+  text-align: center;
+  background-color: #12c3a5; }
   .header-container h1 {
-    margin-top: 6.2rem;
-    font-size: 7rem;
-    color: #8be9fd; }
+    font-size: 7rem; }
+  .header-container span {
+    float: right;
+    font-size: 3.5rem; }
 
 .webgl {
   position: fixed;
@@ -87,6 +89,7 @@ body {
   margin-bottom: -25vh; }
 
 .service-container {
+  background-color: #f00;
   text-align: center; }
   .service-container h2 {
     font-size: 3rem; }
