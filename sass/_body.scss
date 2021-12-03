@@ -2,8 +2,8 @@
 
 body {
     box-sizing: border-box;
-    background-color: $color-background;
-    color: $color-white;
+    background-color: $backgroundColor;
+    color: $white;
 }
 
 .main-grid {
@@ -14,6 +14,22 @@ body {
 
 .service-container {
     background-color: #f00;
+    text-align: center;
+    & h2 {
+        font-size: 3rem;
+    }
+}
+
+.docker-container {
+    background-color: #00f;
+    text-align: center;
+    & h2 {
+        font-size: 3rem;
+    }
+}
+
+.card-container {
+    background-color: $dark-green;
     text-align: center;
     & h2 {
         font-size: 3rem;

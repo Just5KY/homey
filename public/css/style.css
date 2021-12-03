@@ -94,6 +94,18 @@ body {
   .service-container h2 {
     font-size: 3rem; }
 
+.docker-container {
+  background-color: #00f;
+  text-align: center; }
+  .docker-container h2 {
+    font-size: 3rem; }
+
+.card-container {
+  background-color: #1b6535;
+  text-align: center; }
+  .card-container h2 {
+    font-size: 3rem; }
+
 *,
 *::after,
 *::before {

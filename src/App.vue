@@ -3,21 +3,23 @@
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <Header title="Safehouse"/>
   <ServiceContainer/>
+  <DockerContainer/>
+  <CardContainer/>
 </template>
 
 <script>
 import Header from './components/Header.vue'
 import ServiceContainer from './components/ServiceContainer.vue'
-//import DockerContainer from './components/DockerContainer.vue'
-//import CardContainer from './components/CardContainer.vue'
+import DockerContainer from './components/DockerContainer.vue'
+import CardContainer from './components/CardContainer.vue'
 
 export default {
   name: 'App',
   components: {
     Header,
     ServiceContainer,
-    // DockerContainer,
-    // CardContainer
+    DockerContainer,
+    CardContainer
   }
 }
 </script>
