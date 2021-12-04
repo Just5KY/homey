@@ -20,6 +20,10 @@ h2 {
     grid-row: 2 / 4;
     grid-column: 1;
 
+    // Temporary!
+    display: flex;
+    justify-content: center;
+
     background-color: #f00;
     text-align: center;
 }

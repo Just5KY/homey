@@ -1,8 +1,12 @@
 <template>
   <div class="service-container">
-    <h2>Services</h2>
-    <ServiceCard title="Navidrome"/>
-    <ServiceCard title="Jellyfin"/>
+      <ServiceCard v-for="s in services"
+        :key="s.name"
+        :title="s.name"
+        :subtitle="s.subtitle"
+        :icon="s.icon"
+        :url="s.url" 
+      />
   </div>
 </template>
 
@@ -11,6 +15,9 @@ import ServiceCard from './ServiceCard.vue'
 
 export default {
   name: 'ServiceContainer',
+  props: {
+    services: Array,
+  },
   components: {
       ServiceCard
   }
