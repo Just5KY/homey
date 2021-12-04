@@ -1,9 +1,10 @@
 import requests
 import json
+from secretKeys import weatherLat, weatherLong
 
-CONFIG_STRING = '/v1/forecast?latitude=44.4758&longitude=-73.2120&hourly=temperature_2m,precipitation,weathercode,snow_height&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=America%2FNew_York&past_days=2'
-# get more weather info:
-#   https://open-meteo.com/en/docs
+# https://open-meteo.com/en/docs
+
+CONFIG_STRING = '/v1/forecast?latitude=' + weatherLat + '&longitude=' + weatherLong + '&hourly=temperature_2m,precipitation,weathercode,snow_height&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=America%2FNew_York&past_days=2'
 
 class api:
 

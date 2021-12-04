@@ -11,10 +11,11 @@ class api:
             "Password": portainerPassword
         }
         self.authToken = ''
+        self.endpointId = ''
 
     def authenticate(self):
         ses = requests.Session()
-        
+
         userData = json.dumps(self.user)
         response = ses.request('POST', url=self.host + '/auth', data=userData)
 
@@ -23,8 +24,7 @@ class api:
             self.authToken = response.json()['jwt']
 
             # Get endpoint id for all subsequent calls
-            rawEndpoint = ses.request('GET', 
-                url=self.host + '/endpoints', 
+            rawEndpoint = ses.request('GET', url=self.host + '/endpoints', 
                 headers={"Authorization": "Bearer " + self.authToken}
             )
             self.endpointId = rawEndpoint.json()[0]['Id']
