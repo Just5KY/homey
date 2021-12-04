@@ -1,14 +1,12 @@
 <template>
-  <div class="service-card-container">
+  <div v-on:click="openLink" class="service-card-container">
     <h3>{{ title }}</h3>
     <img :src="iconPath">
     <div>{{subtitle}}</div>
-    <div>{{url}}</div>
   </div>
 </template>
 
 <script>
-import { computed } from '@vue/reactivity'
 export default {
   name: 'ServiceCard',
   data: function () {
@@ -22,5 +20,10 @@ export default {
       icon: String,
       url: String,
   },
+  methods: {
+    openLink: function() {
+      window.open(this.url,'_blank');
+    }
+  }
 }
 </script>
