@@ -6,12 +6,8 @@ import '@material-design-icons/font';
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as TWEEN from '@tweenjs/tween.js'
-import * as dat from 'dat.gui'
 
 createApp(App).mount('#app')
-
-// Debug
-//const gui = new dat.GUI()
 
 // Canvas
 const canvas = document.querySelector('canvas.header-animation')

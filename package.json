@@ -1,18 +1,22 @@
 {
-  "name": "homey-new",
-  "version": "0.1.0",
+  "name": "homey",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "compile:sass": "node-sass sass/main.scss public/css/style.css -w"
+    "compile:sass": "node-sass sass/main.scss public/css/style.css -w",
+    "preinstall": "npx npm-force-resolutions"
+  },
+  "resolutions": {
+    "glob-parent": "^6.0.2"
   },
   "dependencies": {
+    "axios": "^0.24.0",
     "core-js": "^3.6.5",
-    "dat.gui": "^0.7.7",
-    "fs": "^0.0.1-security",
-    "vue": "^3.0.0"
+    "vue": "^3.0.0",
+    "vue-axios": "^3.4.0"
   },
   "devDependencies": {
     "@material-design-icons/font": "^0.10.4",
