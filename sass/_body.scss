@@ -4,37 +4,38 @@
     box-sizing: border-box;
     background-color: $backgroundColor;
     color: $white;
+    
     display: grid;
     height: 100vh;
     grid-template-rows: 1fr 5fr 3.5fr;
     grid-template-columns: 3fr 2fr;
 }
 
+h2 {
+    font-weight: 300;
+    font-size: 3rem;
+}
+
 .service-container {
     grid-row: 2 / 4;
+    grid-column: 1;
+
     background-color: #f00;
     text-align: center;
-    & h2 {
-        font-size: 3rem;
-    }
 }
 
 .docker-container {
     grid-row: 2 / 3;
     grid-column: 2;
+
     background-color: #00f;
     text-align: center;
-    & h2 {
-        font-size: 3rem;
-    }
 }
 
 .card-container {
     grid-row: 3;
     grid-column: 2;
+
     background-color: $darkGreen;
     text-align: center;
-    & h2 {
-        font-size: 3rem;
-    }
 }

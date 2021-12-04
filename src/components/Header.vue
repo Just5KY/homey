@@ -1,6 +1,6 @@
 <template>
   <div class="header-container">
-    <canvas class="webgl"></canvas>
+    <canvas class="header-animation"></canvas>
     <h1>{{ title }}</h1>
     <span class="material-icons-outlined">settings</span>
   </div>

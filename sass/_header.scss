@@ -8,6 +8,7 @@
     align-items: center;
     justify-content: center;
 
+    // Page title
     & h1 {
         font-size: 7rem;
         font-weight: 200;
@@ -15,16 +16,12 @@
         //color: $cyan;
     }
 
-    & span {    // Settings icon
+    // Settings icon
+    & span {    
         color: $commentColor;
         margin: 1rem;
         font-size: 3.5rem;
         align-self: flex-start;
         margin-left: auto;
     }
-}
-
-.webgl
-{
-    outline: none;
 }

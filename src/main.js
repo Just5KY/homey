@@ -14,7 +14,7 @@ createApp(App).mount('#app')
 //const gui = new dat.GUI()
 
 // Canvas
-const canvas = document.querySelector('canvas.webgl')
+const canvas = document.querySelector('canvas.header-animation')
 
 // Scene
 const scene = new THREE.Scene()
