@@ -21,11 +21,11 @@ class api:
 
         if response.status_code == 200:
             # Set authentication token
-            self.authToken = response.json()['jwt']
+            self.authToken = 'Bearer ' + response.json()['jwt']
 
             # Get endpoint id for all subsequent calls
             rawEndpoint = ses.request('GET', url=self.host + '/endpoints', 
-                headers={"Authorization": "Bearer " + self.authToken}
+                headers={"Authorization": self.authToken}
             )
             self.endpointId = rawEndpoint.json()[0]['Id']
 
@@ -35,14 +35,14 @@ class api:
 
     def listContainers(self):
         ses = requests.Session()
+
+        # If not authenticated yet, do so
         if self.authToken == '':
             self.authenticate()
 
-        
-
         response = ses.request('GET', 
-            url=self.host + '/endpoints/2/docker/containers/json', 
-            headers={"Authorization": "Bearer " + self.authToken},
+            url=self.host + '/endpoints/' + str(self.endpointId) + '/docker/containers/json', 
+            headers={"Authorization": self.authToken},
             data=json.dumps("all==true")
         )
 
