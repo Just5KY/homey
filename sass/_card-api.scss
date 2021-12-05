@@ -1,0 +1,13 @@
+.weather-card-container {
+    font-weight: 300;
+    font-size: 1.3rem;
+    // Temporary!
+    text-align: left;
+
+    & span {
+        float: right;
+    }
+    & div {
+        padding: 0.5rem;
+    }
+}

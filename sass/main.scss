@@ -18,7 +18,9 @@
     margin: 0;
     padding: 0;
     box-sizing: inherit; // every element will inherit body's box-sizing
+}
 
+html {
     font-size: 10px;
     font-family: Montserrat, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;

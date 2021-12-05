@@ -1,18 +1,23 @@
 <template>
   <div class="card-container">
-    <h2>Information</h2>
-    <APICard title="Weather"/>
-    <APICard title="Server Control"/>
+    <WeatherCard title="Weather"/>
   </div>
 </template>
 
 <script>
-import APICard from './APICard.vue'
+import WeatherCard from './WeatherCard.vue'
 
 export default {
   name: 'CardContainer',
   components: {
-      APICard
+      WeatherCard
+  },
+  data() {
+    return {
+      apiCards: Array,
+    };
+  },
+  methods: {
   }
 }
 </script>

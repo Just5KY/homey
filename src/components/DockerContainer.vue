@@ -20,16 +20,15 @@ export default {
   methods: {
     loadContainerList: function() {
         this.axios.get('http://0.0.0.0:9101/portainerList').then((res) => {
-          this.dockerServices = res.data['containers']
-          console.log(res.data['containers'].sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))) // sort by name
+          this.dockerServices = res.data
       }).catch(e => {
-        console.log('Could not reach portainer API');
+        console.log('Could not reach homey API');
       });
     },
     // TODO: look into async. this should run before list, but doesn't need to as backend auto-auths on list call
     authenticate: function() {
         this.axios.get('http://0.0.0.0:9101/portainerAuth').then((res) => {
-          console.log('Portainer authentication returned ' + res.data);
+          console.log('INFO :: Portainer authentication returned ' + res.data);
       });
     },
   },

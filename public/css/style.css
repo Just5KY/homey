@@ -68,6 +68,15 @@
     opacity: 1;
     transform: translate(0); } }
 
+.weather-card-container {
+  font-weight: 300;
+  font-size: 1.3rem;
+  text-align: left; }
+  .weather-card-container span {
+    float: right; }
+  .weather-card-container div {
+    padding: 0.5rem; }
+
 .service-card-container {
   padding: 2rem;
   cursor: pointer; }
@@ -106,7 +115,7 @@
   color: #f8f8f2;
   display: grid;
   height: 100vh;
-  grid-template-rows: 1fr 5fr 3.5fr;
+  grid-template-rows: 1fr 5fr 4fr;
   grid-template-columns: 3fr 2fr; }
 
 h2 {
@@ -144,7 +153,9 @@ h2 {
 *::before {
   margin: 0;
   padding: 0;
-  box-sizing: inherit;
+  box-sizing: inherit; }
+
+html {
   font-size: 10px;
   font-family: Montserrat, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
