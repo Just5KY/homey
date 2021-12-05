@@ -9,12 +9,9 @@ import open_meteo   # weather
 import portainer
 from secretKeys import *
 
-# Not sensitive
-weatherHost = 'https://api.open-meteo.com'
-#############################################################
-
-nicehash_prod_api = nicehash.private_api(nicehashHost, orgId, apiKey, apiSecret)
-weather_api = open_meteo.api(weatherHost)
+#nicehash_prod_api = nicehash.private_api(nicehashHost, orgId, apiKey, apiSecret)
+nicehash_prod_api = None
+weather_api = open_meteo.api()
 portainer_api = portainer.api()
 
 DEBUG = True
@@ -34,9 +31,18 @@ def nicehashMinerStats():
     minerStats = nicehash_prod_api.get_mining_algo_stats()
     return jsonify(minerStats)
 
-@app.route('/weatherFull', methods=['GET'])
-def weatherFull():
-    return jsonify(weather_api.get_all_weather_data())
+@app.route('/weatherWeekly', methods=['GET'])
+def weatherWeekly():
+    return jsonify(weather_api.getWeatherWeekly())
+
+# day format = YYYYMMDD
+@app.route('/weatherHourly/<day>', methods=['GET'])
+def weatherHourlyDay(day=''):
+    return jsonify(weather_api.getWeatherHourly(day))
+
+@app.route('/weatherHourly', methods=['GET'])
+def weatherHourly():
+    return jsonify(weather_api.getWeatherHourly())
 
 @app.route('/portainerAuth', methods=['GET'])
 def portainerAuth():
