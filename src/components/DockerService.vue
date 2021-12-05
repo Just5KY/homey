@@ -1,6 +1,7 @@
 <template>
-  <div class="docker-service-container">
-    <h3>{{ title }}</h3>
+  <div class="docker-card-container">
+    <h3>{{ serviceName }}</h3>
+    <div>{{status}} - {{uptime}}</div>
   </div>
 </template>
 
@@ -8,7 +9,14 @@
 export default {
   name: 'DockerService',
   props: {
-      title: String,
-  }
+      serviceName: String,
+      status: String,
+      uptime: String,
+  },
+  data () {
+    return {
+      
+    };
+  },
 }
 </script>

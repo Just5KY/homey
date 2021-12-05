@@ -1,8 +1,6 @@
 <template>
   <div class="docker-container">
-    <h2>Docker</h2>
-    <DockerService title="portainer"/>
-    <DockerService title="flood"/>
+    <DockerService v-for="s in dockerServices" :key="s.name" :serviceName="s.name" :status="s.status" :uptime="s.uptime"/>
   </div>
 </template>
 
@@ -13,6 +11,28 @@ export default {
   name: 'DockerContainer',
   components: {
       DockerService
-  }
+  },
+  data () {
+    return {
+      dockerServices: Array,
+    };
+  },
+  methods: {
+    loadContainerList: function() {
+        this.axios.get('http://0.0.0.0:9101/portainerList').then((res) => {
+          this.dockerServices = res.data['containers']
+          console.log(res.data['containers'].sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))) // sort by name
+      });
+    },
+    // TODO: look into async. this should run before list, but doesn't need to as backend auto-auths on list call
+    authenticate: function() {
+        this.axios.get('http://0.0.0.0:9101/portainerAuth').then((res) => {
+          console.log('Portainer authentication returned ' + res.data);
+      });
+    },
+  },
+  beforeMount() {
+      this.loadContainerList();
+  },
 }
 </script>
