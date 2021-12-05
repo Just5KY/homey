@@ -47,4 +47,5 @@ def portainerList():
     return jsonify(portainer_api.listContainers())
 
 if __name__ == '__main__':
+    portainer_api.listContainers()
     app.run('0.0.0.0', 9101)
