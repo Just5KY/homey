@@ -22,6 +22,8 @@ export default {
         this.axios.get('http://0.0.0.0:9101/portainerList').then((res) => {
           this.dockerServices = res.data['containers']
           console.log(res.data['containers'].sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))) // sort by name
+      }).catch(e => {
+        console.log('Could not reach portainer API');
       });
     },
     // TODO: look into async. this should run before list, but doesn't need to as backend auto-auths on list call
