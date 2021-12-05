@@ -1,6 +1,7 @@
 import requests
 import json
 from datetime import datetime
+from dateutil.parser import parse
 from secretKeys import weatherLat, weatherLong
 from weatherCodes import WEATHER_CODES
 
@@ -44,13 +45,13 @@ class api:
         hourlyData = []
         response = self.request('GET', self.buildUrl('&hourly=temperature_2m,precipitation,weathercode,snow_depth'))['hourly']
 
-        # Get 24 hours of weather for a specific day
+        # Get 24 hours of weather for a specific day within the 7 day forecast
         if day != '':
-            dayOffset = int(day[-2:]) - int(datetime.today().strftime('%Y%m%d')[-2:])
-            startHr = dayOffset * 24
+            dayOffset = int(day[-2:]) - datetime.today().day
+            startHr = (dayOffset * 24) + datetime.today().hour  # start at current hour
             for i in range(startHr, startHr + 24):
                 hourlyData.append({
-                    'time': response['time'][i],
+                    'time': parse(response['time'][i]).strftime("%-I %p"),
                     'weather_type': WEATHER_CODES[response['weathercode'][i]],
                     'temp': response['temperature_2m'][i],
                     'snow_depth': response['snow_depth'][i],
@@ -61,7 +62,7 @@ class api:
         else:
             for i in range(API_HOURS):
                 hourlyData.append({
-                    'time': response['time'][i],
+                    'time': parse(response['time'][i]).strftime("%-I %p"),
                     'weather_type': WEATHER_CODES[response['weathercode'][i]],
                     'temp': response['temperature_2m'][i],
                     'snow_depth': response['snow_depth'][i],
