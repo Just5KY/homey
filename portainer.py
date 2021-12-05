@@ -55,10 +55,8 @@ class api:
             newCon = {}
             newCon['name'] = con['Names'][0][1:]
             newCon['status'] = con['State']
-            newCon['uptime'] = con['Status']
+            newCon['uptime'] = con['Status'].lower().replace(' (healthy)', '')
             containerData.append(newCon)
-
-            print(newCon['name'])
 
         return {'containers': containerData}
             
