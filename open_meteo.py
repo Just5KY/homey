@@ -47,8 +47,11 @@ class api:
 
         # Get 24 hours of weather for a specific day within the 7 day forecast
         if day != '':
+            startHr = 0
             dayOffset = int(day[-2:]) - datetime.today().day
-            startHr = (dayOffset * 24) + datetime.today().hour  # start at current hour
+            if dayOffset == 0: # If getting data for the current day, start at the current hour
+                startHr = (dayOffset * 24) + datetime.today().hour
+                
             for i in range(startHr, startHr + 24):
                 hourlyData.append({
                     'time': parse(response['time'][i]).strftime("%-I %p"),
@@ -62,7 +65,7 @@ class api:
         else:
             for i in range(API_HOURS):
                 hourlyData.append({
-                    'time': parse(response['time'][i]).strftime("%-I %p"),
+                    'time': parse(response['time'][i]).strftime("%m/%d %-I %p"),
                     'weather_type': WEATHER_CODES[response['weathercode'][i]],
                     'temp': response['temperature_2m'][i],
                     'snow_depth': response['snow_depth'][i],
