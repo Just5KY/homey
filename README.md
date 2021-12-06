@@ -66,7 +66,7 @@ Returns a list of all running docker containers and their uptime as reported by 
 ## Project setup & configuration
 Fill out `secretKeys.example.py` with your private information, then rename to `secretKeys.py`
 
-If integrating with portainer, ensure port 9000 is reachable (or mapped 9000:9000 if running portainer via docker)
+If integrating with portainer, ensure port 9000 is reachable where portianer is running (map 9000:9000 if running portainer via docker)
 
 `pip install flask flask-cors`
 
