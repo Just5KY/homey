@@ -1,6 +1,6 @@
 # homey
 <p align="center">
-  <img src="https://github.com/vlfldr/homey/blob/main/screenshot.PNG?raw=true" alt="homey dashboard"/>
+  <img src="https://github.com/vlfldr/homey/blob/main/screenshot.png?raw=true" alt="homey dashboard"/>
 </p>
 
 **Work in progress! Not ready yet.**
