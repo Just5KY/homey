@@ -40,7 +40,7 @@ Get 24 hours of hourly forecast data, beginning at midnight of the specified day
 Attempt to authenticate the server with a local portainer API. Specify host, port, username, and password in `secretKeys.py`. Returns `True` if successful or already authenticated and `False` if the portainer API is unreachable or login information incorrect.
 
 ### portainerList
-Returns a list of all running docker containers and their uptime as reported by portainer.
+Returns a list of all running docker containers and their uptime as reported by portainer. Will attempt to `portainerAuth` if not already (auth must be successful before calling list). 
 
     {
         "name": "nextcloud"
@@ -64,7 +64,9 @@ Returns a list of all running docker containers and their uptime as reported by 
 ### Optional
 * portainer (docker integration)
 ## Project setup & configuration
-*If using private or location-based APIs: fill out `secretKeys.example.py` with your private information, then rename to `secretKeys.py`*
+Fill out `secretKeys.example.py` with your private information, then rename to `secretKeys.py`
+
+If integrating with portainer, ensure port 9000 is reachable (or mapped 9000:9000 if running portainer via docker)
 
 `pip install flask flask-cors`
 
