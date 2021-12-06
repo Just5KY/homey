@@ -1,6 +1,6 @@
 <template>
   <div class="weather-card-container">
-    <div v-for="w in weatherData" :key="w.time" class="weatherElement" >{{w.time}}<span>{{w.weather_type}}</span></div>
+    <div v-for="w in weatherData" :key="w.time" class="weatherElement" >{{w.time}}<span>{{w.temp}}F {{w.weather_type}}</span></div>
   </div>
 </template>
 

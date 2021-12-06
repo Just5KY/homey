@@ -1,7 +1,7 @@
 <template>
   <div class="docker-card-container">
     <h3>{{ serviceName }}</h3>
-    <div>{{status}} - {{uptime}}</div>
+    <span>{{status}} - {{uptime}}</span>
   </div>
 </template>
 
