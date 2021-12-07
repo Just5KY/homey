@@ -15,39 +15,3 @@ h2 {
     font-weight: 300;
     font-size: 3rem;
 }
-
-.service-container {
-    grid-row: 2 / 4;
-    grid-column: 1;
-
-    // Temporary!
-    display: flex;
-    justify-content: center;
-
-    background-color: $backgroundColor;
-    text-align: center;
-}
-
-.docker-container {
-    grid-row: 2 / 3;
-    grid-column: 2;
-
-    // Temporary!
-    display: flex;
-    flex-direction: column;
-
-    background-color: $commentColor;
-    background-image: url('../images/docker-large.png');
-    background-size: 30%;
-    background-repeat: no-repeat;
-    background-position: bottom 1rem right 1rem;
-    
-}
-
-.card-container {
-    grid-row: 3;
-    grid-column: 2;
-
-    background-color: $backgroundColor2;
-    text-align: center;
-}

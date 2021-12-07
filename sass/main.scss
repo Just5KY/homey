@@ -5,11 +5,14 @@
 @import "grid";
 @import "animations";
 @import "button";
-@import "card-api";
-@import "card-service";
-@import "card-docker";
+
 @import "header";
 @import "body";
+
+@import "cards";
+@import "services";
+@import "docker";
+
 
 // Global styles
 *,
