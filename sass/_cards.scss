@@ -4,8 +4,6 @@
 
     display: flex;
     justify-content: space-evenly;
-
-    background-color: $backgroundColor2;
     text-align: center;
 }
 
@@ -15,6 +13,7 @@
     width: 40%;
     text-align: left;
     padding-top: 2rem;
+    padding-bottom: 2rem;
 
     & h2 {
         text-align: center;
@@ -27,7 +26,8 @@
         padding: 0.5rem;
         
         &:not(:nth-child(2)){
-            border-top: 1px solid $white;
+            border-top: 1px dotted $white;
+            
         }
     }
 }

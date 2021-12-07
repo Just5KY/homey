@@ -5,8 +5,8 @@
     // Temporary!
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 
-    background-color: $commentColor;
     background-image: url('../images/docker-large.png');
     background-size: 30%;
     background-repeat: no-repeat;
@@ -20,7 +20,7 @@
     // temporary!
     display: flex;
     justify-content: space-between;
-    background-color: rgba($commentColor, 0.3);
+    background-color: rgba($backgroundColor, 0.3);
 
     & span {
         font-size: 2rem;
