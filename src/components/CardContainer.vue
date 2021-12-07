@@ -1,6 +1,7 @@
 <template>
   <div class="card-container">
     <WeatherCard title="Weather"/>
+    <WeatherCard title="Placeholder"/>
   </div>
 </template>
 

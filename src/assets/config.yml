@@ -1,5 +1,3 @@
-# config.yaml
----
 services:
   - name: "Flood"
     icon: "flood.png"
@@ -20,3 +18,23 @@ services:
     icon: "bitwarden.png"
     subtitle: "Password manager"
     url: "https://vault.mntn.top"
+
+  - name: "NGINX Proxy Manager"
+    icon: "nginxproxymanager.png"
+    subtitle: "Reverse proxy management"
+    url: "http://localhost:81"
+
+  - name: "Portainer"
+    icon: "portainer.png"
+    subtitle: "Web UI for Docker"
+    url: "https://localhost:9443"
+  
+  - name: "Whoogle"
+    icon: "whoogle.png"
+    subtitle: "Anonymous search engine"
+    url: "https://mntn.top"
+
+  - name: "Jackett"
+    icon: "jackett.png"
+    subtitle: "Private tracker metasearch"
+    url: "http://localhost:9006"

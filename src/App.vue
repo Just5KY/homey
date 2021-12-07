@@ -32,11 +32,8 @@ export default {
   },
   methods: {
     loadConfig: function() {
-      try {
-        this.config = JsYaml.load(configFile);
-      } catch (e) {
-        console.log('Error loading config file:' + e);
-      }
+      try { this.config = JsYaml.load(configFile);
+      } catch (e) { console.log('Error loading config file:' + e); }
     },
   },
   beforeMount() {

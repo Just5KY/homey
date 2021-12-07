@@ -2,6 +2,9 @@
     grid-row: 3;
     grid-column: 2;
 
+    display: flex;
+    justify-content: space-evenly;
+
     background-color: $backgroundColor2;
     text-align: center;
 }
@@ -9,13 +12,22 @@
 .weather-card-container {
     font-weight: 300;
     font-size: 1.3rem;
-    // Temporary!
+    width: 40%;
     text-align: left;
+    padding-top: 2rem;
+
+    & h2 {
+        text-align: center;
+    }
 
     & span {
         float: right;
     }
     & div {
         padding: 0.5rem;
+        
+        &:not(:nth-child(2)){
+            border-top: 1px solid $white;
+        }
     }
 }

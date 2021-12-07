@@ -104,22 +104,32 @@ h2 {
 .card-container {
   grid-row: 3;
   grid-column: 2;
+  display: flex;
+  justify-content: space-evenly;
   background-color: #44475a;
   text-align: center; }
 
 .weather-card-container {
   font-weight: 300;
   font-size: 1.3rem;
-  text-align: left; }
+  width: 40%;
+  text-align: left;
+  padding-top: 2rem; }
+  .weather-card-container h2 {
+    text-align: center; }
   .weather-card-container span {
     float: right; }
   .weather-card-container div {
     padding: 0.5rem; }
+    .weather-card-container div:not(:nth-child(2)) {
+      border-top: 1px solid #f8f8f2; }
 
 .service-container {
   grid-row: 2 / 4;
   grid-column: 1;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   justify-content: center;
   background-color: #282a36;
   text-align: center; }
