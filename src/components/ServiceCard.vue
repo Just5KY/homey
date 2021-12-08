@@ -1,8 +1,12 @@
 <template>
   <div v-on:click="openLink" class="service-card-container">
-    <h3>{{ title }}</h3>
-    <img :src="iconPath">
-    <div>{{subtitle}}</div>
+    <div class="service-card-container__text-container">
+      <h3>{{ title }}</h3>
+      <div class="service-card-container__subtitle">{{subtitle}}</div>
+    </div>
+    <div class="service-card-container__image-container">
+      <img :src="iconPath">
+    </div>
   </div>
 </template>
 

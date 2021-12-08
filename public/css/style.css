@@ -134,13 +134,43 @@ h2 {
   text-align: center; }
 
 .service-card-container {
-  padding: 2rem;
-  cursor: pointer; }
-  .service-card-container h3 {
-    font-size: 2.5rem;
-    font-weight: 300; }
-  .service-card-container img {
-    height: 5rem; }
+  margin: 2rem;
+  cursor: pointer;
+  background-color: #44475a;
+  border-radius: 0.5rem;
+  display: flex;
+  height: 10rem; }
+  .service-card-container__text-container {
+    align-self: flex-start;
+    text-align: left;
+    width: 70%;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    padding: 1.5rem;
+    justify-content: space-between; }
+    .service-card-container__text-container h3 {
+      font-size: 2.2rem;
+      font-weight: 300;
+      text-align: left; }
+    .service-card-container__text-container__subtitle {
+      font-size: 1.3rem;
+      text-align: left; }
+  .service-card-container__image-container {
+    background-color: #f8f8f2;
+    clip-path: polygon(25% 0, 100% 0%, 100% 100%, 0 100%);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: inherit;
+    border-bottom-left-radius: 0px;
+    width: 12rem;
+    padding-left: 1.7rem;
+    height: 10rem; }
+    .service-card-container__image-container img {
+      height: 6rem;
+      width: 6rem; }
 
 .docker-container {
   grid-row: 2 / 3;
@@ -157,8 +187,7 @@ h2 {
   padding: .5rem;
   font-size: 1.5rem;
   display: flex;
-  justify-content: space-between;
-  background-color: rgba(40, 42, 54, 0.3); }
+  justify-content: space-between; }
   .docker-card-container span {
     font-size: 2rem; }
 

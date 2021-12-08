@@ -5,21 +5,58 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    
+
     justify-content: center;
     text-align: center;
 }
 
 .service-card-container {
-    padding: 2rem;
+    margin: 2rem;
     cursor: pointer;
+    background-color: $backgroundColor2;
+    border-radius: 0.5rem;
 
-    & h3 {
-        font-size: 2.5rem;
-        font-weight: 300;
+    display: flex;
+    height: 10rem;
+
+    &__text-container {
+        align-self: flex-start;
+        text-align: left;
+        width: 70%;
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        padding: 1.5rem;
+        justify-content: space-between;
+
+        & h3 {
+            font-size: 2.2rem;
+            font-weight: 300;
+            text-align: left;
+        }
+
+        &__subtitle {
+            font-size: 1.3rem;
+            text-align: left;
+        }
     }
 
-    & img {
-        height: 5rem;
+    &__image-container {
+        background-color: $white;
+        clip-path: polygon(25% 0, 100% 0%, 100% 100%, 0 100%);
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: inherit;
+        border-bottom-left-radius: 0px;
+        width: 12rem;
+        padding-left: 1.7rem;
+        height: 10rem;
+        
+        & img {
+            height: 6rem;
+            width: 6rem;
+        }
     }
 }
