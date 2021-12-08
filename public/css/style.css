@@ -132,13 +132,15 @@ h2 {
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
   justify-content: center;
   text-align: center;
-  margin-top: 1rem; }
+  margin: 2rem; }
 
 .service-card-container {
   margin: 2rem;
   cursor: pointer;
   background-color: #44475a;
   border-radius: 0.5rem;
+  -webkit-box-shadow: 5px 5px 15px 5px #1c1c1c;
+  box-shadow: 5px 5px 15px 5px #1c1c1c;
   display: flex;
   height: 10rem; }
   .service-card-container__text-container {

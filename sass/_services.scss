@@ -8,7 +8,7 @@
 
     justify-content: center;
     text-align: center;
-    margin-top: 1rem;
+    margin: 2rem;
 }
 
 .service-card-container {
@@ -16,6 +16,9 @@
     cursor: pointer;
     background-color: $backgroundColor2;
     border-radius: 0.5rem;
+
+    -webkit-box-shadow: 5px 5px 15px 5px $shadowColor;
+    box-shadow: 5px 5px 15px 5px $shadowColor;
 
     display: flex;
     height: 10rem;
