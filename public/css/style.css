@@ -138,11 +138,16 @@ h2 {
   margin: 2rem;
   cursor: pointer;
   background-color: #44475a;
-  border-radius: 0.5rem;
-  -webkit-box-shadow: 5px 5px 15px 5px #1c1c1c;
-  box-shadow: 5px 5px 15px 5px #1c1c1c;
+  border-radius: .5rem;
+  transition: all .2s ease-out;
   display: flex;
   height: 10rem; }
+  .service-card-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 5px 5px 15px 5px #1c1c1c; }
+  .service-card-container:active {
+    transform: translateY(-1px);
+    box-shadow: 2px 2px 7px 5px #1c1c1c; }
   .service-card-container__text-container {
     align-self: flex-start;
     text-align: left;
@@ -160,6 +165,7 @@ h2 {
       font-size: 1.3rem;
       text-align: left; }
   .service-card-container__image-container {
+    transform: translateZ(0);
     background-color: #f8f8f2;
     clip-path: polygon(25% 0, 100% 0%, 100% 100%, 0 100%);
     height: 100%;

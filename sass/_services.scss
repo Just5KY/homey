@@ -15,13 +15,21 @@
     margin: 2rem;
     cursor: pointer;
     background-color: $backgroundColor2;
-    border-radius: 0.5rem;
-
-    -webkit-box-shadow: 5px 5px 15px 5px $shadowColor;
-    box-shadow: 5px 5px 15px 5px $shadowColor;
+    border-radius: .5rem;
+    transition: all .2s ease-out;
 
     display: flex;
     height: 10rem;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 5px 5px 15px 5px $shadowColor;
+    }
+
+    &:active {
+        transform: translateY(-1px);
+        box-shadow: 2px 2px 7px 5px $shadowColor;
+    }
 
     &__text-container {
         align-self: flex-start;
@@ -46,6 +54,8 @@
     }
 
     &__image-container {
+        transform: translateZ(0);   // Fix child elements shaking on hover
+
         background-color: $white;
         clip-path: polygon(25% 0, 100% 0%, 100% 100%, 0 100%);
         height: 100%;
