@@ -1,17 +1,19 @@
 <template>
   <div class="card-container">
     <WeatherCard title="Weather"/>
-    <WeatherCard title="Placeholder"/>
+    <FloodCard title="Torrents"/>
   </div>
 </template>
 
 <script>
 import WeatherCard from './WeatherCard.vue'
+import FloodCard from './FloodCard.vue'
 
 export default {
   name: 'CardContainer',
   components: {
-      WeatherCard
+      WeatherCard,
+      FloodCard,
   },
   data() {
     return {

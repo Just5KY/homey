@@ -1,11 +1,11 @@
 <template>
   <div class="docker-container">
-    <div class="docker-container__docker-services-container">
+    <!-- <div class="docker-container__docker-services-container">
       
     </div>
     <div class="docker-container__button-container">
       
-    </div>
+    </div> -->
     <DockerService v-for="s in dockerServices" :key="s.name" :serviceName="s.name" :status="s.status" :uptime="s.uptime"/>
   </div>
 </template>

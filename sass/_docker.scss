@@ -4,21 +4,24 @@
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 
     background-image: url('../images/docker-large.png');
     background-size: 30%;
     background-repeat: no-repeat;
     background-position: bottom 1rem right 1rem;
-    margin-top: 0.5rem;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
 }
 
 .docker-card-container {
     width: 65%;
     padding: .5rem;
     font-size: 1.5rem;
-    margin: 0.5rem;
     border-radius: .3rem;
+
+    &:not(:first-child) {
+        margin-top: 0.5rem;
+    }
 
     display: flex;
     justify-content: space-between;

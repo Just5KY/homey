@@ -76,11 +76,14 @@
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: center; }
+  justify-content: center;
+  box-shadow: 0px 10px 15px 5px #1c1c1c; }
   .header-container h1 {
     font-size: 7rem;
     font-weight: 200;
     letter-spacing: .8rem; }
+  .header-container canvas {
+    margin-left: 18.5%; }
   .header-container span {
     color: #6272a4;
     margin: 1rem;
@@ -94,7 +97,7 @@
   color: #f8f8f2;
   display: grid;
   height: 100vh;
-  grid-template-rows: 1fr 5fr 4fr;
+  grid-template-rows: 15% 50% 35%;
   grid-template-columns: 3fr 2fr; }
 
 h2 {
@@ -105,16 +108,20 @@ h2 {
   grid-row: 3;
   grid-column: 2;
   display: flex;
-  justify-content: space-evenly;
-  text-align: center; }
+  justify-content: space-around;
+  text-align: center;
+  transform: translateX(-2rem); }
 
 .weather-card-container {
   font-weight: 300;
   font-size: 1.3rem;
-  width: 40%;
+  width: 45%;
+  height: 90%;
   text-align: left;
-  padding-top: 2rem;
-  padding-bottom: 2rem; }
+  padding: 2rem;
+  background-color: #44475a;
+  border-radius: .5rem;
+  overflow-wrap: break-word; }
   .weather-card-container h2 {
     text-align: center; }
   .weather-card-container span {
@@ -139,12 +146,14 @@ h2 {
   cursor: pointer;
   background-color: #44475a;
   border-radius: .5rem;
-  transition: all .2s ease-out;
+  transition: all .35s ease-out;
   display: flex;
   height: 10rem; }
   .service-card-container:hover {
     transform: translateY(-3px);
     box-shadow: 5px 5px 15px 5px #1c1c1c; }
+  .service-card-container:hover > .service-card-container__image-container {
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 25% 100%); }
   .service-card-container:active {
     transform: translateY(-1px);
     box-shadow: 2px 2px 7px 5px #1c1c1c; }
@@ -166,6 +175,7 @@ h2 {
       text-align: left; }
   .service-card-container__image-container {
     transform: translateZ(0);
+    transition: .35s all ease-out;
     background-color: #f8f8f2;
     clip-path: polygon(25% 0, 100% 0%, 100% 100%, 0 100%);
     height: 100%;
@@ -174,6 +184,7 @@ h2 {
     align-items: center;
     border-radius: inherit;
     border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
     width: 12rem;
     padding-left: 1.7rem;
     height: 10rem; }
@@ -186,23 +197,24 @@ h2 {
   grid-column: 2;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   background-image: url("../images/docker-large.png");
   background-size: 30%;
   background-repeat: no-repeat;
   background-position: bottom 1rem right 1rem;
-  margin-top: 0.5rem; }
+  margin-top: 4rem;
+  margin-bottom: 2rem; }
 
 .docker-card-container {
   width: 65%;
   padding: .5rem;
   font-size: 1.5rem;
-  margin: 0.5rem;
   border-radius: .3rem;
   display: flex;
   justify-content: space-between;
   align-content: center;
   background-color: #6272a4; }
+  .docker-card-container:not(:first-child) {
+    margin-top: 0.5rem; }
   .docker-card-container h3 {
     font-weight: 300; }
   .docker-card-container span {

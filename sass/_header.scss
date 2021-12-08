@@ -8,12 +8,17 @@
     align-items: center;
     justify-content: center;
 
+    box-shadow: 0px 10px 15px 5px $shadowColor;
+
     // Page title
     & h1 {
         font-size: 7rem;
         font-weight: 200;
         letter-spacing: .8rem;
-        //color: $cyan;
+    }
+
+    & canvas {
+        margin-left: 18.5%;
     }
 
     // Settings icon
