@@ -5,17 +5,26 @@
 
 **Work in progress! Not ready yet.**
 
-Homey is a simple home server dashboard loosely inspired by Homer. Manage (start/stop/restart) docker containers via portainer, access all your services, view weather forecasts, and play with a 3D spinning house - all from one cozy page!  Built with:
+Homey is a simple home server dashboard loosely inspired by Homer. From one cozy page, you can:
+* Manage (start/stop/restart) docker containers via Portainer - no custom tags required.
+* Manage (start/stop/add) Flood torrents and view realtime upload/download stats
+* Add services with a simple YAML file
+* View weather forecasts
+* Play with a 3D spinning house
+
+*For API functionality (Portainer, Flood, weather) [homey-server](https://github.com/vlfldr/homey-server) is required.*
+
+When the project is released, a docker image and corresponding documentation will be provided.
+
+Built with:
 
 * SASS (layout; frontend)
 * Vue (reactive single page design)
 * Three.js & Tween.js (eyecandy)
-
-*For API functionality (portainer, weather, etc) [homey-server](https://github.com/vlfldr/homey-server) is required.*
+* Flask (backend)
 
 ## Project setup
 ```
 npm i
 npm run dev
 ```
-Dockerization & corresponding documentation is yet to come.
