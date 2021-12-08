@@ -1,5 +1,11 @@
 <template>
   <div class="docker-container">
+    <div class="docker-container__docker-services-container">
+      
+    </div>
+    <div class="docker-container__button-container">
+      
+    </div>
     <DockerService v-for="s in dockerServices" :key="s.name" :serviceName="s.name" :status="s.status" :uptime="s.uptime"/>
   </div>
 </template>
@@ -20,7 +26,8 @@ export default {
   methods: {
     loadContainerList: function() {
         this.axios.get('http://0.0.0.0:9101/portainerList').then((res) => {
-          this.dockerServices = res.data
+          // Sort by service name
+          this.dockerServices = res.data.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
       }).catch(e => {
         console.log('Could not reach homey API');
       });
