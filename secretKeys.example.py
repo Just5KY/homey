@@ -13,4 +13,8 @@ weatherLong = ''
 portainerURL = ''
 portainerUser = ''
 portainerPassword = ''
+
+floodURL = ''
+floodUser = ''
+floodPassword =''
 #############################################################

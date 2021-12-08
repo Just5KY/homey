@@ -34,8 +34,8 @@ class api:
             dailyData.append({
                 'day': response['time'][i],
                 'weather_type': WEATHER_CODES[response['weathercode'][i]],
-                'temp_min': response['temperature_2m_min'][i],
-                'temp_max': response['temperature_2m_max'][i],
+                'temp_min': int(round(response['temperature_2m_min'][i])),
+                'temp_max': int(round(response['temperature_2m_max'][i])),
                 'precipitation': response['precipitation_sum'][i]
             })
 
@@ -56,7 +56,7 @@ class api:
                 hourlyData.append({
                     'time': parse(response['time'][i]).strftime("%-I %p"),
                     'weather_type': WEATHER_CODES[response['weathercode'][i]],
-                    'temp': response['temperature_2m'][i],
+                    'temp': int(round(response['temperature_2m'][i])),
                     'snow_depth': response['snow_depth'][i],
                     'precipitation': response['precipitation'][i]
                 })
@@ -67,7 +67,7 @@ class api:
                 hourlyData.append({
                     'time': parse(response['time'][i]).strftime("%m/%d %-I %p"),
                     'weather_type': WEATHER_CODES[response['weathercode'][i]],
-                    'temp': response['temperature_2m'][i],
+                    'temp': int(round(response['temperature_2m'][i])),
                     'snow_depth': response['snow_depth'][i],
                     'precipitation': response['precipitation'][i]
                 })
