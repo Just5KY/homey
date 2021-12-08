@@ -53,15 +53,15 @@ class api:
 
         avgUp = 0
         avgDown = 0
-        for j in range(0, 5):   # Average up/down speed based on the last 5 frames (30 seconds) of data
-            avgDown += dailyDataRaw.json()['download'][j]
-            avgUp += dailyDataRaw.json()['upload'][j]
+        for j in range(0, 3):   # Average up/down speed based on the last 3 frames (18 seconds) of data
+            avgDown += minuteDataRaw.json()['download'][j]
+            avgUp += minuteDataRaw.json()['upload'][j]
 
         returnData = {
             'dailyDownloaded': formatBytes(totalDownload*1000),
             'dailyUploaded': formatBytes(totalUpload*1000),
-            'downSpeed': formatBytes(avgDown / 5) + '/s',
-            'upSpeed': formatBytes(avgUp / 5) + '/s',
+            'downSpeed': formatBytes(avgDown / 3) + '/s',
+            'upSpeed': formatBytes(avgUp / 3) + '/s',
         }
  
         return returnData
@@ -78,7 +78,7 @@ class api:
                 continue
             returnData.append({
                 'msg': n['data']['name'],
-                'time': datetime.fromtimestamp(n['ts']/1000)
+                'time': datetime.fromtimestamp(n['ts']/1000).strftime("%m/%d %-I:%M %p")
             })
         
         return returnData
