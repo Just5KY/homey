@@ -2,17 +2,25 @@
   <div class="docker-card-container">
     <h3>{{ serviceName }}</h3>
     <div class="docker-card-container__button-container">
-      <span  v-on:click="pauseContainer" :title="pauseString" class="material-icons-outlined docker-card-btn">pause_circle</span>
-      <span  v-on:click="stopContainer" :title="stopString" class="material-icons-outlined docker-card-btn">stop_circle</span>
-      <span  v-on:click="restartContainer" :title="rebootString" class="material-icons-outlined docker-card-btn">refresh</span>
-      <span :title="infoString" class="material-icons-outlined docker-card-btn">info</span>
+      <DockerServiceButton v-if="state=='running'" :serviceName="serviceName" type="pause"/>
+      <DockerServiceButton v-if="state=='paused'" :serviceName="serviceName" type="unpause"/>
+      <DockerServiceButton v-if="state=='exited'" :serviceName="serviceName" type="start"/>
+      <DockerServiceButton v-if="state=='running' || state=='paused'" :serviceName="serviceName" type="stop"/>
+      <DockerServiceButton v-if="state=='running' || state=='paused'" :serviceName="serviceName" type="restart"/>
+      <DockerServiceButton :serviceName="serviceName" :serviceData="infoString" type="info"/>
     </div>
   </div>
 </template>
 
 <script>
+
+import DockerServiceButton from './DockerServiceButton.vue';
+
 export default {
   name: 'DockerService',
+  components: {
+    DockerServiceButton,
+  },
   props: {
       serviceName: String,
       status: String,
@@ -20,43 +28,18 @@ export default {
   },
   data () {
     return {
-      infoString: this.status.charAt(0).toUpperCase() + this.status.slice(1) + ' (' + this.uptime + ')',
+      infoString: this.status.charAt(0).toUpperCase() + this.status.slice(1) + ' - ' + this.uptime,
       pauseString: 'Pause ' + this.serviceName,
       stopString: 'Stop ' + this.serviceName,
       rebootString: 'Reboot ' + this.serviceName,
+      state: this.status,
     };
   },
+  computed: {
+
+  },
   methods: {
-    pauseContainer: function(){
-      this.axios.get('http://0.0.0.0:9101/portainerControl/' + this.serviceName + '/pause').then((res) => {
-          if(res.data != 'success'){
-            console.log("Error : " + res.data); }
-      }).catch(e => { console.log('Could not reach homey API'); });
-    },
-    unpauseContainer: function(){
-      this.axios.get('http://0.0.0.0:9101/portainerControl/' + this.serviceName + '/unpause').then((res) => {
-          if(res.data != 'success'){
-            console.log("Error : " + res.data); }
-      }).catch(e => { console.log('Could not reach homey API'); });
-    },
-    stopContainer: function(){
-      this.axios.get('http://0.0.0.0:9101/portainerControl/' + this.serviceName + '/stop').then((res) => {
-          if(res.data != 'success'){
-            console.log("Error : " + res.data); }
-      }).catch(e => { console.log('Could not reach homey API'); });
-    },
-    startContainer: function(){
-      this.axios.get('http://0.0.0.0:9101/portainerControl/' + this.serviceName + '/start').then((res) => {
-          if(res.data != 'success'){
-            console.log("Error : " + res.data); }
-      }).catch(e => { console.log('Could not reach homey API'); });
-    },
-    restartContainer: function(){
-      this.axios.get('http://0.0.0.0:9101/portainerControl/' + this.serviceName + '/restart').then((res) => {
-          if(res.data != 'success'){
-            console.log("Error : " + res.data); }
-      }).catch(e => { console.log('Could not reach homey API'); });
-    },
-  }
+
+  },
 }
 </script>

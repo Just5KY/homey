@@ -6,7 +6,7 @@
     <div class="docker-container__button-container">
       go to portainer, restart all, etc panel
     </div> -->
-    <DockerService v-for="s in dockerServices" :key="s.name" :serviceName="s.name" :status="s.status" :uptime="s.uptime"/>
+    <DockerService v-for="s in dockerServices" :key="s.status" :serviceName="s.name" :status="s.status" :uptime="s.uptime"/>
   </div>
 </template>
 
@@ -35,12 +35,18 @@ export default {
     // TODO: look into async. this should run before list, but doesn't need to as backend auto-auths on list call
     authenticate: function() {
         this.axios.get('http://0.0.0.0:9101/portainerAuth').then((res) => {
-          console.log('INFO :: Portainer authentication returned ' + res.data);
+          //console.log('INFO :: Portainer authentication returned ' + res.data);
       });
     },
   },
+  mounted: function() {
+    this.loadContainerList();
+    window.setInterval(() => {
+      this.loadContainerList()
+    }, 30 * 1000)   // Refresh container info every 30 seconds
+  },
   beforeMount() {
-      this.loadContainerList();
+      this.authenticate();
   },
 }
 </script>
