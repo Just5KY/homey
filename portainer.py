@@ -1,3 +1,4 @@
+from urllib import response
 import requests
 import json
 from secretKeys import portainerURL, portainerUser, portainerPassword
@@ -44,7 +45,7 @@ class api:
         response = ses.request('GET', 
             url=self.host + '/endpoints/' + str(self.endpointId) + '/docker/containers/json', 
             headers={"Authorization": self.authToken},
-            data=json.dumps({'all': True})
+            params={'all': 'true'}  # without this only running containers are returned
         )
 
         if response.status_code != 200:
@@ -52,11 +53,37 @@ class api:
         
         containerData = []
         for con in response.json():
-            newCon = {}
-            newCon['name'] = con['Names'][0][1:]
-            newCon['status'] = con['State']
-            newCon['uptime'] = con['Status'].lower().replace(' (healthy)', '')  # replace this
-            containerData.append(newCon)
+            containerData.append({
+                'id': con['Id'],
+                'name': con['Names'][0].replace('/', ''),
+                'status': con['State'],
+                'uptime': con['Status']
+            })
 
         return containerData
             
+    # valid operations: pause, unpause, start, stop, restart, kill
+    def controlContainer(self, containerName, operation):
+        ses = requests.Session()
+        # If not authenticated yet, do so
+        if self.authToken == '':
+            self.authenticate()
+
+        targetId = ''
+        for con in self.listContainers():
+            if con['name'] == containerName.lower():
+                targetId = con['id']
+                break
+
+        if targetId == '':
+            return 'error: ' + containerName + ' not found'
+
+        response = ses.request('POST', 
+            url=self.host + '/endpoints/' + str(self.endpointId) + '/docker/containers/' + targetId + '/' + operation, 
+            headers={"Authorization": self.authToken}
+        )
+
+        if response.status_code == 204:
+            return 'success'
+
+        return response.json()  # Error information

@@ -55,6 +55,11 @@ def portainerAuth():
 def portainerList():
     return jsonify(portainer_api.listContainers())
 
+# valid Docker container operations: pause, unpause, start, stop, restart, kill
+@app.route('/portainerControl/<containerName>/<operation>', methods=['GET'])
+def portainerPause(containerName, operation):
+    return jsonify(portainer_api.controlContainer(containerName, operation))
+
 @app.route('/floodAuth', methods=['GET'])
 def floodAuth():
     return jsonify(flood_api.authenticate())

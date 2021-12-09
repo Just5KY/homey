@@ -41,14 +41,22 @@ class api:
         minuteDataRaw = self.session.request('GET', self.host + '/history', params={'snapshot': 'FIVE_MINUTE'})
         # get 24 hours of up/down stats (delta 1hr)
         dailyDataRaw = self.session.request('GET', self.host + '/history', params={'snapshot': 'DAY'})
+
+        print(minuteDataRaw.json())
+        print(dailyDataRaw.json())
         
         i = 0
         totalDownload = 0.0
         totalUpload = 0.0
         for t in dailyDataRaw.json()['timestamps']:
-            timeChunk = datetime.fromtimestamp(dailyDataRaw.json()['timestamps'][i]/1000)
-            totalDownload += dailyDataRaw.json()['download'][i]
-            totalUpload += dailyDataRaw.json()['upload'][i]
+            #timeChunk = datetime.fromtimestamp(t/1000)
+            downHour = dailyDataRaw.json()['download'][i]
+            upHour = dailyDataRaw.json()['upload'][i]
+            
+            if downHour is not None:
+                totalDownload += downHour
+            if upHour is not None:
+                totalUpload += upHour
             i += 1
 
         avgUp = 0

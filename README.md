@@ -60,8 +60,8 @@ Gets current upload/download speed and daily upload/downloaded data as reported 
 ### floodNotifications
 Gets a list of all 'torrent finished' notifications from Flood. Each notification contains the torrent's name and the time it completed:
 
-            "msg": "Nils Frahm - Old Friends New Friends (2021) - WEB FLAC",
-            "time": "12/08 8:23 AM"
+        "msg": "Nils Frahm - Old Friends New Friends (2021) - WEB FLAC",
+        "time": "12/08 8:23 AM"
 
 ## Project setup & configuration
 
