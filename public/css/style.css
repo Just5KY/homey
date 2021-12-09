@@ -233,9 +233,12 @@ h2 {
     display: flex;
     align-content: center;
     justify-content: center; }
+  .docker-card-container:nth-child(even) > .docker-card-container__button-container > .docker-card-btn {
+    color: #6272a4; }
 
 .docker-card-btn {
-  margin-left: .5rem;
+  color: #44475a;
+  margin-left: .3rem;
   font-size: 2rem;
   align-self: center;
   justify-self: center; }

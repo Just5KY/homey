@@ -39,7 +39,7 @@
     // Color
     background-color: $commentColor;
     &:nth-child(even) {
-        background-color: $backgroundColor2
+        background-color: $backgroundColor2;
     }
 
     // Container name
@@ -55,11 +55,16 @@
         align-content: center;
         justify-content: center;
     }
+
+    &:nth-child(even) > &__button-container > .docker-card-btn {
+        color: $commentColor;
+    }
 }
 
 // Buttons
 .docker-card-btn {
-    margin-left: .5rem;
+    color: $backgroundColor2;
+    margin-left: .3rem;
     font-size: 2rem;
     align-self: center;
     justify-self: center;

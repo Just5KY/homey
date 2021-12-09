@@ -1,10 +1,10 @@
 <template>
   <div class="docker-container">
     <!-- <div class="docker-container__docker-services-container">
-      
+      services go here
     </div>
     <div class="docker-container__button-container">
-      
+      go to portainer, restart all, etc panel
     </div> -->
     <DockerService v-for="s in dockerServices" :key="s.name" :serviceName="s.name" :status="s.status" :uptime="s.uptime"/>
   </div>
