@@ -1,10 +1,14 @@
+// Holds info cards
 .card-container {
+    // Position in main grid
     grid-row: 3;
     grid-column: 2;
+    margin: 2rem;
+    margin-top: 0;
 
+    // Child layout
     display: flex;
     justify-content: space-between;
-    margin-right: 4rem;
     text-align: center;
 }
 
@@ -13,25 +17,153 @@
     font-size: 1.3rem;
     width: 35rem;
     height: 90%;
-    text-align: left;
+    text-align: center;
     padding: 2rem;
     background-color: $backgroundColor2;
     border-radius: .5rem;
     overflow-wrap: break-word;
-
-    & h2 {
-        text-align: center;
-    }
+    margin: 2rem;
 
     & span {
         float: right;
     }
+
     & div {
         padding: 0.5rem;
+        text-align: left;
         
         &:not(:nth-child(2)){
             border-top: 1px dotted $white;
             
+        }
+    }
+}
+
+.flood-card-container {
+    position: relative;
+    height: 90%;
+    width: 35rem;
+    margin: 2rem;
+
+    perspective: 100rem;
+    -moz-perspective: 100rem;
+
+    &__side {
+        height: 100%;
+        transition: all 0.7s ease-in-out;
+        backface-visibility: hidden;
+        color: $white;
+        font-size: 3rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 1.5rem 2rem rgba($shadowColor, 0.8);
+
+        &--front {
+            background-color: $commentColor;
+        }
+        &--back {
+            background-image: linear-gradient(to right bottom, $backgroundColor2, $commentColor);
+            transform: rotateY(180deg);
+        }
+    }
+
+    // Hover flip animation
+    &:hover &__side--front {
+        transform: rotateY(-180deg) scale(1.05);
+        box-shadow: .5rem 2.5rem 4rem rgba($shadowColor, 0.8);
+    }
+    &:hover &__side--back {
+        transform: rotateY(0deg) scale(1.05);
+        box-shadow: .5rem 2.5rem 4rem rgba($shadowColor, 0.8);
+    }
+
+    // Back
+    &__punchline {
+        margin: 0 auto;
+        padding: 2rem;
+        padding-top: 20%;
+        text-align: center;
+    }
+
+    // Front
+    &__picture {
+        background-size: cover;
+        height: 40%;
+        background-blend-mode: screen;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 85%);
+        background-image: url(./images/docker-large-text.png);
+    }
+
+    &__heading {
+        width: 90%;
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+
+        justify-content: space-between;
+        display: flex;
+
+        &--title {
+            font-size: 3rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            text-align: right;
+
+            padding: .5rem 1rem;
+            border-radius: 5px;
+            align-self: flex-end;
+            justify-self: flex-end;
+
+            background-image: linear-gradient(
+                to right bottom, 
+                rgba($commentColor, .8), 
+                rgba($backgroundColor, .8));
+        }
+
+        &--stats {
+            justify-self: flex-start;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            & span {
+              font-size: 3.5rem;  
+            }
+
+            & p {
+                font-size: 1.7rem;
+            }
+
+        }
+        
+    }
+
+    &__notifications {
+        ul {
+            list-style: none;
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 1.3rem;
+
+            li {
+                text-align: center;
+                font-size: 1.3rem;
+                padding: 1rem;
+                overflow-wrap: break-word;
+
+                &:not(:last-child) {
+                    border-bottom: 1px dotted $white;
+                }
+
+                span {
+                    text-align: left;
+                    float: left;
+                }
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="card-container">
-    <WeatherCard title="Weather"/>
-    <FloodCard title="Torrents"/>
+    <FloodCard/>
+    <WeatherCard/>
   </div>
 </template>
 
