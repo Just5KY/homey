@@ -18,8 +18,8 @@ When the project is released, a docker image and corresponding documentation wil
 
 Built with:
 
-* SASS (layout; frontend)
-* Vue (reactive single page design)
+* Vue (frontend, data binding)
+* SASS (layout, theming)
 * Three.js & Tween.js (eyecandy)
 * Flask (backend)
 

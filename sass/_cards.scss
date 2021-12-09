@@ -3,15 +3,15 @@
     grid-column: 2;
 
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    margin-right: 4rem;
     text-align: center;
-    transform: translateX(-2rem);
 }
 
 .weather-card-container {
     font-weight: 300;
     font-size: 1.3rem;
-    width: 45%;             // fix this
+    width: 35rem;
     height: 90%;
     text-align: left;
     padding: 2rem;

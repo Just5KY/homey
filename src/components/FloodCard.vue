@@ -25,11 +25,11 @@ export default {
       }).catch(e => {
         console.log('Could not reach homey API');
       });
-      this.axios.get('http://0.0.0.0:9101/floodStats').then((res) => {
-          this.floodStats = res.data
-      }).catch(e => {
-        console.log('Could not reach homey API');
-      });
+      // this.axios.get('http://0.0.0.0:9101/floodStats').then((res) => {
+      //     this.floodStats = res.data
+      // }).catch(e => {
+      //   console.log('Could not reach homey API');
+      // });
     },
   },
   beforeMount() {

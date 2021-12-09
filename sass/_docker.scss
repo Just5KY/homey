@@ -1,49 +1,69 @@
 .docker-container {
+    // Position in main page grid
     grid-row: 2 / 3;
     grid-column: 2;
 
-    display: flex;
-    flex-direction: column;
+    // Border
+    margin-top: 3.5rem;
+    margin-bottom: 2.5rem;
+    margin-right: 3rem;
+    margin-left: -.5rem;
 
+    // Child layout
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+
+    // Background image
     background-image: url('../images/docker-large.png');
     background-size: 30%;
     background-repeat: no-repeat;
     background-position: bottom 1rem right 1rem;
-    margin-top: 4rem;
-    margin-bottom: 2rem;
 }
 
 .docker-card-container {
-    width: 65%;
-    padding: .5rem;
-    font-size: 1.5rem;
+    // Spacing
+    padding: .7rem;
+    margin: .5rem;
+    height: 80%;
+
+    // Corners
     border-radius: .3rem;
 
-    &:not(:first-child) {
-        margin-top: 0.5rem;
-    }
-
+    // Child layout
     display: flex;
     justify-content: space-between;
     align-content: center;
-    background-color: $commentColor;
 
-    & h3 {
+    // Color
+    background-color: $commentColor;
+    &:nth-child(even) {
+        background-color: $backgroundColor2
+    }
+
+    // Container name
+    & h3 { 
+        align-self: center;
+        font-size: 1.7rem;
         font-weight: 300;
     }
 
-    & span {    // Icons
-        font-size: 2rem;
-    }
-
-    & div { // Status
-        font-size: 1.5rem;
+    // Button container
+    &__button-container {
         display: flex;
         align-content: center;
         justify-content: center;
     }
 }
 
-.docker-card-container:nth-child(even) {
-    background-color: $backgroundColor2
+// Buttons
+.docker-card-btn {
+    margin-left: .5rem;
+    font-size: 2rem;
+    align-self: center;
+    justify-self: center;
+    &:hover {
+        cursor: pointer;
+    }
 }

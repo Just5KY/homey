@@ -18,8 +18,9 @@ export default {
   },
   methods: {
     getHourlyWeather: function() {
-        this.axios.get('http://0.0.0.0:9101/weatherHourly/20211208').then((res) => {
-          this.weatherData = res.data.slice(0,9)
+        let today = new Date().toJSON().slice(0, 10).replaceAll('-', '');
+        this.axios.get('http://0.0.0.0:9101/weatherHourly/' + today).then((res) => {
+          this.weatherData = res.data.slice(0,9);
       }).catch(e => {
         console.log('Could not reach homey API');
       });
