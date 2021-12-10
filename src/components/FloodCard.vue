@@ -12,9 +12,10 @@
               <span class="material-icons-outlined">arrow_downward</span><p>{{floodStats.downSpeed}}</p>
             </div>
             <span class="flood-card-container__heading--title">Flood</span>
-            </div>
+          </div>
           <div class="flood-card-container__details">
               <div class="flood-card-container__details--message"></div>
+              <!-- chart goes here -->
           </div>
       </div>
       <div class="flood-card-container__side flood-card-container__side--back">
@@ -28,6 +29,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'FloodCard',
   props: {

@@ -164,10 +164,10 @@ h2 {
       background-image: linear-gradient(to right bottom, #44475a, #6272a4);
       transform: rotateY(180deg); }
   .flood-card-container:hover .flood-card-container__side--front {
-    transform: rotateY(-180deg) scale(1.05);
+    transform: rotateY(-180deg);
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
   .flood-card-container:hover .flood-card-container__side--back {
-    transform: rotateY(0deg) scale(1.05);
+    transform: rotateY(0deg);
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
   .flood-card-container__punchline {
     margin: 0 auto;
@@ -217,7 +217,7 @@ h2 {
       padding: 1rem;
       overflow-wrap: break-word; }
       .flood-card-container__notifications ul li:not(:last-child) {
-        border-bottom: 1px dotted #f8f8f2; }
+        border-bottom: 1px solid #f8f8f2; }
       .flood-card-container__notifications ul li span {
         text-align: left;
         float: left; }

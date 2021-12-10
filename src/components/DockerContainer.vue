@@ -1,7 +1,7 @@
 <template>
   <div class="docker-container">
     <!-- <div class="docker-container__docker-services-container">
-      services go here
+      DockerServices
     </div>
     <div class="docker-container__button-container">
       go to portainer, restart all, etc panel
@@ -32,7 +32,6 @@ export default {
         console.log('Could not reach homey API');
       });
     },
-    // TODO: look into async. this should run before list, but doesn't need to as backend auto-auths on list call
     authenticate: function() {
         this.axios.get('http://0.0.0.0:9101/portainerAuth').then((res) => {
           //console.log('INFO :: Portainer authentication returned ' + res.data);

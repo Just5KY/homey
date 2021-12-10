@@ -73,11 +73,11 @@
 
     // Hover flip animation
     &:hover &__side--front {
-        transform: rotateY(-180deg) scale(1.05);
+        transform: rotateY(-180deg);
         box-shadow: .5rem 2.5rem 4rem rgba($shadowColor, 0.8);
     }
     &:hover &__side--back {
-        transform: rotateY(0deg) scale(1.05);
+        transform: rotateY(0deg);
         box-shadow: .5rem 2.5rem 4rem rgba($shadowColor, 0.8);
     }
 
@@ -156,7 +156,7 @@
                 overflow-wrap: break-word;
 
                 &:not(:last-child) {
-                    border-bottom: 1px dotted $white;
+                    border-bottom: 1px solid $white;
                 }
 
                 span {
