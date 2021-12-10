@@ -42,9 +42,6 @@ class api:
         # get 24 hours of up/down stats (delta 1hr)
         dailyDataRaw = self.session.request('GET', self.host + '/history', params={'snapshot': 'DAY'})
 
-        print(minuteDataRaw.json())
-        print(dailyDataRaw.json())
-        
         i = 0
         totalDownload = 0.0
         totalUpload = 0.0
@@ -52,7 +49,7 @@ class api:
             #timeChunk = datetime.fromtimestamp(t/1000)
             downHour = dailyDataRaw.json()['download'][i]
             upHour = dailyDataRaw.json()['upload'][i]
-            
+
             if downHour is not None:
                 totalDownload += downHour
             if upHour is not None:
