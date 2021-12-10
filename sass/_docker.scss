@@ -4,16 +4,15 @@
     grid-column: 2;
 
     // Border
-    margin-top: 3.5rem;
-    margin-bottom: 2.5rem;
-    margin-right: 3rem;
-    margin-left: -.5rem;
+    margin-top: 4rem;
+    margin-right: 4rem;
 
     // Child layout
     display: grid;
-    grid-auto-flow: column;
+    grid-auto-flow: row;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(8, 1fr);
+    row-gap: 1rem;
+    column-gap: 2rem;
 
     // Background image
     background-image: url('../images/docker-large.png');
@@ -25,22 +24,15 @@
 .docker-card-container {
     // Spacing
     padding: .75rem;
-    margin: .5rem;
-    height: 80%;
+    align-self: center;
 
-    // Corners
-    border-radius: .3rem;
+    border-radius: .5rem;
+    background-color: $commentColor;
 
     // Child layout
     display: flex;
     justify-content: space-between;
     align-content: center;
-
-    // Color
-    background-color: $commentColor;
-    &:nth-child(even) {
-        background-color: $backgroundColor2;
-    }
 
     // Container name
     & h3 { 
@@ -49,21 +41,16 @@
         font-weight: 300;
     }
 
-    // Button container
     &__button-container {
         display: flex;
         align-content: center;
         justify-content: center;
     }
-
-    &:nth-child(even) > &__button-container > .docker-card-btn {
-        color: $commentColor;
-    }
 }
 
 // Buttons
 .docker-card-btn {
-    color: $backgroundColor2;
+    color: $white;
     margin-left: .3rem;
     font-size: 2rem;
     align-self: center;

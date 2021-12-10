@@ -3,26 +3,28 @@
     // Position in main grid
     grid-row: 3;
     grid-column: 2;
-    margin: 2rem;
-    margin-top: 0;
+    margin-right: 4rem;
+    margin-top: 2rem;
 
     // Child layout
     display: flex;
     justify-content: space-between;
+    column-gap: 2rem;
     text-align: center;
 }
 
 .weather-card-container {
     font-weight: 300;
     font-size: 1.3rem;
-    width: 35rem;
     height: 90%;
     text-align: center;
-    padding: 2rem;
+
+    padding: 1.5rem;
+    flex-grow: 1;
+
     background-color: $backgroundColor2;
     border-radius: .5rem;
     overflow-wrap: break-word;
-    margin: 2rem;
 
     & span {
         float: right;
@@ -42,8 +44,8 @@
 .flood-card-container {
     position: relative;
     height: 90%;
-    width: 35rem;
-    margin: 2rem;
+    width: 60%;
+    flex-grow: 1;
 
     perspective: 100rem;
     -moz-perspective: 100rem;
@@ -108,7 +110,7 @@
         display: flex;
 
         &--title {
-            font-size: 3rem;
+            font-size: 2.2rem;
             font-weight: 300;
             text-transform: uppercase;
             text-align: right;
@@ -131,11 +133,11 @@
             justify-content: space-between;
 
             & span {
-              font-size: 3.5rem;  
+              font-size: 3.5rem;
             }
 
             & p {
-                font-size: 1.7rem;
+                font-size: 1.5rem;
             }
 
         }

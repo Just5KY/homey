@@ -113,23 +113,23 @@ h2 {
 .card-container {
   grid-row: 3;
   grid-column: 2;
-  margin: 2rem;
-  margin-top: 0;
+  margin-right: 4rem;
+  margin-top: 2rem;
   display: flex;
   justify-content: space-between;
+  column-gap: 2rem;
   text-align: center; }
 
 .weather-card-container {
   font-weight: 300;
   font-size: 1.3rem;
-  width: 35rem;
   height: 90%;
   text-align: center;
-  padding: 2rem;
+  padding: 1.5rem;
+  flex-grow: 1;
   background-color: #44475a;
   border-radius: .5rem;
-  overflow-wrap: break-word;
-  margin: 2rem; }
+  overflow-wrap: break-word; }
   .weather-card-container span {
     float: right; }
   .weather-card-container div {
@@ -141,8 +141,8 @@ h2 {
 .flood-card-container {
   position: relative;
   height: 90%;
-  width: 35rem;
-  margin: 2rem;
+  width: 60%;
+  flex-grow: 1;
   perspective: 100rem;
   -moz-perspective: 100rem; }
   .flood-card-container__side {
@@ -188,7 +188,7 @@ h2 {
     justify-content: space-between;
     display: flex; }
     .flood-card-container__heading--title {
-      font-size: 3rem;
+      font-size: 2.2rem;
       font-weight: 300;
       text-transform: uppercase;
       text-align: right;
@@ -205,7 +205,7 @@ h2 {
       .flood-card-container__heading--stats span {
         font-size: 3.5rem; }
       .flood-card-container__heading--stats p {
-        font-size: 1.7rem; }
+        font-size: 1.5rem; }
   .flood-card-container__notifications ul {
     list-style: none;
     width: 80%;
@@ -251,7 +251,7 @@ h2 {
   .service-card-container__text-container {
     align-self: flex-start;
     text-align: left;
-    width: 70%;
+    width: 80%;
     display: flex;
     height: 100%;
     flex-direction: column;
@@ -259,6 +259,7 @@ h2 {
     justify-content: space-between; }
     .service-card-container__text-container h3 {
       font-size: 2.2rem;
+      line-height: 2.5rem;
       font-weight: 300;
       text-align: left; }
     .service-card-container__text-container__subtitle {
@@ -286,14 +287,13 @@ h2 {
 .docker-container {
   grid-row: 2 / 3;
   grid-column: 2;
-  margin-top: 3.5rem;
-  margin-bottom: 2.5rem;
-  margin-right: 3rem;
-  margin-left: -.5rem;
+  margin-top: 4rem;
+  margin-right: 4rem;
   display: grid;
-  grid-auto-flow: column;
+  grid-auto-flow: row;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(8, 1fr);
+  row-gap: 1rem;
+  column-gap: 2rem;
   background-image: url("../images/docker-large.png");
   background-size: 30%;
   background-repeat: no-repeat;
@@ -301,15 +301,12 @@ h2 {
 
 .docker-card-container {
   padding: .75rem;
-  margin: .5rem;
-  height: 80%;
-  border-radius: .3rem;
+  align-self: center;
+  border-radius: .5rem;
+  background-color: #6272a4;
   display: flex;
   justify-content: space-between;
-  align-content: center;
-  background-color: #6272a4; }
-  .docker-card-container:nth-child(even) {
-    background-color: #44475a; }
+  align-content: center; }
   .docker-card-container h3 {
     align-self: center;
     font-size: 1.7rem;
@@ -318,11 +315,9 @@ h2 {
     display: flex;
     align-content: center;
     justify-content: center; }
-  .docker-card-container:nth-child(even) > .docker-card-container__button-container > .docker-card-btn {
-    color: #6272a4; }
 
 .docker-card-btn {
-  color: #44475a;
+  color: #f8f8f2;
   margin-left: .3rem;
   font-size: 2rem;
   align-self: center;
