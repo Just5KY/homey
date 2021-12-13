@@ -287,23 +287,24 @@ h2 {
 .docker-container {
   grid-row: 2 / 3;
   grid-column: 2;
-  margin-top: -4rem;
+  margin-top: -10rem;
   margin-right: 4rem;
-  padding-left: 30%;
+  padding-left: 15rem;
+  align-content: top;
   display: grid;
-  grid-template-columns: repeat(5, 3rem);
-  grid-template-rows: repeat(8, 3rem);
+  grid-template-columns: repeat(5, 3.5rem);
+  grid-template-rows: repeat(8, 3.5rem);
   row-gap: .5rem;
   column-gap: .4rem;
   background-image: url("../images/docker-large-blank.png");
-  background-size: 50%;
+  background-size: 60%;
   background-repeat: no-repeat;
-  background-position: bottom 11px right 44.5%; }
+  background-position: bottom 2rem right 38%; }
 
 .docker-cell {
   background-color: #f8f8f2;
   border-radius: .2rem;
-  max-width: 3rem;
+  max-width: 3.5rem;
   width: fit-content;
   transition: all .3s ease-out;
   animation-fill-mode: forwards;
@@ -314,10 +315,12 @@ h2 {
   align-content: center;
   justify-content: space-between; }
   .docker-cell img {
-    height: 2.25rem;
-    width: 2.25rem;
-    margin-left: 0.381rem;
-    margin-top: 0.381rem; }
+    height: 2.5rem;
+    width: 2.5rem;
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
+    transition: all .3s ease-in-out;
+    transition-delay: .3s; }
   .docker-cell__content {
     opacity: 0;
     transition: all .3s ease-in;
@@ -332,8 +335,7 @@ h2 {
     white-space: nowrap; }
     .docker-cell__content h3 {
       font-size: 1.7rem;
-      margin-top: 2px;
-      font-weight: 300;
+      font-weight: 400;
       cursor: default;
       padding-right: .5rem; }
     .docker-cell__content--buttons {
@@ -346,6 +348,10 @@ h2 {
     z-index: 2; }
     .docker-cell:hover .docker-cell__content {
       opacity: 1;
+      transition-delay: 0s; }
+    .docker-cell:hover img {
+      width: 0;
+      opacity: 0;
       transition-delay: 0s; }
 
 .docker-card-container {
@@ -369,7 +375,7 @@ h2 {
 
 .docker-card-btn {
   color: #6272a4;
-  margin-left: .3rem;
+  margin-left: .25rem;
   font-size: 2rem;
   align-self: center;
   justify-self: center; }

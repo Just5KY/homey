@@ -4,9 +4,10 @@
     grid-column: 2;
 
     // Border
-    margin-top: -4rem;
+    margin-top: -10rem;
     margin-right: 4rem;
-    padding-left: 30%;
+    padding-left: 15rem;
+    align-content: top;
 
     // Child layout
     display: grid;
@@ -17,9 +18,9 @@
 
     // Background image
     background-image: url('../images/docker-large-blank.png');
-    background-size: 50%;
+    background-size: 60%;
     background-repeat: no-repeat;
-    background-position: bottom 11px right 44.5%;
+    background-position: bottom 2rem right 38%;
 }
 
 .docker-cell{
@@ -43,10 +44,12 @@
 
     // Container icon
     & img {
-        height: $dockerCellSize * .75;
-        width: $dockerCellSize * .75;
-        margin-left: $dockerCellSize * .127;
-        margin-top: $dockerCellSize * .127;
+        height: $dockerCellImageSize;
+        width: $dockerCellImageSize;
+        margin-left: $dockerCellImagePadding;
+        margin-top: $dockerCellImagePadding;
+        transition: all .3s ease-in-out;
+        transition-delay: .3s;
     }
 
     // Container name & buttons
@@ -68,8 +71,7 @@
         // Container name
         & h3 { 
             font-size: 1.7rem;
-            margin-top: 2px;        // hacky
-            font-weight: 300;
+            font-weight: 400;
             cursor: default;
             padding-right: .5rem;
         }
@@ -87,6 +89,12 @@
         z-index: 2;
         .docker-cell__content {
             opacity: 1;
+            transition-delay: 0s;
+        }
+
+        img {
+            width: 0;
+            opacity: 0;
             transition-delay: 0s;
         }
     }
@@ -126,7 +134,7 @@
 // Buttons
 .docker-card-btn {
     color: $commentColor;
-    margin-left: .3rem;
+    margin-left: .25rem;
     font-size: 2rem;
     align-self: center;
     justify-self: center;
