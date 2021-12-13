@@ -1,30 +1,4 @@
-# homey
-<p align="center">
-  <img src="https://github.com/vlfldr/homey/blob/master/screenshot.png?raw=true" alt="homey dashboard"/>
-</p>
+This branch is for an interactive Docker whale built in CSS to replace the boring list-based container management interface.
 
-**Work in progress! Not ready yet.**
+https://user-images.githubusercontent.com/91982627/145898363-a1c23575-a9bb-4d5e-9efc-826353b48af7.mp4
 
-Homey is a simple home server dashboard loosely inspired by Homer. From one cozy page, you can:
-* Manage (start/stop/restart) docker containers via Portainer - no custom tags required.
-* Manage (start/stop/add) Flood torrents and view realtime upload/download stats
-* Add services with a simple YAML file
-* View weather forecasts
-* Play with a 3D spinning house
-
-*For API functionality (Portainer, Flood, weather) [homey-server](https://github.com/vlfldr/homey-server) is required.*
-
-When the project is released, a docker image and corresponding documentation will be provided.
-
-Built with:
-
-* Vue (frontend, data binding)
-* SASS (layout, theming)
-* Three.js & Tween.js (eyecandy)
-* Flask (backend)
-
-## Project setup
-```
-npm i
-npm run dev
-```
