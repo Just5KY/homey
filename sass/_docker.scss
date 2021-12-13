@@ -6,13 +6,15 @@
     // Border
     margin-top: 4rem;
     margin-right: 4rem;
+    margin-left: 30%;
 
     // Child layout
     display: grid;
     grid-auto-flow: row;
-    grid-template-columns: 1fr 1fr;
-    row-gap: 1rem;
-    column-gap: 2rem;
+    grid-template-columns: repeat(5, 2.5rem);
+    grid-template-rows: repeat(8, 2.5rem);
+    row-gap: .5rem;
+    column-gap: .4rem;
 
     // Background image
     background-image: url('../images/docker-large.png');
@@ -20,6 +22,172 @@
     background-repeat: no-repeat;
     background-position: bottom 1rem right 1rem;
 }
+
+.cell{
+    background-color: white;
+    border-radius: 7.5%;
+}
+
+
+.d1 {
+    grid-row: 8;
+    grid-column: 4;
+}
+
+.d2 {
+    grid-row: 8;
+    grid-column: 3;
+}
+
+.d3 {
+    grid-row: 7;
+    grid-column: 4;
+}
+
+.d4 {
+    grid-row: 8;
+    grid-column: 2;
+}
+.d5 {
+    grid-row: 7;
+    grid-column: 3;
+}
+.d6 {
+    grid-row: 8;
+    grid-column: 5;
+}
+.d7 {
+    grid-row: 8;
+    grid-column: 1;
+}
+.d8 {
+    grid-row: 6;
+    grid-column: 4;
+}
+.d9 {
+    grid-row: 7;
+    grid-column: 2;
+}
+.d10 {
+    grid-row: 5;
+    grid-column: 4;
+}
+.d11 {
+    grid-row: 6;
+    grid-column: 2;
+}
+.d12 {
+    grid-row: 7;
+    grid-column: 5;
+}
+// .d13 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d14 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d15 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d16 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d17 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d18 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d19 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d20 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d21 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d22 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d23 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d24 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d25 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d26 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d27 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d28 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d29 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d30 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d31 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d32 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d33 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d34 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d35 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d36 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d37 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d38 {
+//     grid-row: ;
+//     grid-column: ;
+// }
+// .d39 {
+//     grid-row: ;
+//     grid-column: ;
+// }
 
 .docker-card-container {
     // Spacing
