@@ -1,7 +1,7 @@
 <template>
   <!-- <div class="docker-card-container"> -->
   <div :class="['docker-cell', 'd' + gridIndex]">
-    <img :src="'./images/icons/' + serviceName + '.png'">
+    <img :src="getIconPath" @error="onImageError">
     <div class="docker-cell__content">
       <h3>{{ serviceName }}</h3>
       <div class="docker-cell__content--buttons">
@@ -32,6 +32,11 @@ export default {
       status: String,
       uptime: String,
   },
+  computed: {
+    getIconPath: function() {
+      return ((this.imageError) ? './images/icons/placeholder.png' : './images/icons/' + this.serviceName + '.png')
+    }
+  },
   data () {
     return {
       infoString: this.status.charAt(0).toUpperCase() + this.status.slice(1) + ' - ' + this.uptime,
@@ -39,13 +44,13 @@ export default {
       stopString: 'Stop ' + this.serviceName,
       rebootString: 'Reboot ' + this.serviceName,
       state: this.status,
+      imageError: false,
     };
   },
-  computed: {
-
-  },
   methods: {
-
+    onImageError: function() {
+      this.imageError = true;
+    }
   },
 }
 </script>
