@@ -1,13 +1,18 @@
 <template>
-  <div class="docker-card-container">
-    <h3>{{ serviceName }}</h3>
-    <div class="docker-card-container__button-container">
-      <DockerServiceButton v-if="state=='running'" :serviceName="serviceName" type="pause"/>
-      <DockerServiceButton v-if="state=='paused'" :serviceName="serviceName" type="unpause"/>
-      <DockerServiceButton v-if="state=='exited'" :serviceName="serviceName" type="start"/>
-      <DockerServiceButton v-if="state=='running' || state=='paused'" :serviceName="serviceName" type="stop"/>
-      <DockerServiceButton v-if="state=='running' || state=='paused'" :serviceName="serviceName" type="restart"/>
-      <DockerServiceButton :serviceName="serviceName" :serviceData="infoString" type="info"/>
+  <!-- <div class="docker-card-container"> -->
+  <div :class="['docker-cell', 'd' + gridIndex]">
+    <img :src="'./images/icons/' + serviceName + '.png'">
+    <div class="docker-cell__content">
+      <h3>{{ serviceName }}</h3>
+      <div class="docker-cell__content--buttons">
+        <DockerServiceButton v-if="state=='running'" :serviceName="serviceName" type="pause"/>
+        <DockerServiceButton v-if="state=='paused'" :serviceName="serviceName" type="unpause"/>
+        <DockerServiceButton v-if="state=='exited'" :serviceName="serviceName" type="start"/>
+        <DockerServiceButton v-if="state=='running' || state=='paused'" :serviceName="serviceName" type="stop"/>
+        <DockerServiceButton v-if="state=='running' || state=='paused'" :serviceName="serviceName" type="restart"/>
+        <DockerServiceButton :serviceName="serviceName" :serviceData="infoString" type="info"/>
+      </div>
+      
     </div>
   </div>
 </template>
@@ -22,6 +27,7 @@ export default {
     DockerServiceButton,
   },
   props: {
+      gridIndex: Number,
       serviceName: String,
       status: String,
       uptime: String,

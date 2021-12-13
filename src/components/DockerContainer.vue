@@ -1,7 +1,7 @@
 <template>
   <div class="docker-container">
-    <div v-for="i in dockerServices.length" :key="i" :class="['d' + i, 'cell']">{{i}}</div>
-    <!-- <DockerService v-for="s in dockerServices" :key="s.status" :serviceName="s.name" :status="s.status" :uptime="s.uptime"/> -->
+    <!-- <div v-for="i in dockerServices.length" :key="i" :class="['d' + i, 'cell']">{{i}}</div> -->
+    <DockerService v-for="(s, index) in dockerServices" :key="s.status" :gridIndex = "index+1" :serviceName="s.name" :status="s.status" :uptime="s.uptime"/>
   </div>
 </template>
 
@@ -11,7 +11,7 @@ import DockerService from './DockerService.vue'
 export default {
   name: 'DockerContainer',
   components: {
-      //DockerService
+      DockerService
   },
   data () {
     return {
