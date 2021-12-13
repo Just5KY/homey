@@ -43,13 +43,19 @@
     justify-content: space-between;
 
     // Container icon
-    & img {
+    & img,
+    &__image-placeholder {
         height: $dockerCellImageSize;
         width: $dockerCellImageSize;
         margin-left: $dockerCellImagePadding;
         margin-top: $dockerCellImagePadding;
         transition: all .3s ease-in-out;
         transition-delay: .3s;
+        cursor: default;
+    }
+
+    &__image-placeholder {
+        color: $commentColor;
     }
 
     // Container name & buttons
@@ -92,7 +98,8 @@
             transition-delay: 0s;
         }
 
-        img {
+        img,
+        .docker-cell__image-placeholder {
             width: 0;
             opacity: 0;
             transition-delay: 0s;

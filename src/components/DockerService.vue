@@ -1,7 +1,8 @@
 <template>
   <!-- <div class="docker-card-container"> -->
   <div :class="['docker-cell', 'd' + gridIndex]">
-    <img :src="getIconPath" @error="onImageError">
+    <img v-if="!imageError" :src="getIconPath" @error="onImageError">
+    <span v-if="imageError" class="docker-cell__image-placeholder material-icons-outlined">storage</span>
     <div class="docker-cell__content">
       <h3>{{ serviceName }}</h3>
       <div class="docker-cell__content--buttons">

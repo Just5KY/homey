@@ -15,12 +15,12 @@ services:
     url: "https://tv.mntn.top"
   
   - name: "Vaultwarden"
-    icon: "bitwarden.png"
+    icon: "vaultwarden.png"
     subtitle: "Password manager"
     url: "https://vault.mntn.top"
 
   - name: "NGINX Proxy Manager"
-    icon: "nginxproxymanager.png"
+    icon: "nginx-proxy-manager.png"
     subtitle: "Reverse proxy management"
     url: "http://localhost:81"
 
