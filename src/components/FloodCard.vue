@@ -8,8 +8,8 @@
             </div>
             <span class="flood-card-container__heading--title">Torrents</span>
           </div>
-          <div class="flood-card-container__details">
-              <!-- chart goes here -->
+          <div class="flood-card-container__chart">
+              <FloodCardChart v-if="this.loaded" :chartData="floodStats.minuteData"/>
           </div>
       </div>
       <div class="flood-card-container__side flood-card-container__side--back">
@@ -24,15 +24,21 @@
 
 <script>
 
+import FloodCardChart from './FloodCardChart.vue';
+
 export default {
   name: 'FloodCard',
+  components: {
+    FloodCardChart,
+  },
   props: {
       title: String,
   },
   data () {
     return {
       notifications: Array,
-      floodStats: Array,
+      floodStats: Object,
+      loaded: false,
     }
   },
   methods: {
@@ -42,6 +48,7 @@ export default {
       }).then(() => {
       this.axios.get('http://0.0.0.0:9101/floodStats').then((res) => {
           this.floodStats = res.data
+          this.loaded = true;
       })}).catch(e => {
         console.log('Could not reach homey API');
       });

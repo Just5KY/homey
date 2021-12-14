@@ -334,6 +334,16 @@ h2 {
         font-size: 3.5rem; }
       .flood-card-container__heading--stats p {
         font-size: 1.5rem; }
+      .flood-card-container__heading--stats :nth-child(2),
+      .flood-card-container__heading--stats :first-child {
+        color: #8be9fd; }
+  .flood-card-container__chart {
+    transform: scaleY(0.7) scaleX(1.1);
+    position: absolute;
+    top: 2rem;
+    padding-top: 1rem;
+    left: -1rem;
+    bottom: 2rem !important; }
   .flood-card-container__notifications ul {
     list-style: none;
     width: 80%;

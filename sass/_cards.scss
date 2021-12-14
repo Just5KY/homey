@@ -246,9 +246,22 @@
             & p {
                 font-size: 1.5rem;
             }
+        
+            :nth-child(2),
+            :first-child {
+                color: $cyan;
+            }
 
         }
-        
+    }
+
+    &__chart {
+        transform: scaleY(.7) scaleX(1.1);
+        position: absolute;
+        top: 2rem;
+        padding-top: 1rem;
+        left: -1rem;
+        bottom: 2rem !important;
     }
 
     // Back
