@@ -62,7 +62,6 @@ export default {
         let today = new Date().toJSON().slice(0, 10).replaceAll('-', '');
         this.axios.get('http://0.0.0.0:9101/weatherWeekly').then((res) => {
           this.weatherDataDaily = res.data;
-          console.log(this.weatherDataDaily)
       }).catch(e => {
         console.log('Could not reach homey API');
       });
