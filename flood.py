@@ -42,10 +42,10 @@ class api:
         # get 24 hours of up/down stats (delta 1hr)
         dailyDataRaw = self.session.request('GET', self.host + '/history', params={'snapshot': 'DAY'})
 
-        i = 0
+        # calculate total uploaded/downloaded amount for the last 24 hours
         totalDownload = 0.0
         totalUpload = 0.0
-        for t in dailyDataRaw.json()['timestamps']:
+        for i, t in enumerate(dailyDataRaw.json()['timestamps']):
             #timeChunk = datetime.fromtimestamp(t/1000)
             downHour = dailyDataRaw.json()['download'][i]
             upHour = dailyDataRaw.json()['upload'][i]
@@ -54,22 +54,30 @@ class api:
                 totalDownload += downHour
             if upHour is not None:
                 totalUpload += upHour
-            i += 1
 
+        # calculate current upload/download speed and format data for speed chart
         avgUp = 0
         avgDown = 0
-        for j in range(0, 3):   # Average up/down speed based on the last 3 frames (18 seconds) of data
-            avgDown += minuteDataRaw.json()['download'][j]
-            avgUp += minuteDataRaw.json()['upload'][j]
+        minuteData = []
+        for i, m in enumerate(minuteDataRaw.json()['timestamps']):
+            # Average up/down speed based on the last 3 frames (18 seconds) of data
+            if i < 3: 
+                avgDown += minuteDataRaw.json()['download'][i]
+                avgUp += minuteDataRaw.json()['upload'][i]
+            # Return each 6-second frame over the last 5 minutes
+            minuteData.append({
+                'time': datetime.fromtimestamp(m/1000).strftime('%-I:%M:%S'),
+                'down': minuteDataRaw.json()['download'][i],    #formatBytes(minuteDataRaw.json()['download'][i]),
+                'up': minuteDataRaw.json()['upload'][i]         #formatBytes(minuteDataRaw.json()['upload'][i])
+            })
 
-        returnData = {
+        return {
             'dailyDownloaded': formatBytes(totalDownload*1000),
             'dailyUploaded': formatBytes(totalUpload*1000),
             'downSpeed': formatBytes(avgDown / 3) + '/s',
             'upSpeed': formatBytes(avgUp / 3) + '/s',
+            'minuteData': minuteData
         }
- 
-        return returnData
 
     def getNotifications(self):
         if self.session == None:
