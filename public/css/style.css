@@ -121,27 +121,107 @@ h2 {
   text-align: center; }
 
 .weather-card-container {
-  font-weight: 300;
-  font-size: 1.3rem;
   height: 90%;
+  width: 45%;
   text-align: center;
+  position: relative;
   padding: 1.5rem;
-  flex-grow: 1;
-  background-color: #44475a;
   border-radius: .5rem;
-  overflow-wrap: break-word; }
-  .weather-card-container span {
-    float: right; }
-  .weather-card-container div {
-    padding: 0.5rem;
-    text-align: left; }
-    .weather-card-container div:not(:nth-child(2)) {
-      border-top: 1px dotted #f8f8f2; }
+  overflow-wrap: break-word;
+  z-index: 0;
+  perspective: 100rem;
+  -moz-perspective: 100rem; }
+  .weather-card-container__side {
+    height: 100%;
+    transition: all 0.7s ease-in-out;
+    backface-visibility: hidden;
+    color: #f8f8f2;
+    font-size: 3rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8); }
+    .weather-card-container__side--front {
+      background-color: #6272a4;
+      display: flex; }
+    .weather-card-container__side--back {
+      background-color: #44475a;
+      transform: rotateY(180deg); }
+  .weather-card-container__skycon {
+    position: absolute;
+    bottom: 0;
+    right: 1rem;
+    opacity: .5;
+    z-index: 0; }
+  .weather-card-container:hover .weather-card-container__side--front {
+    transform: rotateY(-180deg);
+    box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
+  .weather-card-container:hover .weather-card-container__side--back {
+    transform: rotateY(0deg);
+    box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
+  .weather-card-container__heading {
+    width: 90%;
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    justify-content: space-between;
+    display: flex; }
+    .weather-card-container__heading--title {
+      font-size: 2.2rem;
+      font-weight: 300;
+      text-transform: uppercase;
+      text-align: right;
+      padding: .5rem 1rem;
+      border-radius: 5px;
+      background-image: linear-gradient(to right bottom, rgba(98, 114, 164, 0.8), rgba(40, 42, 54, 0.8)); }
+    .weather-card-container__heading--daily-details {
+      justify-self: flex-start;
+      display: flex;
+      align-items: center;
+      justify-content: space-between; }
+      .weather-card-container__heading--daily-details span {
+        font-size: 3.5rem; }
+      .weather-card-container__heading--daily-details p {
+        font-size: 1.5rem; }
+  .weather-card-container__details {
+    font-weight: 300;
+    font-size: 1.4rem;
+    text-align: left;
+    align-content: space-between;
+    width: auto;
+    flex-grow: 1;
+    margin: 2rem;
+    margin-top: 22%;
+    z-index: 2; }
+    .weather-card-container__details span {
+      float: right; }
+    .weather-card-container__details div {
+      padding: 0.5rem; }
+      .weather-card-container__details div:not(:first-child) {
+        border-top: 1px dotted #f8f8f2; }
+  .weather-card-container__weekly-forecast ul {
+    list-style: none;
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 1.3rem; }
+    .weather-card-container__weekly-forecast ul li {
+      text-align: center;
+      font-size: 1.3rem;
+      padding: 1rem;
+      overflow-wrap: break-word; }
+      .weather-card-container__weekly-forecast ul li:not(:last-child) {
+        border-bottom: 1px solid #f8f8f2; }
+      .weather-card-container__weekly-forecast ul li span {
+        text-align: left;
+        float: left; }
 
 .flood-card-container {
   position: relative;
   height: 90%;
-  width: 60%;
+  width: auto;
   flex-grow: 1;
   perspective: 100rem;
   -moz-perspective: 100rem; }
@@ -161,7 +241,7 @@ h2 {
     .flood-card-container__side--front {
       background-color: #6272a4; }
     .flood-card-container__side--back {
-      background-image: linear-gradient(to right bottom, #44475a, #6272a4);
+      background-color: #44475a;
       transform: rotateY(180deg); }
   .flood-card-container:hover .flood-card-container__side--front {
     transform: rotateY(-180deg);
@@ -183,8 +263,6 @@ h2 {
       text-align: right;
       padding: .5rem 1rem;
       border-radius: 5px;
-      align-self: flex-end;
-      justify-self: flex-end;
       background-image: linear-gradient(to right bottom, rgba(98, 114, 164, 0.8), rgba(40, 42, 54, 0.8)); }
     .flood-card-container__heading--stats {
       justify-self: flex-start;
@@ -276,24 +354,29 @@ h2 {
 .docker-container {
   grid-row: 2 / 3;
   grid-column: 2;
-  margin-top: -10rem;
-  margin-right: 4rem;
-  padding-left: 15rem;
   align-content: top;
+  position: relative; }
+
+.docker-container__whale {
+  width: 70%;
+  left: 15%;
+  top: 15%;
+  position: absolute; }
+
+.docker-container__grid {
   display: grid;
-  grid-template-columns: repeat(5, 3.5rem);
-  grid-template-rows: repeat(8, 3.5rem);
+  grid-template-columns: repeat(5, 4.5rem);
+  grid-template-rows: repeat(8, 4.5rem);
   row-gap: .5rem;
-  column-gap: .4rem;
-  background-image: url("../images/docker-large-blank.png");
-  background-size: 45%;
-  background-repeat: no-repeat;
-  background-position: bottom 34.5% right 66%; }
+  column-gap: .5rem;
+  position: absolute;
+  left: 25%;
+  top: -34.3%; }
 
 .docker-cell {
   background-color: #f8f8f2;
   border-radius: .2rem;
-  max-width: 3.5rem;
+  max-width: 4.5rem;
   width: fit-content;
   transition: all .3s ease-out;
   animation-fill-mode: forwards;
@@ -304,12 +387,13 @@ h2 {
   align-content: center;
   justify-content: space-between; }
   .docker-cell img, .docker-cell__image-placeholder {
-    height: 2.5rem;
-    width: 2.5rem;
-    margin-left: 0.5rem;
-    margin-top: 0.5rem;
+    height: 3rem;
+    width: 3rem;
+    margin-left: 0.75rem;
+    margin-top: 0.75rem;
     transition: all .3s ease-in-out;
     transition-delay: .3s;
+    font-size: 3rem;
     cursor: default; }
   .docker-cell__image-placeholder {
     color: #6272a4; }
@@ -347,9 +431,11 @@ h2 {
   margin-left: .25rem;
   font-size: 2rem;
   align-self: center;
-  justify-self: center; }
+  justify-self: center;
+  transition: all .25s ease-out; }
   .docker-card-btn:hover {
-    cursor: pointer; }
+    cursor: pointer;
+    transform: scale(1.3); }
 
 .d1 {
   grid-row: 8;

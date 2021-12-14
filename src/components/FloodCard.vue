@@ -1,7 +1,5 @@
 <template>
   <div class="flood-card-container">
-    <!-- <h3 style="text-align: center">{{floodStats.downSpeed}} Up | {{floodStats.upSpeed}} Down</h3> -->
-    <!-- <div v-for="n in this.notifications" :key="n.time" class="weatherElement" >{{n.msg}} completed at {{n.time}}</div> -->
       <div class="flood-card-container__side flood-card-container__side--front">
           <div class="flood-card-container__heading">
             <div class="flood-card-container__heading--stats">

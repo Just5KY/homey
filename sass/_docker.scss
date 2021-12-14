@@ -2,25 +2,28 @@
     // Position in main page grid
     grid-row: 2 / 3;
     grid-column: 2;
-
-    // Border
-    margin-top: -10rem;
-    margin-right: 4rem;
-    padding-left: 15rem;
-    align-content: top;
-
+    
     // Child layout
+    align-content: top;
+    position: relative;
+}
+
+.docker-container__whale {
+    width: 70%;
+    left: 15%;
+    top: 15%;
+    position: absolute;
+}
+
+.docker-container__grid {
     display: grid;
     grid-template-columns: repeat(5, $dockerCellSize);
     grid-template-rows: repeat(8, $dockerCellSize);
     row-gap: .5rem;
-    column-gap: .4rem;
-
-    // Background image
-    background-image: url('../images/docker-large-blank.png');
-    background-size: 45%;
-    background-repeat: no-repeat;
-    background-position: bottom 34.5% right 66%;
+    column-gap: .5rem;
+    position: absolute;
+    left: 25%;
+    top: -34.3%;
 }
 
 .docker-cell{
@@ -51,6 +54,7 @@
         margin-top: $dockerCellImagePadding;
         transition: all .3s ease-in-out;
         transition-delay: .3s;
+        font-size: $dockerCellImageSize;
         cursor: default;
     }
 
@@ -114,8 +118,11 @@
     font-size: 2rem;
     align-self: center;
     justify-self: center;
+    transition: all .25s ease-out;
+    
     &:hover {
         cursor: pointer;
+        transform: scale(1.3);
     }
 }
 
