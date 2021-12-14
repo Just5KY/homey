@@ -29,7 +29,8 @@ export default {
     loadContainerList: function() {
         this.axios.get('http://0.0.0.0:9101/' + this.backend + 'List').then((res) => {
           // Sort by service name
-          this.dockerServices = res.data.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+          //this.dockerServices = res.data.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+          this.dockerServices = res.data;
       }).catch(e => {
         console.log('Could not reach homey API');
       });

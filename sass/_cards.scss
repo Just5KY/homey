@@ -83,23 +83,7 @@
         box-shadow: .5rem 2.5rem 4rem rgba($shadowColor, 0.8);
     }
 
-    // Back
-    &__punchline {
-        margin: 0 auto;
-        padding: 2rem;
-        padding-top: 20%;
-        text-align: center;
-    }
-
     // Front
-    &__picture {
-        background-size: cover;
-        height: 40%;
-        background-blend-mode: screen;
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 85%);
-        background-image: url(./images/docker-large-text.png);
-    }
-
     &__heading {
         width: 90%;
         position: absolute;
@@ -144,6 +128,7 @@
         
     }
 
+    // Back
     &__notifications {
         ul {
             list-style: none;

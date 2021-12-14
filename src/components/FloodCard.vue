@@ -3,18 +3,14 @@
     <!-- <h3 style="text-align: center">{{floodStats.downSpeed}} Up | {{floodStats.upSpeed}} Down</h3> -->
     <!-- <div v-for="n in this.notifications" :key="n.time" class="weatherElement" >{{n.msg}} completed at {{n.time}}</div> -->
       <div class="flood-card-container__side flood-card-container__side--front">
-          <div class="flood-card-container__picture flood-card-container__picture--weather">
-              &nbsp;
-          </div>
           <div class="flood-card-container__heading">
             <div class="flood-card-container__heading--stats">
               <span class="material-icons-outlined">arrow_upward</span><p>{{floodStats.upSpeed}}</p>
               <span class="material-icons-outlined">arrow_downward</span><p>{{floodStats.downSpeed}}</p>
             </div>
-            <span class="flood-card-container__heading--title">Flood</span>
+            <span class="flood-card-container__heading--title">Torrents</span>
           </div>
           <div class="flood-card-container__details">
-              <div class="flood-card-container__details--message"></div>
               <!-- chart goes here -->
           </div>
       </div>
@@ -44,7 +40,7 @@ export default {
   methods: {
     getFloodData: function() {
         this.axios.get('http://0.0.0.0:9101/floodNotifications').then((res) => {
-          this.notifications = res.data.slice(0,5)
+          this.notifications = res.data.slice(0,6)
       }).then(() => {
       this.axios.get('http://0.0.0.0:9101/floodStats').then((res) => {
           this.floodStats = res.data

@@ -18,9 +18,9 @@
 
     // Background image
     background-image: url('../images/docker-large-blank.png');
-    background-size: 60%;
+    background-size: 45%;
     background-repeat: no-repeat;
-    background-position: bottom 7rem right 70%;
+    background-position: bottom 34.5% right 66%;
 }
 
 .docker-cell{
@@ -104,37 +104,6 @@
         //     opacity: 0;
         //     transition-delay: 0s;
         // }
-    }
-}
-
-// DEPRECATED!
-.docker-card-container {
-    // Spacing
-    padding: .75rem;
-    align-self: center;
-
-    height: 2rem;
-    width: 2rem;
-
-    border-radius: .5rem;
-    background-color: $commentColor;
-
-    // Child layout
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-
-    // Container name
-    & h3 { 
-        align-self: center;
-        font-size: 1.7rem;
-        font-weight: 300;
-    }
-
-    &__button-container {
-        display: flex;
-        align-content: center;
-        justify-content: center;
     }
 }
 

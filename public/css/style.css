@@ -169,17 +169,6 @@ h2 {
   .flood-card-container:hover .flood-card-container__side--back {
     transform: rotateY(0deg);
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
-  .flood-card-container__punchline {
-    margin: 0 auto;
-    padding: 2rem;
-    padding-top: 20%;
-    text-align: center; }
-  .flood-card-container__picture {
-    background-size: cover;
-    height: 40%;
-    background-blend-mode: screen;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 85%);
-    background-image: url(./images/docker-large-text.png); }
   .flood-card-container__heading {
     width: 90%;
     position: absolute;
@@ -297,9 +286,9 @@ h2 {
   row-gap: .5rem;
   column-gap: .4rem;
   background-image: url("../images/docker-large-blank.png");
-  background-size: 60%;
+  background-size: 45%;
   background-repeat: no-repeat;
-  background-position: bottom 7rem right 70%; }
+  background-position: bottom 34.5% right 66%; }
 
 .docker-cell {
   background-color: #f8f8f2;
@@ -352,25 +341,6 @@ h2 {
     .docker-cell:hover .docker-cell__content {
       opacity: 1;
       transition-delay: 0s; }
-
-.docker-card-container {
-  padding: .75rem;
-  align-self: center;
-  height: 2rem;
-  width: 2rem;
-  border-radius: .5rem;
-  background-color: #6272a4;
-  display: flex;
-  justify-content: space-between;
-  align-content: center; }
-  .docker-card-container h3 {
-    align-self: center;
-    font-size: 1.7rem;
-    font-weight: 300; }
-  .docker-card-container__button-container {
-    display: flex;
-    align-content: center;
-    justify-content: center; }
 
 .docker-card-btn {
   color: #6272a4;
