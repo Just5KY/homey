@@ -20,7 +20,7 @@
     background-image: url('../images/docker-large-blank.png');
     background-size: 60%;
     background-repeat: no-repeat;
-    background-position: bottom 2rem right 38%;
+    background-position: bottom 7rem right 70%;
 }
 
 .docker-cell{
@@ -98,12 +98,12 @@
             transition-delay: 0s;
         }
 
-        img,
-        .docker-cell__image-placeholder {
-            width: 0;
-            opacity: 0;
-            transition-delay: 0s;
-        }
+        // img,
+        // .docker-cell__image-placeholder {
+        //     width: 0;
+        //     opacity: 0;
+        //     transition-delay: 0s;
+        // }
     }
 }
 

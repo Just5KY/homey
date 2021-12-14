@@ -3,7 +3,7 @@
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <Header title="homey"/>
   <ServiceContainer :services="config.services" />
-  <DockerContainer/>
+  <DockerContainer :backend="config.docker_api_backend"/>
   <CardContainer/>
 </template>
 

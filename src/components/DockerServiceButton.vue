@@ -40,8 +40,7 @@ export default {
             if(operation == 'info'){   
                 return   // TODO: detailed info popup
             }
-
-            this.axios.get('http://0.0.0.0:9101/portainerControl/' + this.serviceName + '/' + operation).then((res) => {
+            this.axios.get('http://0.0.0.0:9101/' + this.$parent.$parent.backend + 'Control/' + this.serviceName + '/' + operation).then((res) => {
                 this.$parent.$parent.loadContainerList();
                 if(res.data != 'success'){
                     console.log("Error : " + res.data); }

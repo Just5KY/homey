@@ -1,3 +1,6 @@
+# valid options: docker, portainer
+docker_api_backend: "docker"
+
 services:
   - name: "Flood"
     icon: "flood.png"

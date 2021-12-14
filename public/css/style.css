@@ -299,7 +299,7 @@ h2 {
   background-image: url("../images/docker-large-blank.png");
   background-size: 60%;
   background-repeat: no-repeat;
-  background-position: bottom 2rem right 38%; }
+  background-position: bottom 7rem right 70%; }
 
 .docker-cell {
   background-color: #f8f8f2;
@@ -351,11 +351,6 @@ h2 {
     z-index: 2; }
     .docker-cell:hover .docker-cell__content {
       opacity: 1;
-      transition-delay: 0s; }
-    .docker-cell:hover img,
-    .docker-cell:hover .docker-cell__image-placeholder {
-      width: 0;
-      opacity: 0;
       transition-delay: 0s; }
 
 .docker-card-container {
