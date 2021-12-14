@@ -80,14 +80,16 @@ You can run homey, Portainer, and Flood side-by-side in Docker. A Docker image a
 
 2. **Fill out `secretKeys.example.py` with your private information and rename to `secretKeys.py`.**
 
-3. If integrating with Portainer, make sure homey can see port 9000 wherever Portainer is running (map 9000:9000 if running Portainer via docker)
+3. If you're using Portainer as a Docker backend, make sure homey can see port 9000 wherever Portainer is running (map 9000:9000 if running Portainer via docker)
 
-4. If integrating with Flood, make sure homey can see Flood wherever the web UI is running (no additional mapping required)
+4. If you're using the local Docker API backend, verify docker.sock exists at the location specified in `secretKeys.py`. If running Homey in Docker, map /var/run/docker.sock:/var/run/docker.sock so Homey can communicate with the parent Docker process. *Docker API backend can be specified in config.yml in homey*
 
-5. `cd homey-server`
+5. If integrating with Flood, make sure homey can see Flood wherever the web UI is running (no additional mapping required)
 
-6. `pip install flask flask-cors`
+6. `cd homey-server`
 
-7. `python app.py`
+7. `pip install docker flask flask-cors`
+
+8. `python app.py`
 
 [homey](https://github.com/vlfldr/homey) should now be able to talk to the homey-server backend through port 9101.
