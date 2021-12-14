@@ -7,7 +7,8 @@ from requests.cookies import morsel_to_cookie
 import nicehash     # miner stats (deprecated)
 import open_meteo   # weather
 import portainer    # docker
-import flood
+import docker_api
+import flood        # torrents
 
 from secretKeys import *
 
@@ -15,6 +16,7 @@ from secretKeys import *
 nicehash_prod_api = None
 weather_api = open_meteo.api()
 portainer_api = portainer.api()
+docker_api_obj = docker_api.api()
 flood_api = flood.api()
 
 DEBUG = True
@@ -57,8 +59,21 @@ def portainerList():
 
 # valid Docker container operations: pause, unpause, start, stop, restart, kill
 @app.route('/portainerControl/<containerName>/<operation>', methods=['GET'])
-def portainerPause(containerName, operation):
+def portainerControl(containerName, operation):
     return jsonify(portainer_api.controlContainer(containerName, operation))
+
+@app.route('/dockerAuth', methods=['GET'])
+def dockerAuth():
+    return jsonify('True')                  # TODO: implement
+
+@app.route('/dockerList', methods=['GET'])
+def dockerList():
+    return jsonify(docker_api_obj.listContainers())
+
+# valid Docker container operations: pause, unpause, start, stop, restart, kill
+@app.route('/dockerControl/<containerName>/<operation>', methods=['GET'])
+def dockerControl(containerName, operation):
+    return jsonify(docker_api_obj.controlContainer(containerName, operation))
 
 @app.route('/floodAuth', methods=['GET'])
 def floodAuth():

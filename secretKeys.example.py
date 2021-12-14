@@ -17,4 +17,6 @@ portainerPassword = ''
 floodURL = ''
 floodUser = ''
 floodPassword =''
+
+dockerSocketPath='/var/run/docker.sock'     # docker default
 #############################################################
