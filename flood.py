@@ -61,7 +61,7 @@ class api:
         minuteData = []
         for i, m in enumerate(minuteDataRaw.json()['timestamps']):
             # Average up/down speed based on the last 3 frames (18 seconds) of data
-            if i < 3: 
+            if i > len(minuteDataRaw.json()['timestamps']) - 4: 
                 avgDown += minuteDataRaw.json()['download'][i]
                 avgUp += minuteDataRaw.json()['upload'][i]
             # Return each 6-second frame over the last 5 minutes
