@@ -52,7 +52,7 @@
         }
     }
 
-    &__skycon {
+    &__background--skycon {
         position: absolute;
         bottom: 0;
         right: 1rem;
@@ -80,6 +80,12 @@
         justify-content: space-between;
         display: flex;
 
+        &--skycon {
+            position: absolute;
+            top: 0;
+            left: 1rem;
+        }
+
         &--title {
             font-size: 2.2rem;
             font-weight: 300;
@@ -96,17 +102,12 @@
         }
 
         &--daily-details {
-            justify-self: flex-start;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            font-size: 1.7rem;
+            margin-left: 1rem;
+            text-align: left;
 
-            & span {
-              font-size: 3.5rem;
-            }
-
-            & p {
-                font-size: 1.5rem;
+            :nth-child(2) {
+                font-size: 1.3rem;
             }
 
         }
@@ -257,11 +258,8 @@
 
     &__chart {
         transform: scaleY(.7) scaleX(1.1);
-        position: absolute;
-        top: 2rem;
-        padding-top: 1rem;
-        left: -1rem;
-        bottom: 2rem !important;
+        //position: absolute;
+        padding-top: 4.2rem;
     }
 
     // Back

@@ -211,7 +211,7 @@ h2 {
     .weather-card-container__side--back {
       background-color: #44475a;
       transform: rotateY(180deg); }
-  .weather-card-container__skycon {
+  .weather-card-container__background--skycon {
     position: absolute;
     bottom: 0;
     right: 1rem;
@@ -230,6 +230,10 @@ h2 {
     right: 2rem;
     justify-content: space-between;
     display: flex; }
+    .weather-card-container__heading--skycon {
+      position: absolute;
+      top: 0;
+      left: 1rem; }
     .weather-card-container__heading--title {
       font-size: 2.2rem;
       font-weight: 300;
@@ -239,14 +243,11 @@ h2 {
       border-radius: 5px;
       background-image: linear-gradient(to right bottom, rgba(98, 114, 164, 0.8), rgba(40, 42, 54, 0.8)); }
     .weather-card-container__heading--daily-details {
-      justify-self: flex-start;
-      display: flex;
-      align-items: center;
-      justify-content: space-between; }
-      .weather-card-container__heading--daily-details span {
-        font-size: 3.5rem; }
-      .weather-card-container__heading--daily-details p {
-        font-size: 1.5rem; }
+      font-size: 1.7rem;
+      margin-left: 1rem;
+      text-align: left; }
+      .weather-card-container__heading--daily-details :nth-child(2) {
+        font-size: 1.3rem; }
   .weather-card-container__details {
     font-weight: 300;
     font-size: 1.4rem;
@@ -339,11 +340,7 @@ h2 {
         color: #8be9fd; }
   .flood-card-container__chart {
     transform: scaleY(0.7) scaleX(1.1);
-    position: absolute;
-    top: 2rem;
-    padding-top: 1rem;
-    left: -1rem;
-    bottom: 2rem !important; }
+    padding-top: 4.2rem; }
   .flood-card-container__notifications ul {
     list-style: none;
     width: 80%;
@@ -416,7 +413,7 @@ h2 {
     border-bottom-left-radius: 0px;
     border-top-left-radius: 0px;
     width: 12rem;
-    padding-left: 1.7rem;
+    padding-left: 1.5rem;
     height: 10rem; }
     .service-card-container__image-container img {
       height: 6rem;

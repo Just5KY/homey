@@ -1,11 +1,14 @@
 <template>
   <div class="weather-card-container">
       <div class="weather-card-container__side weather-card-container__side--front">
-          <skycon class="weather-card-container__skycon" v-if="weatherDataHourly.length > 1" 
-                :title="weatherDataHourly[0].weather_type" size=128 color="#44475a" :condition="getSkycon(weatherDataHourly[0].weather_type)"/>
+          <skycon class="weather-card-container__background--skycon" v-if="weatherDataHourly.length > 1" 
+                :title="getCurrentWeather.weather_type" size=128 color="#44475a" :condition="getSkycon(getCurrentWeather.weather_type)"/>
           <div class="weather-card-container__heading">
+            <!-- <skycon class="weather-card-container__heading--skycon" v-if="weatherDataHourly.length > 1" 
+                :title="getCurrentWeather.weather_type" size=48 color="#f8f8f2" :condition="getSkycon(getCurrentWeather.weather_type)"/> -->
             <div class="weather-card-container__heading--daily-details">
-              <span class="material-icons-outlined">thermostat</span>
+              <div>{{getCurrentWeather.temp}}°F</div>
+              <div>{{getCurrentWeather.weather_type}}</div>
             </div>
             <span class="weather-card-container__heading--title">Weather</span>
           </div>
@@ -15,14 +18,14 @@
                 {{w.time}}<span><skycon :title="w.weather_type" 
                   size="16" color="#F8F8F2" 
                   :condition="getSkycon(w.weather_type)"
-                /> {{w.temp}}F </span>
+                /> {{w.temp}}°F </span>
               </div>
           </div>
       </div>
       <div class="weather-card-container__side weather-card-container__side--back">
           <div class="weather-card-container__weekly-forecast">
             <ul>
-              <li v-for="n in this.weatherDataDaily" :key="n.time" class="weatherElement" >{{n.day}}: {{n.temp_min}}F - {{n.temp_max}}F ({{n.weather_type}})</li>
+              <li v-for="n in this.weatherDataDaily" :key="n.time" class="weatherElement" >{{n.day}}: {{n.temp_min}}°F - {{n.temp_max}}°F ({{n.weather_type}})</li>
             </ul>
           </div>
       </div>
@@ -47,7 +50,12 @@ export default {
     }
   },
   computed: {
-
+    getCurrentWeather: function() {
+      if(this.weatherDataHourly.length > 1){
+        return this.weatherDataHourly[0];
+      }
+      return {temp: 0, weather_type: ''}
+    }
   },
   methods: {
     getHourlyWeather: function() {

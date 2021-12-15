@@ -3,14 +3,11 @@
 </template>
 
 <script>
-    //import { Line } from 'vue-chartjs'
     import { LineChart } from 'vue-chart-3';
     import Chart from 'chart.js/auto';
 
     export default {
         name: 'FloodCardChart',
-        //extends: Line,
-        //props: ['data', 'options'],
         components: {
             LineChart,
         },
@@ -20,6 +17,7 @@
         data: function() {
             return {
                 config: {
+                    responsive: true,
                     scales: {
                         x: {
                             ticks: { display: false},
@@ -57,10 +55,32 @@
                 return { 
                     labels: timeLabels,
                     datasets: [ 
-                        { label: 'Upload', data: upData, borderColor: '#8be9fd', pointRadius: 0, tension: .15 }, 
-                        { label: 'Download', data: downData, borderColor: '#f8f8f2', pointRadius: 0, tension: .15 } 
+                        { 
+                            label: 'Upload', 
+                            data: upData, 
+                            borderColor: '#8be9fd', backgroundColor: '#8be9fd', 
+                            pointRadius: 0, 
+                            tension: .15, 
+                            fill: true,
+                            order: this.getDrawOrder.up
+                        }, 
+                        { 
+                            label: 'Download', 
+                            data: downData, 
+                            borderColor: '#f8f8f2', backgroundColor: '#f8f8f2', 
+                            pointRadius: 0, 
+                            tension: .15, 
+                            fill: true, 
+                            order: this.getDrawOrder.down
+                        } 
                     ], 
                 };
+            },
+            getDrawOrder: function() {
+                if(this.chartData[this.chartData.length-1].up > this.chartData[this.chartData.length-1].down){
+                    return {up: 1, down: 0}
+                }
+                return {up: 0, down: 1}
             }
         },
         mounted() {

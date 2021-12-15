@@ -51,3 +51,8 @@ services:
     icon: "hoppscotch.png"
     subtitle: "Rapid API development"
     url: "http://localhost:9007"
+
+  - name: "Nextcloud"
+    icon: "nextcloud.png"
+    subtitle: "Online storage & notes"
+    url: "https://dokk.duckdns.org"
