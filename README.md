@@ -36,6 +36,8 @@ Get 24 hours of hourly forecast data, beginning at midnight of the specified day
     "time": "4 PM",
     "weather_type": "Light Rain"
 
+*Note: Portainer and Docker backends are interchangeable. Configure in the dashboard's `config.yml` file. Portainer may provide more security and allows for easy remote management without exposing unsafe interfaces.*
+
 ### portainerAuth
 Attempt to authenticate the server with a local Portainer API. Specify host, port, username, and password in `secretKeys.py`. Returns `True` if successful or already authenticated and `False` if the Portainer API is unreachable or login information incorrect.
 
@@ -45,6 +47,22 @@ Returns a list of all running docker containers and their uptime as reported by 
         "name": "nextcloud",
         "status": "running",
         "uptime": "up 6 days"
+
+### portainerControl/\<containerName\>/\<operation\>
+Executes specified operation on specified container through Portainer. Valid operations: pause, unpause, start, stop, restart, kill. Will attempt to `portainerAuth` if not already authenticated. Returns an error if the container name is not found or the operation is not successful. Returns `success` if successful.
+
+### dockerAuth
+TODO: write about socket configuration
+
+### dockerList
+Returns a list of all running Docker containers and their uptime as reported by the local Docker instance's API. Each container is formatted as follows:
+
+        "name": "nextcloud",
+        "status": "running",
+        "uptime": "up 6 days"
+
+### dockerControl/\<containerName\>/\<operation\>
+Executes specified operation on specified container through the Docker API. Valid operations: pause, unpause, start, stop, restart, kill. Returns an error if the container name is not found or the operation is not successful. Returns `success` if successful.
 
 ### floodAuth
 Attempts to authenticate the server with a local Flood API. Specify host, port, username, and password in `secretKeys.py`. Returns `True` if successful or already authenticated and `False` if the Flood API is unreachable or login information incorrect.
@@ -71,7 +89,8 @@ Gets a list of all 'torrent finished' notifications from Flood. Each notificatio
 * flask-cors
 
 ### Optional
-* [Portainer](https://github.com/portainer/portainer) (docker integration)
+* [Docker](https://docker.com)
+* [Portainer](https://github.com/portainer/portainer) (Docker integration)
 * [Flood](https://github.com/jesec/flood/) (torrent integration)
 
 You can run homey, Portainer, and Flood side-by-side in Docker. A Docker image and user-friendly configuration will be provided upon project release. In the meantime, or if you want to run the backend locally or hack on it:
