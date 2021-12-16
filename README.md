@@ -87,6 +87,7 @@ Gets a list of all 'torrent finished' notifications from Flood. Each notificatio
 * python 3
 * flask
 * flask-cors
+* psutil
 
 ### Optional
 * [Docker](https://docker.com)
@@ -107,7 +108,7 @@ You can run homey, Portainer, and Flood side-by-side in Docker. A Docker image a
 
 6. `cd homey-server`
 
-7. `pip install docker flask flask-cors`
+7. `pip install psutil docker flask flask-cors`
 
 8. `python app.py`
 

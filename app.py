@@ -1,16 +1,16 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
 from flask_cors import CORS
-import json
 
-from requests.cookies import morsel_to_cookie
+from secretKeys import *
 
 import nicehash     # miner stats (deprecated)
 import open_meteo   # weather
-import portainer    # docker
-import docker_api
+import docker_api   # docker local
+import portainer    # docker remote
 import flood        # torrents
+import local_machine    # disk usage
 
-from secretKeys import *
+DEBUG = True
 
 #nicehash_prod_api = nicehash.private_api(nicehashHost, orgId, apiKey, apiSecret)
 nicehash_prod_api = None
@@ -18,12 +18,10 @@ weather_api = open_meteo.api()
 portainer_api = portainer.api()
 docker_api_obj = docker_api.api()
 flood_api = flood.api()
-
-DEBUG = True
+local_machine_obj = local_machine.local_machine()
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 @app.route('/nicehashBalances', methods=['GET'])
@@ -86,6 +84,10 @@ def floodStats():
 @app.route('/floodNotifications', methods=['GET'])
 def floodNotifications():
     return jsonify(flood_api.getNotifications())
+    
+@app.route('/systemInfo', methods=['GET'])
+def systemInfo():
+    return jsonify(local_machine_obj.getAllInfo());
     
 if __name__ == '__main__':
     portainer_api.listContainers()

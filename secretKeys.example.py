@@ -19,4 +19,7 @@ floodUser = ''
 floodPassword =''
 
 dockerSocketPath='/var/run/docker.sock'     # docker default
+
+runningInDocker = False
+diskUsageFile='./disks.txt'     # leave blank to disable
 #############################################################
