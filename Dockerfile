@@ -14,4 +14,5 @@ RUN groupadd docker && usermod -aG docker root && newgrp docker
 COPY . .
 
 # entrypoint
-CMD [ "python", "./app.py" ]
+CMD [ "gunicorn", "-b", "0.0.0.0:9101", "--worker-tmp-dir", "/dev/shm", "--workers", "2", \
+"--threads", "4", "--worker-class", "gthread", "--log-file", "-", "app:app" ]
