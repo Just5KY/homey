@@ -4,15 +4,14 @@ import requests
 import json
 from datetime import datetime
 import time
-from secretKeys import dockerSocketPath
 
 class api:
 
-    def __init__(self):
+    def __init__(self, dockerSocketPath):
         if dockerSocketPath == '/var/run/docker.sock':   # default
             self.client = docker.from_env()
         else:
-            print('unhandled')
+            print('ERROR: Lazy author has not implemented custom socket paths yet.')
 
     def listContainers(self):
         containerData = []

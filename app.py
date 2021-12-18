@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 
-from secretKeys import *
+from config import config
 
 import nicehash     # miner stats (deprecated)
 import open_meteo   # weather
@@ -12,16 +12,17 @@ import local_machine    # disk usage
 
 DEBUG = True
 
-#nicehash_prod_api = nicehash.private_api(nicehashHost, orgId, apiKey, apiSecret)
-nicehash_prod_api = None
-weather_api = open_meteo.api()
-portainer_api = portainer.api()
-docker_api_obj = docker_api.api()
-flood_api = flood.api()
-local_machine_obj = local_machine.local_machine()
-
 app = Flask(__name__)
-app.config.from_object(__name__)
+app.config.from_object(config)
+
+#nicehash_prod_api = nicehash.private_api(config.NICEHASH_URL, config.NICEHASH_API_KEY, config.NICEHASH_SECRET, config.NICEHASH_ORG_ID)
+nicehash_prod_api = None
+weather_api = open_meteo.api(config.WEATHER_LAT, config.WEATHER_LONG)
+portainer_api = portainer.api(config.PORTAINER_URL, config.PORTAINER_USER, config.PORTAINER_PASSWORD)
+docker_api_obj = docker_api.api(config.DOCKER_SOCKET)
+flood_api = flood.api(config.FLOOD_URL, config.FLOOD_USER, config.FLOOD_PASSWORD)
+local_machine_obj = local_machine.local_machine(config.RUNNING_IN_DOCKER, config.DISK_USAGE_FILE)
+
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 @app.route('/nicehashBalances', methods=['GET'])
@@ -90,5 +91,4 @@ def systemInfo():
     return jsonify(local_machine_obj.getAllInfo());
     
 if __name__ == '__main__':
-    portainer_api.listContainers()
     app.run('0.0.0.0', 9101)

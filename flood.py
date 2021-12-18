@@ -1,18 +1,11 @@
-# // POST /api/auth/authenticate
-#{
-#   username: floodUser,
-#   password: floodPassword,
-# }
-
 import requests
 import json
 from datetime import datetime
 from dateutil.parser import parse
-from secretKeys import floodURL, floodUser, floodPassword
 
 class api:
 
-    def __init__(self):
+    def __init__(self, floodURL, floodUser, floodPassword):
         self.host = floodURL
         self.user = {
             "username": floodUser,

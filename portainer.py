@@ -1,11 +1,10 @@
 from urllib import response
 import requests
 import json
-from secretKeys import portainerURL, portainerUser, portainerPassword
 
 class api:
 
-    def __init__(self):
+    def __init__(self, portainerURL, portainerUser, portainerPassword):
         self.host = portainerURL
         self.user = {
             "Username": portainerUser, 

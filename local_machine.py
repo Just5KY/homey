@@ -1,13 +1,12 @@
 from genericpath import exists
 from shutil import disk_usage
 import psutil
-from secretKeys import runningInDocker, diskUsageFile
 
 # todo: move docker file reading to another class
 # too messy to put ifs in every method
 
 class local_machine:
-    def __init__(self):
+    def __init__(self, runningInDocker, diskUsageFile):
         self.diskUsageFile = diskUsageFile      # file determines which paths/drives to report on
         self.runningInDocker = runningInDocker
         self.procHandle = psutil.Process()

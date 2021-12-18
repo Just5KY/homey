@@ -2,7 +2,6 @@ import requests
 import json
 from datetime import datetime
 from dateutil.parser import parse
-from secretKeys import weatherLat, weatherLong
 from weatherCodes import WEATHER_CODES
 
 # https://open-meteo.com/en/docs
@@ -11,8 +10,12 @@ API_HOURS = 168
 
 class api:
 
+    def __init__(self, weatherLat, weatherLong):
+        self.weatherLat = weatherLat
+        self.weatherLong = weatherLong
+
     def buildUrl(self, params):
-        return 'https://api.open-meteo.com/v1/forecast?latitude=' + weatherLat + '&longitude=' + weatherLong \
+        return 'https://api.open-meteo.com/v1/forecast?latitude=' + self.weatherLat + '&longitude=' + self.weatherLong \
             + params + '&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=America%2FNew_York'
     
     def request(self, method, url):
