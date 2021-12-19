@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 class Config:
-    load_dotenv()
+    load_dotenv('../.env')
 
     DOCKER_SOCKET = os.environ.get('HOMEY_API_DOCKER_SOCKET')
     NICEHASH_URL = os.environ.get('HOMEY_API_NICEHASH_URL')

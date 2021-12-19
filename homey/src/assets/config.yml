@@ -15,8 +15,8 @@ services:
   - name: "Jellyfin"
     icon: "jellyfin.png"
     subtitle: "Video streaming"
-    url: "http://0.0.0.0:9005
-  
+    url: "http://0.0.0.0:9005"
+    
   - name: "Vaultwarden"
     icon: "vaultwarden.png"
     subtitle: "Password manager"
