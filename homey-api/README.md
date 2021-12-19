@@ -1,6 +1,6 @@
-# homey-server
+# homey-api
 
-Backend server in flask for [homey dashboard](https://github.com/vlfldr/homey). Mostly used to fetch API data.
+Backend written in Flask for [homey dashboard](https://github.com/vlfldr/homey). Mostly used to fetch API data.
 
 ## Documentation
 The backend runs on port 9101 by default. For example, to get JSON-formatted hourly weather for March 12th 2021:
@@ -96,7 +96,7 @@ Gets a list of all 'torrent finished' notifications from Flood. Each notificatio
 
 You can run homey, Portainer, and Flood side-by-side in Docker. A Docker image and user-friendly configuration will be provided upon project release. In the meantime, or if you want to run the backend locally or hack on it:
 
-1. `git clone https://github.com/vlfldr/homey-server`
+1. `git clone https://github.com/vlfldr/homey-api`
 
 2. **Fill out `.env.example` with your private information and rename to `.env`.**
 
@@ -106,10 +106,10 @@ You can run homey, Portainer, and Flood side-by-side in Docker. A Docker image a
 
 5. If integrating with Flood, make sure homey can see Flood wherever the web UI is running (no additional mapping required)
 
-6. `cd homey-server`
+6. `cd homey-api`
 
 7. `pip install psutil docker flask flask-cors`
 
 8. `python app.py`
 
-[homey](https://github.com/vlfldr/homey) should now be able to talk to the homey-server backend through port 9101.
+[homey](https://github.com/vlfldr/homey) should now be able to talk to the homey-api backend through port 9101.

@@ -1,12 +1,13 @@
 {
   "name": "homey",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "compile:sass": "node-sass sass/main.scss public/css/style.css -w",
+    "prod_compile:sass": "node-sass sass/main.scss public/css/style.css",
     "dev": "concurrently --kill-others \"npm run compile:sass\" \"npm run serve\""
   },
   "dependencies": {

@@ -13,7 +13,7 @@ Homey is a simple home server dashboard loosely inspired by Homer. From one cozy
 * Watch your services stack up on the interactive Docker whale
 * Play with a 3D spinning house
 
-*For API functionality (Docker/Portainer, Flood, weather) [homey-server](https://github.com/vlfldr/homey-server) is required.*
+*For API functionality (Docker/Portainer, Flood, weather) [homey-api](https://github.com/vlfldr/homey-api) is required.*
 
 When the project is released, a docker image and corresponding documentation will be provided.
 
