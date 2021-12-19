@@ -2,7 +2,6 @@
 *secretKeys*
 homey-api/__pycache__
 homey-api/disks.txt
-homey
 homey/dist
 homey/node_modules
 homey/package-lock.json

@@ -1,0 +1,17 @@
+// Body
+
+#app {
+    box-sizing: border-box;
+    background-color: $backgroundColor;
+    color: $white;
+    
+    display: grid;
+    height: 100vh;
+    grid-template-rows: 15% 45% 40%;
+    grid-template-columns: 3fr 2fr;
+}
+
+h2 {
+    font-weight: 300;
+    font-size: 3rem;
+}
