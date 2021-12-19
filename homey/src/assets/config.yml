@@ -10,17 +10,17 @@ services:
   - name: "Navidrome"
     icon: "navidrome.png"
     subtitle: "Music streaming"
-    url: "https://music.mntn.top"
+    url: "http://localhost"
 
   - name: "Jellyfin"
     icon: "jellyfin.png"
     subtitle: "Video streaming"
-    url: "https://tv.mntn.top"
+    url: "http://0.0.0.0:9005
   
   - name: "Vaultwarden"
     icon: "vaultwarden.png"
     subtitle: "Password manager"
-    url: "https://vault.mntn.top"
+    url: "http://localhost"
 
   - name: "NGINX Proxy Manager"
     icon: "nginx-proxy-manager.png"
@@ -35,7 +35,7 @@ services:
   - name: "Whoogle"
     icon: "whoogle.png"
     subtitle: "Anonymous search engine"
-    url: "https://mntn.top"
+    url: "http://192.168.1.3:5000"
 
   - name: "Jackett"
     icon: "jackett.png"
@@ -55,4 +55,4 @@ services:
   - name: "Nextcloud"
     icon: "nextcloud.png"
     subtitle: "Online storage & notes"
-    url: "https://dokk.duckdns.org"
+    url: "http://localhost"
