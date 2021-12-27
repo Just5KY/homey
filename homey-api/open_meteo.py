@@ -11,6 +11,7 @@ API_HOURS = 168
 class api:
 
     def __init__(self, weatherLat, weatherLong):
+
         self.weatherLat = weatherLat
         self.weatherLong = weatherLong
 
@@ -19,6 +20,7 @@ class api:
             + params + '&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=America%2FNew_York'
     
     def request(self, method, url):
+        
         s = requests.Session()
         response = s.request(method, url)
 
@@ -30,6 +32,7 @@ class api:
             raise Exception(str(response.status_code) + ": " + response.reason)
 
     def getWeatherWeekly(self):
+
         dailyData = []
         response = self.request('GET', self.buildUrl('&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum'))['daily']
 

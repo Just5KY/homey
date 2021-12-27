@@ -10,10 +10,10 @@ import portainer        # docker remote
 import flood            # torrents
 import local_machine    # disk usage
 
-
 ### INITIALIZATION
 app = Flask(__name__)
 app.config.from_object(config)
+print(config.FLOOD_URL)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 weather_api = open_meteo.api(config.WEATHER_LAT, config.WEATHER_LONG)
@@ -23,7 +23,6 @@ flood_api = flood.api(config.FLOOD_URL, config.FLOOD_USER, config.FLOOD_PASSWORD
 local_machine_obj = local_machine.local_machine(config.RUNNING_IN_DOCKER, config.DISK_USAGE_FILE)
 nicehash_prod_api = None
 #nicehash_prod_api = nicehash.private_api(config.NICEHASH_URL, config.NICEHASH_API_KEY, config.NICEHASH_SECRET, config.NICEHASH_ORG_ID)
-
 
 ### WEATHER
 @app.route('/weatherWeekly', methods=['GET'])

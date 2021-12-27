@@ -1,10 +1,15 @@
 import os
 from dotenv import load_dotenv
 
+
 class Config:
+    CONFIG_ERROR = False
+    if not os.exists('../.env'):
+        print('Error loading .env file. Does it exist in the root directory? Is homey-api being run properly via run.sh/docker?')
+        CONFIG_ERROR = True
+
     load_dotenv('../.env')
 
-    DOCKER_SOCKET = os.environ.get('HOMEY_API_DOCKER_SOCKET')
     NICEHASH_URL = os.environ.get('HOMEY_API_NICEHASH_URL')
     NICEHASH_API_KEY = os.environ.get('HOMEY_API_NICEHASH_API_KEY')
     NICEHASH_SECRET = os.environ.get('HOMEY_API_NICEHASH_SECRET')

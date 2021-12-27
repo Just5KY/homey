@@ -54,7 +54,7 @@ export default {
       if(this.weatherDataHourly.length > 1){
         return this.weatherDataHourly[0];
       }
-      return {temp: 0, weather_type: ''}
+      return {temp: 0, weather_type: 'Weather API Error'}
     }
   },
   methods: {

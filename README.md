@@ -5,10 +5,14 @@
 
 Homey is a simple home server dashboard packed with functionality. The layout is loosely inspired by [Homer](https://github.com/bastienwirtz/homer).
 
+
+
+**Work in progress! Not ready yet.**
+
 ## Features
 
-* Securely manage Docker containers remotely or locally via [Portainer](https://github.com/portainer/portainer)
-* Alternatively, manage local Docker containers via the Docker API
+* Securely manage Docker containers (remote & local) via [Portainer](https://github.com/portainer/portainer)
+* Alternatively, manage containers (local only) via the native Docker API
 * View qBittorent/rTorrent/Transmission/Deluge realtime stats & download progress through [Flood](https://github.com/jesec/flood/) *(ruTorrent support will be added in the future)*
 * Add services with a simple YAML file
 * Get hourly & weekly weather forecasts
@@ -26,10 +30,14 @@ When the project is released, a docker image and better documentation will be pr
 
     <edit .env to include your sensitive info>
     <edit homey/src/assets/config.yml to point to your services>
+    <add service icons to homey/public/images/icons>
 
     docker-compose up
 
 **NOTE: This is a work in progress and currently unstable. If any of the #required endpoints in the .env file are configured incorrectly or unreachable, the application will crash.**
+
+### Icons
+The `icon` field in `config.yml` points to images in the homey/public/images/icons folder - add one for each service in the config file. You can find a huge collection of PNG self-hosted service icons at NX211's [Homer Icons](https://github.com/NX211/homer-icons) (512x512) or my fork [Homer Icons Compressed](https://github.com/vlfldr/homer-icons) (128x128). Docker containers will look for icons that match their exact name.
 
 ## Built with:
 
