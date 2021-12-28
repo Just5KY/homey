@@ -1,14 +1,16 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 
-from config import config
-
 #import nicehash        # miner stats (deprecated)
 import open_meteo       # weather
 import docker_api       # docker local
 import portainer        # docker remote
 import flood            # torrents
-import local_machine    # disk usage
+import local_machine    # disk usage (work in progress)
+
+from config import config
+
+#print('Portainer validation: ' + str(config.PORTAINER_VALID))
 
 ### INITIALIZATION
 app = Flask(__name__)
@@ -26,20 +28,24 @@ nicehash_prod_api = None
 ### WEATHER
 @app.route('/weatherWeekly', methods=['GET'])
 def weatherWeekly():
+    if not config.WEATHER_VALID:    return jsonify({'Error': 'Weather API not configured'})
     return jsonify(weather_api.getWeatherWeekly())
 
 # day format = YYYYMMDD
 @app.route('/weatherHourly/<day>', methods=['GET'])
 def weatherHourlyDay(day=''):
+    if not config.WEATHER_VALID:    return jsonify({'Error': 'Weather API not configured'})
     return jsonify(weather_api.getWeatherHourly(day))
 
 @app.route('/weatherHourly', methods=['GET'])
 def weatherHourly():
+    if not config.WEATHER_VALID:    return jsonify({'Error': 'Weather API not configured'})
     return jsonify(weather_api.getWeatherHourly())
 
 ### PORTAINER
 @app.route('/portainerAuth', methods=['GET'])
 def portainerAuth():
+    #if not config.PORTAINER_VALID:    return jsonify({'Error': 'Portainer API not configured'})
     return jsonify(portainer_api.authenticate())
 
 @app.route('/portainerList', methods=['GET'])

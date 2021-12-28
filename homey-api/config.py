@@ -1,13 +1,33 @@
 import os
 from dotenv import load_dotenv
 
+# functions to ensure config values are valid
+def validateWeather(lat, long):
+    try:
+        fLat = float(lat)
+        fLong = float(long)
+    except ValueError:
+        print('Error: WEATHER_LAT and WEATHER_LONG must be floats (XX.XXXX)')
+        return False
+    
+    if fLat < -90 or fLat > 90:
+        print('Error: WEATHER_LAT must be a valid latitude coordinate (-90.0000 - 90.0000)')
+        return False
+    if fLong < -180 or fLong > 180:
+        print('Error: WEATHER_LONG must be a valid longitude coordinate (-180.0000 - 180.0000)')
+        return False
+
+    return True
+
+def validatePortainer(url, user, password):
+    return True
 
 class Config:
-    CONFIG_ERROR = False
     if not os.path.exists('../.env'):
-        print('Error loading .env file. Does it exist in the root directory? Is homey-api being run properly via run.sh/docker?')
-        CONFIG_ERROR = True
-
+        print('Fatal error: Could not load ../.env.')
+        print('Please refer to the readme for configuration instructions.')
+        quit(1)
+        
     load_dotenv('../.env')
 
     NICEHASH_URL = os.environ.get('HOMEY_API_NICEHASH_URL')
@@ -17,6 +37,7 @@ class Config:
     
     WEATHER_LAT = os.environ.get('HOMEY_API_WEATHER_LAT')
     WEATHER_LONG = os.environ.get('HOMEY_API_WEATHER_LONG')
+    WEATHER_VALID = validateWeather(WEATHER_LAT, WEATHER_LONG)
     
     DOCKER_USER_ID = os.environ.get('HOMEY_API_DOCKER_USER_ID')
     DOCKER_GROUP_ID = os.environ.get('HOMEY_API_DOCKER_GROUP_ID')
@@ -25,6 +46,7 @@ class Config:
     PORTAINER_URL = os.environ.get('HOMEY_API_PORTAINER_URL')
     PORTAINER_USER = os.environ.get('HOMEY_API_PORTAINER_USER')
     PORTAINER_PASSWORD = os.environ.get('HOMEY_API_PORTAINER_PASSWORD')
+    #PORTAINER_VALID = validatePortainer(PORTAINER_URL, PORTAINER_USER, PORTAINER_PASSWORD)
     
     FLOOD_URL = os.environ.get('HOMEY_API_FLOOD_URL')
     FLOOD_USER = os.environ.get('HOMEY_API_FLOOD_USER')

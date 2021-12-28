@@ -51,7 +51,7 @@ export default {
   },
   computed: {
     getCurrentWeather: function() {
-      if(this.weatherDataHourly.length > 1){
+      if(this.weatherDataHourly.length > 2){
         return this.weatherDataHourly[0];
       }
       return {temp: 0, weather_type: 'Weather API Error'}
@@ -61,7 +61,7 @@ export default {
     getHourlyWeather: function() {
         let today = new Date().toJSON().slice(0, 10).replaceAll('-', '');
         this.axios.get('http://0.0.0.0:9101/weatherHourly/' + today).then((res) => {
-          this.weatherDataHourly = res.data.slice(0,9);
+            this.weatherDataHourly = res.data.slice(0,9);
       }).catch(e => {
         console.log('Could not reach homey API');
       });
@@ -69,7 +69,7 @@ export default {
     getDailyWeather: function() {
         let today = new Date().toJSON().slice(0, 10).replaceAll('-', '');
         this.axios.get('http://0.0.0.0:9101/weatherWeekly').then((res) => {
-          this.weatherDataDaily = res.data;
+          if(res.data.length > 2) this.weatherDataDaily = res.data;
       }).catch(e => {
         console.log('Could not reach homey API');
       });
