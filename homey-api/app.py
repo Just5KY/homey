@@ -37,7 +37,6 @@ def weatherHourlyDay(day=''):
 def weatherHourly():
     return jsonify(weather_api.getWeatherHourly())
 
-
 ### PORTAINER
 @app.route('/portainerAuth', methods=['GET'])
 def portainerAuth():
