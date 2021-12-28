@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 class Config:
     CONFIG_ERROR = False
-    if not os.exists('../.env'):
+    if not os.path.exists('../.env'):
         print('Error loading .env file. Does it exist in the root directory? Is homey-api being run properly via run.sh/docker?')
         CONFIG_ERROR = True
 

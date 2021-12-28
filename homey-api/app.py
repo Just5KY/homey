@@ -13,7 +13,6 @@ import local_machine    # disk usage
 ### INITIALIZATION
 app = Flask(__name__)
 app.config.from_object(config)
-print(config.FLOOD_URL)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 weather_api = open_meteo.api(config.WEATHER_LAT, config.WEATHER_LONG)
