@@ -534,29 +534,31 @@ h2 {
 .docker-container {
   grid-row: 2 / 3;
   grid-column: 2;
-  align-content: top;
-  position: relative; }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-4rem) translateY(-2rem);
+  background-image: url("../images/docker-large-text.png");
+  background-repeat: no-repeat;
+  background-size: 30%;
+  background-position: 100% 100%; }
 
 .docker-container__whale {
-  width: 70%;
-  left: 15%;
-  top: 15%;
-  position: absolute; }
+  width: 55%;
+  transform: translateY(-7.9rem) translateX(5.8rem); }
 
 .docker-container__grid {
   display: grid;
-  grid-template-columns: repeat(5, 4.5rem);
-  grid-template-rows: repeat(8, 4.5rem);
+  grid-template-columns: repeat(5, 4rem);
+  grid-template-rows: repeat(8, 4rem);
   row-gap: .5rem;
-  column-gap: .5rem;
-  position: absolute;
-  left: 25%;
-  top: -34.3%; }
+  column-gap: .5rem; }
 
 .docker-cell {
   background-color: #f8f8f2;
   border-radius: .2rem;
-  max-width: 4.5rem;
+  max-width: 4rem;
   width: fit-content;
   transition: all .3s ease-out;
   animation-fill-mode: forwards;
@@ -567,13 +569,13 @@ h2 {
   align-content: center;
   justify-content: space-between; }
   .docker-cell img, .docker-cell__image-placeholder {
-    height: 3rem;
-    width: 3rem;
+    height: 2.5rem;
+    width: 2.5rem;
     margin-left: 0.75rem;
     margin-top: 0.75rem;
     transition: all .3s ease-in-out;
     transition-delay: .3s;
-    font-size: 3rem;
+    font-size: 2.5rem;
     cursor: default; }
   .docker-cell__image-placeholder {
     color: #6272a4; }

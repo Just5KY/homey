@@ -1,14 +1,15 @@
 <template>
   <div class="docker-container">
-    <img class="docker-container__whale" :src="'./images/docker-large-blank.png'">
     <div class="docker-container__grid">
       <DockerService v-for="(s, index) in dockerServices" 
         :key="s.status" 
         :gridIndex = "index+1" 
         :serviceName="s.name" 
         :status="s.status" 
-        :uptime="s.uptime"/>
-      </div>
+        :uptime="s.uptime"
+      />
+    </div>
+    <img class="docker-container__whale" :src="'./images/docker-large-blank.png'">
   </div>
 </template>
 
