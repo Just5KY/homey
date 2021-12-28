@@ -25,6 +25,8 @@ local_machine_obj = local_machine.local_machine(config.RUNNING_IN_DOCKER, config
 nicehash_prod_api = None
 #nicehash_prod_api = nicehash.private_api(config.NICEHASH_URL, config.NICEHASH_API_KEY, config.NICEHASH_SECRET, config.NICEHASH_ORG_ID)
 
+print(portainer_api.validConfig)
+
 ### WEATHER
 @app.route('/weatherWeekly', methods=['GET'])
 def weatherWeekly():
@@ -45,16 +47,18 @@ def weatherHourly():
 ### PORTAINER
 @app.route('/portainerAuth', methods=['GET'])
 def portainerAuth():
-    #if not config.PORTAINER_VALID:    return jsonify({'Error': 'Portainer API not configured'})
+    if not portainer_api.validConfig:    return jsonify({'Error': 'Portainer API not configured'})
     return jsonify(portainer_api.authenticate())
 
 @app.route('/portainerList', methods=['GET'])
 def portainerList():
+    if not portainer_api.validConfig:    return jsonify({'Error': 'Portainer API not configured'})
     return jsonify(portainer_api.listContainers())
 
 # valid operations: pause, unpause, start, stop, restart, kill
 @app.route('/portainerControl/<containerName>/<operation>', methods=['GET'])
 def portainerControl(containerName, operation):
+    if not portainer_api.validConfig:    return jsonify({'Error': 'Portainer API not configured'})
     return jsonify(portainer_api.controlContainer(containerName, operation))
 
 
@@ -76,14 +80,17 @@ def dockerControl(containerName, operation):
 ### FLOOD
 @app.route('/floodAuth', methods=['GET'])
 def floodAuth():
+    if not flood_api.validConfig:    return jsonify({'Error': 'Flood API not configured'})
     return jsonify(flood_api.authenticate())
 
 @app.route('/floodStats', methods=['GET'])
 def floodStats():
+    if not flood_api.validConfig:    return jsonify({'Error': 'Flood API not configured'})
     return jsonify(flood_api.getStats())
 
 @app.route('/floodNotifications', methods=['GET'])
 def floodNotifications():
+    if not flood_api.validConfig:    return jsonify({'Error': 'Flood API not configured'})
     return jsonify(flood_api.getNotifications())
 
 

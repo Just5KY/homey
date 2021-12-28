@@ -12,15 +12,21 @@ class api:
         }
         self.authToken = ''
         self.endpointId = ''
+        self.validConfig = self.authenticate()
 
     def authenticate(self):
         ses = requests.Session()
-
         userData = json.dumps(self.user)
-        response = ses.request('POST', url=self.host + '/auth', data=userData)
+
+        try:
+            response = ses.request('POST', url=self.host + '/auth', data=userData, timeout=5)
+        except:
+            print('Error: Could not connect to Portainer API at ' + self.host)
+            return False
 
         if response.status_code != 200:
-            raise Exception(str(response.status_code) + ": " + response.reason)
+            print('Error: Bad Portainer credentials')
+            return False
             
         # Set authentication token
         self.authToken = 'Bearer ' + response.json()['jwt']

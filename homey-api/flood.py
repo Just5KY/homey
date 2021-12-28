@@ -12,18 +12,19 @@ class api:
             "password": floodPassword
         }
         self.session = None
+        self.validConfig = self.authenticate()
     
     def authenticate(self):
         ses = requests.Session()
-
         userData = self.user
-        response = ses.request('POST', url=self.host + '/auth/authenticate', data=userData)
 
         try:
             self.session = ses
+            response = ses.request('POST', url=self.host + '/auth/authenticate', data=userData)
             return response.json()['success']
         except:
             self.session = None
+            print('Error: Could not authenticate with Flood API at ' + self.host)
             return False
 
     def getStats(self):
