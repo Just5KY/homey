@@ -37,7 +37,7 @@ When the project is released, a docker image and better documentation will be pr
 **NOTE: This is a work in progress and currently unstable. If any of the #required endpoints in the .env file are configured incorrectly or unreachable, the application will crash.**
 
 ### Icons
-The `icon` field in `config.yml` points to images in the homey/public/images/icons folder - add one for each service in the config file. You can find a huge collection of PNG self-hosted service icons at NX211's [Homer Icons](https://github.com/NX211/homer-icons) (512x512) or my fork [Homer Icons Compressed](https://github.com/vlfldr/homer-icons) (128x128). Docker containers will look for icons that match their exact name.
+The `icon` field in `config.yml` points to homey/public/images/icons - add images to this folder as you add services to the config file. You can find a huge collection of PNG self-hosted service icons at NX211's [Homer Icons](https://github.com/NX211/homer-icons) (512x512) or my fork [Homer Icons Compressed](https://github.com/vlfldr/homer-icons) (128x128). Docker containers will look for icons that match their exact name.
 
 ## Built with:
 
