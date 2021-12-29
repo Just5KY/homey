@@ -25,7 +25,7 @@ class local_machine:
         if not exists(self.diskUsageFile):
             return 'Error: Disk config file not found: ' + self.diskUsageFile
 
-        with open(diskUsageFile, 'r') as f:
+        with open(self.diskUsageFile, 'r') as f:
             diskUsage = []
             for d in f.readlines():
                 if d.split() == []: continue

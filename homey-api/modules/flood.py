@@ -62,6 +62,7 @@ class api:
             if i > len(minuteDataRaw.json()['timestamps']) - 4: 
                 avgDown += minuteDataRaw.json()['download'][i]
                 avgUp += minuteDataRaw.json()['upload'][i]
+                
             # Return each 6-second frame over the last 5 minutes
             minuteData.append({
                 'time': datetime.fromtimestamp(m/1000).strftime('%-I:%M:%S'),
@@ -97,6 +98,7 @@ class api:
         
         return returnData
 
+# source: https://stackoverflow.com/questions/12523586
 def formatBytes(size):
     power = 2**10
     n = 0

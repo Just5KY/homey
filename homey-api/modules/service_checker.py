@@ -1,7 +1,9 @@
 import requests
+from urllib3.exceptions import InsecureRequestWarning
 
 class service_checker:
     services = []
+    requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
     def assignAll(self, services):
         self.services = services

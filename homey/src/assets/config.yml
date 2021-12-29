@@ -1,8 +1,11 @@
 # valid options: docker, portainer
 docker_api_backend: "portainer"
-
-# toggle up/down indicators on service cards
+# hide docker panel & API cards; remove dependency on backend
+minimal_mode: false
+# toggle up/down indicators on service cards (recommended off if minimal_mode enabled)
 enable_service_status: true
+
+title: "homey"
 
 # additional service icons: https://github.com/vlfldr/homer-icons
 services:
@@ -17,5 +20,5 @@ services:
   - name: "Navidrome"
     icon: "navidrome.png"
     subtitle: "Music streaming"
-    url: "http://music.mntn.top"
+    url: "http://192.168.1.5:9004/app/#/login"
 

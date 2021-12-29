@@ -1,12 +1,12 @@
 <template>
-  <div class="service-container">
+  <div :class="getClass">
       <ServiceCard v-for="s in services"
         :key="s.name"
         :title="s.name"
         :subtitle="s.subtitle"
         :icon="s.icon"
         :url="s.url"
-        :displayStatus="this.displayStatus"
+        :displayStatus="this.statusIndicators"
         :isUp="this.getStatus(s.name)" 
       />
   </div>
@@ -20,7 +20,13 @@ export default {
   props: {
     services: Array,
     statuses: Array,
-    displayStatus: Boolean,
+    statusIndicators: Boolean,
+    fullscreen: Boolean,
+  },
+  computed: {
+    getClass: function() {
+      return ((this.fullscreen) ? 'service-container service-container__fullscreen' : 'service-container');
+    },
   },
   components: {
       ServiceCard

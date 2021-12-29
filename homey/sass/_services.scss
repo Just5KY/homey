@@ -9,6 +9,13 @@
     justify-content: center;
     text-align: center;
     margin: 2rem;
+
+    &__fullscreen {
+        grid-row: 2 / 4;
+        grid-column: 1 / 3;
+
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
 }
 
 .service-card-container {

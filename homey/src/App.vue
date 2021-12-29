@@ -1,10 +1,10 @@
 <template>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <Header title="homey"/>
-  <ServiceContainer :displayStatus="config.enable_service_status" :services="config.services" :statuses="this.serviceStatuses"/>
-  <DockerContainer :backend="config.docker_api_backend"/>
-  <CardContainer/>
+  <Header :title="config.title"/>
+  <ServiceContainer :fullscreen="config.minimal_mode" :statusIndicators="config.enable_service_status" :services="config.services" :statuses="this.serviceStatuses"/>
+  <DockerContainer v-if="!config.minimal_mode" :backend="config.docker_api_backend"/>
+  <CardContainer v-if="!config.minimal_mode" />
 </template>
 
 <script>
@@ -36,7 +36,9 @@ export default {
       try { 
         this.config = JsYaml.load(configFile);
       } catch (e) { console.log('Error loading config file:' + e); }
-      this.checkServices(); // send service list to backend for up/down checker
+      finally{ 
+        if(this.config.enable_service_status && !this.config.minimal_mode)  this.checkServices();  // send service list to backend for up/down checker
+      }  
     },
     checkServices: function() {
       this.axios.post('http://0.0.0.0:9101/updateServices', this.config.services).then((res) => {
