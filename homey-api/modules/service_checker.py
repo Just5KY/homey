@@ -1,0 +1,28 @@
+import requests
+
+class service_checker:
+    services = []
+
+    def assignAll(self, services):
+        self.services = services
+
+    def addService(self, service):
+        self.services.append(service)
+
+    def checkAll(self):
+        statuses = []
+        for s in self.services:
+            statuses.append({
+                'name': s['name'],
+                'up': self.checkService(s['url'])
+            })
+        return statuses
+
+    # returns true if the URL is reachable
+    def checkService(self, url):
+        try:
+            res = requests.get(url, timeout=5)
+        except:
+            return False
+
+        return (res.status_code == 200)

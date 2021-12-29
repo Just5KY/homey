@@ -7,4 +7,7 @@ module.exports = {
           .loader("raw-loader")
           .end();
       },
+      devServer: {
+        progress: false
+      }
 }

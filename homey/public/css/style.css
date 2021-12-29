@@ -347,7 +347,7 @@ h2 {
       top: 0;
       left: 1rem; }
     .weather-card-container__heading--title {
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 300;
       text-transform: uppercase;
       text-align: right;
@@ -431,7 +431,7 @@ h2 {
     justify-content: space-between;
     display: flex; }
     .flood-card-container__heading--title {
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 300;
       text-transform: uppercase;
       text-align: right;
@@ -541,7 +541,7 @@ h2 {
   transform: translateX(-4rem) translateY(-2rem);
   background-image: url("../images/docker-large-text.png");
   background-repeat: no-repeat;
-  background-size: 30%;
+  background-size: 25%;
   background-position: 100% 100%; }
 
 .docker-container__whale {

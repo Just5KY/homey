@@ -32,8 +32,12 @@ export default {
   },
   methods: {
     loadConfig: function() {
-      try { this.config = JsYaml.load(configFile);
+      try { 
+        this.config = JsYaml.load(configFile);
       } catch (e) { console.log('Error loading config file:' + e); }
+      // try {
+      //   // axios POST send service list to API
+      // } catch (e) {}
     },
   },
   beforeMount() {

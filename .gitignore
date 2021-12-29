@@ -1,6 +1,6 @@
 *.env
 *secretKeys*
-homey-api/__pycache__
+*__pycache__*
 homey-api/disks.txt
 homey/dist
 homey/node_modules

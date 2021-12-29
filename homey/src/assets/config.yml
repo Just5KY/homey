@@ -1,18 +1,18 @@
 # valid options: docker, portainer
-docker_api_backend: "docker"
+docker_api_backend: "portainer"
 
 # additional service icons: https://github.com/vlfldr/homer-icons
 services:
   - name: "Portainer"
     icon: "portainer.png"
     subtitle: "Docker container management"
-    url: "https://0.0.0.0:9443"
+    url: "https://192.168.1.5:9443"
   - name: "Flood"
     icon: "flood.png"
     subtitle: "Web UI for rTorrent"
-    url: "http://0.0.0.0:0000"
+    url: "http://192.168.1.5:9005"
   - name: "Navidrome"
     icon: "navidrome.png"
     subtitle: "Music streaming"
-    url: "http://0.0.0.0:0000"
+    url: "http://music.mntn.top"
 
