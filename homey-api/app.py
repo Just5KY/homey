@@ -94,7 +94,7 @@ def systemInfo():
     return jsonify(localMachine.getAllInfo());
 
 
-### UTILITY
+### SERVICE CHECKER
 @app.route('/updateServices', methods=['POST'])
 def updateServices():
     serviceChecker.assignAll(request.json)

@@ -31,8 +31,8 @@ export default {
   },
   computed: {
     getStatus: function() {
-      if(this.isUp) return 'arrow_upward';
-      return 'arrow_downward';
+      if(this.isUp) return 'arrow_circle_up';
+      return 'arrow_circle_down';
     },
     getStatusFormatted: function() {
       return this.title + ' is ' + ( (this.isUp) ? '' : 'un' ) + 'reachable at ' + this.url

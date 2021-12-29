@@ -496,6 +496,10 @@ h2 {
     box-shadow: 5px 5px 15px 5px #1c1c1c; }
   .service-card-container:hover > .service-card-container__image-container {
     clip-path: polygon(0 0, 100% 0%, 100% 100%, 25% 100%); }
+  .service-card-container:hover #arrow_circle_up {
+    transform: translateY(220%) rotate(90deg) scale(1.2); }
+  .service-card-container:hover #arrow_circle_down {
+    transform: translateY(220%) scale(1.2); }
   .service-card-container:active {
     transform: translateY(-1px);
     box-shadow: 2px 2px 7px 5px #1c1c1c; }
@@ -518,18 +522,18 @@ h2 {
       text-align: left;
       font-weight: 300; }
     .service-card-container__text-container__indicator {
-      font-size: 2rem;
+      transition: all .35s ease-in-out;
+      font-size: 2.2rem;
       float: right;
       margin-right: -10%;
-      margin-top: .3rem;
+      margin-top: .1rem; }
+    .service-card-container__text-container #arrow_circle_up {
       color: #50fa7b; }
-    .service-card-container__text-container #arrow_upward {
-      color: #50fa7b; }
-    .service-card-container__text-container #arrow_downward {
+    .service-card-container__text-container #arrow_circle_down {
       color: #ff5555; }
   .service-card-container__image-container {
     transform: translateZ(0);
-    transition: .35s all ease-out;
+    transition: all .35s ease-out;
     background-color: #f8f8f2;
     clip-path: polygon(25% 0, 100% 0%, 100% 100%, 0 100%);
     height: 100%;

@@ -37,6 +37,15 @@
         clip-path: polygon(0 0, 100% 0%, 100% 100%, 25% 100%);
     }
 
+    &:hover #arrow_circle_up {
+        transform: translateY(220%) rotate(90deg) scale(1.2);
+    }
+
+    // don't rotate down arrow (ends up backwards)
+    &:hover #arrow_circle_down {
+        transform: translateY(220%) scale(1.2);
+    }
+
     &:active {
         transform: translateY(-1px);
         box-shadow: 2px 2px 7px 5px $shadowColor;
@@ -69,18 +78,18 @@
         }
 
         &__indicator {
-            font-size: 2rem;
+            transition: all .35s ease-in-out;
+            font-size: 2.2rem;
             float: right;
             margin-right: -10%;
-            margin-top: .3rem;
+            margin-top: .1rem;
+        }
+
+        #arrow_circle_up {
             color: $green;
         }
 
-        #arrow_upward {
-            color: $green;
-        }
-
-        #arrow_downward {
+        #arrow_circle_down {
             color: $red;
         }
 
@@ -89,7 +98,7 @@
 
     &__image-container {
         transform: translateZ(0);   // Fix child elements shaking on hover
-        transition: .35s all ease-out;
+        transition: all .35s ease-out;
 
         background-color: $white;
         clip-path: polygon(25% 0, 100% 0%, 100% 100%, 0 100%);
