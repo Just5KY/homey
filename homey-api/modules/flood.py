@@ -31,10 +31,14 @@ class api:
         if self.session == None:
             self.authenticate()
 
-        # get 5 minutes of up/down stats (delta 6s)
-        minuteDataRaw = self.session.request('GET', self.host + '/history', params={'snapshot': 'FIVE_MINUTE'})
-        # get 24 hours of up/down stats (delta 1hr)
-        dailyDataRaw = self.session.request('GET', self.host + '/history', params={'snapshot': 'DAY'})
+        try:
+            # get 5 minutes of up/down stats (delta 6s)
+            minuteDataRaw = self.session.request('GET', self.host + '/history', params={'snapshot': 'FIVE_MINUTE'})
+            # get 24 hours of up/down stats (delta 1hr)
+            dailyDataRaw = self.session.request('GET', self.host + '/history', params={'snapshot': 'DAY'})
+        except:
+            print('Info: Flood API overloaded. It is usually safe to ignore this.')
+            return [{'Info': 'Flood API overloaded.'}]
 
         # calculate total uploaded/downloaded amount for the last 24 hours
         totalDownload = 0.0
@@ -76,8 +80,11 @@ class api:
     def getNotifications(self):
         if self.session == None:
             self.authenticate()
-
-        response = self.session.request('GET', url=self.host + '/notifications')
+        try:
+            response = self.session.request('GET', url=self.host + '/notifications')
+        except:
+            print('Info: Flood API overloaded. It is usually safe to ignore this.')
+            return [{'Info': 'Flood API overloaded.'}]
 
         returnData = []
         for n in response.json()['notifications']:

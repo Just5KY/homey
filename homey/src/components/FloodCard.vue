@@ -58,7 +58,7 @@ export default {
     this.getFloodData();
     window.setInterval(() => {
       this.getFloodData()
-    }, 5 * 1000)   // Refresh info every 5 seconds
+    }, 10 * 1000)   // Refresh info every 10 seconds
   },
 }
 </script>

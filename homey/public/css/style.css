@@ -510,8 +510,19 @@ h2 {
       font-weight: 300;
       text-align: left; }
     .service-card-container__text-container__subtitle {
-      font-size: 1.3rem;
-      text-align: left; }
+      font-size: 1.2rem;
+      text-align: left;
+      font-weight: 300; }
+    .service-card-container__text-container__indicator {
+      font-size: 2rem;
+      float: right;
+      margin-right: -10%;
+      margin-top: .3rem;
+      color: #50fa7b; }
+    .service-card-container__text-container #arrow_upward {
+      color: #50fa7b; }
+    .service-card-container__text-container #arrow_downward {
+      color: #ff5555; }
   .service-card-container__image-container {
     transform: translateZ(0);
     transition: .35s all ease-out;

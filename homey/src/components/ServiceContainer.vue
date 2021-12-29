@@ -5,7 +5,9 @@
         :title="s.name"
         :subtitle="s.subtitle"
         :icon="s.icon"
-        :url="s.url" 
+        :url="s.url"
+        :displayStatus="this.displayStatus"
+        :isUp="this.getStatus(s.name)" 
       />
   </div>
 </template>
@@ -17,9 +19,20 @@ export default {
   name: 'ServiceContainer',
   props: {
     services: Array,
+    statuses: Array,
+    displayStatus: Boolean,
   },
   components: {
       ServiceCard
-  }
+  },
+  methods: {
+    getStatus: function(serviceName) {
+      for(let i=0; i < this.statuses.length; i++){
+        if(this.statuses[i].name == serviceName){
+          return this.statuses[i].up;
+        }
+      }
+    }
+  },
 }
 </script>

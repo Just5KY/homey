@@ -2,7 +2,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900">
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <Header title="homey"/>
-  <ServiceContainer :services="config.services" />
+  <ServiceContainer :displayStatus="config.enable_service_status" :services="config.services" :statuses="this.serviceStatuses"/>
   <DockerContainer :backend="config.docker_api_backend"/>
   <CardContainer/>
 </template>
@@ -22,6 +22,7 @@ export default {
   data() {
     return {
       config: this.config,
+      serviceStatuses: [],
     };
   },
   components: {
@@ -35,10 +36,15 @@ export default {
       try { 
         this.config = JsYaml.load(configFile);
       } catch (e) { console.log('Error loading config file:' + e); }
-      // try {
-      //   // axios POST send service list to API
-      // } catch (e) {}
+      this.checkServices(); // send service list to backend for up/down checker
     },
+    checkServices: function() {
+      this.axios.post('http://0.0.0.0:9101/updateServices', this.config.services).then((res) => {
+          this.serviceStatuses = res.data;
+      }).catch(e => {
+        console.log('Could not reach homey API');
+      });
+    }
   },
   beforeMount() {
     this.loadConfig();

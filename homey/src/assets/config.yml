@@ -1,6 +1,9 @@
 # valid options: docker, portainer
 docker_api_backend: "portainer"
 
+# toggle up/down indicators on service cards
+enable_service_status: true
+
 # additional service icons: https://github.com/vlfldr/homer-icons
 services:
   - name: "Portainer"

@@ -1,8 +1,11 @@
 <template>
   <div v-on:click="openLink" class="service-card-container">
     <div class="service-card-container__text-container">
-      <h3>{{ title }}</h3>
-      <div class="service-card-container__subtitle">{{subtitle}}</div>
+      <h3>{{ title }} 
+        <span v-if="displayStatus" :title="getStatusFormatted" :id="getStatus" class="service-card-container__text-container__indicator material-icons-outlined">{{ getStatus }}</span>
+      </h3>
+      <div class="service-card-container__text-container__subtitle">{{subtitle}}
+      </div>
     </div>
     <div class="service-card-container__image-container">
       <img :src="iconPath">
@@ -23,11 +26,22 @@ export default {
       subtitle: String,
       icon: String,
       url: String,
+      displayStatus: Boolean,
+      isUp: Boolean,
+  },
+  computed: {
+    getStatus: function() {
+      if(this.isUp) return 'arrow_upward';
+      return 'arrow_downward';
+    },
+    getStatusFormatted: function() {
+      return this.title + ' is ' + ( (this.isUp) ? '' : 'un' ) + 'reachable at ' + this.url
+    }
   },
   methods: {
     openLink: function() {
       window.open(this.url,'_blank');
     }
-  }
+  },
 }
 </script>

@@ -21,7 +21,7 @@ class service_checker:
     # returns true if the URL is reachable
     def checkService(self, url):
         try:
-            res = requests.get(url, timeout=5)
+            res = requests.get(url, verify=False, timeout=5)
         except:
             return False
 

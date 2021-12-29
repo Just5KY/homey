@@ -54,9 +54,30 @@
         }
 
         &__subtitle {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             text-align: left;
+            font-weight: 300;
+
+            
         }
+
+        &__indicator {
+            font-size: 2rem;
+            float: right;
+            margin-right: -10%;
+            margin-top: .3rem;
+            color: $green;
+        }
+
+        #arrow_upward {
+            color: $green;
+        }
+
+        #arrow_downward {
+            color: $red;
+        }
+
+        
     }
 
     &__image-container {
