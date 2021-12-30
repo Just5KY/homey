@@ -15,7 +15,7 @@
                 </div>
               </li>
               <li class="modal-option">
-                <h3>Minimal Mode</h3>
+                <h3>Minimal Mode<span :title="this.minimalModeWarning" class="material-icons-outlined">info</span></h3>
                 <div class="modal-option__button-container">
                   On<input type="radio" :value="true" v-model="localConfig.minimal_mode">
                   Off<input type="radio" :value="false" v-model="localConfig.minimal_mode">
@@ -58,6 +58,7 @@ export default {
   data: function() {
     return {
       localConfig: Object,
+      minimalModeWarning: "Make homey more like Homer (disable all API functionality).\n\nOnce minimal mode is enabled, it can only be disabled by manually editing config.yml.",
     };
   },
   props: {

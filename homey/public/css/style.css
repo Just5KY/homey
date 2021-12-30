@@ -243,7 +243,17 @@
       .modal-body ul .modal-option h3 {
         margin-right: auto;
         margin-left: 0;
-        font-weight: 400; }
+        font-weight: 400;
+        display: flex; }
+        .modal-body ul .modal-option h3 span {
+          font-size: 1.8rem;
+          margin: 0;
+          padding: 0;
+          margin-left: .5rem;
+          display: inline-flex;
+          color: #f8f8f2;
+          height: 1.2rem;
+          cursor: default; }
 
 .modal-footer {
   height: 2.5rem; }
