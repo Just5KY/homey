@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+import yaml
 
 from config import config
 from modules import open_meteo, docker_api, portainer, flood, local_machine, service_checker
@@ -101,6 +102,18 @@ def updateServices():
     return jsonify(serviceChecker.checkAll())
 
 # @app.route('/addService', methods=['POST'])
+
+
+### SETTINGS
+@app.route('/writeFrontendConfig', methods=['POST'])
+def writeFrontendConfig():
+    try:
+        with open('../homey/src/assets/config.yml', 'w') as f:
+            yaml.dump(request.json, f)
+    except: 
+        return jsonify({'Error': 'Could not write new config file. Are permissions correct?'})
+
+    return jsonify({'Success': 'Wrote updated config file'})
 
 
 ### NICEHASH (deprecated)

@@ -219,7 +219,7 @@
   vertical-align: middle; }
 
 .modal-container {
-  width: 300px;
+  width: 500px;
   margin: 0px auto;
   padding: 2rem;
   background-color: #fff;
@@ -229,7 +229,21 @@
   background-color: #6272a4; }
 
 .modal-body {
-  margin: 2rem; }
+  margin-bottom: 2rem;
+  margin-top: 2rem; }
+  .modal-body ul {
+    list-style: none; }
+    .modal-body ul .modal-option {
+      display: flex;
+      justify-content: flex-end;
+      font-size: 1.2rem;
+      padding: 1rem; }
+      .modal-body ul .modal-option:not(:first-child) {
+        border-top: 1px solid #44475a; }
+      .modal-body ul .modal-option h3 {
+        margin-right: auto;
+        margin-left: 0;
+        font-weight: 400; }
 
 .modal-footer {
   height: 2.5rem; }

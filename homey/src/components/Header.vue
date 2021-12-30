@@ -2,9 +2,9 @@
   <div class="header-container">
     <canvas class="header-animation"></canvas>
     <h1>{{ title }}</h1>
-    <span @click="showOptions = !showOptions" class="material-icons-outlined">settings</span>
+    <span v-if="!this.config.minimal_mode" @click="showOptions = !showOptions" title="Settings" class="material-icons-outlined">settings</span>
     <transition name="modal">
-      <OptionsPopup v-if="showOptions" @close="showOptions = false" tabindex="0" @keydown.esc="showOptions = false"/>
+      <OptionsPopup v-if="showOptions" @loadConfig="loadConfig" @saveConfig="saveConfig" :config="this.config" @close="showOptions = false" tabindex="0" @keydown.esc="showOptions = false"/>
     </transition>
   </div>
 </template>
@@ -19,12 +19,21 @@ export default {
     OptionsPopup,
   },
   props: {
-    title: String
+    title: String,
+    config: Object,
   },
   data: function() {
     return {
       showOptions: false,
     };
+  },
+  methods: {
+    loadConfig() {
+      this.$emit('loadConfig');
+    },
+    saveConfig() {
+      this.$emit('saveConfig');
+    },
   }
 }
 </script>
