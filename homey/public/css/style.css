@@ -221,22 +221,32 @@
 .modal-container {
   width: 300px;
   margin: 0px auto;
-  padding: 20px 30px;
+  padding: 2rem;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  font-family: Helvetica, Arial, sans-serif; }
-
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983; }
+  color: #f8f8f2;
+  background-color: #6272a4; }
 
 .modal-body {
-  margin: 20px 0; }
+  margin: 2rem; }
 
-.modal-default-button {
-  display: block;
-  margin-top: 1rem; }
+.modal-footer {
+  height: 2.5rem; }
+
+.modal-button {
+  border-radius: .25rem;
+  border-style: none;
+  color: #f8f8f2;
+  background-color: #44475a;
+  font-weight: 600;
+  padding: .5rem;
+  float: right;
+  font-family: 'Montserrat';
+  cursor: pointer;
+  margin-left: 1rem; }
+  .modal-button__cancel {
+    background-color: #ff5555; }
 
 .modal-enter-active,
 .modal-leave-active {
@@ -522,7 +532,7 @@ h2 {
       text-align: left;
       font-weight: 300; }
     .service-card-container__text-container__indicator {
-      transition: all .35s ease-in-out;
+      transition: all .35s ease-out;
       font-size: 2.2rem;
       float: right;
       margin-right: -10%;

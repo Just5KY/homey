@@ -3,24 +3,19 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-
           <div class="modal-header">
-            {{ header }}
+            <h2>Settings</h2>
           </div>
-
           <div class="modal-body">
-            <slot name="body">
-              default body
-            </slot>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe quas qui at sapiente et, illum dolores blanditiis aliquam incidunt! Consectetur iure, ipsum odit dolorem aspernatur molestias repellendus nemo explicabo illo!
           </div>
-
           <div class="modal-footer">
-            <slot name="footer">
-              default footer
-              <button @click="$emit('close')" class="modal-default-button">
-                Save
-              </button>
-            </slot>
+            <button @click="$emit('close')" class="modal-button">
+              Save
+            </button>
+            <button @click="$emit('close')" class="modal-button modal-button__cancel">
+              Cancel
+            </button>
           </div>
         </div>
       </div>
