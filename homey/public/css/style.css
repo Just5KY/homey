@@ -343,7 +343,8 @@ h2 {
   height: 38rem; }
   @media (max-width: 1350px) {
     .card-container {
-      grid-column: 1; } }
+      grid-column: 1;
+      margin-left: 4rem; } }
   @media (max-width: 600px) {
     .card-container {
       flex-direction: column;
