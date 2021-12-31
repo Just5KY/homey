@@ -9,7 +9,7 @@
           <div class="modal-body">
             <ul>
               <li class="modal-option">
-                <h3>Dashboard Title</h3>
+                <h3>Title</h3>
                 <div class="modal-option__button-container">
                   <input v-model="localConfig.title">
                 </div>

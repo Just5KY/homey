@@ -11,14 +11,15 @@
     justify-content: space-between;
     column-gap: 2rem;
     text-align: center;
-    height: 35rem;
+    height: 38rem;
 
     @media (max-width: $mobile-break-med) {
         grid-column: 1;
     }
 
     @media (max-width: $mobile-break-small) {
-        flex-direction: column; // may want to do this for small only
+        flex-direction: column;
+        height: 70rem;
         margin: 2rem;
         margin-bottom: 0;
     }
@@ -26,7 +27,7 @@
 
 .weather-card-container {
 
-    @media(max-width: $mobile-break-small){    // may want to do this for small only
+    @media(max-width: $mobile-break-small){  
         width: auto;
         margin-bottom: 2rem;
     }
@@ -139,7 +140,7 @@
         width: auto;
         flex-grow: 1;
         margin: 2rem;
-        margin-top: 6rem;
+        margin-top: 8rem;
         z-index: 2;
 
         & span {
@@ -186,7 +187,7 @@
 
 .flood-card-container {
 
-    @media(max-width: $mobile-break-small){    // may want to do this for small only
+    @media(max-width: $mobile-break-small){
         margin-bottom: 2rem;
     }
 

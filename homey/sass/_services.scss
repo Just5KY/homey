@@ -53,12 +53,12 @@
     }
 
     &:hover #arrow_circle_up {
-        transform: translateY(220%) rotate(90deg) scale(1.2);
+        transform: translateY(215%) rotate(90deg) scale(1.2);
     }
 
     // don't rotate down arrow (ends up backwards)
     &:hover #arrow_circle_down {
-        transform: translateY(220%) scale(1.2);
+        transform: translateY(215%) scale(1.2);
     }
 
     &:active {
@@ -88,7 +88,7 @@
             font-size: 1.2rem;
             text-align: left;
             font-weight: 300;
-
+            padding-right: .5rem;
             
         }
 
