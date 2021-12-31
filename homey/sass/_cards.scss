@@ -11,9 +11,26 @@
     justify-content: space-between;
     column-gap: 2rem;
     text-align: center;
+    height: 35rem;
+
+    @media (max-width: $mobile-break-med) {
+        grid-column: 1;
+    }
+
+    @media (max-width: $mobile-break-small) {
+        flex-direction: column; // may want to do this for small only
+        margin: 2rem;
+        margin-bottom: 0;
+    }
 }
 
 .weather-card-container {
+
+    @media(max-width: $mobile-break-small){    // may want to do this for small only
+        width: auto;
+        margin-bottom: 2rem;
+    }
+
     height: 90%;
     width: 45%;
     text-align: center;
@@ -122,7 +139,7 @@
         width: auto;
         flex-grow: 1;
         margin: 2rem;
-        margin-top: 22%;
+        margin-top: 6rem;
         z-index: 2;
 
         & span {
@@ -168,6 +185,11 @@
 }
 
 .flood-card-container {
+
+    @media(max-width: $mobile-break-small){    // may want to do this for small only
+        margin-bottom: 2rem;
+    }
+
     position: relative;
     height: 90%;
     width: auto;

@@ -14,6 +14,13 @@
     background-repeat: no-repeat;
     background-size: 25%;
     background-position: 100% 100%;
+
+    // the hackiness of the whale has to go
+    @media (max-width: $mobile-break-med) {
+        transform: translateY(-18rem);
+        margin: 4rem;
+        margin-bottom: -16rem;
+    }
 }
 
 .docker-container__whale {

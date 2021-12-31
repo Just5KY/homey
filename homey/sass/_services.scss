@@ -16,9 +16,24 @@
 
         grid-template-columns: 1fr 1fr 1fr 1fr;
     }
+
+    @media (max-width: $mobile-break-med) {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;       // test this
+    }
+
+    @media (max-width: $mobile-break-small) {
+        grid-template-columns: 1fr;
+        margin: 1rem;
+    }
 }
 
 .service-card-container {
+
+    @media (max-width: $mobile-break-small) {
+        margin: 1rem;
+    }
+
     margin: 2rem;
     cursor: pointer;
     background-color: $backgroundColor2;

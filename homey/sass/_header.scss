@@ -14,7 +14,17 @@
     & h1 {
         font-size: 7rem;
         font-weight: 200;
-        letter-spacing: .8rem;
+        letter-spacing: .75rem;
+
+        @media (max-width: $mobile-break-med) {
+            font-size: 5rem;
+            letter-spacing: .55rem;
+        }
+
+        @media (max-width: $mobile-break-small) {
+            font-size: 3rem;
+            letter-spacing: .3rem;
+        }
     }
 
     & canvas {

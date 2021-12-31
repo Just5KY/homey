@@ -6,9 +6,16 @@
     color: $white;
     
     display: grid;
-    height: 100vh;
+    //height: 100vh;
     grid-template-rows: 15% 45% 40%;
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: 3fr 2fr; // 60% 40%
+
+    @media (max-width: $mobile-break-med) {
+       //grid-template-columns: 1fr;
+       display: flex;
+       flex-direction: column;
+    }
+    // repeat(n, width)
 }
 
 h2 {

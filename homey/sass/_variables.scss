@@ -16,7 +16,11 @@ $commentColor: #6272a4;
 $backgroundColor: #282a36;
 $backgroundColor2: #44475a;
 
-// Grid
+// Mobile
+$mobile-break-med: 1350px;
+$mobile-break-small: 600px;
+
+// Page grid
 $grid-width: 90%;
 $grid-gutter-vertical: 4rem;
 $grid-gutter-horizontal: 4rem;

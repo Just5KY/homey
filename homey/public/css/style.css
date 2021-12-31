@@ -293,7 +293,15 @@
   .header-container h1 {
     font-size: 7rem;
     font-weight: 200;
-    letter-spacing: .8rem; }
+    letter-spacing: .75rem; }
+    @media (max-width: 1350px) {
+      .header-container h1 {
+        font-size: 5rem;
+        letter-spacing: .55rem; } }
+    @media (max-width: 600px) {
+      .header-container h1 {
+        font-size: 3rem;
+        letter-spacing: .3rem; } }
   .header-container canvas {
     margin-left: 18.5%; }
   .header-container span {
@@ -309,9 +317,12 @@
   background-color: #282a36;
   color: #f8f8f2;
   display: grid;
-  height: 100vh;
   grid-template-rows: 15% 45% 40%;
   grid-template-columns: 3fr 2fr; }
+  @media (max-width: 1350px) {
+    #app {
+      display: flex;
+      flex-direction: column; } }
 
 h2 {
   font-weight: 300;
@@ -325,7 +336,16 @@ h2 {
   display: flex;
   justify-content: space-between;
   column-gap: 2rem;
-  text-align: center; }
+  text-align: center;
+  height: 35rem; }
+  @media (max-width: 1350px) {
+    .card-container {
+      grid-column: 1; } }
+  @media (max-width: 600px) {
+    .card-container {
+      flex-direction: column;
+      margin: 2rem;
+      margin-bottom: 0; } }
 
 .weather-card-container {
   height: 90%;
@@ -338,6 +358,10 @@ h2 {
   z-index: 0;
   perspective: 100rem;
   -moz-perspective: 100rem; }
+  @media (max-width: 600px) {
+    .weather-card-container {
+      width: auto;
+      margin-bottom: 2rem; } }
   .weather-card-container__side {
     height: 100%;
     transition: all 0.7s ease-in-out;
@@ -402,7 +426,7 @@ h2 {
     width: auto;
     flex-grow: 1;
     margin: 2rem;
-    margin-top: 22%;
+    margin-top: 6rem;
     z-index: 2; }
     .weather-card-container__details span {
       float: right; }
@@ -433,6 +457,9 @@ h2 {
   flex-grow: 1;
   perspective: 100rem;
   -moz-perspective: 100rem; }
+  @media (max-width: 600px) {
+    .flood-card-container {
+      margin-bottom: 2rem; } }
   .flood-card-container__side {
     height: 100%;
     transition: all 0.7s ease-in-out;
@@ -516,6 +543,14 @@ h2 {
     grid-row: 2 / 4;
     grid-column: 1 / 3;
     grid-template-columns: 1fr 1fr 1fr 1fr; }
+  @media (max-width: 1350px) {
+    .service-container {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto; } }
+  @media (max-width: 600px) {
+    .service-container {
+      grid-template-columns: 1fr;
+      margin: 1rem; } }
 
 .service-card-container {
   margin: 2rem;
@@ -525,6 +560,9 @@ h2 {
   transition: all .35s ease-out;
   display: flex;
   height: 10rem; }
+  @media (max-width: 600px) {
+    .service-card-container {
+      margin: 1rem; } }
   .service-card-container:hover {
     transform: translateY(-3px);
     box-shadow: 5px 5px 15px 5px #1c1c1c; }
@@ -596,6 +634,11 @@ h2 {
   background-repeat: no-repeat;
   background-size: 25%;
   background-position: 100% 100%; }
+  @media (max-width: 1350px) {
+    .docker-container {
+      transform: translateY(-18rem);
+      margin: 4rem;
+      margin-bottom: -16rem; } }
 
 .docker-container__whale {
   width: 55%;
@@ -683,5 +726,4 @@ html {
   font-size: 10px;
   font-family: Montserrat, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow: hidden; }
+  -moz-osx-font-smoothing: grayscale; }
