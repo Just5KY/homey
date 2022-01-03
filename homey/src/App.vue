@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     addService() {
-      this.boxes.push({"name": "Test Service", "URL": "https://yandex.ru"});
+      this.boxes.push({"name": "Test Service!", "URL": "https://yandex.ru"});
     },
   },
   mounted() {

@@ -4,41 +4,26 @@
     <Scene>
       <PointLight :position="{ y: 50, z: 50 }" />
       <Group ref="boxGroup">
-        <Box @pointerEnter="mouseoverBox" @pointerLeave="mouseleaveBox"
-          v-for="b in this.boxes" :key="b.name" :ref="'box' + boxes.indexOf(b)" 
-          :position="{ x: boxes.indexOf(b) - 2.6 }"
-          :size=".9">
-          <!-- convert to matcap / baked in material & nix light -->
-          <LambertMaterial />
-          <!-- <Text
-            :text="b.name"
-            font-src="./fonts/helvetiker.json"
-            align="center"
-            :size=".2"
-            :height=".2"
-            :position="{ x: 0, y: 0, z: 0 }"
-            :rotation="{y: Math.PI / -2}"
-            :cast-shadow="true"
-          >
-            <PhongMaterial />
-          </Text> -->
-        </Box>
+        <DockerService3D v-for="b in boxes" :key="b.name" :ref="'boxOuter' + boxes.indexOf(b)"
+          :serviceName="b.name" :gridIndex="boxes.indexOf(b)" :size=".9" />
       </Group>
-      <GltfModel
-        src="./models/no_boxes.gltf"
-        :position="{x:0, y: -.75, z: 0}"
-      />
+      <GltfModel src="./models/whale.gltf" :position="{x:0, y: -.75, z: 0}" />
     </Scene>
   </Renderer>
 </template>
 
 <script>
+import DockerService3D from './DockerService3D.vue';
+
 export default {
   name: 'ThreeCanvas',
   props: {
     width: Number,
     height: Number,
     boxes: Array,
+  },
+  components: {
+    DockerService3D,
   },
   mounted() {
     const renderer = this.$refs.renderer;
@@ -47,12 +32,14 @@ export default {
 
     // camera settings
     orbitCtrl.maxAzimuthAngle = 0 + 0.2;  
-    orbitCtrl.minAzimuthAngle = Math.PI / -2 + 0.1;
+    orbitCtrl.minAzimuthAngle = Math.PI / -2 - 0.2;
     orbitCtrl.maxPolarAngle = Math.PI / 2 + 0.2;
     orbitCtrl.minPolarAngle = Math.PI / 4;
     orbitCtrl.enablePan = false;
     orbitCtrl.enableDamping = true;
     orbitCtrl.dampingFactor = .03;
+    // limit zoom
+    // change to orth cam?
 
     renderer.onBeforeRender(() => {
       // iterate through boxes
@@ -63,12 +50,7 @@ export default {
     });
   },
   methods: {
-    mouseoverBox(event) {
-      event.component.mesh.scale.z = 2;
-    },
-    mouseleaveBox(event) {
-      event.component.mesh.scale.z = 1;
-    },
+    
     whaleLoaded() {
 
     }
