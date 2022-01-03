@@ -40,10 +40,10 @@ When the project is released, a docker image and better documentation will be pr
 ### Minimal mode
 **Minimal mode** makes homey work more like homer: a static dashboard with links to your services and low overhead. API functionality (Docker/Portainer, Flood, weather, service checker, settings menu) is disabled. This option can be toggled using the settings menu or the `minimal_mode` flag in `config.yml`.
 
-*Note: Homey has no way of writing updated config files to the disk in minimal mode. Once it is switched on, all configuration (**including switching minimal mode off**) must be done manually through `config.yml`*
+*Note: Minimal mode removes homey's ability to update config files on disk. Once it is switched on, all configuration takes place through `config.yml`*.
 
 ### Icons
-The `icon` field in `config.yml` points to homey/public/images/icons - add images to this folder as you add services to the config file. You can find a huge collection of PNG self-hosted service icons at NX211's [Homer Icons](https://github.com/NX211/homer-icons) (512x512) or my fork [Homer Icons Compressed](https://github.com/vlfldr/homer-icons) (128x128). Docker containers will look for icons that match their exact name.
+The `icon` field in service configuration searches homey/public/images/icons - add images to this folder as you add services to the config file. You can find a huge collection of PNG self-hosted service icons at NX211's [Homer Icons](https://github.com/NX211/homer-icons) (512x512) or my fork [Homer Icons Compressed](https://github.com/vlfldr/homer-icons) (128x128). Docker containers will look for icons that match their exact name.
 
 ## Built with:
 
@@ -52,4 +52,5 @@ The `icon` field in `config.yml` points to homey/public/images/icons - add image
 * [Chart.js](https://github.com/chartjs/Chart.js)
 * [Three.js](https://github.com/mrdoob/three.js/) & [Tween.js](https://github.com/tweenjs/tween.js)
 * [Flask](https://github.com/pallets/flask)
+* [Moby Dock 3D Model](https://sketchfab.com/3d-models/moby-dock-docker-whale-b706010291ca46ad8daca2d4aeb79edd) by Maurice Svay ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))
 * ❤️
