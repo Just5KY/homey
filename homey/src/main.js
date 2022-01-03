@@ -1,21 +1,16 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as TWEEN from '@tweenjs/tween.js'
-import '@material-design-icons/font'
-
-import axios from 'axios'
-import VueAxios from 'vue-axios'
 
 // Entrypoint
 const app = createApp(App)
-app.use(VueAxios, axios)
-app.config.globalProperties.axios=axios
 app.mount('#app')
 
 // Canvas
-const canvas = document.querySelector('canvas.header-animation')
+const canvas = document.querySelector('canvas#docker-canvas')
 
 // Scene
 const scene = new THREE.Scene()

@@ -1,62 +1,29 @@
 <template>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900">
-  <link rel="stylesheet" type="text/css" href="css/style.css">
-  <Header @loadConfig="loadConfig" @saveConfig="saveConfig" :config="this.config" :title="config.title"/>
-  <ServiceContainer :fullscreen="config.minimal_mode" :statusIndicators="config.enable_service_status" :services="config.services" :statuses="this.serviceStatuses"/>
-  <DockerContainer v-if="!config.minimal_mode" :backend="config.docker_api_backend"/>
-  <CardContainer v-if="!config.minimal_mode" />
+  <html>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <button @click="addService" id="add-box-btn">Add</button>
+    <ThreeCanvas :data="boxes" />
+  </html>
 </template>
-
 <script>
-import Header from './components/Header.vue'
-import ServiceContainer from './components/ServiceContainer.vue'
-import DockerContainer from './components/DockerContainer.vue'
-import CardContainer from './components/CardContainer.vue'
 
-import JsYaml from 'js-yaml';
-
-import configFile from './assets/config.yml'
+import ThreeCanvas from './components/ThreeCanvas.vue'
 
 export default {
   name: 'App',
   data() {
     return {
-      config: Object,
-      serviceStatuses: [],
+      boxes: [],
     };
   },
   components: {
-    Header,
-    ServiceContainer,
-    DockerContainer,
-    CardContainer
+    ThreeCanvas
   },
   methods: {
-    loadConfig: function() {
-      try { 
-        this.config = JsYaml.load(configFile);
-      } catch (e) { console.log('Error loading config file:' + e); }
-      finally{ 
-        if(this.config.enable_service_status && !this.config.minimal_mode)  this.checkServices();  // send service list to backend for up/down checker
-      }  
+    addService() {
+      this.boxes.push({"name": "Service", "URL": "https://yandex.ru"});
     },
-    saveConfig() {
-      this.axios.post('http://0.0.0.0:9101/writeFrontendConfig', this.config).then((res) => {
-          console.log(res.data);
-      }).catch(e => {
-        console.log('Could not reach homey API');
-      });
-    },
-    checkServices: function() {
-      this.axios.post('http://0.0.0.0:9101/updateServices', this.config.services).then((res) => {
-          this.serviceStatuses = res.data;
-      }).catch(e => {
-        console.log('Could not reach homey API');
-      });
-    }
-  },
-  beforeMount() {
-    this.loadConfig();
   },
 }
 </script>
