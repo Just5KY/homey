@@ -162,7 +162,8 @@
         margin-right: auto;
     }
     &__save {
-        background-color: $pink;
+        background-color: $cyan;
+        color: $backgroundColor2;
         margin-left: 1rem;
     }
     &__cancel {

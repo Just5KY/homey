@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
+import os
 import yaml
 
 from config import config
@@ -8,8 +10,12 @@ from modules import open_meteo, docker_api, portainer, flood, local_machine, ser
 #print('Portainer validation: ' + str(config.PORTAINER_VALID))
 
 ### INITIALIZATION
+ICONS_UPLOAD_PATH = '../homey/public/images/icons'
+VALID_ICON_EXTS = {'png', 'jpeg', 'jpg'}
+
 app = Flask(__name__)
 app.config.from_object(config)
+app.config['UPLOAD_FOLDER'] = ICONS_UPLOAD_PATH
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 weatherAPI = open_meteo.api(config.WEATHER_LAT, config.WEATHER_LONG)
@@ -18,6 +24,7 @@ dockerAPI = docker_api.api(config.DOCKER_SOCKET)
 floodAPI = flood.api(config.FLOOD_URL, config.FLOOD_USER, config.FLOOD_PASSWORD)
 localMachine = local_machine.local_machine(config.RUNNING_IN_DOCKER, config.DISK_USAGE_FILE)
 serviceChecker = service_checker.service_checker()
+
 
 ### WEATHER
 @app.route('/weatherWeekly', methods=['GET'])
@@ -115,6 +122,17 @@ def writeFrontendConfig():
 
     return jsonify({'Success': 'Wrote updated config file'})
 
+@app.route('/uploadIcon', methods=['POST'])
+def uploadIcon():
+    try:
+        f = request.files['image']
+        if f and f.filename != '' and '.' in f.filename and f.filename.rsplit('.')[1].lower() in VALID_ICON_EXTS:
+            filename = secure_filename(f.filename)
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return jsonify ({'Success': 'Uploaded ' + f.filename})
+    except:
+        print('Error saving to ' + app.config['UPLOAD_FOLDER'] + '. Are permissions correct?')
+    return jsonify({'Error': 'Could not upload image. Check logs for details.'})
 
 ### NICEHASH (deprecated)
 nicehash_prodAPI = None

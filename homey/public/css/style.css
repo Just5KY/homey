@@ -321,7 +321,8 @@
     justify-self: flex-start;
     margin-right: auto; }
   .modal-button__save {
-    background-color: #ff79c6;
+    background-color: #8be9fd;
+    color: #44475a;
     margin-left: 1rem; }
 
 .modal-enter-active,

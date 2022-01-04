@@ -56,18 +56,21 @@
 
           <div class="modal-body">
               <div class="modal-option__header">
-                  <select v-model="selectedService">
+                  <select @change="dropdownUpdated" v-model="selectedService">
                     <option value="newService">New Service</option>
                     <option v-for="s in localConfig.services" :key="s.name" :value="s.name">{{s.name}}</option>
                   </select>
               </div>
               <div class="service-editor">
                 <div class="service-editor__image-container">
-                  <img v-if="getSelectedService.icon" 
+                  <img v-if="getSelectedService.icon && !newImage" 
                     :src="'./images/icons/'+getSelectedService.icon" 
                     class="service-editor__image-container__image" />
+                  <img v-if="newImage"
+                    :src="newImage" 
+                    class="service-editor__image-container__image" />
                   <label for="uploader">
-                    <span v-if="getSelectedService.icon" title="Upload New Image" id="upload_corner" class="material-icons-outlined">file_upload</span>
+                    <span v-if="getSelectedService.icon || newImage" title="Upload New Image" id="upload_corner" class="material-icons-outlined">file_upload</span>
                     <span v-else id="upload_placeholder" title="Upload Image" class="material-icons-outlined">file_upload</span>
                   </label>
                   <input type="file" id="uploader" accept="image/png, image/jpeg" @change="fileUploaded" />
@@ -99,7 +102,7 @@
 
           <div class="modal-footer">
             <button @click="close(false)" class="modal-button modal-button__cancel">Cancel</button>
-            <button @click="close(false)" class="modal-button modal-button__save">Save</button>
+            <button @click="close(true)" class="modal-button modal-button__save">{{getSaveString}}</button>
           </div>
         </div>
       </div>
@@ -114,6 +117,8 @@ export default {
       localConfig: Object,
       showServices: false,
       selectedService: "newService",
+      newService: {'name': '', 'icon': '', 'subtitle': '', 'url': ''},
+      newImage: null,
       minimalModeWarning: "Make homey more like Homer (disable all API functionality).\n\nOnce minimal mode is enabled, it can only be disabled by manually editing config.yml.",
     };
   },
@@ -128,26 +133,62 @@ export default {
       for(let i = 0; i < this.localConfig.services.length; i++) {
         if (this.localConfig.services[i].name == this.selectedService)  return this.localConfig.services[i];
       }
-      return {'name': '', 'icon': '', 'subtitle': '', 'url': ''};
+      return this.newService;
     },
+    getSaveString() {
+      return 'Save' + (this.newImage ? ' & Upload' : '');
+    }
   },
   created: function() {
     this.localConfig = this.config;
   },
   methods: {
     // close(true) will write newly selected settings to config.yml
-    // close(false) will discard newly selected settings by reloading config.yml
     close(shouldSave) {
-      this.$emit('close');
+      if (shouldSave){
+        if(this.newImage || this.newService.name != '' || this.newService.url != '') {
+          console.log("Error creating new service: Please fill out all fields!");
+        }
+        else {
+          this.uploadIcon();
+          this.localConfig.services.push(this.newService);
+          this.$emit('saveConfig');
+        }
+      }
+      // close(false) will discard newly selected settings by reloading config.yml
+      else  this.$emit('loadConfig');
 
-      if (shouldSave) this.$emit('saveConfig');
-      else            this.$emit('loadConfig');
+      this.$emit('close');
     },
     fileUploaded() {
-      let img = this.$el.querySelector('#uploader').files[0];
-      // load image into UI immediately
-      // do not send AJAX upload until saveConfig is emitted
-    }
+      let files = this.$el.querySelector('#uploader').files;
+      
+      // load image into UI for previewing
+      let fr = new FileReader();
+      fr.onload = e => { this.newImage = e.target.result; }
+      fr.readAsDataURL(files[0]);
+    },
+    uploadIcon() {
+      let files = this.$el.querySelector('#uploader').files;
+      this.newService.icon = files[0].name;
+
+      // attempt to save image to public/images/icons folder
+      let fd = new FormData();
+      fd.append("image", files[0])
+      let header = {'Content-Type': 'multipart/form-data'}
+      this.axios.post('http://0.0.0.0:9101/uploadIcon', fd, 
+        {headers: header}).then((res) => {
+          if(res.data['Success']){
+            // Successful image upload
+          }
+          else  console.log('Error uploading icon: ' + res.data['Error']);
+      }).catch(e => {
+        console.log('Could not reach homey API');
+      });
+    },
+    dropdownUpdated: function() {
+      this.newImage = null;
+    },
   },
 }
 </script>
