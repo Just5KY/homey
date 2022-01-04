@@ -49,6 +49,9 @@
           </div>
 
         </div>
+
+        <!-- services panel -->
+
         <div v-else class="modal-container">
           <div class="modal-header">
             <h2>Services</h2>
@@ -110,6 +113,10 @@
 </template>
 
 <script>
+
+// TODO: only new values from selected service should be saved
+// TODO: add browse icons button/field to select previously uploaded icon
+
 export default {
   name: 'OptionsPopup',
   data: function() {
@@ -146,13 +153,29 @@ export default {
     // close(true) will write newly selected settings to config.yml
     close(shouldSave) {
       if (shouldSave){
-        if(this.newImage || this.newService.name != '' || this.newService.url != '') {
-          console.log("Error creating new service: Please fill out all fields!");
+        if(this.selectedService == 'addService') {
+          if(!this.newImage) console.log("Error creating new service: Image is required.")
+          else if(this.newService.name == '' || this.newService.url == '') {
+            console.log("Error saving service: Name & URL are required.");
+          }
+          else {
+            this.uploadIcon();
+            this.localConfig.services.push(this.newService);
+            this.$emit('saveConfig');
+          }
         }
         else {
-          this.uploadIcon();
-          this.localConfig.services.push(this.newService);
-          this.$emit('saveConfig');
+          let toUpdate = this.getSelectedService;
+          if(toUpdate.name == '' || toUpdate.url == ''){
+            console.log("Error saving service: Name & URL are required.");
+          }
+          else{
+            if(this.newImage){
+              this.uploadIcon();
+              toUpdate.icon = this.$el.querySelector('#uploader').files[0].name;
+            }
+            this.$emit('saveConfig');
+          }
         }
       }
       // close(false) will discard newly selected settings by reloading config.yml

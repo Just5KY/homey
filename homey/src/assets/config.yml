@@ -1,24 +1,17 @@
-title: "homey"
-
-# valid options: docker, portainer
-docker_api_backend: "portainer"
-# hide docker panel & API cards; remove dependency on backend
-minimal_mode: false
-# toggle up/down indicators on service cards (recommended off if minimal_mode enabled)
+docker_api_backend: portainer
 enable_service_status: true
-
-# additional service icons: https://github.com/vlfldr/homer-icons
+minimal_mode: false
 services:
-  - name: "Portainer"
-    icon: "portainer.png"
-    subtitle: "Docker container management"
-    url: "https://192.168.1.5:9443"
-  - name: "Flood"
-    icon: "flood.png"
-    subtitle: "Web UI for rTorrent"
-    url: "http://192.168.1.5:9005"
-  - name: "Navidrome"
-    icon: "navidrome.png"
-    subtitle: "Music streaming"
-    url: "http://192.168.1.5:9004/app/#/login"
-
+- icon: portainer.png
+  name: Portainer
+  subtitle: Docker container management
+  url: https://192.168.1.5:9443
+- icon: flood.png
+  name: Flood
+  subtitle: Web UI for rTorrent
+  url: http://192.168.1.5:9005
+- icon: navidrome.png
+  name: Navidrome
+  subtitle: Music streaming
+  url: http://192.168.1.5:9004/app/#/login
+title: homey
