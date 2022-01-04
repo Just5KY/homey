@@ -42,6 +42,7 @@ export default {
     },
     saveConfig() {
       this.axios.post('http://0.0.0.0:9101/writeFrontendConfig', this.config).then((res) => {
+        console.log(this.config.services)
           console.log(res.data);
       }).catch(e => {
         console.log('Could not reach homey API');

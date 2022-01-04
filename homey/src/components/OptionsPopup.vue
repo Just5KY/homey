@@ -113,8 +113,6 @@
 </template>
 
 <script>
-
-// TODO: only new values from selected service should be saved
 // TODO: add browse icons button/field to select previously uploaded icon
 
 export default {
@@ -123,8 +121,8 @@ export default {
     return {
       localConfig: Object,
       showServices: false,
-      selectedService: "newService",
       newService: {'name': '', 'icon': '', 'subtitle': '', 'url': ''},
+      selectedService: 'newService',
       newImage: null,
       minimalModeWarning: "Make homey more like Homer (disable all API functionality).\n\nOnce minimal mode is enabled, it can only be disabled by manually editing config.yml.",
     };
@@ -138,9 +136,9 @@ export default {
   computed: {
     getSelectedService() {
       for(let i = 0; i < this.localConfig.services.length; i++) {
-        if (this.localConfig.services[i].name == this.selectedService)  return this.localConfig.services[i];
+        if (this.localConfig.services[i].name == this.selectedService)  return JSON.parse(JSON.stringify(this.localConfig.services[i]));
       }
-      return this.newService;
+      return this.selectedService;
     },
     getSaveString() {
       return 'Save' + (this.newImage ? ' & Upload' : '');
@@ -153,34 +151,42 @@ export default {
     // close(true) will write newly selected settings to config.yml
     close(shouldSave) {
       if (shouldSave){
+        // add new service
         if(this.selectedService == 'addService') {
           if(!this.newImage) console.log("Error creating new service: Image is required.")
           else if(this.newService.name == '' || this.newService.url == '') {
             console.log("Error saving service: Name & URL are required.");
           }
+          // upload new image
           else {
             this.uploadIcon();
             this.localConfig.services.push(this.newService);
             this.$emit('saveConfig');
           }
         }
+        // update existing service
         else {
           let toUpdate = this.getSelectedService;
           if(toUpdate.name == '' || toUpdate.url == ''){
             console.log("Error saving service: Name & URL are required.");
           }
           else{
+            // upload new image if selected
             if(this.newImage){
               this.uploadIcon();
               toUpdate.icon = this.$el.querySelector('#uploader').files[0].name;
+            }
+            for(let i = 0; i < this.localConfig.services.length; i++) {
+              if (this.localConfig.services[i].name == this.selectedService)  this.localConfig.services[i] = this.getSelectedService
             }
             this.$emit('saveConfig');
           }
         }
       }
+
       // close(false) will discard newly selected settings by reloading config.yml
       else  this.$emit('loadConfig');
-
+      // close modal either way
       this.$emit('close');
     },
     fileUploaded() {
@@ -211,6 +217,7 @@ export default {
     },
     dropdownUpdated: function() {
       this.newImage = null;
+      console.log(this.selectedService);
     },
   },
 }
