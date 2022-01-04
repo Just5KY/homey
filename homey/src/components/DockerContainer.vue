@@ -43,6 +43,8 @@ export default {
     authenticate: function() {
         this.axios.get('http://0.0.0.0:9101/' + this.backend + 'Auth').then((res) => {
           //console.log('INFO :: ' + this.backend + ' API authentication returned ' + res.data);
+      }).catch(e => {
+        console.log('Could not reach homey API');
       });
     },
   },
