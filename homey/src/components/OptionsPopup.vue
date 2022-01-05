@@ -69,14 +69,30 @@
                   <img v-if="getSelectedService.icon && !newImage" 
                     :src="'./images/icons/'+getSelectedService.icon" 
                     class="service-editor__image-container__image" />
+                  <img v-if="newService.icon != '' && !newImage" 
+                    :src="'./images/icons/'+newService.icon" 
+                    class="service-editor__image-container__image" />
                   <img v-if="newImage"
                     :src="newImage" 
                     class="service-editor__image-container__image" />
                   <label for="uploader">
-                    <span v-if="getSelectedService.icon || newImage" title="Upload New Image" id="upload_corner" class="material-icons-outlined">file_upload</span>
-                    <span v-else id="upload_placeholder" title="Upload Image" class="material-icons-outlined">file_upload</span>
+                    <span v-if="(getSelectedService.icon || newImage || newService.icon != '') && !showGallery" title="Upload New Image" 
+                      class="uploader-button uploader-button__corner-right uploader-button__corner material-icons-outlined">
+                      file_upload</span>
+                    <span v-if="!showGallery && !getSelectedService.icon && !newImage && newService.icon ==''" id="upload_placeholder" title="Upload Image" 
+                      class="uploader-button material-icons-outlined">
+                      file_upload</span>
                   </label>
                   <input type="file" id="uploader" accept="image/png, image/jpeg" @change="fileUploaded" />
+                  <span v-if="!showGallery" title="Previously Uploaded Icons" @click="showGallery = !showGallery"
+                      class="uploader-button uploader-button__corner-left uploader-button__corner material-icons-outlined">
+                      image
+                  </span>
+                  <span v-else title="Cancel" @click="showGallery = !showGallery"
+                      class="uploader-button uploader-button__corner-left uploader-button__corner material-icons-outlined">
+                      close
+                  </span>
+                  <IconGallery v-if="showGallery" />
                 </div>
                 <div class="service-editor__options">
                   <ul>
@@ -102,7 +118,7 @@
                 </div>
               </div>
           </div>
-
+  
           <div class="modal-footer">
             <button @click="close(false)" class="modal-button modal-button__cancel">Cancel</button>
             <button @click="close(true)" class="modal-button modal-button__save">{{getSaveString}}</button>
@@ -113,7 +129,8 @@
 </template>
 
 <script>
-// TODO: add browse icons button/field to select previously uploaded icon
+import IconGallery from './IconGallery.vue';
+// TODO: clean up newService/selectedService/newImage spaghetti
 
 export default {
   name: 'OptionsPopup',
@@ -124,8 +141,12 @@ export default {
       newService: {'name': '', 'icon': '', 'subtitle': '', 'url': ''},
       selectedService: 'newService',
       newImage: null,
+      showGallery: false,
       minimalModeWarning: "Make homey more like Homer (disable all API functionality).\n\nOnce minimal mode is enabled, it can only be disabled by manually editing config.yml.",
     };
+  },
+  components: {
+    IconGallery,
   },
   props: {
       header: String,
@@ -189,6 +210,13 @@ export default {
       // close modal either way
       this.$emit('close');
     },
+    selectNewIcon(filename){
+      this.newImage = null;
+      if(this.getSelectedService == 'newService'){
+        this.newService.icon = filename;
+      }
+      else this.getSelectedService.icon = filename;
+    },
     fileUploaded() {
       let files = this.$el.querySelector('#uploader').files;
       
@@ -217,7 +245,7 @@ export default {
     },
     dropdownUpdated: function() {
       this.newImage = null;
-      console.log(this.selectedService);
+      this.newService.icon = '';
     },
   },
 }

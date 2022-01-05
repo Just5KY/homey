@@ -1,4 +1,5 @@
-from flask import Flask, jsonify, request
+from genericpath import exists
+from flask import Flask, jsonify, request, send_file, send_from_directory
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
@@ -133,6 +134,14 @@ def uploadIcon():
     except:
         print('Error saving to ' + app.config['UPLOAD_FOLDER'] + '. Are permissions correct?')
     return jsonify({'Error': 'Could not upload image. Check logs for details.'})
+
+@app.route('/getIconPath/<filename>', methods=['GET'])
+def getIcon(filename):
+    paths = os.listdir(app.config['UPLOAD_FOLDER'])
+    if filename == 'all':   return jsonify(paths)
+    if exists(os.path.join(app.config['UPLOAD_FOLDER'], filename)):
+        return jsonify(filename)
+    return jsonify({'Error': 'Image not found: ' + os.path.join(app.config['UPLOAD_FOLDER'], filename)})
 
 ### NICEHASH (deprecated)
 nicehash_prodAPI = None
