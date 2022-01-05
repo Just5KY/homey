@@ -1,0 +1,125 @@
+@import "services-menu";
+
+// global page dim
+.modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: table;
+}
+
+.modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+// settings menu
+.modal-container {
+    @media (max-width: $mobile-break-small) {
+        width: 80%;
+    }
+    
+    width: 50rem;
+    margin: 0px auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    color: $white;
+    background-color: $commentColor;
+}
+
+// styles for all popups
+.modal-body {
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+
+    // option list
+    & ul {
+        list-style: none;
+    }
+    
+    // option container
+    .modal-option {
+        display: flex;
+        justify-content: flex-end;
+        font-size: 1.2rem;
+        padding: 1rem;
+
+        // centered option container
+        &__header {
+            justify-content: center;
+            padding: 0rem;
+            margin-bottom: 2rem;
+        }
+
+        &:not(:first-child) {
+            border-top: 1px solid $backgroundColor2;
+        }
+
+        // option label
+        & h3 {
+            margin-right: auto;
+            margin-left: 0;
+            font-weight: 400;
+            display: flex;
+
+            // option label info/warning icon
+            & span {
+                font-size: 1.8rem;
+                margin: 0;
+                padding: 0;
+                margin-left: .5rem;
+                display: inline-flex;
+                color: $white;
+                height: 1.2rem;
+                cursor: default;
+            }
+        }
+    }
+}
+
+
+.modal-footer {
+    height: 2.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+// footer buttons
+.modal-button {
+    border-radius: .25rem;
+    border-style: none;
+    color: $white;
+    background-color: $backgroundColor2;
+    font-weight: 600;
+    padding: 0 .75rem;
+    font-family: 'Montserrat';
+    cursor: pointer;
+
+    &__services {
+        justify-self: flex-start;
+        margin-right: auto;
+    }
+
+    &__save {
+        background-color: $cyan;
+        color: $backgroundColor2;
+        margin-left: 1rem;
+    }
+}
+
+// page dim animation
+.modal-enter-active,
+.modal-leave-active {
+    transition: opacity .3s ease-out;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+    opacity: 0;
+}

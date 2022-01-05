@@ -76,15 +76,15 @@
                     :src="newImage" 
                     class="service-editor__image-container__image" />
                   <label for="uploader">
-                    <span v-if="(getSelectedService.icon || newImage || newService.icon != '') && !showGallery" title="Upload New Image" 
+                    <span v-if="(getSelectedService.icon || newImage || newService.icon != '') && !showGallery" title="Upload New Icon" 
                       class="uploader-button uploader-button__corner-right uploader-button__corner material-icons-outlined">
                       file_upload</span>
-                    <span v-if="!showGallery && !getSelectedService.icon && !newImage && newService.icon ==''" id="upload_placeholder" title="Upload Image" 
-                      class="uploader-button material-icons-outlined">
+                    <span v-if="!showGallery && !getSelectedService.icon && !newImage && newService.icon ==''" 
+                      class="uploader-button material-icons-outlined" id="upload_placeholder" title="Upload Icon">
                       file_upload</span>
                   </label>
                   <input type="file" id="uploader" accept="image/png, image/jpeg" @change="fileUploaded" />
-                  <span v-if="!showGallery" title="Previously Uploaded Icons" @click="showGallery = !showGallery"
+                  <span v-if="!showGallery" title="Browse Uploaded Icons" @click="showGallery = !showGallery"
                       class="uploader-button uploader-button__corner-left uploader-button__corner material-icons-outlined">
                       image
                   </span>

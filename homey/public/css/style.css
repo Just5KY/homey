@@ -417,6 +417,86 @@ h2 {
   font-weight: 300;
   font-size: 3rem; }
 
+.flood-card-container {
+  position: relative;
+  height: 90%;
+  width: auto;
+  flex-grow: 1;
+  perspective: 100rem;
+  -moz-perspective: 100rem; }
+  @media (max-width: 600px) {
+    .flood-card-container {
+      margin-bottom: 2rem; } }
+  .flood-card-container__side {
+    height: 100%;
+    transition: all 0.7s ease-in-out;
+    backface-visibility: hidden;
+    color: #f8f8f2;
+    font-size: 3rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8); }
+    .flood-card-container__side--front {
+      background-color: #6272a4; }
+    .flood-card-container__side--back {
+      background-color: #44475a;
+      transform: rotateY(180deg); }
+  .flood-card-container:hover .flood-card-container__side--front {
+    transform: rotateY(-180deg);
+    box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
+  .flood-card-container:hover .flood-card-container__side--back {
+    transform: rotateY(0deg);
+    box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
+  .flood-card-container__heading {
+    width: 90%;
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    justify-content: space-between;
+    display: flex; }
+    .flood-card-container__heading--title {
+      font-size: 2rem;
+      font-weight: 300;
+      text-transform: uppercase;
+      text-align: right;
+      padding: .5rem 1rem;
+      border-radius: 5px;
+      background-image: linear-gradient(to right bottom, rgba(98, 114, 164, 0.8), rgba(40, 42, 54, 0.8)); }
+    .flood-card-container__heading--stats {
+      justify-self: flex-start;
+      display: flex;
+      align-items: center;
+      justify-content: space-between; }
+      .flood-card-container__heading--stats span {
+        font-size: 3.5rem; }
+      .flood-card-container__heading--stats p {
+        font-size: 1.5rem; }
+      .flood-card-container__heading--stats :nth-child(2),
+      .flood-card-container__heading--stats :first-child {
+        color: #8be9fd; }
+  .flood-card-container__chart {
+    transform: scaleY(0.7) scaleX(1.1);
+    padding-top: 4.2rem; }
+  .flood-card-container__notifications ul {
+    list-style: none;
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 1.3rem; }
+    .flood-card-container__notifications ul li {
+      text-align: center;
+      font-size: 1.3rem;
+      padding: 1rem;
+      overflow-wrap: break-word; }
+      .flood-card-container__notifications ul li:not(:last-child) {
+        border-bottom: 1px solid #f8f8f2; }
+      .flood-card-container__notifications ul li span {
+        text-align: left;
+        float: left; }
+
 .card-container {
   grid-row: 3;
   grid-column: 2;
@@ -538,86 +618,6 @@ h2 {
       .weather-card-container__weekly-forecast ul li:not(:last-child) {
         border-bottom: 1px solid #f8f8f2; }
       .weather-card-container__weekly-forecast ul li span {
-        text-align: left;
-        float: left; }
-
-.flood-card-container {
-  position: relative;
-  height: 90%;
-  width: auto;
-  flex-grow: 1;
-  perspective: 100rem;
-  -moz-perspective: 100rem; }
-  @media (max-width: 600px) {
-    .flood-card-container {
-      margin-bottom: 2rem; } }
-  .flood-card-container__side {
-    height: 100%;
-    transition: all 0.7s ease-in-out;
-    backface-visibility: hidden;
-    color: #f8f8f2;
-    font-size: 3rem;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8); }
-    .flood-card-container__side--front {
-      background-color: #6272a4; }
-    .flood-card-container__side--back {
-      background-color: #44475a;
-      transform: rotateY(180deg); }
-  .flood-card-container:hover .flood-card-container__side--front {
-    transform: rotateY(-180deg);
-    box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
-  .flood-card-container:hover .flood-card-container__side--back {
-    transform: rotateY(0deg);
-    box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
-  .flood-card-container__heading {
-    width: 90%;
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
-    justify-content: space-between;
-    display: flex; }
-    .flood-card-container__heading--title {
-      font-size: 2rem;
-      font-weight: 300;
-      text-transform: uppercase;
-      text-align: right;
-      padding: .5rem 1rem;
-      border-radius: 5px;
-      background-image: linear-gradient(to right bottom, rgba(98, 114, 164, 0.8), rgba(40, 42, 54, 0.8)); }
-    .flood-card-container__heading--stats {
-      justify-self: flex-start;
-      display: flex;
-      align-items: center;
-      justify-content: space-between; }
-      .flood-card-container__heading--stats span {
-        font-size: 3.5rem; }
-      .flood-card-container__heading--stats p {
-        font-size: 1.5rem; }
-      .flood-card-container__heading--stats :nth-child(2),
-      .flood-card-container__heading--stats :first-child {
-        color: #8be9fd; }
-  .flood-card-container__chart {
-    transform: scaleY(0.7) scaleX(1.1);
-    padding-top: 4.2rem; }
-  .flood-card-container__notifications ul {
-    list-style: none;
-    width: 80%;
-    margin: 0 auto;
-    padding-top: 1.3rem; }
-    .flood-card-container__notifications ul li {
-      text-align: center;
-      font-size: 1.3rem;
-      padding: 1rem;
-      overflow-wrap: break-word; }
-      .flood-card-container__notifications ul li:not(:last-child) {
-        border-bottom: 1px solid #f8f8f2; }
-      .flood-card-container__notifications ul li span {
         text-align: left;
         float: left; }
 

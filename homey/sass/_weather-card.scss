@@ -1,0 +1,160 @@
+
+.weather-card-container {
+
+    @media(max-width: $mobile-break-small){  
+        width: auto;
+        margin-bottom: 2rem;
+    }
+
+    height: 90%;
+    width: 45%;
+    text-align: center;
+    position: relative;
+
+    padding: 1.5rem;
+
+    border-radius: .5rem;
+    overflow-wrap: break-word;
+    z-index: 0;
+
+    perspective: 100rem;
+    -moz-perspective: 100rem;
+
+    &__side {
+        height: 100%;
+        transition: all 0.7s ease-in-out;
+        backface-visibility: hidden;
+        color: $white;
+        font-size: 3rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 1.5rem 2rem rgba($shadowColor, 0.8);
+
+        &--front {
+            background-color: $commentColor;
+            display: flex;
+        }
+        &--back {
+            background-color: $backgroundColor2;
+            transform: rotateY(180deg);
+        }
+    }
+
+    &__background--skycon {
+        position: absolute;
+        bottom: 0;
+        right: 1rem;
+        opacity: .5;
+        z-index: 0;
+    }
+
+    // Hover flip animation
+    &:hover &__side--front {
+        transform: rotateY(-180deg);
+        box-shadow: .5rem 2.5rem 4rem rgba($shadowColor, 0.8);
+    }
+    &:hover &__side--back {
+        transform: rotateY(0deg);
+        box-shadow: .5rem 2.5rem 4rem rgba($shadowColor, 0.8);
+    }
+
+    // Front
+    &__heading {
+        width: 90%;
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+
+        justify-content: space-between;
+        display: flex;
+
+        &--skycon {
+            position: absolute;
+            top: 0;
+            left: 1rem;
+        }
+
+        &--title {
+            font-size: 2rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            text-align: right;
+
+            padding: .5rem 1rem;
+            border-radius: 5px;
+
+            background-image: linear-gradient(
+                to right bottom, 
+                rgba($commentColor, .8), 
+                rgba($backgroundColor, .8));
+        }
+
+        &--daily-details {
+            font-size: 1.7rem;
+            margin-left: 1rem;
+            text-align: left;
+
+            :nth-child(2) {
+                font-size: 1.3rem;
+            }
+
+        }
+        
+    }
+
+    &__details {
+        font-weight: 300;
+        font-size: 1.4rem;
+        text-align: left;
+        align-content: space-between;
+        width: auto;
+        flex-grow: 1;
+        margin: 2rem;
+        margin-top: 8rem;
+        z-index: 2;
+
+        & span {
+            float: right;
+        }
+
+        & div {
+            padding: 0.5rem;
+            &:not(:first-child){
+                border-top: 1px dotted $white;
+            }
+
+        }
+
+        
+    }
+
+    // Back
+    &__weekly-forecast {
+        ul {
+            list-style: none;
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 1.3rem;
+
+            li {
+                text-align: center;
+                font-size: 1.3rem;
+                padding: 1rem;
+                overflow-wrap: break-word;
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid $white;
+                }
+
+                span {
+                    text-align: left;
+                    float: left;
+                }
+            }
+        }
+    }
+}
