@@ -76,16 +76,19 @@
                     :src="newImage" 
                     class="service-editor__image-container__image" />
                   <label for="uploader">
-                    <span v-if="(getSelectedService.icon || newImage || newService.icon != '') && !showGallery" title="Upload New Icon" 
-                      class="uploader-button uploader-button__corner-right uploader-button__corner material-icons-outlined">
-                      file_upload</span>
-                    <transition name="fade">
+                    <transition name="slide-up">
+                      <span v-if="(getSelectedService.icon || newImage || newService.icon != '') && !showGallery" title="Upload New Icon" 
+                        class="uploader-button uploader-button__corner-right uploader-button__corner material-icons-outlined">
+                        file_upload</span>
+                    </transition>
+                    <transition v-if="selectedService == 'newService'" name="fade">
                       <span v-if="!showGallery && !getSelectedService.icon && !newImage && newService.icon ==''" 
                         class="uploader-button material-icons-outlined" id="upload_placeholder" title="Upload Icon">
                         file_upload</span>
                     </transition>
                   </label>
                   <input type="file" id="uploader" accept="image/png, image/jpeg" @change="fileUploaded" />
+                  <!-- to fix this -->
                   <transition name="fade">
                     <span v-if="!showGallery" title="Browse Uploaded Icons" @click="showGallery = !showGallery"
                         class="uploader-button uploader-button__corner-left uploader-button__corner material-icons-outlined">
@@ -252,6 +255,7 @@ export default {
     dropdownUpdated: function() {
       this.newImage = null;
       this.newService.icon = '';
+      this.showGallery = false;
     },
   },
 }

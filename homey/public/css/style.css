@@ -218,7 +218,7 @@
 
 .slide-up-enter-from,
 .slide-up-leave-to {
-  transform: translateY(128px); }
+  transform: translateY(100%); }
 
 .service-editor {
   display: flex;
