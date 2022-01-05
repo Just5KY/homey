@@ -1,4 +1,4 @@
-// Main (entrypoint)
+// SASS entrypoint
 
 @import "variables";
 @import "utilities";
@@ -20,7 +20,7 @@
 *::before {
     margin: 0;
     padding: 0;
-    box-sizing: inherit; // every element will inherit body's box-sizing
+    box-sizing: inherit;
 }
 
 html {
@@ -28,5 +28,4 @@ html {
     font-family: Montserrat, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    //overflow: hidden;
 }

@@ -3,7 +3,7 @@
     <canvas class="header-animation"></canvas>
     <h1>{{ title }}</h1>
     <span v-if="!this.config.minimal_mode" @click="showOptions = !showOptions" title="Settings" class="material-icons-outlined">settings</span>
-    <transition name="modal">
+    <transition name="fade">
       <OptionsPopup v-if="showOptions" @loadConfig="loadConfig" @saveConfig="saveConfig" :config="this.config" @close="showOptions = false" tabindex="0" @keydown.esc="showOptions = false"/>
     </transition>
   </div>
