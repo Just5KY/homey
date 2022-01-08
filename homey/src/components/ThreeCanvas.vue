@@ -7,7 +7,7 @@
         <DockerService3D v-for="b in boxes" :key="b.name" :ref="'boxOuter' + boxes.indexOf(b)"
           :serviceName="b.name" :gridIndex="boxes.indexOf(b)" :size=".9" />
       </Group>
-      <GltfModel src="./models/whale.gltf" :position="{x:0, y: -.75, z: 0}" />
+      <GltfModel src="./models/docker.glb" :position="{x:0, y: -.75, z: 0}" />
     </Scene>
   </Renderer>
 </template>
@@ -50,10 +50,7 @@ export default {
     });
   },
   methods: {
-    
-    whaleLoaded() {
 
-    }
   },
 }
 </script>

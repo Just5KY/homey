@@ -9,6 +9,7 @@
     </Box>
     <Text
         ref="detailContainer"
+        v-if="mouseIn"
         :text="this.serviceName"
         font-src="./fonts/helvetiker.json"
         align="center"
@@ -31,14 +32,19 @@ export default {
         gridIndex: Number,
         size: Number,
     },
+    data: function() {
+        return {
+            mouseIn: false,
+        };
+    },
     methods: {
         mouseoverBox(event) {
-            this.$refs.detailContainer.mesh.visible = true;
+            this.mouseIn = true;
             this.$refs.boxInner.mesh.scale.z = this.widthToScale(this.serviceName.length);
         },
         mouseleaveBox(event) {
             this.$refs.boxInner.mesh.scale.z = 1;
-            this.$refs.detailContainer.mesh.visible = false;
+            this.mouseIn = false;
         },
         widthToScale(number) {
             // map a service name of length 0-255 to a scale factor which will appropriately resize box
