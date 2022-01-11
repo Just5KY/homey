@@ -46,7 +46,7 @@ export default {
         return {
             serviceData: [],
             crates: [],
-            selectedCrate: null,
+            bigCrates: [],
         };
     },
     // scene setup
@@ -76,6 +76,10 @@ export default {
         
         renderer.setPixelRatio( window.devicePixelRatio );
         window.addEventListener('mousemove', this.onMouseMove, false );
+        raycaster.layers.set(1);
+
+        // TODO: this has to be really bad for performance
+        raycaster.params.Line.threshold = .2;
 
         // limit camera movement
         controls = new OrbitControls(camera, renderer.domElement);
@@ -109,16 +113,16 @@ export default {
           
           // closest hit is returned first; discard others
           // to avoid expanding crates behind the hovered one
-          const intersects = raycaster.intersectObjects(scene.children);
-          if(intersects.length > 0 && intersects[0].object.material.name != 'whale') {
-            if(this.selectedCrate && this.selectedCrate.name == intersects[0].object.name)  return;
-            if(this.selectedCrate)  this.shrinkCrate(this.selectedCrate);
-            this.growCrate(intersects[0].object);
+          const intersects = raycaster.intersectObjects(this.crates);
+          if(intersects.length > 0) {
+            let hitName = intersects[0].object.parent;
+            if(this.bigCrates.length > 0 && (this.bigCrates.some(c => c.name === hitName)))  return;
+            if(this.bigCrates.length > 0) this.shrinkCrate(this.bigCrates[0]);
+            this.growCrate(hitName);
           }
           else {
-            if (this.selectedCrate) {
-              this.shrinkCrate(this.selectedCrate);
-              this.selectedCrate = null;
+            if (this.bigCrates.length > 0) {
+              this.shrinkCrate(this.bigCrates[0]);
             }
           }
         },
@@ -133,7 +137,7 @@ export default {
           tween.start()
           tween2.start()
 
-          this.selectedCrate = crateObj;
+          this.bigCrates.push(crateObj);
         },
         shrinkCrate(crateObj){
           // smooth shrink animation
@@ -145,6 +149,8 @@ export default {
             .easing(TWEEN.Easing.Quadratic.Out)
           tween.start()
           tween2.start()
+
+          //this.bigCrates.splice(this.bigCrates.indexOf(crateObj), 1);
         },
         addCrate(serviceName) {
           let grp = new THREE.Group();
@@ -160,6 +166,7 @@ export default {
 
           // cheaper calculations for raycaster
           const boundingBox = new THREE.BoxHelper(box, 0x0000000);
+          boundingBox.layers.enable(1);
           //boundingBox.material.visible = false;
           grp.add(boundingBox);
 
