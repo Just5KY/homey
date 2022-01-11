@@ -8,13 +8,15 @@ import * as THREE from 'three';
 import * as TWEEN from '@tweenjs/tween.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 
-// define three objects outside of vue export
+// define three.js objects outside of vue export
 // to avoid making them reactive
 const scene = new THREE.Scene();
-const clock = new THREE.Clock();
 const raycaster = new THREE.Raycaster();
 const gltfLoader = new GLTFLoader();
+const fontLoader = new FontLoader();
 let mousePos = new THREE.Vector2(100, 100);
 const camera = new THREE.PerspectiveCamera(
     75,
@@ -25,42 +27,57 @@ const camera = new THREE.PerspectiveCamera(
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 const light = new THREE.DirectionalLight('hsl(0, 100%, 100%)');
 let controls;
-
+let defaultFont;
 
 export default {
     name: 'WhaleScene',
     props: {
       services: Array,
     },
+    watch: {
+      services: {
+        handler: function() {
+          this.updateCrates();
+        },
+        deep: true,
+      },
+    },
     data: function() {
         return {
             serviceData: [],
             crates: [],
-            speed: 0.01,
-            updateInterval: 2,  // seconds
-            sinceLastUpate: 0.0,
             selectedCrate: null,
         };
     },
     // scene setup
     created: function() {
         this.serviceData = this.services;
-				renderer.setPixelRatio( window.devicePixelRatio );
-        
-        scene.add(camera)
-        scene.add(light)
+
+        // TODO: new font
+        fontLoader.load('./fonts/helvetiker.json', (font) => {
+          defaultFont = font;
+
+          // spawn a crate for each service
+          this.serviceData.forEach(s => {
+            this.addCrate(s.name);
+          })
+        });
+
+        // load whale
         gltfLoader.load('./models/docker.glb', (model) => { 
           model.scene.position.y -= .75; 
           scene.add(model.scene); 
         });
-        this.serviceData.forEach(s => {
-          this.addCrate(s.name);
-        });
 
+        scene.add(camera)
+        scene.add(light)
         light.position.set(1, 5, 5);
         camera.position.z = 5;
+        
+        renderer.setPixelRatio( window.devicePixelRatio );
         window.addEventListener('mousemove', this.onMouseMove, false );
 
+        // limit camera movement
         controls = new OrbitControls(camera, renderer.domElement);
         controls.maxAzimuthAngle = 0 + 0.2;  
         controls.minAzimuthAngle = Math.PI / -2 - 0.2;
@@ -75,26 +92,17 @@ export default {
         this.$refs.threeCanvas.appendChild(renderer.domElement)
         this.animate()
     },
+    computed: {},
     methods: {
         // main loop
         animate: function() {
-            // refresh services every updateInterval seconds...
-            this.sinceLastUpate += clock.getDelta();
-            if(this.sinceLastUpate >= this.updateInterval) {
-              // ...only if the service list has changed
-              if(this.needsUpdate){
-                this.updateCrates();
-              }
-              this.sinceLastUpate = 0.0;
-            }
-
-            this.raycast();
             TWEEN.update();
             controls.update();
+            this.raycast();
 
             renderer.setSize(window.innerWidth, window.innerHeight);
             requestAnimationFrame(this.animate)
-            renderer.render(scene, camera)
+            renderer.render(scene, camera);
         },
         raycast() {
           raycaster.setFromCamera(mousePos, camera);
@@ -139,37 +147,61 @@ export default {
           tween2.start()
         },
         addCrate(serviceName) {
-          const material = new THREE.MeshStandardMaterial({
+          let grp = new THREE.Group();
+          grp.name = serviceName;
+
+          // rounded box
+          const boxMat = new THREE.MeshStandardMaterial({
               side: THREE.FrontSide,
-              color: 'hsl(0, 100%, 50%)',
-              wireframe: false
-          })
-          const geometry = new this.roundedBoxGeometry(1, 1, 1, .1, 8);
+              color: 'hsl(0, 100%, 50%)'
+          });
+          let box = new THREE.Mesh(new this.roundedBoxGeometry(1, 1, 1, .1, 8), boxMat);
+          grp.add(box);
 
-          let cube = new THREE.Mesh(geometry, material);
-          let i = this.crates.length;
-          cube.position.x += (i * 1.1);
-          cube.scale.x = 0;
-          cube.scale.y = 0;
-          cube.scale.z = 0;
-          cube.name = 'crate' + i.toString();
-          this.crates.push({'meshName': cube.name, 'serviceName': serviceName})
-          scene.add(cube);
+          // cheaper calculations for raycaster
+          const boundingBox = new THREE.BoxHelper(box, 0x0000000);
+          //boundingBox.material.visible = false;
+          grp.add(boundingBox);
 
+          // service name
+          const textGeo = new TextGeometry(serviceName, {
+            font: defaultFont,
+            size: .1,
+            height: .05,
+            bevelEnabled: false,
+          });
+          const textMat = new THREE.MeshStandardMaterial({
+              side: THREE.FrontSide,
+              color: 0x00a7ff
+          });
+          let text = new THREE.Mesh(textGeo, textMat);
+          text.rotateY(Math.PI * 1.5);
+          text.position.x -= .5;
+          let textSize = new THREE.Box3().setFromObject(text);
+          text.position.z -= ((textSize.max.z - textSize.min.z) / 2);
+          grp.add(text);
+
+          grp.position.x += (this.crates.length * 1.1);
+          grp.scale.set(0, 0, 0);
+
+          this.crates.push(grp);
+          scene.add(grp);
+
+          // elastic spawn animation
           // TODO: stagger all spawn animations slightly at start
-          const tween = new TWEEN.Tween(cube.scale)
+          const tween = new TWEEN.Tween(grp.scale)
             .to({x: 1, y: 1, z: 1}, 750)
-            .easing(TWEEN.Easing.Elastic.Out)
-          tween.start()
+            .easing(TWEEN.Easing.Elastic.Out);
+          tween.start();
         },
-        removeCrate(meshName) {
-          let crateIndex = this.crates.findIndex(c => c.meshName == meshName);
-          const tween = new TWEEN.Tween(scene.getObjectByName(meshName).scale)
+        removeCrate(crateObj) {
+          // elastic despawn animation
+          const tween = new TWEEN.Tween(crateObj.scale)
             .to({x: 0, y: 0, z: 0}, 750)
             .easing(TWEEN.Easing.Elastic.In)
-            .onComplete(() => { 
-              this.crates.splice(crateIndex, 1); 
-              scene.remove(scene.getObjectByName(meshName));
+            .onComplete(() => {   // remove when animation completes
+              this.crates.splice(this.crates.indexOf(crateObj), 1); 
+              scene.remove(crateObj);
             });
           tween.start()
         },
@@ -177,14 +209,14 @@ export default {
           // add crates for newly added services
           this.serviceData.forEach(s => {
             let found = false;
-            this.crates.forEach(c => { if(s.name == c.serviceName) found = true; })
+            this.crates.forEach(c => { if(s.name == c.name) found = true; })
             if(!found) this.addCrate(s.name);
           });
           // remove crates for deleted services
           this.crates.forEach(c => {
             let found = false;
-            this.serviceData.forEach(s => { if(s.name == c.serviceName) found = true; })
-            if (!found) this.removeCrate(c.meshName);
+            this.serviceData.forEach(s => { if(s.name == c.name) found = true; })
+            if (!found) this.removeCrate(c);
           })
         },
         // keep track of mouse position (normalized to [-1, 1])
@@ -220,12 +252,6 @@ export default {
             bevelThickness: curveRadius,
             curveSegments: curveSegments
           }).center();
-        },
-    },
-    computed: {
-        // check if any services have changed
-        needsUpdate() {
-          return this.crates.length != this.serviceData.length;
         },
     },
 }

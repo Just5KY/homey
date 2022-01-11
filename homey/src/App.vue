@@ -27,6 +27,9 @@ export default {
     addService() {
       this.services.push({"name": "Test Service " + this.services.length, "URL": "https://yandex.ru", "status": "Running"});
     },
+    removeService() {
+      this.services.pop();
+    }
   },
   mounted() {
     this.addService();
