@@ -17,7 +17,7 @@ export default {
   name: 'App',
   data() {
     return {
-      services: [],
+      services: [{"name": "Test Service 0", "URL": "https://yandex.ru", "status": "Running"}],
     };
   },
   components: {
@@ -32,7 +32,7 @@ export default {
     }
   },
   mounted() {
-    this.addService();
+    //this.addService();
   },
 }
 </script>

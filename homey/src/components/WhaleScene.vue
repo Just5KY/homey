@@ -10,6 +10,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry';
 
 // define three.js objects outside of vue export
 // to avoid making them reactive
@@ -28,6 +29,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 const light = new THREE.DirectionalLight('hsl(0, 100%, 100%)');
 let controls;
 let defaultFont;
+let boundingBoxes = [];
 
 export default {
     name: 'WhaleScene',
@@ -73,13 +75,14 @@ export default {
         scene.add(light)
         light.position.set(1, 5, 5);
         camera.position.z = 5;
+        camera.layers.enable(1);
         
         renderer.setPixelRatio( window.devicePixelRatio );
         window.addEventListener('mousemove', this.onMouseMove, false );
         raycaster.layers.set(1);
 
-        // TODO: this has to be really bad for performance
-        raycaster.params.Line.threshold = .2;
+        // awful for performance. debugging only
+        //raycaster.params.Line.threshold = .1;
 
         // limit camera movement
         controls = new OrbitControls(camera, renderer.domElement);
@@ -102,7 +105,8 @@ export default {
         animate: function() {
             TWEEN.update();
             controls.update();
-            this.raycast();
+
+            if(boundingBoxes.length > 0)  this.raycast();
 
             renderer.setSize(window.innerWidth, window.innerHeight);
             requestAnimationFrame(this.animate)
@@ -111,69 +115,78 @@ export default {
         raycast() {
           raycaster.setFromCamera(mousePos, camera);
           
-          // closest hit is returned first; discard others
-          // to avoid expanding crates behind the hovered one
-          const intersects = raycaster.intersectObjects(this.crates);
+          // intersects[0] is closest (to camera) hovered crate's bounding box 
+          const intersects = raycaster.intersectObjects(boundingBoxes);
           if(intersects.length > 0) {
-            let hitName = intersects[0].object.parent;
-            if(this.bigCrates.length > 0 && (this.bigCrates.some(c => c.name === hitName)))  return;
-            if(this.bigCrates.length > 0) this.shrinkCrate(this.bigCrates[0]);
-            this.growCrate(hitName);
+            let hitCrate = scene.getObjectByName(intersects[0].object.name.slice(0, -5));
+
+            // TODO: broken animations could be due to this logic
+            // do not expand if already expanded
+            if( (this.bigCrates.length > 0 && (this.bigCrates.some(c => c == hitCrate))) || hitCrate.scale.z > 1)  return;
+            // shrink all previously expanded crates except hitCrate
+            if(this.bigCrates.length > 0) this.shrinkAll(hitCrate);
+            
+            this.growCrate(hitCrate);
           }
+          // if no crate is hovered...
           else {
-            if (this.bigCrates.length > 0) {
-              this.shrinkCrate(this.bigCrates[0]);
-            }
+            // ...shrink any previously expanded ones
+            if (this.bigCrates.length > 0)  this.shrinkAll();
           }
         },
+        // shrinks all bigCrates except specified
+        shrinkAll(exceptObj){
+          this.bigCrates.forEach(c => {
+            if(c != exceptObj)  this.shrinkCrate(c);
+          });
+        },
+        // elastic pop out animation
         growCrate(crateObj){
-          // elastic pop out animation
-          const tween = new TWEEN.Tween(crateObj.scale)
+          const tScale = new TWEEN.Tween(crateObj.scale)
             .to({z: 3}, 1200)
             .easing(TWEEN.Easing.Elastic.Out)
-          const tween2 = new TWEEN.Tween(crateObj.position)
+          const tPos = new TWEEN.Tween(crateObj.position)
             .to({z: 1}, 1200)
             .easing(TWEEN.Easing.Elastic.Out)
-          tween.start()
-          tween2.start()
-
-          this.bigCrates.push(crateObj);
+            .onComplete(() => {
+              this.bigCrates.push(crateObj);
+            });
+          tScale.start()
+          tPos.start()
         },
+        // smooth shrink animation
         shrinkCrate(crateObj){
-          // smooth shrink animation
-          const tween = new TWEEN.Tween(crateObj.scale)
-            .to({z: 1}, 750)
+          const tScale = new TWEEN.Tween(crateObj.scale)
+            .to({z: 1}, 600)
+            .easing(TWEEN.Easing.Quadratic.Out);
+          const tPos = new TWEEN.Tween(crateObj.position)
+            .to({z: 0}, 600)
             .easing(TWEEN.Easing.Quadratic.Out)
-          const tween2 = new TWEEN.Tween(crateObj.position)
-            .to({z: 0}, 750)
-            .easing(TWEEN.Easing.Quadratic.Out)
-          tween.start()
-          tween2.start()
-
-          //this.bigCrates.splice(this.bigCrates.indexOf(crateObj), 1);
+            .onComplete(() => {
+              this.bigCrates.splice(this.bigCrates.indexOf(crateObj), 1);
+            });
+          tScale.start();
+          tPos.start();
         },
+        // new crate from service name
         addCrate(serviceName) {
           let grp = new THREE.Group();
           grp.name = serviceName;
+          grp.position.x += (this.crates.length * 1.1);
+          grp.scale.set(0, 0, 0);
 
           // rounded box
           const boxMat = new THREE.MeshStandardMaterial({
               side: THREE.FrontSide,
               color: 'hsl(0, 100%, 50%)'
           });
-          let box = new THREE.Mesh(new this.roundedBoxGeometry(1, 1, 1, .1, 8), boxMat);
+          let box = new THREE.Mesh(new RoundedBoxGeometry(1, 1, 1, 6, .1), boxMat);
           grp.add(box);
-
-          // cheaper calculations for raycaster
-          const boundingBox = new THREE.BoxHelper(box, 0x0000000);
-          boundingBox.layers.enable(1);
-          //boundingBox.material.visible = false;
-          grp.add(boundingBox);
 
           // service name
           const textGeo = new TextGeometry(serviceName, {
             font: defaultFont,
-            size: .1,
+            size: .3,
             height: .05,
             bevelEnabled: false,
           });
@@ -183,35 +196,48 @@ export default {
           });
           let text = new THREE.Mesh(textGeo, textMat);
           text.rotateY(Math.PI * 1.5);
-          text.position.x -= .5;
           let textSize = new THREE.Box3().setFromObject(text);
+          
+          text.position.x -= .5;
+          text.position.y -= ((textSize.max.y - textSize.min.y) / 2);
           text.position.z -= ((textSize.max.z - textSize.min.z) / 2);
           grp.add(text);
 
-          grp.position.x += (this.crates.length * 1.1);
-          grp.scale.set(0, 0, 0);
+          // bounding box
+          let invisMat = new THREE.MeshStandardMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
+          let bbox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), invisMat);
+          bbox.name = grp.name + '_bbox';
+          bbox.layers.enable(1);
+          scene.add(bbox);
+          bbox.parent = grp;
+          boundingBoxes.push(bbox);
 
           this.crates.push(grp);
           scene.add(grp);
 
           // elastic spawn animation
           // TODO: stagger all spawn animations slightly at start
-          const tween = new TWEEN.Tween(grp.scale)
+          const tScale = new TWEEN.Tween(grp.scale)
             .to({x: 1, y: 1, z: 1}, 750)
             .easing(TWEEN.Easing.Elastic.Out);
-          tween.start();
+          tScale.start();
         },
+        // remove existing crate
         removeCrate(crateObj) {
           // elastic despawn animation
-          const tween = new TWEEN.Tween(crateObj.scale)
+          const tScale = new TWEEN.Tween(crateObj.scale)
             .to({x: 0, y: 0, z: 0}, 750)
             .easing(TWEEN.Easing.Elastic.In)
             .onComplete(() => {   // remove when animation completes
-              this.crates.splice(this.crates.indexOf(crateObj), 1); 
+              this.crates.splice(this.crates.indexOf(crateObj), 1);
+              if(this.bigCrates.some(c => c == crateObj)){
+                this.bigCrates.splice(this.bigCrates.indexOf(crateObj), 1);
+              }
               scene.remove(crateObj);
             });
-          tween.start()
+          tScale.start()
         },
+        // triggered on bound services array change
         updateCrates() {
           // add crates for newly added services
           this.serviceData.forEach(s => {
@@ -230,35 +256,6 @@ export default {
         onMouseMove(event) {
           mousePos.x = ( event.clientX / window.innerWidth ) * 2 - 1;
           mousePos.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-        },
-        widthToScale(number) {
-            // map a service name of length 0-255 to a scale factor which will appropriately resize box
-            let fromRange = [0, 255];
-            let toRange = [2, 45];
-            return (((number - fromRange[0]) * (toRange[1] - toRange[0])) /
-                (fromRange[1] - fromRange[0]) + toRange[0]);
-        },
-
-        // credit to prisoner849: https://discourse.threejs.org/t/round-edged-box/1402
-        roundedBoxGeometry( width, height, depth, curveRadius, curveSegments ) {
-          let shape = new THREE.Shape();
-          let k = 0.00001;
-          let radius = curveRadius - k;
-
-          shape.absarc( k, k, k, -Math.PI / 2, -Math.PI, true );
-          shape.absarc( k, height -  radius * 2, k, Math.PI, Math.PI / 2, true );
-          shape.absarc( width - radius * 2, height -  radius * 2, k, Math.PI / 2, 0, true );
-          shape.absarc( width - radius * 2, k, k, 0, -Math.PI / 2, true );
-
-          return new THREE.ExtrudeBufferGeometry( shape, {
-            depth: depth - curveRadius * 2,
-            bevelEnabled: true,
-            bevelSegments: curveSegments * 2,
-            stk: 1,
-            bevelSize: radius,
-            bevelThickness: curveRadius,
-            curveSegments: curveSegments
-          }).center();
         },
     },
 }
