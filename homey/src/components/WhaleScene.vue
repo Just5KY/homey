@@ -30,6 +30,7 @@ const light = new THREE.DirectionalLight('hsl(0, 100%, 100%)');
 let controls;
 let defaultFont;
 let boundingBoxes = [];
+let invisMat;
 
 export default {
     name: 'WhaleScene',
@@ -48,7 +49,6 @@ export default {
         return {
             serviceData: [],
             crates: [],
-            bigCrates: [],
         };
     },
     // scene setup
@@ -79,7 +79,9 @@ export default {
         renderer.setPixelRatio( window.devicePixelRatio );
         window.addEventListener('mousemove', this.onMouseMove, false );
 
+        // for bounding boxes
         raycaster.layers.set(1);
+        invisMat = new THREE.MeshStandardMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
 
         // limit camera movement
         controls = new OrbitControls(camera, renderer.domElement);
@@ -118,60 +120,47 @@ export default {
           if(intersects.length > 0) {
             // bounding boxes are named <crate.name>_bbox
             let hitCrate = scene.getObjectByName(intersects[0].object.name.slice(0, -5));
-
-            // do not expand if already expanded or expanding
-            if( (this.bigCrates.length > 0 && (this.bigCrates.some(c => c == hitCrate))) || hitCrate.scale.z > 1)  return;
-            // shrink all previously expanded crates except hitCrate
-            if(this.bigCrates.length > 0) this.shrinkAll(hitCrate);
             
-            this.growCrate(hitCrate);
+            // expand hitCrate; shrink all others
+            this.shrinkAll(hitCrate);
           }
-          // if no crate is hovered...
-          else {
-            // ...shrink any previously expanded ones
-            if (this.bigCrates.length > 0)  this.shrinkAll();
-          }
+          else this.shrinkAll(); // if no hit, shrink any expanded crates
         },
-        // shrinks all bigCrates except specified
-        shrinkAll(exceptObj){
-          this.bigCrates.forEach(c => {
-            if(c != exceptObj)  this.shrinkCrate(c);
+        // shrinks all crates except specified
+        shrinkAll(exceptCrate){
+          if(exceptCrate && !exceptCrate.userData.tweens.growScale.isPlaying()) {
+            this.growCrate(exceptCrate);
+          }
+
+          this.crates.forEach(c => {
+            if(exceptCrate) {
+              if(c.name != exceptCrate.name)  this.shrinkCrate(c);
+            }
+            else this.shrinkCrate(c);
           });
         },
         // elastic pop out animation
         growCrate(crateObj){
-          const tScale = new TWEEN.Tween(crateObj.scale)
-            .to({z: 3}, 1200)
-            .easing(TWEEN.Easing.Elastic.Out)
-          const tPos = new TWEEN.Tween(crateObj.position)
-            .to({z: 1}, 1200)
-            .easing(TWEEN.Easing.Elastic.Out)
-            .onComplete(() => {
-              this.bigCrates.push(crateObj);
-            });
-          tScale.start()
-          tPos.start()
+          if(crateObj.scale.z > 1.05 || crateObj.userData.tweens.growScale.isPlaying()) return;
+
+          crateObj.userData.tweens.growScale.start();
+          crateObj.userData.tweens.growPos.start();
         },
         // smooth shrink animation
         shrinkCrate(crateObj){
-          const tScale = new TWEEN.Tween(crateObj.scale)
-            .to({z: 1}, 600)
-            .easing(TWEEN.Easing.Quadratic.Out);
-          const tPos = new TWEEN.Tween(crateObj.position)
-            .to({z: 0}, 600)
-            .easing(TWEEN.Easing.Quadratic.Out)
-            .onComplete(() => {
-              this.bigCrates.splice(this.bigCrates.indexOf(crateObj), 1);
-            });
-          tScale.start();
-          tPos.start();
+          if(crateObj.scale.x > .05 && crateObj.scale.z < 1.05 || crateObj.userData.tweens.shrinkScale.isPlaying()) return;
+
+          crateObj.userData.tweens.growScale.stop();
+          crateObj.userData.tweens.growPos.stop();
+
+          crateObj.userData.tweens.shrinkScale.start();
+          crateObj.userData.tweens.shrinkPos.start();
         },
         // new crate from service name
         addCrate(serviceName) {
           let grp = new THREE.Group();
           grp.name = serviceName;
           grp.position.x += (this.crates.length * 1.1);
-          grp.scale.set(0, 0, 0);
 
           // rounded box
           const boxMat = new THREE.MeshStandardMaterial({
@@ -202,7 +191,6 @@ export default {
           grp.add(text);
 
           // bounding box
-          let invisMat = new THREE.MeshStandardMaterial({side: THREE.FrontSide, color: 0x000000, });
           let bbox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), invisMat);
           bbox.name = grp.name + '_bbox';
           bbox.layers.enable(1);
@@ -210,34 +198,51 @@ export default {
           bbox.parent = grp;
           boundingBoxes.push(bbox);
 
-          this.crates.push(grp);
-          scene.add(grp);
+          // animations
+          let growScale = new TWEEN.Tween(grp.scale)
+            .to({z: 3}, 1200)
+            .easing(TWEEN.Easing.Elastic.Out);
+          let growPos = new TWEEN.Tween(grp.position)
+            .to({z: 1}, 1200)
+            .easing(TWEEN.Easing.Elastic.Out);
+          let shrinkScale = new TWEEN.Tween(grp.scale)
+            .to({x: 1, z: 1, y: 1}, 600)
+            .easing(TWEEN.Easing.Quadratic.Out);
+          let shrinkPos = new TWEEN.Tween(grp.position)
+            .to({z: 0}, 600)
+            .easing(TWEEN.Easing.Quadratic.Out);
+
+          grp.userData = { tweens: { growScale, growPos, shrinkScale, shrinkPos } };
 
           // elastic spawn animation
           // TODO: stagger all spawn animations slightly at start
-          const tScale = new TWEEN.Tween(grp.scale)
-            .to({x: 1, y: 1, z: 1}, 750)
-            .easing(TWEEN.Easing.Elastic.Out);
-          tScale.start();
+          // grp.scale.set(0,0,0)
+          // let tScale = new TWEEN.Tween(grp.scale)
+          //   .to({x: 1, y: 1, z: 1}, 750)
+          //   .easing(TWEEN.Easing.Elastic.Out)
+          //   .onComplete(() => {
+          //     grp.scale.set(1,1,1);
+          //   });
+          // tScale.start();
+
+          this.crates.push(grp);
+          scene.add(grp);
         },
         // remove existing crate
         removeCrate(crateObj) {
-          // elastic despawn animation
-          const tScale = new TWEEN.Tween(crateObj.scale)
-            .to({x: 0, y: 0, z: 0}, 750)
-            .easing(TWEEN.Easing.Elastic.In)
-            .onComplete(() => {   // remove when animation completes
-              
-              boundingBoxes.splice(boundingBoxes.findIndex(b => b.name == crateObj.name + '_bbox'), 1);
-              this.crates.splice(this.crates.indexOf(crateObj), 1);
+          boundingBoxes.splice(boundingBoxes.findIndex(b => b.name == crateObj.name + '_bbox'), 1);
+          this.crates.splice(this.crates.indexOf(crateObj), 1);
 
-              if(this.bigCrates.some(c => c == crateObj)){
-                this.bigCrates.splice(this.bigCrates.indexOf(crateObj), 1);
-              }
-              scene.remove(scene.getObjectByName(crateObj.name + '_bbox'));
-              scene.remove(scene.getObjectByName(crateObj.name));
-            });
-          tScale.start()
+          scene.remove(scene.getObjectByName(crateObj.name + '_bbox'));
+          scene.remove(scene.getObjectByName(crateObj.name));
+          
+          // elastic despawn animation
+          // const tScale = new TWEEN.Tween(crateObj.scale)
+          //   .to({x: 0, y: 0, z: 0}, 750)
+          //   .easing(TWEEN.Easing.Elastic.In)
+          //   .onComplete(() => {   // remove when animation completes
+          //   });
+          // tScale.start()
         },
         // triggered on bound services array change
         updateCrates() {
