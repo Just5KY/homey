@@ -179,7 +179,6 @@ export default {
               color: 0xf8f8f8
           });
           let box = new THREE.Mesh(new RoundedBoxGeometry(1, 1, 1, 6, .1), boxMat);
-          box.name = 'box';
           grp.add(box);
 
           // service name
@@ -195,12 +194,44 @@ export default {
           });
           let text = new THREE.Mesh(textGeo, textMat);
           text.rotateY(Math.PI * 1.5);
+          
           let textSize = new THREE.Box3().setFromObject(text);
-
           text.position.x -= .5;
           text.position.y -= ((textSize.max.y - textSize.min.y) / 2);
-          text.position.z -= .5;
+          text.position.z += 1;
+          textSize.setFromObject(text);
           grp.add(text);
+
+          // button placeholders
+          let btnSize = .4;
+          const buttonGeo = new THREE.CircleGeometry(btnSize / 2, 32);
+          const buttonMat = new THREE.MeshStandardMaterial({
+              side: THREE.FrontSide,
+              color: 0x00a7ff
+          });
+          const btnStart = new THREE.Mesh(buttonGeo, buttonMat);
+          btnStart.rotateY(Math.PI * 1.5);
+          btnStart.position.x = text.position.x - .05;
+          btnStart.position.z = textSize.max.z + btnSize;
+          grp.add(btnStart);
+
+          const btnStop = new THREE.Mesh(buttonGeo, buttonMat);
+          btnStop.rotateY(Math.PI * 1.5);
+          btnStop.position.x = text.position.x - .05;
+          btnStop.position.z = textSize.max.z + btnSize * 2;
+          grp.add(btnStop);
+
+          const btnRestart = new THREE.Mesh(buttonGeo, buttonMat);
+          btnRestart.rotateY(Math.PI * 1.5);
+          btnRestart.position.x = text.position.x - .05;
+          btnRestart.position.z = textSize.max.z + btnSize * 3;
+          grp.add(btnRestart);
+
+          const btnInfo = new THREE.Mesh(buttonGeo, buttonMat);
+          btnInfo.rotateY(Math.PI * 1.5);
+          btnInfo.position.x = text.position.x - .05;
+          btnInfo.position.z = textSize.max.z + btnSize * 4;
+          grp.add(btnInfo);
 
           // bounding box
           let bbox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), invisMat);
@@ -212,16 +243,16 @@ export default {
 
           // animations
           let growScale = new TWEEN.Tween(box.scale)
-            .to({z: textSize.max.z - textSize.min.z}, 1200)
+            .to({z: 1 + btnSize + (textSize.max.z - textSize.min.z) + btnSize * 6 }, 2000) // title + button panel width
             .easing(TWEEN.Easing.Elastic.Out);
           let growPos = new TWEEN.Tween(box.position)
-            .to({z: -.5 + (textSize.max.z - textSize.min.z) / 2}, 1200)
+            .to({z:(btnSize + (textSize.max.z - textSize.min.z) + btnSize * 6 ) / 2}, 2000)
             .easing(TWEEN.Easing.Elastic.Out);
           let shrinkScale = new TWEEN.Tween(box.scale)
-            .to({x: 1, z: 1, y: 1}, 600)
+            .to({x: 1, z: 1, y: 1}, 800)
             .easing(TWEEN.Easing.Quadratic.Out);
           let shrinkPos = new TWEEN.Tween(box.position)
-            .to({z: 0}, 600)
+            .to({z: 0}, 800)
             .easing(TWEEN.Easing.Quadratic.Out);
 
           grp.userData = { 
