@@ -48,5 +48,6 @@ export default {
     width: 100%;
     top: 0;
     left: 0;
+    background-color: #2a2a2a;
   }
 </style>

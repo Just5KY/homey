@@ -73,7 +73,7 @@ export default {
 
         scene.add(camera)
         scene.add(light)
-        light.position.set(1, 5, 5);
+        light.position.set(-5, 3, 2);
         camera.position.z = 5;
         
         renderer.setPixelRatio( window.devicePixelRatio );
@@ -165,7 +165,7 @@ export default {
           // rounded box
           const boxMat = new THREE.MeshStandardMaterial({
               side: THREE.FrontSide,
-              color: 'hsl(0, 100%, 50%)'
+              color: 0xf8f8f8
           });
           let box = new THREE.Mesh(new RoundedBoxGeometry(1, 1, 1, 6, .1), boxMat);
           grp.add(box);
