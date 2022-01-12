@@ -16,21 +16,22 @@ import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeom
 // to avoid making them reactive
 const scene = new THREE.Scene();
 const raycaster = new THREE.Raycaster();
-const gltfLoader = new GLTFLoader();
-const fontLoader = new FontLoader();
-let mousePos = new THREE.Vector2(100, 100);
 const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
     0.1,
-    1000
-)
+    100
+);
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-const light = new THREE.DirectionalLight('hsl(0, 100%, 100%)');
-let controls;
+const controls = new OrbitControls(camera, renderer.domElement);
+const gltfLoader = new GLTFLoader();
+const fontLoader = new FontLoader();
+const light = new THREE.DirectionalLight(0xffffff);
+const invisMat = new THREE.MeshStandardMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
+
+let mousePos = new THREE.Vector2(100, 100);
 let defaultFont;
 let boundingBoxes = [];
-let invisMat;
 
 export default {
     name: 'WhaleScene',
@@ -81,10 +82,8 @@ export default {
 
         // for bounding boxes
         raycaster.layers.set(1);
-        invisMat = new THREE.MeshStandardMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
 
         // limit camera movement
-        controls = new OrbitControls(camera, renderer.domElement);
         controls.maxAzimuthAngle = 0 + 0.2;  
         controls.minAzimuthAngle = Math.PI / -2 - 0.2;
         controls.maxPolarAngle = Math.PI / 2 + 0.2;
@@ -105,6 +104,7 @@ export default {
             TWEEN.update();
             controls.update();
 
+            this.updateBoundingBoxes();
             this.raycast();
 
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -120,11 +120,22 @@ export default {
           if(intersects.length > 0) {
             // bounding boxes are named <crate.name>_bbox
             let hitCrate = scene.getObjectByName(intersects[0].object.name.slice(0, -5));
+            scene.getObjectByName()
             
             // expand hitCrate; shrink all others
             this.shrinkAll(hitCrate);
           }
           else this.shrinkAll(); // if no hit, shrink any expanded crates
+        },
+        // update bounding boxes to parent positions
+        updateBoundingBoxes(){
+          boundingBoxes.forEach( b => {
+            let box = b.parent.userData.box;
+            if(box.scale.z > 1.05) {
+              b.scale.z = box.scale.z;
+              b.position.z = box.position.z;
+            }
+          });
         },
         // shrinks all crates except specified
         shrinkAll(exceptCrate){
@@ -141,14 +152,14 @@ export default {
         },
         // elastic pop out animation
         growCrate(crateObj){
-          if(crateObj.scale.z > 1.05 || crateObj.userData.tweens.growScale.isPlaying()) return;
+          if(crateObj.userData.box.scale.z > 1.05 || crateObj.userData.tweens.growScale.isPlaying()) return;
 
           crateObj.userData.tweens.growScale.start();
           crateObj.userData.tweens.growPos.start();
         },
         // smooth shrink animation
         shrinkCrate(crateObj){
-          if(crateObj.scale.x > .05 && crateObj.scale.z < 1.05 || crateObj.userData.tweens.shrinkScale.isPlaying()) return;
+          if(crateObj.userData.box.scale.z < 1.05 || crateObj.userData.tweens.shrinkScale.isPlaying()) return;
 
           crateObj.userData.tweens.growScale.stop();
           crateObj.userData.tweens.growPos.stop();
@@ -168,6 +179,7 @@ export default {
               color: 0xf8f8f8
           });
           let box = new THREE.Mesh(new RoundedBoxGeometry(1, 1, 1, 6, .1), boxMat);
+          box.name = 'box';
           grp.add(box);
 
           // service name
@@ -187,7 +199,7 @@ export default {
 
           text.position.x -= .5;
           text.position.y -= ((textSize.max.y - textSize.min.y) / 2);
-          text.position.z -= ((textSize.max.z - textSize.min.z) / 2);
+          text.position.z -= .5;
           grp.add(text);
 
           // bounding box
@@ -199,20 +211,23 @@ export default {
           boundingBoxes.push(bbox);
 
           // animations
-          let growScale = new TWEEN.Tween(grp.scale)
-            .to({z: 3}, 1200)
+          let growScale = new TWEEN.Tween(box.scale)
+            .to({z: textSize.max.z - textSize.min.z}, 1200)
             .easing(TWEEN.Easing.Elastic.Out);
-          let growPos = new TWEEN.Tween(grp.position)
-            .to({z: 1}, 1200)
+          let growPos = new TWEEN.Tween(box.position)
+            .to({z: -.5 + (textSize.max.z - textSize.min.z) / 2}, 1200)
             .easing(TWEEN.Easing.Elastic.Out);
-          let shrinkScale = new TWEEN.Tween(grp.scale)
+          let shrinkScale = new TWEEN.Tween(box.scale)
             .to({x: 1, z: 1, y: 1}, 600)
             .easing(TWEEN.Easing.Quadratic.Out);
-          let shrinkPos = new TWEEN.Tween(grp.position)
+          let shrinkPos = new TWEEN.Tween(box.position)
             .to({z: 0}, 600)
             .easing(TWEEN.Easing.Quadratic.Out);
 
-          grp.userData = { tweens: { growScale, growPos, shrinkScale, shrinkPos } };
+          grp.userData = { 
+            tweens: { growScale, growPos, shrinkScale, shrinkPos },
+            box: box
+          };
 
           // elastic spawn animation
           // TODO: stagger all spawn animations slightly at start
