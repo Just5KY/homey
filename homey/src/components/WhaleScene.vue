@@ -75,14 +75,11 @@ export default {
         scene.add(light)
         light.position.set(1, 5, 5);
         camera.position.z = 5;
-        camera.layers.enable(1);
         
         renderer.setPixelRatio( window.devicePixelRatio );
         window.addEventListener('mousemove', this.onMouseMove, false );
-        raycaster.layers.set(1);
 
-        // awful for performance. debugging only
-        //raycaster.params.Line.threshold = .1;
+        raycaster.layers.set(1);
 
         // limit camera movement
         controls = new OrbitControls(camera, renderer.domElement);
@@ -106,22 +103,23 @@ export default {
             TWEEN.update();
             controls.update();
 
-            if(boundingBoxes.length > 0)  this.raycast();
+            this.raycast();
 
             renderer.setSize(window.innerWidth, window.innerHeight);
             requestAnimationFrame(this.animate)
             renderer.render(scene, camera);
         },
         raycast() {
+          if(boundingBoxes.length == 0)   return;
           raycaster.setFromCamera(mousePos, camera);
           
           // intersects[0] is closest (to camera) hovered crate's bounding box 
           const intersects = raycaster.intersectObjects(boundingBoxes);
           if(intersects.length > 0) {
+            // bounding boxes are named <crate.name>_bbox
             let hitCrate = scene.getObjectByName(intersects[0].object.name.slice(0, -5));
 
-            // TODO: broken animations could be due to this logic
-            // do not expand if already expanded
+            // do not expand if already expanded or expanding
             if( (this.bigCrates.length > 0 && (this.bigCrates.some(c => c == hitCrate))) || hitCrate.scale.z > 1)  return;
             // shrink all previously expanded crates except hitCrate
             if(this.bigCrates.length > 0) this.shrinkAll(hitCrate);
@@ -197,14 +195,14 @@ export default {
           let text = new THREE.Mesh(textGeo, textMat);
           text.rotateY(Math.PI * 1.5);
           let textSize = new THREE.Box3().setFromObject(text);
-          
+
           text.position.x -= .5;
           text.position.y -= ((textSize.max.y - textSize.min.y) / 2);
           text.position.z -= ((textSize.max.z - textSize.min.z) / 2);
           grp.add(text);
 
           // bounding box
-          let invisMat = new THREE.MeshStandardMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
+          let invisMat = new THREE.MeshStandardMaterial({side: THREE.FrontSide, color: 0x000000, });
           let bbox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), invisMat);
           bbox.name = grp.name + '_bbox';
           bbox.layers.enable(1);
@@ -229,11 +227,15 @@ export default {
             .to({x: 0, y: 0, z: 0}, 750)
             .easing(TWEEN.Easing.Elastic.In)
             .onComplete(() => {   // remove when animation completes
+              
+              boundingBoxes.splice(boundingBoxes.findIndex(b => b.name == crateObj.name + '_bbox'), 1);
               this.crates.splice(this.crates.indexOf(crateObj), 1);
+
               if(this.bigCrates.some(c => c == crateObj)){
                 this.bigCrates.splice(this.bigCrates.indexOf(crateObj), 1);
               }
-              scene.remove(crateObj);
+              scene.remove(scene.getObjectByName(crateObj.name + '_bbox'));
+              scene.remove(scene.getObjectByName(crateObj.name));
             });
           tScale.start()
         },
