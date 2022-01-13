@@ -26,7 +26,7 @@ const camera = new THREE.PerspectiveCamera(
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.localClippingEnabled = true
-const clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), .45);
+const clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -.3);
 
 const gltfLoader = new GLTFLoader();
 const fontLoader = new FontLoader();
@@ -139,7 +139,7 @@ export default {
               }
               else {
                 hitCrate.userData.UI.children.forEach(btn => {
-                  btn.material.emissive.set(uiColor)
+                  if(btn.material.emissive) btn.material.emissive.set(uiColor)
                 });
                 hoveredButton = null;
               }
@@ -207,7 +207,7 @@ export default {
                   position: {z: 0},
                 },
                 UI: {
-                  position: {z: ((crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) - .4 * 7) / 2},
+                  position: {z: -2 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) / 2 - (.4 * 6) },
                 }
              }}, 600)
             .easing(TWEEN.Easing.Quadratic.Out)
@@ -231,35 +231,22 @@ export default {
 
           let uiGrp = new THREE.Group();
 
-          // service name
-          const textGeo = new TextGeometry(serviceName, {
-            font: defaultFont,
-            size: .3,
-            height: .05,
-            bevelEnabled: false,
-          });
-          
-          const textMat = new THREE.MeshStandardMaterial({
-              side: THREE.FrontSide,
-              color: uiColor,
-              clippingPlanes: [clippingPlane],
-              clipIntersection: true
-          });
-          let text = new THREE.Mesh(textGeo, textMat);
-          text.rotateY(Math.PI * 1.5);
-          
           let btnSize = .4;
+          const buttonGeo = new THREE.PlaneGeometry(btnSize, btnSize);
+
+          // service name
+          let text = this.dcText(serviceName, .5, 1, 64, uiColor);
+          text.rotateY(Math.PI * 1.5);
+          text.position.x -= 0.01;
+          
           let textSize = new THREE.Box3().setFromObject(text);
           text.position.x -= .5;
-          text.position.y -= ((textSize.max.y - textSize.min.y) / 2);
-          text.position.z -= (textSize.max.z - textSize.min.z) + btnSize * 6
+          text.position.y -= .02;
+          text.position.z -= ((textSize.max.z - textSize.min.z) / 2 + (btnSize * 6)) 
           textSize.setFromObject(text);
           uiGrp.add(text);
 
           // button placeholders
-
-          const buttonGeo = new THREE.PlaneGeometry(btnSize, btnSize);
-
           let btnStartMat = new THREE.MeshStandardMaterial({
               side: THREE.FrontSide,
               map: imgLoader.load('./images/ui/start.png'),
@@ -338,6 +325,13 @@ export default {
           grp.add(serviceImg);
           serviceImg.parent = box;
 
+          const serviceImgHidden = new THREE.Mesh(buttonGeo, serviceImgMat);
+          serviceImgHidden.position.x -= .501;
+          serviceImgHidden.scale.set(1.5, 1.5, 1)
+          serviceImgHidden.rotateY(Math.PI * 1.5);
+          
+          grp.add(serviceImgHidden);
+
           // bounding box
           let bbox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), invisMat);
           bbox.name = grp.name + '_bbox';
@@ -367,6 +361,51 @@ export default {
           this.crates.push(grp);
           scene.add(grp);
         },
+        dcText(txt, hWorldTxt, hWorldAll, hPxTxt, fgcolor, bgcolor) {
+ 
+  var kPxToWorld = hWorldTxt/hPxTxt;                // Px to World multplication factor
+  // hWorldTxt, hWorldAll, and hPxTxt are given; get hPxAll
+  var hPxAll = Math.ceil(hWorldAll/kPxToWorld);     // hPxAll: height of the whole texture canvas
+  // create the canvas for the texture
+  var txtcanvas = document.createElement("canvas"); // create the canvas for the texture
+  var ctx = txtcanvas.getContext("2d");
+  ctx.font = hPxTxt + "px sans-serif";        
+  // now get the widths
+  var wPxTxt = ctx.measureText(txt).width;         // wPxTxt: width of the text in the texture canvas
+  var wWorldTxt = wPxTxt*kPxToWorld;               // wWorldTxt: world width of text in the plane
+  var wWorldAll = wWorldTxt+(hWorldAll-hWorldTxt); // wWorldAll: world width of the whole plane
+  var wPxAll = Math.ceil(wWorldAll/kPxToWorld);    // wPxAll: width of the whole texture canvas
+  // next, resize the texture canvas and fill the text
+  txtcanvas.width =  wPxAll;
+  txtcanvas.height = hPxAll;
+ 
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle"; 
+  ctx.fillStyle = "#" + fgcolor.toString(16).padStart(6, '0'); // fgcolor
+  ctx.font = hPxTxt + "px sans-serif";   // needed after resize
+  ctx.fillText(txt, wPxAll/2, hPxAll/2); // the deed is done
+  // next, make the texture
+  var texture = new THREE.Texture(txtcanvas); // now make texture
+  texture.minFilter = THREE.LinearFilter;     // eliminate console message
+  texture.needsUpdate = true;                 // duh
+  // and make the world plane with the texture
+  let geometry = new THREE.PlaneGeometry(wWorldAll, hWorldAll);
+  var material = new THREE.MeshBasicMaterial( 
+    { side:THREE.DoubleSide, map:texture, transparent:true, clippingPlanes: [clippingPlane],
+              clipIntersection: true} );
+  // and finally, the mesh
+  var mesh = new THREE.Mesh(geometry, material);
+  mesh.wWorldTxt = wWorldTxt; // return the width of the text in the plane
+  mesh.wWorldAll = wWorldAll; //    and the width of the whole plane
+  mesh.wPxTxt = wPxTxt;       //    and the width of the text in the texture canvas
+                              // (the heights of the above items are known)
+  mesh.wPxAll = wPxAll;       //    and the width of the whole texture canvas
+  mesh.hPxAll = hPxAll;       //    and the height of the whole texture canvas
+  mesh.ctx = ctx;             //    and the 2d texture context, for any glitter
+  // console.log(wPxTxt, hPxTxt, wPxAll, hPxAll);
+  // console.log(wWorldTxt, hWorldTxt, wWorldAll, hWorldAll);
+  return mesh;
+},
         // remove existing crate
         removeCrate(crateObj) {
           boundingBoxes.splice(boundingBoxes.findIndex(b => b.name == crateObj.name + '_bbox'), 1);
