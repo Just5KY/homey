@@ -122,8 +122,7 @@ export default {
           const intersects = raycaster.intersectObjects(boundingBoxes);
           if(intersects.length > 0) {
             let hitCrate = intersects[0].object.parent;
-            
-            if(hitCrate.userData.box.scale.z > 3) {
+            if(hitCrate.userData.box.position.z > 2) {
               const uiCast = raycaster.intersectObjects(hitCrate.userData.UI.children);
               if (uiCast.length > 0) {
                 if(hoveredButton) hoveredButton.material.emissive.set(uiColor)
@@ -175,11 +174,11 @@ export default {
           crateObj.userData.animation = new TWEEN.Tween(crateObj)
             .to({ userData: {
                 box: {
-                  scale: {z: 1 + .4 +(crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 },   // title + button panel width
-                  position: {z:(.4 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 ) / 2}
+                  scale: {z: (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 },   // title + button panel width
+                  position: {z:(-1 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 ) / 2}
                 },
                 UI: {
-                  position: {z:1 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 }
+                  position: {z: .25 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 }
                 }
              }}, 1400) 
             .easing(TWEEN.Easing.Elastic.Out)
@@ -250,7 +249,7 @@ export default {
           const btnStart = new THREE.Mesh(buttonGeo, btnStartMat);
           btnStart.rotateY(Math.PI * 1.5);
           btnStart.position.x = text.position.x - .02;
-          btnStart.position.z = textSize.max.z + btnSize;
+          btnStart.position.z = textSize.max.z + (btnSize / 4);
           btnStart.layers.enable(1);
           btnStart.name = 'start'
           uiGrp.add(btnStart);
@@ -266,7 +265,7 @@ export default {
           const btnStop = new THREE.Mesh(buttonGeo, btnStopMat);
           btnStop.rotateY(Math.PI * 1.5);
           btnStop.position.x = text.position.x - .02;
-          btnStop.position.z = textSize.max.z + btnSize * 2;
+          btnStop.position.z = btnStart.position.z + btnSize;
           btnStop.layers.enable(1);
           btnStop.name = 'stop'
           uiGrp.add(btnStop);
@@ -282,7 +281,7 @@ export default {
           const btnRestart = new THREE.Mesh(buttonGeo, btnRestartMat);
           btnRestart.rotateY(Math.PI * 1.5);
           btnRestart.position.x = text.position.x - .02;
-          btnRestart.position.z = textSize.max.z + btnSize * 3;
+          btnRestart.position.z = btnStop.position.z + btnSize;
           btnRestart.layers.enable(1);
           btnRestart.name = 'restart'
           uiGrp.add(btnRestart);
@@ -298,7 +297,7 @@ export default {
           const btnInfo = new THREE.Mesh(buttonGeo, btnInfoMat);
           btnInfo.rotateY(Math.PI * 1.5);
           btnInfo.position.x = text.position.x - .02;
-          btnInfo.position.z = textSize.max.z + btnSize * 4;
+          btnInfo.position.z = btnRestart.position.z + btnSize;
           btnInfo.layers.enable(1);
           btnInfo.name = 'info'
           uiGrp.add(btnInfo);
