@@ -26,16 +26,15 @@ const camera = new THREE.PerspectiveCamera(
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.localClippingEnabled = true
-const clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -.3);
+const clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -.34);
 
 const gltfLoader = new GLTFLoader();
 const fontLoader = new FontLoader();
 const imgLoader = new THREE.TextureLoader();
 const light = new THREE.DirectionalLight(0xffffff);
-const invisMat = new THREE.MeshStandardMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
+const invisMat = new THREE.MeshPhongMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
 
 let mousePos = new THREE.Vector2(100, 100);
-let defaultFont;
 let boundingBoxes = [];
 let uiColor = 0x00a7ff;
 let hoveredButton;
@@ -66,14 +65,8 @@ export default {
     created: function() {
         this.serviceData = this.services;
 
-        // TODO: new font
-        fontLoader.load('./fonts/helvetiker.json', (font) => {
-          defaultFont = font;
-          // spawn a crate for each service
-            this.serviceData.forEach(s => {
-              this.addCrate(s.name);
-            });
-        });
+        // spawn a crate for each service
+        this.serviceData.forEach(s => { this.addCrate(s.name); });
 
         // load whale
         gltfLoader.load('./models/docker.glb', (model) => { 
@@ -222,7 +215,7 @@ export default {
           grp.position.y += Math.floor(this.crates.length / 5)
 
           // rounded box
-          const boxMat = new THREE.MeshStandardMaterial({
+          const boxMat = new THREE.MeshPhongMaterial({
               side: THREE.FrontSide,
               color: 0xf8f8f8,
           });
@@ -230,14 +223,13 @@ export default {
           grp.add(box);
 
           let uiGrp = new THREE.Group();
-
           let btnSize = .4;
           const buttonGeo = new THREE.PlaneGeometry(btnSize, btnSize);
 
           // service name
-          let text = this.dcText(serviceName, .5, 1, 64, uiColor);
+          let text = this.TextToPlane(serviceName, .5, 1, 80, uiColor);
           text.rotateY(Math.PI * 1.5);
-          text.position.x -= 0.01;
+          text.position.x -= 0.02;
           
           let textSize = new THREE.Box3().setFromObject(text);
           text.position.x -= .5;
@@ -247,7 +239,7 @@ export default {
           uiGrp.add(text);
 
           // button placeholders
-          let btnStartMat = new THREE.MeshStandardMaterial({
+          let btnStartMat = new THREE.MeshPhongMaterial({
               side: THREE.FrontSide,
               map: imgLoader.load('./images/ui/start.png'),
               transparent: true,
@@ -257,13 +249,13 @@ export default {
           });
           const btnStart = new THREE.Mesh(buttonGeo, btnStartMat);
           btnStart.rotateY(Math.PI * 1.5);
-          btnStart.position.x = text.position.x - .01;
+          btnStart.position.x = text.position.x - .02;
           btnStart.position.z = textSize.max.z + btnSize;
           btnStart.layers.enable(1);
           btnStart.name = 'start'
           uiGrp.add(btnStart);
 
-          let btnStopMat = new THREE.MeshStandardMaterial({
+          let btnStopMat = new THREE.MeshPhongMaterial({
               side: THREE.FrontSide,
               map: imgLoader.load('./images/ui/stop.png'),
               transparent: true,
@@ -273,13 +265,13 @@ export default {
           });
           const btnStop = new THREE.Mesh(buttonGeo, btnStopMat);
           btnStop.rotateY(Math.PI * 1.5);
-          btnStop.position.x = text.position.x - .01;
+          btnStop.position.x = text.position.x - .02;
           btnStop.position.z = textSize.max.z + btnSize * 2;
           btnStop.layers.enable(1);
           btnStop.name = 'stop'
           uiGrp.add(btnStop);
 
-          let btnRestartMat = new THREE.MeshStandardMaterial({
+          let btnRestartMat = new THREE.MeshPhongMaterial({
               side: THREE.FrontSide,
               map: imgLoader.load('./images/ui/restart.png'),
               transparent: true,
@@ -289,13 +281,13 @@ export default {
           });
           const btnRestart = new THREE.Mesh(buttonGeo, btnRestartMat);
           btnRestart.rotateY(Math.PI * 1.5);
-          btnRestart.position.x = text.position.x - .01;
+          btnRestart.position.x = text.position.x - .02;
           btnRestart.position.z = textSize.max.z + btnSize * 3;
           btnRestart.layers.enable(1);
           btnRestart.name = 'restart'
           uiGrp.add(btnRestart);
 
-          let btnInfoMat = new THREE.MeshStandardMaterial({
+          let btnInfoMat = new THREE.MeshPhongMaterial({
               side: THREE.FrontSide,
               map: imgLoader.load('./images/ui/info.png'),
               transparent: true,
@@ -305,7 +297,7 @@ export default {
           });
           const btnInfo = new THREE.Mesh(buttonGeo, btnInfoMat);
           btnInfo.rotateY(Math.PI * 1.5);
-          btnInfo.position.x = text.position.x - .01;
+          btnInfo.position.x = text.position.x - .02;
           btnInfo.position.z = textSize.max.z + btnSize * 4;
           btnInfo.layers.enable(1);
           btnInfo.name = 'info'
@@ -314,19 +306,19 @@ export default {
           grp.add(uiGrp);
 
           // service image
-          let serviceImgMat = new THREE.MeshStandardMaterial({
+          let serviceImgMat = new THREE.MeshPhongMaterial({
               side: THREE.FrontSide,
               map: imgLoader.load('./images/icons/' + this.services.find(s => s.name == serviceName).icon),
               transparent: true,
           });
           const serviceImg = new THREE.Mesh(buttonGeo, serviceImgMat);
-          serviceImg.position.z += .501;
+          serviceImg.position.z += .502;
           serviceImg.scale.set(1.5, 1.5, 1)
           grp.add(serviceImg);
           serviceImg.parent = box;
 
           const serviceImgHidden = new THREE.Mesh(buttonGeo, serviceImgMat);
-          serviceImgHidden.position.x -= .501;
+          serviceImgHidden.position.x -= .502;
           serviceImgHidden.scale.set(1.5, 1.5, 1)
           serviceImgHidden.rotateY(Math.PI * 1.5);
           
@@ -348,79 +340,64 @@ export default {
           };
 
           // elastic spawn animation
-          // TODO: stagger all spawn animations slightly at start
-          // grp.scale.set(0,0,0)
-          // let tScale = new TWEEN.Tween(grp.scale)
-          //   .to({x: 1, y: 1, z: 1}, 750)
-          //   .easing(TWEEN.Easing.Elastic.Out)
-          //   .onComplete(() => {
-          //     grp.scale.set(1,1,1);
-          //   });
-          // tScale.start();
+          // TODO: stagger
+          grp.scale.set(0,0,0)
+          let tScale = new TWEEN.Tween(grp.scale)
+            .to({x: 1, y: 1, z: 1}, 750)
+            .easing(TWEEN.Easing.Elastic.Out)
+          tScale.start();
 
           this.crates.push(grp);
           scene.add(grp);
         },
-        dcText(txt, hWorldTxt, hWorldAll, hPxTxt, fgcolor, bgcolor) {
- 
-  var kPxToWorld = hWorldTxt/hPxTxt;                // Px to World multplication factor
-  // hWorldTxt, hWorldAll, and hPxTxt are given; get hPxAll
-  var hPxAll = Math.ceil(hWorldAll/kPxToWorld);     // hPxAll: height of the whole texture canvas
-  // create the canvas for the texture
-  var txtcanvas = document.createElement("canvas"); // create the canvas for the texture
-  var ctx = txtcanvas.getContext("2d");
-  ctx.font = hPxTxt + "px sans-serif";        
-  // now get the widths
-  var wPxTxt = ctx.measureText(txt).width;         // wPxTxt: width of the text in the texture canvas
-  var wWorldTxt = wPxTxt*kPxToWorld;               // wWorldTxt: world width of text in the plane
-  var wWorldAll = wWorldTxt+(hWorldAll-hWorldTxt); // wWorldAll: world width of the whole plane
-  var wPxAll = Math.ceil(wWorldAll/kPxToWorld);    // wPxAll: width of the whole texture canvas
-  // next, resize the texture canvas and fill the text
-  txtcanvas.width =  wPxAll;
-  txtcanvas.height = hPxAll;
- 
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle"; 
-  ctx.fillStyle = "#" + fgcolor.toString(16).padStart(6, '0'); // fgcolor
-  ctx.font = hPxTxt + "px sans-serif";   // needed after resize
-  ctx.fillText(txt, wPxAll/2, hPxAll/2); // the deed is done
-  // next, make the texture
-  var texture = new THREE.Texture(txtcanvas); // now make texture
-  texture.minFilter = THREE.LinearFilter;     // eliminate console message
-  texture.needsUpdate = true;                 // duh
-  // and make the world plane with the texture
-  let geometry = new THREE.PlaneGeometry(wWorldAll, hWorldAll);
-  var material = new THREE.MeshBasicMaterial( 
-    { side:THREE.DoubleSide, map:texture, transparent:true, clippingPlanes: [clippingPlane],
-              clipIntersection: true} );
-  // and finally, the mesh
-  var mesh = new THREE.Mesh(geometry, material);
-  mesh.wWorldTxt = wWorldTxt; // return the width of the text in the plane
-  mesh.wWorldAll = wWorldAll; //    and the width of the whole plane
-  mesh.wPxTxt = wPxTxt;       //    and the width of the text in the texture canvas
-                              // (the heights of the above items are known)
-  mesh.wPxAll = wPxAll;       //    and the width of the whole texture canvas
-  mesh.hPxAll = hPxAll;       //    and the height of the whole texture canvas
-  mesh.ctx = ctx;             //    and the 2d texture context, for any glitter
-  // console.log(wPxTxt, hPxTxt, wPxAll, hPxAll);
-  // console.log(wWorldTxt, hWorldTxt, wWorldAll, hWorldAll);
-  return mesh;
-},
+        // credit to dcromley: https://discourse.threejs.org/t/an-example-of-text-to-canvas-to-texture-to-material-to-mesh-not-too-difficult/13757
+        TextToPlane(txt, hWorldTxt, hWorldAll, hPxTxt, color) {
+          let kPxToWorld = hWorldTxt/hPxTxt;                // px to world multplication factor
+          let hPxAll = Math.ceil(hWorldAll/kPxToWorld);     // height of the whole texture canvas
+
+          // create the canvas for the texture
+          let txtcanvas = document.createElement("canvas");
+          let ctx = txtcanvas.getContext("2d");
+          ctx.font = hPxTxt + "px sans-serif";   
+
+          // get all widths
+          let wPxTxt = ctx.measureText(txt).width;         // wPxTxt: width of the text in the texture canvas
+          let wWorldTxt = wPxTxt*kPxToWorld;               // wWorldTxt: world width of text in the plane
+          let wWorldAll = wWorldTxt+(hWorldAll-hWorldTxt); // wWorldAll: world width of the whole plane
+          let wPxAll = Math.ceil(wWorldAll/kPxToWorld);    // wPxAll: width of the whole texture canvas
+          
+          // resize the texture canvas
+          txtcanvas.width =  wPxAll;
+          txtcanvas.height = hPxAll;
+        
+          // fill text
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle"; 
+          ctx.fillStyle = "#" + color.toString(16)
+          ctx.font = hPxTxt + "px sans-serif";   // needed after resize
+          ctx.fillText(txt, wPxAll/2, hPxAll/2); 
+
+          // create material + mesh from text
+          let material = new THREE.MeshBasicMaterial( { side:THREE.FrontSide, map:new THREE.CanvasTexture(txtcanvas), 
+            transparent:true, clippingPlanes: [clippingPlane], clipIntersection: true
+          });
+          
+          return new THREE.Mesh(new THREE.PlaneGeometry(wWorldAll, hWorldAll), material);
+        },
         // remove existing crate
         removeCrate(crateObj) {
           boundingBoxes.splice(boundingBoxes.findIndex(b => b.name == crateObj.name + '_bbox'), 1);
           this.crates.splice(this.crates.indexOf(crateObj), 1);
 
-          scene.remove(scene.getObjectByName(crateObj.name + '_bbox'));
-          scene.remove(scene.getObjectByName(crateObj.name));
-          
-          // elastic despawn animation
-          // const tScale = new TWEEN.Tween(crateObj.scale)
-          //   .to({x: 0, y: 0, z: 0}, 750)
-          //   .easing(TWEEN.Easing.Elastic.In)
-          //   .onComplete(() => {   // remove when animation completes
-          //   });
-          // tScale.start()
+          //elastic despawn animation
+          const tScale = new TWEEN.Tween(crateObj.scale)
+            .to({x: 0, y: 0, z: 0}, 750)
+            .easing(TWEEN.Easing.Elastic.In)
+            .onComplete(() => {
+              scene.remove(scene.getObjectByName(crateObj.name + '_bbox'));
+              scene.remove(scene.getObjectByName(crateObj.name));
+            })
+          tScale.start()
         },
         // triggered on bound services array change
         updateCrates() {

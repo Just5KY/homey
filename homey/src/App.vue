@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     addService() {
-      this.services.push({"name": "Test Service " + this.services.length, "URL": "https://yandex.ru", "status": "Running"});
+      this.services.push({"name": "Test Service " + this.services.length, "URL": "https://yandex.ru", "icon": "portainer.png", "status": "Running"});
     },
     removeService() {
       this.services.pop();
