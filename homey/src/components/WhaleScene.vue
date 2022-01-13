@@ -104,7 +104,7 @@ export default {
             TWEEN.update();
             controls.update();
 
-            this.updateBoundingBoxes();
+            //this.updateBoundingBoxes();
             this.raycast();
 
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -112,16 +112,14 @@ export default {
             renderer.render(scene, camera);
         },
         raycast() {
-          if(boundingBoxes.length == 0)   return;
           raycaster.setFromCamera(mousePos, camera);
           
           // intersects[0] is closest (to camera) hovered crate's bounding box 
           const intersects = raycaster.intersectObjects(boundingBoxes);
           if(intersects.length > 0) {
-            // bounding boxes are named <crate.name>_bbox
-            let hitCrate = scene.getObjectByName(intersects[0].object.name.slice(0, -5));
-            scene.getObjectByName()
-            
+            let hitCrate = intersects[0].object.parent;
+            if(hitCrate.userData.box.scale.z > 1.05)  return;
+
             // expand hitCrate; shrink all others
             this.shrinkAll(hitCrate);
           }
@@ -139,7 +137,7 @@ export default {
         },
         // shrinks all crates except specified
         shrinkAll(exceptCrate){
-          if(exceptCrate && !exceptCrate.userData.tweens.growScale.isPlaying()) {
+          if(exceptCrate) {
             this.growCrate(exceptCrate);
           }
 
@@ -152,20 +150,28 @@ export default {
         },
         // elastic pop out animation
         growCrate(crateObj){
-          if(crateObj.userData.box.scale.z > 1.05 || crateObj.userData.tweens.growScale.isPlaying()) return;
+          if(crateObj.userData.box.scale.z > 1.05) return;
 
-          crateObj.userData.tweens.growScale.start();
-          crateObj.userData.tweens.growPos.start();
+          if(crateObj.userData.animation) TWEEN.remove(crateObj.userData.animation);
+          crateObj.userData.animation = new TWEEN.Tween(crateObj.userData.box)
+            .to({
+              scale: {z: 1 + .4 +(crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 },   // title + button panel width
+              position: {z:(.4 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 ) / 2}
+             }, 1400) 
+            .easing(TWEEN.Easing.Elastic.Out)
+            .onUpdate(this.updateBoundingBoxes)
+            .start();
         },
         // smooth shrink animation
         shrinkCrate(crateObj){
-          if(crateObj.userData.box.scale.z < 1.05 || crateObj.userData.tweens.shrinkScale.isPlaying()) return;
+          if(crateObj.userData.box.scale.z < 1.05) return;
 
-          crateObj.userData.tweens.growScale.stop();
-          crateObj.userData.tweens.growPos.stop();
-
-          crateObj.userData.tweens.shrinkScale.start();
-          crateObj.userData.tweens.shrinkPos.start();
+          if(crateObj.userData.animation) TWEEN.remove(crateObj.userData.animation);
+          crateObj.userData.animation = new TWEEN.Tween(crateObj.userData.box)
+            .to({ scale: {x: 1, z: 1, y: 1}, position: {z: 0} }, 600)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .onUpdate(this.updateBoundingBoxes)
+            .start();
         },
         // new crate from service name
         addCrate(serviceName) {
@@ -241,23 +247,10 @@ export default {
           bbox.parent = grp;
           boundingBoxes.push(bbox);
 
-          // animations
-          let growScale = new TWEEN.Tween(box.scale)
-            .to({z: 1 + btnSize + (textSize.max.z - textSize.min.z) + btnSize * 6 }, 2000) // title + button panel width
-            .easing(TWEEN.Easing.Elastic.Out);
-          let growPos = new TWEEN.Tween(box.position)
-            .to({z:(btnSize + (textSize.max.z - textSize.min.z) + btnSize * 6 ) / 2}, 2000)
-            .easing(TWEEN.Easing.Elastic.Out);
-          let shrinkScale = new TWEEN.Tween(box.scale)
-            .to({x: 1, z: 1, y: 1}, 800)
-            .easing(TWEEN.Easing.Quadratic.Out);
-          let shrinkPos = new TWEEN.Tween(box.position)
-            .to({z: 0}, 800)
-            .easing(TWEEN.Easing.Quadratic.Out);
-
           grp.userData = { 
-            tweens: { growScale, growPos, shrinkScale, shrinkPos },
-            box: box
+            animation: null,
+            box: box,
+            textSize: textSize
           };
 
           // elastic spawn animation
