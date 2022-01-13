@@ -130,7 +130,7 @@ export default {
           if(intersects.length > 0) {
             let hitCrate = intersects[0].object.parent;
             
-            if(hitCrate.userData.box.scale.z > 2) {
+            if(hitCrate.userData.box.scale.z > 3) {
               const uiCast = raycaster.intersectObjects(hitCrate.userData.UI.children);
               if (uiCast.length > 0) {
                 if(hoveredButton) hoveredButton.material.emissive.set(uiColor)
@@ -207,7 +207,7 @@ export default {
                   position: {z: 0},
                 },
                 UI: {
-                  position: {z: ((crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) - .4 * 6) / 2},
+                  position: {z: ((crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) - .4 * 7) / 2},
                 }
              }}, 600)
             .easing(TWEEN.Easing.Quadratic.Out)
