@@ -26,7 +26,7 @@ const camera = new THREE.PerspectiveCamera(
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.localClippingEnabled = true
-const clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), .5);
+const clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), .45);
 
 const gltfLoader = new GLTFLoader();
 const fontLoader = new FontLoader();
@@ -186,7 +186,7 @@ export default {
                   position: {z:(.4 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 ) / 2}
                 },
                 UI: {
-                  position: {z:1 + (.4 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 )}
+                  position: {z:1 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 }
                 }
              }}, 1400) 
             .easing(TWEEN.Easing.Elastic.Out)
@@ -207,7 +207,7 @@ export default {
                   position: {z: 0},
                 },
                 UI: {
-                  position: {z: 1 - (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) / 2},
+                  position: {z: ((crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) - .4 * 6) / 2},
                 }
              }}, 600)
             .easing(TWEEN.Easing.Quadratic.Out)
@@ -218,7 +218,8 @@ export default {
         addCrate(serviceName) {
           let grp = new THREE.Group();
           grp.name = serviceName;
-          grp.position.x += (this.crates.length * 1.1);
+          grp.position.x += ((this.crates.length % 5) * 1.1) - 2.9;
+          grp.position.y += Math.floor(this.crates.length / 5)
 
           // rounded box
           const boxMat = new THREE.MeshStandardMaterial({
@@ -247,15 +248,16 @@ export default {
           let text = new THREE.Mesh(textGeo, textMat);
           text.rotateY(Math.PI * 1.5);
           
+          let btnSize = .4;
           let textSize = new THREE.Box3().setFromObject(text);
           text.position.x -= .5;
           text.position.y -= ((textSize.max.y - textSize.min.y) / 2);
-          text.position.z -= (textSize.max.z - textSize.min.z) * 2
+          text.position.z -= (textSize.max.z - textSize.min.z) + btnSize * 6
           textSize.setFromObject(text);
           uiGrp.add(text);
 
           // button placeholders
-          let btnSize = .4;
+
           const buttonGeo = new THREE.PlaneGeometry(btnSize, btnSize);
 
           let btnStartMat = new THREE.MeshStandardMaterial({
@@ -268,7 +270,7 @@ export default {
           });
           const btnStart = new THREE.Mesh(buttonGeo, btnStartMat);
           btnStart.rotateY(Math.PI * 1.5);
-          btnStart.position.x = text.position.x - .05;
+          btnStart.position.x = text.position.x - .01;
           btnStart.position.z = textSize.max.z + btnSize;
           btnStart.layers.enable(1);
           btnStart.name = 'start'
@@ -284,7 +286,7 @@ export default {
           });
           const btnStop = new THREE.Mesh(buttonGeo, btnStopMat);
           btnStop.rotateY(Math.PI * 1.5);
-          btnStop.position.x = text.position.x - .05;
+          btnStop.position.x = text.position.x - .01;
           btnStop.position.z = textSize.max.z + btnSize * 2;
           btnStop.layers.enable(1);
           btnStop.name = 'stop'
@@ -300,7 +302,7 @@ export default {
           });
           const btnRestart = new THREE.Mesh(buttonGeo, btnRestartMat);
           btnRestart.rotateY(Math.PI * 1.5);
-          btnRestart.position.x = text.position.x - .05;
+          btnRestart.position.x = text.position.x - .01;
           btnRestart.position.z = textSize.max.z + btnSize * 3;
           btnRestart.layers.enable(1);
           btnRestart.name = 'restart'
@@ -316,13 +318,25 @@ export default {
           });
           const btnInfo = new THREE.Mesh(buttonGeo, btnInfoMat);
           btnInfo.rotateY(Math.PI * 1.5);
-          btnInfo.position.x = text.position.x - .05;
+          btnInfo.position.x = text.position.x - .01;
           btnInfo.position.z = textSize.max.z + btnSize * 4;
           btnInfo.layers.enable(1);
           btnInfo.name = 'info'
           uiGrp.add(btnInfo);
 
           grp.add(uiGrp);
+
+          // service image
+          let serviceImgMat = new THREE.MeshStandardMaterial({
+              side: THREE.FrontSide,
+              map: imgLoader.load('./images/icons/' + this.services.find(s => s.name == serviceName).icon),
+              transparent: true,
+          });
+          const serviceImg = new THREE.Mesh(buttonGeo, serviceImgMat);
+          serviceImg.position.z += .501;
+          serviceImg.scale.set(1.5, 1.5, 1)
+          grp.add(serviceImg);
+          serviceImg.parent = box;
 
           // bounding box
           let bbox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), invisMat);

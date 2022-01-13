@@ -17,7 +17,7 @@ export default {
   name: 'App',
   data() {
     return {
-      services: [{"name": "Test Service 0", "URL": "https://yandex.ru", "status": "Running"}],
+      services: [{"name": "Flood", "URL": "https://yandex.ru", "icon": "flood.png", "status": "Running"}],
     };
   },
   components: {
