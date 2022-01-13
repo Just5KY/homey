@@ -11,6 +11,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry';
+import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
 
 // define three.js objects outside of vue export
 // to avoid making them reactive
@@ -22,22 +23,31 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     100
 );
+
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-const controls = new OrbitControls(camera, renderer.domElement);
+renderer.localClippingEnabled = true
+const clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), .5);
+
 const gltfLoader = new GLTFLoader();
 const fontLoader = new FontLoader();
+const imgLoader = new THREE.TextureLoader();
 const light = new THREE.DirectionalLight(0xffffff);
 const invisMat = new THREE.MeshStandardMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
 
 let mousePos = new THREE.Vector2(100, 100);
 let defaultFont;
 let boundingBoxes = [];
+let uiColor = 0x00a7ff;
+let hoveredButton;
+
+const controls = new OrbitControls(camera, renderer.domElement);
 
 export default {
     name: 'WhaleScene',
     props: {
       services: Array,
     },
+    emits: ['UI_event'],
     watch: {
       services: {
         handler: function() {
@@ -59,11 +69,10 @@ export default {
         // TODO: new font
         fontLoader.load('./fonts/helvetiker.json', (font) => {
           defaultFont = font;
-
           // spawn a crate for each service
-          this.serviceData.forEach(s => {
-            this.addCrate(s.name);
-          })
+            this.serviceData.forEach(s => {
+              this.addCrate(s.name);
+            });
         });
 
         // load whale
@@ -75,10 +84,11 @@ export default {
         scene.add(camera)
         scene.add(light)
         light.position.set(-5, 3, 2);
-        camera.position.z = 5;
+        camera.position.set(-5, 3, 2);
         
         renderer.setPixelRatio( window.devicePixelRatio );
         window.addEventListener('mousemove', this.onMouseMove, false );
+        window.addEventListener('mousedown', this.onMouseDown, false );
 
         // for bounding boxes
         raycaster.layers.set(1);
@@ -104,12 +114,13 @@ export default {
             TWEEN.update();
             controls.update();
 
-            //this.updateBoundingBoxes();
             this.raycast();
 
             renderer.setSize(window.innerWidth, window.innerHeight);
             requestAnimationFrame(this.animate)
+            
             renderer.render(scene, camera);
+            
         },
         raycast() {
           raycaster.setFromCamera(mousePos, camera);
@@ -118,6 +129,21 @@ export default {
           const intersects = raycaster.intersectObjects(boundingBoxes);
           if(intersects.length > 0) {
             let hitCrate = intersects[0].object.parent;
+            
+            if(hitCrate.userData.box.scale.z > 2) {
+              const uiCast = raycaster.intersectObjects(hitCrate.userData.UI.children);
+              if (uiCast.length > 0) {
+                if(hoveredButton) hoveredButton.material.emissive.set(uiColor)
+                hoveredButton = uiCast[0].object;
+                hoveredButton.material.emissive.set(0x000000);
+              }
+              else {
+                hitCrate.userData.UI.children.forEach(btn => {
+                  btn.material.emissive.set(uiColor)
+                });
+                hoveredButton = null;
+              }
+            }
             if(hitCrate.userData.box.scale.z > 1.05)  return;
 
             // expand hitCrate; shrink all others
@@ -153,11 +179,16 @@ export default {
           if(crateObj.userData.box.scale.z > 1.05) return;
 
           if(crateObj.userData.animation) TWEEN.remove(crateObj.userData.animation);
-          crateObj.userData.animation = new TWEEN.Tween(crateObj.userData.box)
-            .to({
-              scale: {z: 1 + .4 +(crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 },   // title + button panel width
-              position: {z:(.4 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 ) / 2}
-             }, 1400) 
+          crateObj.userData.animation = new TWEEN.Tween(crateObj)
+            .to({ userData: {
+                box: {
+                  scale: {z: 1 + .4 +(crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 },   // title + button panel width
+                  position: {z:(.4 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 ) / 2}
+                },
+                UI: {
+                  position: {z:1 + (.4 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 )}
+                }
+             }}, 1400) 
             .easing(TWEEN.Easing.Elastic.Out)
             .onUpdate(this.updateBoundingBoxes)
             .start();
@@ -167,8 +198,18 @@ export default {
           if(crateObj.userData.box.scale.z < 1.05) return;
 
           if(crateObj.userData.animation) TWEEN.remove(crateObj.userData.animation);
-          crateObj.userData.animation = new TWEEN.Tween(crateObj.userData.box)
-            .to({ scale: {x: 1, z: 1, y: 1}, position: {z: 0} }, 600)
+          // crateObj.userData.animation = new TWEEN.Tween(crateObj.userData.box)
+          //   .to({ scale: {x: 1, z: 1, y: 1}, position: {z: 0} }, 600)
+          crateObj.userData.animation = new TWEEN.Tween(crateObj)
+            .to({ userData: {
+                box: {
+                  scale: {x: 1, z: 1, y: 1}, 
+                  position: {z: 0},
+                },
+                UI: {
+                  position: {z: 1 - (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) / 2},
+                }
+             }}, 600)
             .easing(TWEEN.Easing.Quadratic.Out)
             .onUpdate(this.updateBoundingBoxes)
             .start();
@@ -182,10 +223,12 @@ export default {
           // rounded box
           const boxMat = new THREE.MeshStandardMaterial({
               side: THREE.FrontSide,
-              color: 0xf8f8f8
+              color: 0xf8f8f8,
           });
           let box = new THREE.Mesh(new RoundedBoxGeometry(1, 1, 1, 6, .1), boxMat);
           grp.add(box);
+
+          let uiGrp = new THREE.Group();
 
           // service name
           const textGeo = new TextGeometry(serviceName, {
@@ -194,9 +237,12 @@ export default {
             height: .05,
             bevelEnabled: false,
           });
+          
           const textMat = new THREE.MeshStandardMaterial({
               side: THREE.FrontSide,
-              color: 0x00a7ff
+              color: uiColor,
+              clippingPlanes: [clippingPlane],
+              clipIntersection: true
           });
           let text = new THREE.Mesh(textGeo, textMat);
           text.rotateY(Math.PI * 1.5);
@@ -204,40 +250,79 @@ export default {
           let textSize = new THREE.Box3().setFromObject(text);
           text.position.x -= .5;
           text.position.y -= ((textSize.max.y - textSize.min.y) / 2);
-          text.position.z += 1;
+          text.position.z -= (textSize.max.z - textSize.min.z) * 2
           textSize.setFromObject(text);
-          grp.add(text);
+          uiGrp.add(text);
 
           // button placeholders
           let btnSize = .4;
-          const buttonGeo = new THREE.CircleGeometry(btnSize / 2, 32);
-          const buttonMat = new THREE.MeshStandardMaterial({
+          const buttonGeo = new THREE.PlaneGeometry(btnSize, btnSize);
+
+          let btnStartMat = new THREE.MeshStandardMaterial({
               side: THREE.FrontSide,
-              color: 0x00a7ff
+              map: imgLoader.load('./images/ui/start.png'),
+              transparent: true,
+              emissive: uiColor,
+              clippingPlanes: [clippingPlane],
+              clipIntersection: true
           });
-          const btnStart = new THREE.Mesh(buttonGeo, buttonMat);
+          const btnStart = new THREE.Mesh(buttonGeo, btnStartMat);
           btnStart.rotateY(Math.PI * 1.5);
           btnStart.position.x = text.position.x - .05;
           btnStart.position.z = textSize.max.z + btnSize;
-          grp.add(btnStart);
+          btnStart.layers.enable(1);
+          btnStart.name = 'start'
+          uiGrp.add(btnStart);
 
-          const btnStop = new THREE.Mesh(buttonGeo, buttonMat);
+          let btnStopMat = new THREE.MeshStandardMaterial({
+              side: THREE.FrontSide,
+              map: imgLoader.load('./images/ui/stop.png'),
+              transparent: true,
+              emissive: uiColor,
+              clippingPlanes: [clippingPlane],
+              clipIntersection: true
+          });
+          const btnStop = new THREE.Mesh(buttonGeo, btnStopMat);
           btnStop.rotateY(Math.PI * 1.5);
           btnStop.position.x = text.position.x - .05;
           btnStop.position.z = textSize.max.z + btnSize * 2;
-          grp.add(btnStop);
+          btnStop.layers.enable(1);
+          btnStop.name = 'stop'
+          uiGrp.add(btnStop);
 
-          const btnRestart = new THREE.Mesh(buttonGeo, buttonMat);
+          let btnRestartMat = new THREE.MeshStandardMaterial({
+              side: THREE.FrontSide,
+              map: imgLoader.load('./images/ui/restart.png'),
+              transparent: true,
+              emissive: uiColor,
+              clippingPlanes: [clippingPlane],
+              clipIntersection: true
+          });
+          const btnRestart = new THREE.Mesh(buttonGeo, btnRestartMat);
           btnRestart.rotateY(Math.PI * 1.5);
           btnRestart.position.x = text.position.x - .05;
           btnRestart.position.z = textSize.max.z + btnSize * 3;
-          grp.add(btnRestart);
+          btnRestart.layers.enable(1);
+          btnRestart.name = 'restart'
+          uiGrp.add(btnRestart);
 
-          const btnInfo = new THREE.Mesh(buttonGeo, buttonMat);
+          let btnInfoMat = new THREE.MeshStandardMaterial({
+              side: THREE.FrontSide,
+              map: imgLoader.load('./images/ui/info.png'),
+              transparent: true,
+              emissive: uiColor,
+              clippingPlanes: [clippingPlane],
+              clipIntersection: true
+          });
+          const btnInfo = new THREE.Mesh(buttonGeo, btnInfoMat);
           btnInfo.rotateY(Math.PI * 1.5);
           btnInfo.position.x = text.position.x - .05;
           btnInfo.position.z = textSize.max.z + btnSize * 4;
-          grp.add(btnInfo);
+          btnInfo.layers.enable(1);
+          btnInfo.name = 'info'
+          uiGrp.add(btnInfo);
+
+          grp.add(uiGrp);
 
           // bounding box
           let bbox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), invisMat);
@@ -250,6 +335,7 @@ export default {
           grp.userData = { 
             animation: null,
             box: box,
+            UI: uiGrp,
             textSize: textSize
           };
 
@@ -297,6 +383,11 @@ export default {
             this.serviceData.forEach(s => { if(s.name == c.name) found = true; })
             if (!found) this.removeCrate(c);
           })
+        },
+        // UI click event
+        onMouseDown(event) {
+          if(!hoveredButton)  return;
+          this.$emit('UI_event', hoveredButton.name + ' ' + hoveredButton.parent.parent.name)
         },
         // keep track of mouse position (normalized to [-1, 1])
         onMouseMove(event) {

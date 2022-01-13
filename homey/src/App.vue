@@ -6,7 +6,7 @@
       <button @click="addService" id="add-box-btn">Add</button>
       <button @click="removeService" id="remove-box-btn">Del</button>
     </div>
-    <WhaleScene :services="this.services" />
+    <WhaleScene @UI_event="handleClick($event)" :services="this.services" />
   </html>
 </template>
 <script>
@@ -29,6 +29,9 @@ export default {
     },
     removeService() {
       this.services.pop();
+    },
+    handleClick(data){
+      console.log(data)
     }
   },
   mounted() {
