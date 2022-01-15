@@ -3,8 +3,12 @@
       <div class="flood-card-container__side flood-card-container__side--front">
           <div class="flood-card-container__heading">
             <div class="flood-card-container__heading--stats">
-              <span class="material-icons-outlined">arrow_upward</span><p>{{floodStats.upSpeed}}</p>
-              <span class="material-icons-outlined">arrow_downward</span><p>{{floodStats.downSpeed}}</p>
+              <div class="flood-card-container__heading--stats__up">
+                <span class="material-icons-outlined">arrow_upward</span><p>{{floodStats.upSpeed}}</p>
+              </div>
+              <div class="flood-card-container__heading--stats__down">
+                <span class="material-icons-outlined">arrow_downward</span><p>{{floodStats.downSpeed}}</p>
+              </div>
             </div>
             <span class="flood-card-container__heading--title">Torrents</span>
           </div>
@@ -50,11 +54,7 @@ export default {
           this.floodStats = res.data
           this.loaded = true;
       })}).catch(e => {
-        console.log('Error: Could not reach Flood API');
-        this.$notify({
-          title: 'Warning: Could not reach Flood API',
-          type: 'warn'
-        })
+        console.info('Warning: Could not reach Flood API. The API could be overloaded - it is usually safe to ignore this message.');
       });
     },
   },

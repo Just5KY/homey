@@ -26,7 +26,6 @@ floodAPI = flood.api(config.FLOOD_URL, config.FLOOD_USER, config.FLOOD_PASSWORD)
 localMachine = local_machine.local_machine(config.RUNNING_IN_DOCKER, config.DISK_USAGE_FILE)
 serviceChecker = service_checker.service_checker()
 
-
 ### WEATHER
 @app.route('/weatherWeekly', methods=['GET'])
 def weatherWeekly():
@@ -101,7 +100,6 @@ def dockerControl(containerName, operation):
 @app.route('/systemInfo', methods=['GET'])
 def systemInfo():
     return jsonify(localMachine.getAllInfo());
-
 
 ### SERVICE CHECKER
 @app.route('/updateServices', methods=['POST'])

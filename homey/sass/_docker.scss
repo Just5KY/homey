@@ -28,7 +28,6 @@
 
 .docker-container__whale {
     width: 35rem;
-    //transform: translateY(-6.7rem) translateX(4.3rem);
     margin-top: -6.7rem;
     margin-left: 9.5rem;
 }
@@ -39,6 +38,8 @@
     grid-template-rows: repeat(8, $dockerCellSize);
     row-gap: .5rem;
     column-gap: .5rem;
+
+    margin-top: (-7 * $dockerCellSize) + (-2 * .5rem);
 
     &__1-row {
         margin-top: (-7 * $dockerCellSize) + (-7 * .5rem);
@@ -61,7 +62,9 @@
     &__7-row {
         margin-top: (-1 * $dockerCellSize) + (-1 * .5rem);
     }
-    // normal margin is for 8 rows
+    &__8-row {
+        margin-top: 0;
+    }
 }
 
 .docker-cell{

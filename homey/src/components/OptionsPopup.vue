@@ -129,7 +129,7 @@
           </div>
   
           <div class="modal-footer">
-            <button @click="close(false)" class="modal-button modal-button__cancel">Cancel</button>
+            <button @click="showServices = !showServices" class="modal-button modal-button__cancel">Back</button>
             <button @click="close(true)" class="modal-button modal-button__save">{{getSaveString}}</button>
           </div>
         </div>

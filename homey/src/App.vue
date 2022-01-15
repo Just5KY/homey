@@ -37,11 +37,13 @@ export default {
     loadConfig: function() {
       try { 
         this.config = JsYaml.load(configFile);
+      } catch (e) { 
+        console.error('Error loading config file:' + e);
         this.$notify({
-          title: 'Successfully loaded configuration file',
-          type: 'success'
-        })
-      } catch (e) { console.error('Error loading config file:' + e); }
+          title: 'Error: Could not load configuration file',
+          type: 'error'
+        }) 
+      }
       finally{ 
         if(this.config.enable_service_status && !this.config.minimal_mode)  this.checkServices();  // send service list to backend for up/down checker
       }  

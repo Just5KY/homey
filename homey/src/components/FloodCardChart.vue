@@ -61,7 +61,7 @@
                             borderColor: '#8be9fd', backgroundColor: '#8be9fd', 
                             pointRadius: 0, 
                             tension: .15, 
-                            fill: true,
+                            fill: false,
                             order: this.getDrawOrder.up
                         }, 
                         { 
@@ -70,7 +70,7 @@
                             borderColor: '#f8f8f2', backgroundColor: '#f8f8f2', 
                             pointRadius: 0, 
                             tension: .15, 
-                            fill: true, 
+                            fill: false, 
                             order: this.getDrawOrder.down
                         } 
                     ], 

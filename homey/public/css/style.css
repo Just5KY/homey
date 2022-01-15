@@ -474,6 +474,7 @@ h2 {
     display: flex; }
     .flood-card-container__heading--title {
       font-size: 2rem;
+      height: 3.4rem;
       font-weight: 300;
       text-transform: uppercase;
       text-align: right;
@@ -481,20 +482,20 @@ h2 {
       border-radius: 5px;
       background-image: linear-gradient(to right bottom, rgba(98, 114, 164, 0.8), rgba(40, 42, 54, 0.8)); }
     .flood-card-container__heading--stats {
-      justify-self: flex-start;
-      display: flex;
-      align-items: center;
-      justify-content: space-between; }
-      .flood-card-container__heading--stats span {
-        font-size: 3.5rem; }
-      .flood-card-container__heading--stats p {
-        font-size: 1.5rem; }
-      .flood-card-container__heading--stats :nth-child(2),
-      .flood-card-container__heading--stats :first-child {
+      margin-left: .5rem; }
+      .flood-card-container__heading--stats div {
+        display: flex; }
+        .flood-card-container__heading--stats div span {
+          font-size: 2.2rem; }
+        .flood-card-container__heading--stats div p {
+          font-size: 1.5rem; }
+      .flood-card-container__heading--stats__up {
         color: #8be9fd; }
   .flood-card-container__chart {
-    transform: scaleY(0.7) scaleX(1.1);
-    padding-top: 4.2rem; }
+    margin-left: -1rem;
+    width: 105%;
+    margin-top: 5rem;
+    transform: scaleY(0.9); }
   .flood-card-container__notifications ul {
     list-style: none;
     width: 80%;
@@ -570,6 +571,7 @@ h2 {
       left: 1rem; }
     .weather-card-container__heading--title {
       font-size: 2rem;
+      height: 3.4rem;
       font-weight: 300;
       text-transform: uppercase;
       text-align: right;
@@ -597,7 +599,7 @@ h2 {
     .weather-card-container__details div {
       padding: 0.5rem; }
       .weather-card-container__details div:not(:first-child) {
-        border-top: 1px dotted #f8f8f2; }
+        border-top: 1px solid #f8f8f2; }
   .weather-card-container__weekly-forecast ul {
     list-style: none;
     width: 80%;
@@ -759,7 +761,8 @@ h2 {
   grid-template-columns: repeat(5, 4rem);
   grid-template-rows: repeat(8, 4rem);
   row-gap: .5rem;
-  column-gap: .5rem; }
+  column-gap: .5rem;
+  margin-top: -29rem; }
   .docker-container__grid__1-row {
     margin-top: -31.5rem; }
   .docker-container__grid__2-row {
@@ -774,6 +777,8 @@ h2 {
     margin-top: -9rem; }
   .docker-container__grid__7-row {
     margin-top: -4.5rem; }
+  .docker-container__grid__8-row {
+    margin-top: 0; }
 
 .docker-cell {
   background-color: #f8f8f2;

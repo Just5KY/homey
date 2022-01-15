@@ -2,13 +2,22 @@ from genericpath import exists
 from shutil import disk_usage
 import psutil
 
-# todo: move docker file reading to another class
-# too messy to put ifs in every method
+# reads disk/CPU/RAM usage and writes to .txt file. to be run constantly on host
+
+# actual module should just read file values
+
+# CONFIGURATION #########################################################
+
+# full path
+dataFile = '/home/steve/repos/homey/homey-api/local_machine_data.txt'
+
+#########################################################################
+
+#procHandle = psutil.Process
 
 class local_machine:
     def __init__(self, runningInDocker, diskUsageFile):
         self.diskUsageFile = diskUsageFile      # file determines which paths/drives to report on
-        self.runningInDocker = runningInDocker
         self.procHandle = psutil.Process()
 
     def getAllInfo(self):
@@ -30,7 +39,7 @@ class local_machine:
             for d in f.readlines():
                 if d.split() == []: continue
                 
-                if self.runningInDocker: 
+                if self.runningInDocker == True: 
                     diskUsage.append(self.diskLineToJSON(d))
                 else:
                     d = d[:d.find(':')].replace('root', '/')

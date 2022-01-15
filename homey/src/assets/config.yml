@@ -1,4 +1,4 @@
-docker_api_backend: portainer
+docker_api_backend: docker
 enable_service_status: true
 minimal_mode: false
 services:
