@@ -122,7 +122,7 @@ export default {
           const intersects = raycaster.intersectObjects(boundingBoxes);
           if(intersects.length > 0) {
             let hitCrate = intersects[0].object.parent;
-            if(hitCrate.userData.box.position.z > 2) {
+            if(hitCrate.userData.box.position.z > 1.4) {
               const uiCast = raycaster.intersectObjects(hitCrate.userData.UI.children);
               if (uiCast.length > 0) {
                 if(hoveredButton) hoveredButton.material.emissive.set(uiColor)
