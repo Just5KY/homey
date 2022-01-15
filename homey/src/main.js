@@ -5,12 +5,14 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as TWEEN from '@tweenjs/tween.js'
 import '@material-design-icons/font'
 
-import axios from 'axios'
-import VueAxios from 'vue-axios'
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+import Notifications from '@kyvg/vue3-notification';
 
 // Entrypoint
-const app = createApp(App)
+const app = createApp(App);
 app.use(VueAxios, axios)
+app.use(Notifications)
 app.config.globalProperties.axios=axios
 app.mount('#app')
 

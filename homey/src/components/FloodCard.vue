@@ -44,13 +44,16 @@ export default {
   methods: {
     getFloodData: function() {
         this.axios.get('http://0.0.0.0:9101/floodNotifications').then((res) => {
-          this.notifications = res.data.slice(0,6)
+          this.notifications = res.data.slice(0,6);
       }).then(() => {
       this.axios.get('http://0.0.0.0:9101/floodStats').then((res) => {
           this.floodStats = res.data
           this.loaded = true;
       })}).catch(e => {
-        console.log('Could not reach homey API');
+        console.log('Error: Could not reach Flood API');
+        this.$notify({
+          title: 'Warning: Could not reach Flood API'
+        })
       });
     },
   },

@@ -36,11 +36,13 @@ export default {
   methods: {
     loadContainerList: function() {
         this.axios.get('http://0.0.0.0:9101/' + this.backend + 'List').then((res) => {
-          // Sort by service name
-          //this.dockerServices = res.data.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
           this.dockerServices = res.data;
       }).then(() => { this.setGridSize() }).catch(e => {
-        console.log('Could not reach homey API');
+        console.warn('Error retrieving Docker containers. Is the selected Docker backend up and reachable?');
+        this.$notify({
+          title: 'Warning: Could not retrieve Docker container information',
+          type: 'warn'
+        })
       });
 
     },
@@ -48,7 +50,11 @@ export default {
         this.axios.get('http://0.0.0.0:9101/' + this.backend + 'Auth').then((res) => {
           //console.log('INFO :: ' + this.backend + ' API authentication returned ' + res.data);
       }).catch(e => {
-        console.log('Could not reach homey API');
+        console.log('Error: Could not authenticate with ' + this.backend);
+        this.$notify({
+          title: 'Warning: Failed to authenticate with ' + this.backend,
+          type: 'warn'
+        })
       });
     },
     // 3-row, 8-row, etc based on highest cell

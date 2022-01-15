@@ -63,7 +63,11 @@ export default {
         this.axios.get('http://0.0.0.0:9101/weatherHourly/' + today).then((res) => {
             this.weatherDataHourly = res.data.slice(0,9);
       }).catch(e => {
-        console.log('Could not reach homey API');
+        console.warn('Error: Could not retrieve weather information from homey API. Are coordinates configured correctly?');
+        this.$notify({
+          title: 'Warning: Could not retrieve weather information',
+          type: 'warn'
+        })
       });
     },
     getDailyWeather: function() {
@@ -71,7 +75,11 @@ export default {
         this.axios.get('http://0.0.0.0:9101/weatherWeekly').then((res) => {
           if(res.data.length > 2) this.weatherDataDaily = res.data;
       }).catch(e => {
-        console.log('Could not reach homey API');
+        console.warn('Error: Could not retrieve weather information from homey API. Are coordinates configured correctly?');
+        this.$notify({
+          title: 'Warning: Could not retrieve weather information',
+          type: 'warn'
+        })
       });
     },
     getSkycon: function(weatherType){

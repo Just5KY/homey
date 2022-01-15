@@ -41,10 +41,16 @@ export default {
                 return   // TODO: detailed info popup
             }
             this.axios.get('http://0.0.0.0:9101/' + this.$parent.$parent.backend + 'Control/' + this.serviceName + '/' + operation).then((res) => {
+                if(res.data != 'success') throw 'controlException';
+
+                this.$notify({
+                    title: 'Successfully ' + operation + ((operation == 'pause' || operation == 'unpause') ? 'd' : 'ed') + ' container ' + this.serviceName + '!',
+                    type: 'success'
+                });
                 this.$parent.$parent.loadContainerList();
-                if(res.data != 'success'){
-                    console.log("Error : " + res.data); }
-            }).catch(e => { console.log('Could not reach homey API'); });
+            }).catch(e => { 
+                console.warn('Error: could not ' + operation + ' container ' + this.serviceName + '. Is the selected Docker backend up and reachable?'); 
+            });
         },
     },
 }
