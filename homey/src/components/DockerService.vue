@@ -1,6 +1,6 @@
 <template>
   <!-- <div class="docker-card-container"> -->
-  <div :class="['docker-cell', 'd' + gridIndex]">
+  <div :class="['docker-cell', 'd' + gridIndex]" ref="cell">
     <img v-if="!imageError" :src="getIconPath" @error="onImageError">
     <span v-if="imageError" class="docker-cell__image-placeholder material-icons-outlined">storage</span>
     <div class="docker-cell__content">
@@ -36,7 +36,7 @@ export default {
   computed: {
     getIconPath: function() {
       return ((this.imageError) ? './images/icons/placeholder.png' : './images/icons/' + this.serviceName + '.png')
-    }
+    },
   },
   data () {
     return {
@@ -51,6 +51,12 @@ export default {
   methods: {
     onImageError: function() {
       this.imageError = true;
+    },
+    getYPos(){
+      return this.$refs.cell.getBoundingClientRect().y;
+    },
+    getYIndex(){
+      return window.getComputedStyle(this.$refs.cell).getPropertyValue('grid-column');
     }
   },
 }

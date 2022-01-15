@@ -35,24 +35,23 @@ export default {
     loadConfig: function() {
       try { 
         this.config = JsYaml.load(configFile);
-      } catch (e) { console.log('Error loading config file:' + e); }
+      } catch (e) { console.error('Error loading config file:' + e); }
       finally{ 
         if(this.config.enable_service_status && !this.config.minimal_mode)  this.checkServices();  // send service list to backend for up/down checker
       }  
     },
     saveConfig() {
       this.axios.post('http://0.0.0.0:9101/writeFrontendConfig', this.config).then((res) => {
-        console.log(this.config.services)
-          console.log(res.data);
+        // show save success toast
       }).catch(e => {
-        console.log('Could not reach homey API');
+        console.warn('Could not reach homey API');
       });
     },
     checkServices: function() {
       this.axios.post('http://0.0.0.0:9101/updateServices', this.config.services).then((res) => {
           this.serviceStatuses = res.data;
       }).catch(e => {
-        console.log('Could not reach homey API');
+        console.warn('Could not reach homey API');
       });
     }
   },

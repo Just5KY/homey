@@ -76,7 +76,7 @@
 
 .d17 {
   grid-row: 4;
-  grid-column: 5; }
+  grid-column: 4; }
 
 .d18 {
   grid-row: 6;
@@ -640,7 +640,7 @@ h2 {
   grid-column: 1;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
   justify-content: center;
   text-align: center;
   margin: 2rem; }
@@ -703,7 +703,7 @@ h2 {
       transition: all .35s ease-out;
       font-size: 2.2rem;
       float: right;
-      margin-right: -10%;
+      margin-right: -2rem;
       margin-top: .1rem; }
     .service-card-container__text-container #arrow_circle_up {
       color: #50fa7b; }
@@ -735,16 +735,19 @@ h2 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transform: translateX(-4rem) translateY(-2rem);
+  margin: 4rem;
+  margin-bottom: 0;
   background-image: url("../images/docker-large-text.png");
   background-repeat: no-repeat;
   background-size: 25%;
   background-position: 100% 100%; }
   @media (max-width: 1350px) {
     .docker-container {
-      transform: translateY(-18rem);
-      margin: 4rem;
-      margin-bottom: -16rem; } }
+      margin-top: 0;
+      background-size: 15%; } }
+  @media (max-width: 600px) {
+    .docker-container {
+      background-image: none; } }
 
 .docker-container__whale {
   width: 55%;
@@ -756,6 +759,20 @@ h2 {
   grid-template-rows: repeat(8, 4rem);
   row-gap: .5rem;
   column-gap: .5rem; }
+  .docker-container__grid__1-row {
+    margin-top: -31.5rem; }
+  .docker-container__grid__2-row {
+    margin-top: -27rem; }
+  .docker-container__grid__3-row {
+    margin-top: -22.5rem; }
+  .docker-container__grid__4-row {
+    margin-top: -18rem; }
+  .docker-container__grid__5-row {
+    margin-top: -13.5rem; }
+  .docker-container__grid__6-row {
+    margin-top: -9rem; }
+  .docker-container__grid__7-row {
+    margin-top: -4.5rem; }
 
 .docker-cell {
   background-color: #f8f8f2;

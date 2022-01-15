@@ -1,15 +1,16 @@
 <template>
   <div class="docker-container">
-    <div class="docker-container__grid">
+    <div :class="gridClass">
       <DockerService v-for="(s, index) in dockerServices" 
-        :key="s.status" 
+        :key="index" 
         :gridIndex = "index+1" 
         :serviceName="s.name" 
         :status="s.status" 
         :uptime="s.uptime"
+        ref="cell"
       />
     </div>
-    <img class="docker-container__whale" :src="'./images/docker-large-blank.png'">
+    <!-- <img class="docker-container__whale" :src="'./images/docker-large-blank.png'"> -->
   </div>
 </template>
 
@@ -24,10 +25,13 @@ export default {
   props: {
     backend: String,
   },
-  data () {
+  data() {
     return {
       dockerServices: Array,
+      gridClass: 'docker-container__grid',
     };
+  },
+  computed: {
   },
   methods: {
     loadContainerList: function() {
@@ -35,7 +39,7 @@ export default {
           // Sort by service name
           //this.dockerServices = res.data.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
           this.dockerServices = res.data;
-      }).catch(e => {
+      }).then(() => { this.setGridSize() }).catch(e => {
         console.log('Could not reach homey API');
       });
 
@@ -47,9 +51,19 @@ export default {
         console.log('Could not reach homey API');
       });
     },
+    // 3-row, 8-row, etc based on highest cell
+    setGridSize(){
+      if(!this.$refs.cell) return 'docker-container__grid';
+      let highRow = 0;
+      this.$refs.cell.forEach(c => {
+        if(c.getYIndex() > highRow) highRow = c.getYIndex();
+      });
+      this.gridClass = 'docker-container__grid docker-container__grid__' + highRow.toString() + '-row';
+    }
   },
   mounted: function() {
     this.loadContainerList();
+    
     window.setInterval(() => {
       this.loadContainerList()
     }, 30 * 1000)   // Refresh container info every 30 seconds
