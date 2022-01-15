@@ -52,7 +52,8 @@ export default {
       })}).catch(e => {
         console.log('Error: Could not reach Flood API');
         this.$notify({
-          title: 'Warning: Could not reach Flood API'
+          title: 'Warning: Could not reach Flood API',
+          type: 'warn'
         })
       });
     },

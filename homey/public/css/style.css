@@ -736,7 +736,7 @@ h2 {
   align-items: center;
   justify-content: center;
   margin: 4rem;
-  margin-bottom: 0;
+  margin-bottom: 2rem;
   background-image: url("../images/docker-large-text.png");
   background-repeat: no-repeat;
   background-size: 25%;
@@ -750,8 +750,9 @@ h2 {
       background-image: none; } }
 
 .docker-container__whale {
-  width: 55%;
-  transform: translateY(-7.9rem) translateX(5.8rem); }
+  width: 35rem;
+  margin-top: -6.7rem;
+  margin-left: 9.5rem; }
 
 .docker-container__grid {
   display: grid;

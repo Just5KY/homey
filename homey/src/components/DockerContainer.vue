@@ -5,12 +5,12 @@
         :key="index" 
         :gridIndex = "index+1" 
         :serviceName="s.name" 
-        :status="s.status" 
+        :state="s.status" 
         :uptime="s.uptime"
         ref="cell"
       />
     </div>
-    <!-- <img class="docker-container__whale" :src="'./images/docker-large-blank.png'"> -->
+    <img class="docker-container__whale" :src="'./images/docker-large-blank.png'">
   </div>
 </template>
 

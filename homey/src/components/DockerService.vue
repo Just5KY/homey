@@ -13,7 +13,6 @@
         <DockerServiceButton v-if="state=='running' || state=='paused'" :serviceName="serviceName" type="restart"/>
         <DockerServiceButton :serviceName="serviceName" :serviceData="infoString" type="info"/>
       </div>
-      
     </div>
   </div>
 </template>
@@ -30,7 +29,7 @@ export default {
   props: {
       gridIndex: Number,
       serviceName: String,
-      status: String,
+      state: String,
       uptime: String,
   },
   computed: {
@@ -40,11 +39,10 @@ export default {
   },
   data () {
     return {
-      infoString: this.status.charAt(0).toUpperCase() + this.status.slice(1) + ' - ' + this.uptime,
+      infoString: this.state.charAt(0).toUpperCase() + this.state.slice(1) + ' - ' + this.uptime,
       pauseString: 'Pause ' + this.serviceName,
       stopString: 'Stop ' + this.serviceName,
       rebootString: 'Reboot ' + this.serviceName,
-      state: this.status,
       imageError: false,
     };
   },
