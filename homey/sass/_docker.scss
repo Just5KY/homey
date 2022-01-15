@@ -8,18 +8,21 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transform: translateX(-4rem) translateY(-2rem);
+    margin: 4rem;
+    margin-bottom: 0;
 
     background-image: url('../images/docker-large-text.png');
     background-repeat: no-repeat;
     background-size: 25%;
     background-position: 100% 100%;
 
-    // the hackiness of the whale has to go
     @media (max-width: $mobile-break-med) {
-        transform: translateY(-18rem);
-        margin: 4rem;
-        margin-bottom: -16rem;
+        margin-top: 0;
+        background-size: 15%;
+    }
+
+    @media (max-width: $mobile-break-small) {
+        background-image: none;
     }
 }
 
@@ -34,6 +37,29 @@
     grid-template-rows: repeat(8, $dockerCellSize);
     row-gap: .5rem;
     column-gap: .5rem;
+
+    &__1-row {
+        margin-top: (-7 * $dockerCellSize) + (-7 * .5rem);
+    }
+    &__2-row {
+        margin-top: (-6 * $dockerCellSize) + (-6 * .5rem);
+    }
+    &__3-row {
+        margin-top: (-5 * $dockerCellSize) + (-5 * .5rem);
+    }
+    &__4-row {
+        margin-top: (-4 * $dockerCellSize) + (-4 * .5rem);
+    }
+    &__5-row {
+        margin-top: (-3 * $dockerCellSize) + (-3 * .5rem);
+    }
+    &__6-row {
+        margin-top: (-2 * $dockerCellSize) + (-2 * .5rem);
+    }
+    &__7-row {
+        margin-top: (-1 * $dockerCellSize) + (-1 * .5rem);
+    }
+    // normal margin is for 8 rows
 }
 
 .docker-cell{
