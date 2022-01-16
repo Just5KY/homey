@@ -1,3 +1,0 @@
-{'disk': '/', 'total': 232, 'used': 195, 'free': 24, 'percent_used': 84}
-22.1
-{'total': 20721, 'free': 14985, 'used': 4579, 'percent_used': 27.7}

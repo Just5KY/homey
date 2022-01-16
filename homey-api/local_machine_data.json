@@ -1,0 +1,1 @@
+{ "disks": [ {"label": "/", "total": 232, "used": 24, "free": 195, "percent_used": 11} ], "cpu": 20.1, "ram": {"total": 20721, "free": 15004, "used": 4594, "percent_used": 27.6} }

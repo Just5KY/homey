@@ -1,17 +1,18 @@
 from genericpath import exists
 from shutil import disk_usage
-import psutil
-import time
+from psutil import cpu_percent, virtual_memory
+from time import sleep
+import json
 
 # run on host
-# reads disk/CPU/RAM usage and writes to file
+# reads disk/CPU/RAM usage and writes JSON to file
 
 # CONFIGURATION #########################################################
 
 # If running in Docker, dataFile must be accessible inside the container
-dataFile = './homey-api/local_machine_data.txt'     # file to write to
-watchedDisks = ['/']                                # list of disks to report on: '/', '/mnt/media', etc
-intervalMinutes = 1                                 # write to file every X minutes
+dataFile = "./homey-api/local_machine_data.json"    # file to write to
+watchedDisks = ["/"]                                # list of disks to report on: "/", "/mnt/media", etc
+intervalMinutes = 2                                 # write to file every X minutes
 intervalCPUCalc = 6                                 # average CPU usage over X seconds  
 
 #########################################################################
@@ -19,7 +20,7 @@ intervalCPUCalc = 6                                 # average CPU usage over X s
 # get free, available, & total space for each disk in watchedDisks
 def getDiskUsage():
     if len(watchedDisks) < 1:   return
-    if not exists(dataFile):    return 'Error: Data file not found ' + dataFile
+    if not exists(dataFile):    return "Error: Data file not found " + dataFile
 
     diskUsage = []
     for d in watchedDisks:
@@ -27,41 +28,45 @@ def getDiskUsage():
         
         total, used, free = disk_usage(d)
         diskUsage.append(formatDiskLine(d, total, used, free))
-    return diskUsage
+    return '\"disks\": [ ' + ', '.join(diskUsage) + ' ]'
 
-# average CPU usage over specified seconds (blocking)
+# average CPU usage over intervalCPUCalc seconds
+# blocks for intervalCPUCalc seconds
 def getCPUUsage():
-    return str(psutil.cpu_percent(intervalCPUCalc)) + '\n'
+    return '\"cpu\": ' + str(cpu_percent(intervalCPUCalc))
 
 # return values formatted in megabytes as JSON string
 def getRAMUsage():
-    raw = psutil.virtual_memory()
+    raw = virtual_memory()
 
-    return str({
-        'total': round(psutil.virtual_memory()[0] / 1000000),
-        'free':  round(psutil.virtual_memory()[1] / 1000000),
-        'used': round(psutil.virtual_memory()[3] / 1000000),
-        'percent_used': psutil.virtual_memory()[2]
-    }) + '\n'
+    return '\"ram\": ' + json.dumps({
+        "total": round(raw[0] / 1000000),
+        "free":  round(raw[1] / 1000000),
+        "used": round(raw[3] / 1000000),
+        "percent_used": raw[2]
+    })
 
 # convert int disk usage values to JSON string
-def formatDiskLine(label, total, free, used):
-    disk = (label + ' ' + str(total // (2**30)) + ' ' + str(used // (2**30)) + ' ' + str(free // (2**30))).split()
+def formatDiskLine(label, total, used, free):
+    disk = (label + " " + str(total // (2**30)) + " " + str(used // (2**30)) + " " + str(free // (2**30))).split()
 
-    return str({
-        'disk':  disk[0].replace(':', ''),
-        'total': int(disk[1]),
-        'used':  int(disk[2]),
-        'free':  int(disk[3]),
-        'percent_used': round(int(disk[2]) / int(disk[1]) * 100)
-    }) + '\n'
+    return json.dumps({
+        "label":  label.replace(":", ""),
+        "total": total // (2**30),
+        "used":  used // (2**30),
+        "free":  free // (2**30),
+        "percent_used": round((used / total) * 100)
+    })
 
 # entrypoint
 while(True):
-    currentCPU = getCPUUsage()  # blocks for 6 seconds
+    currentCPU = getCPUUsage()  # blocks for intervalCPUCalc seconds
 
-    with open(dataFile, 'w') as f:
-        f.writelines(getDiskUsage())
-        f.writelines([currentCPU, getRAMUsage()])
+    with open(dataFile, "w") as f:
+        f.write('{ ')
+        f.write(getDiskUsage() + ', ')
+        f.write(currentCPU + ', ')
+        f.write(getRAMUsage())
+        f.write(' }')
 
-    time.sleep( (intervalMinutes * 60) - intervalCPUCalc)
+    sleep( (intervalMinutes * 60) - intervalCPUCalc)

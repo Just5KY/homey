@@ -8,4 +8,4 @@ class local_machine:
 
     def getAllInfo(self):
         with open(self.dataFile, 'r') as f:
-            return f.readlines()    # send better JSON
+            return f.read()

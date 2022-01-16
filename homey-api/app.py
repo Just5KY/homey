@@ -1,5 +1,5 @@
 from genericpath import exists
-from flask import Flask, jsonify, request, send_file, send_from_directory
+from flask import Flask, jsonify, request, send_file, send_from_directory, Response
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
@@ -25,8 +25,6 @@ dockerAPI = docker_api.api(config.DOCKER_SOCKET)
 floodAPI = flood.api(config.FLOOD_URL, config.FLOOD_USER, config.FLOOD_PASSWORD)
 localMachine = local_machine.local_machine(config.SYSTEM_MONITOR_FILE)
 serviceChecker = service_checker.service_checker()
-
-localMachine.getAllInfo()
 
 ### WEATHER
 @app.route('/weatherWeekly', methods=['GET'])
@@ -101,16 +99,13 @@ def dockerControl(containerName, operation):
 ### LOCAL MACHINE
 @app.route('/systemInfo', methods=['GET'])
 def systemInfo():
-    return jsonify(localMachine.getAllInfo());
+    return Response(localMachine.getAllInfo(), mimetype="text/json");
 
 ### SERVICE CHECKER
 @app.route('/updateServices', methods=['POST'])
 def updateServices():
     serviceChecker.assignAll(request.json)
     return jsonify(serviceChecker.checkAll())
-
-# @app.route('/addService', methods=['POST'])
-
 
 ### SETTINGS
 @app.route('/writeFrontendConfig', methods=['POST'])
