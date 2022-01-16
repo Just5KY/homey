@@ -1,5 +1,5 @@
 from genericpath import exists
-from flask import Flask, jsonify, request, send_file, send_from_directory, Response
+from flask import Flask, Response, request, jsonify
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
@@ -7,8 +7,6 @@ import yaml
 
 from config import config
 from modules import open_meteo, docker_api, portainer, flood, local_machine, service_checker
-
-#print('Portainer validation: ' + str(config.PORTAINER_VALID))
 
 ### INITIALIZATION
 ICONS_UPLOAD_PATH = '../homey/public/images/icons'
@@ -137,6 +135,7 @@ def getIcon(filename):
     if exists(os.path.join(app.config['UPLOAD_FOLDER'], filename)):
         return jsonify(filename)
     return jsonify({'Error': 'Image not found: ' + os.path.join(app.config['UPLOAD_FOLDER'], filename)})
+
 
 ### NICEHASH (deprecated)
 nicehash_prodAPI = None

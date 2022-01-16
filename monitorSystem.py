@@ -4,12 +4,13 @@ from psutil import cpu_percent, virtual_memory
 from time import sleep
 import json
 
-# run on host
-# reads disk/CPU/RAM usage and writes JSON to file
+# Run on host (outside of Docker)
+# If homey is running in Docker, dataFile must be accessible inside the container
+
+# Gets disk/CPU/RAM usage and writes JSON to file
 
 # CONFIGURATION #########################################################
 
-# If running in Docker, dataFile must be accessible inside the container
 dataFile = "./homey-api/local_machine_data.json"    # file to write to
 watchedDisks = ["/"]                                # list of disks to report on: "/", "/mnt/media", etc
 intervalMinutes = 2                                 # write to file every X minutes
@@ -48,8 +49,6 @@ def getRAMUsage():
 
 # convert int disk usage values to JSON string
 def formatDiskLine(label, total, used, free):
-    disk = (label + " " + str(total // (2**30)) + " " + str(used // (2**30)) + " " + str(free // (2**30))).split()
-
     return json.dumps({
         "label":  label.replace(":", ""),
         "total": total // (2**30),
