@@ -19,9 +19,6 @@ def validateWeather(lat, long):
 
     return True
 
-def validatePortainer(url, user, password):
-    return True
-
 class Config:
     if not os.path.exists('../.env'):
         print('Fatal error: Could not load ../.env.')
@@ -52,7 +49,6 @@ class Config:
     FLOOD_USER = os.environ.get('HOMEY_API_FLOOD_USER')
     FLOOD_PASSWORD = os.environ.get('HOMEY_API_FLOOD_PASSWORD')
     
-    RUNNING_IN_DOCKER = os.environ.get('HOMEY_API_RUNNING_IN_DOCKER')
-    DISK_USAGE_FILE = os.environ.get('HOMEY_API_DISK_USAGE_FILE')
+    SYSTEM_MONITOR_FILE = os.environ.get('HOMEY_API_SYSTEM_MONITOR_FILE')
 
 config = Config

@@ -23,8 +23,10 @@ weatherAPI = open_meteo.api(config.WEATHER_LAT, config.WEATHER_LONG)
 portainerAPI = portainer.api(config.PORTAINER_URL, config.PORTAINER_USER, config.PORTAINER_PASSWORD)
 dockerAPI = docker_api.api(config.DOCKER_SOCKET)
 floodAPI = flood.api(config.FLOOD_URL, config.FLOOD_USER, config.FLOOD_PASSWORD)
-localMachine = local_machine.local_machine(config.RUNNING_IN_DOCKER, config.DISK_USAGE_FILE)
+localMachine = local_machine.local_machine(config.SYSTEM_MONITOR_FILE)
 serviceChecker = service_checker.service_checker()
+
+localMachine.getAllInfo()
 
 ### WEATHER
 @app.route('/weatherWeekly', methods=['GET'])
