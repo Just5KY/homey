@@ -54,7 +54,7 @@ export default {
       return this.$refs.cell.getBoundingClientRect().y;
     },
     getYIndex(){
-      return window.getComputedStyle(this.$refs.cell).getPropertyValue('grid-column');
+      return window.getComputedStyle(this.$refs.cell).getPropertyValue('grid-column-start');
     }
   },
 }

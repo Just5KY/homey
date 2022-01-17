@@ -1,6 +1,6 @@
 <template>
   <div class="docker-container">
-    <div :class="gridClass">
+    <div v-if="perspective == '2d'" :class="gridClass">
       <DockerService v-for="(s, index) in dockerServices" 
         :key="index" 
         :gridIndex = "index+1" 
@@ -10,10 +10,11 @@
         ref="cell"
       />
     </div>
+    <!-- <WhaleScene v-else :services="dockerServices" /> -->
     <DockerControlPanel
       @toggleView="togglePerspective()"
       @refreshContainers="loadContainerList(true)"
-      @openSettings="this.$emit('openSettings')" :perspective="this.perspective" />
+      @openSettings="this.$emit('openSettings')" />
     <img class="docker-container__whale" :src="'./images/docker-large-blank.png'">
   </div>
 </template>
@@ -21,6 +22,10 @@
 <script>
 import DockerService from './DockerService.vue'
 import DockerControlPanel from './DockerControlPanel.vue';
+
+import { Howl, Howler } from 'howler';
+
+const successSfx = new Howl({ src: ['./sounds/sfxSuccess.mp3'] });
 
 export default {
   name: 'DockerContainer',
@@ -47,10 +52,13 @@ export default {
           this.dockerServices = res.data;
       }).then(() => { 
         this.setGridSize();
-        if (shouldNotify) this.$notify({
-          title: 'Successfully refreshed container list',
-          type: 'success'
-        });
+        if (shouldNotify) {
+          this.$notify({
+            title: 'Successfully refreshed container list',
+            type: 'success'
+          });
+          successSfx.play();
+        }
       }).catch(e => {
         console.warn('Error retrieving Docker containers. Is the selected Docker backend up and reachable?');
         this.$notify({

@@ -9,6 +9,7 @@
     justify-content: center;
     text-align: center;
     margin: 2rem;
+    z-index: 10;    // prevent resized docker container from blocking clicks
 
     &__fullscreen {
         grid-row: 2 / 4;
@@ -19,7 +20,6 @@
 
     @media (max-width: $mobile-break-med) {
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;       // test this
     }
 
     @media (max-width: $mobile-break-small) {
