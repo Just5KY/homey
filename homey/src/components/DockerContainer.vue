@@ -10,18 +10,19 @@
         ref="cell"
       />
     </div>
-    <!-- <WhaleScene v-else :services="dockerServices" /> -->
+    <WhaleScene v-else :services="dockerServices" />
     <DockerControlPanel
       @toggleView="togglePerspective()"
       @refreshContainers="loadContainerList(true)"
       @openSettings="this.$emit('openSettings')" />
-    <img class="docker-container__whale" :src="'./images/docker-large-blank.png'">
+    <img v-if="perspective == '2d'" class="docker-container__whale" :src="'./images/docker-large-blank.png'">
   </div>
 </template>
 
 <script>
 import DockerService from './DockerService.vue'
 import DockerControlPanel from './DockerControlPanel.vue';
+import WhaleScene from './WhaleScene.vue';
 import notifications from '../notifications';
 
 export default {
@@ -29,6 +30,7 @@ export default {
   components: {
       DockerService,
       DockerControlPanel,
+      WhaleScene,
   },
   emits: ['openSettings'],
   props: {
@@ -39,6 +41,7 @@ export default {
       dockerServices: Array,
       gridClass: 'docker-container__grid',
       perspective: '2d',
+      refreshHandle: null,
     };
   },
   computed: {
@@ -64,7 +67,16 @@ export default {
     },
     togglePerspective() {
       if(this.perspective == '2d')  this.perspective = '3d';
-      else                          this.perspective = '2d';
+
+      else{
+        this.perspective = '2d';
+
+        // wait 25ms to ensure 2D services are present before grid size calc
+        this.refreshHandle = setInterval(() => {
+          this.setGridSize();
+          clearInterval(this.refreshHandle);
+        }, 25)
+      }
     },
     // 3-row, 8-row, etc based on highest cell
     setGridSize(){

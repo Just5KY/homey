@@ -1,7 +1,7 @@
 <template>
     <div class="docker-control-panel">
         <span class="material-icons-outlined" 
-            @click="this.$emit('toggleView')" title="Toggle view mode">
+            @click="this.$emit('toggleView')" title="Toggle view">
         3d_rotation</span>
         <span class="material-icons-outlined" 
             @click="this.$emit('refreshContainers')" title="Refresh containers">

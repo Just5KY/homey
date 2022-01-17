@@ -16,10 +16,10 @@ Homey is a simple home server dashboard packed with functionality. The layout is
 * View qBittorent/rTorrent/Transmission/Deluge realtime stats & download progress through [Flood](https://github.com/jesec/flood/) *(ruTorrent support will be added in the future)*
 * Configure from web interface or with a simple YAML file
 * View up/down status of services at a glance
-* View live host CPU, RAM, & disk usage
+* View host CPU, RAM, & disk usage
 * Get hourly & weekly weather forecasts
 * Watch your Docker containers stack up on the interactive whale!
-* Play with a 3D spinning house!
+* Play with 3D things that spin!
 
 ## Installation & Configuration
 
@@ -38,7 +38,7 @@ When the project is released, a docker image and better documentation will be pr
 **NOTE: This is a work in progress and currently unstable. If any of the #required endpoints in the .env file are configured incorrectly or unreachable, the application will crash.**
 
 ### Minimal mode
-**Minimal mode** turns homey into a more traditional dashboard with links to services and low overhead. API functionality (Docker/Portainer, Flood, weather, service checker, settings menu) is disabled. This option can be toggled using the settings menu or the `minimal_mode` flag in `config.yml`.
+**Minimal mode** turns homey into a more traditional dashboard with links to services and low overhead. API functionality (Docker/Portainer, Flood, weather, service checker, settings menu) is disabled along with 3D eyecandy. This option can be toggled using the settings menu or the `minimal_mode` flag in `config.yml`.
 
 *Note: Homey has no way of writing updated config files to the disk in minimal mode. Once it is switched on, all configuration (**including switching minimal mode off**) must be done manually through `config.yml`*
 
