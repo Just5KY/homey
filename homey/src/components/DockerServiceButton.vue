@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import notifications from '../notifications';
+
 export default {
     name: 'DockerServiceButton',
     props: {
@@ -42,11 +44,7 @@ export default {
             }
             this.axios.get('http://0.0.0.0:9101/' + this.$parent.$parent.backend + 'Control/' + this.serviceName + '/' + operation).then((res) => {
                 if(res.data != 'success') throw 'controlException';
-
-                this.$notify({
-                    title: 'Successfully ' + operation + ((operation == 'pause' || operation == 'unpause') ? 'd' : 'ed') + ' container ' + this.serviceName + '!',
-                    type: 'success'
-                });
+                notifications.notifySuccess('Successfully ' + operation + ((operation == 'pause' || operation == 'unpause') ? 'd' : 'ed') + ' container ' + this.serviceName + '!');
                 this.$parent.$parent.loadContainerList();
             }).catch(e => { 
                 console.warn('Error: could not ' + operation + ' container ' + this.serviceName + '. Is the selected Docker backend up and reachable?'); 

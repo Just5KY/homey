@@ -34,6 +34,7 @@
 
 <script>
 import Skycon from "vue-skycons";
+import notifications from '../notifications';
 
 export default {
   name: 'WeatherCard',
@@ -64,10 +65,7 @@ export default {
             this.weatherDataHourly = res.data.slice(0,9);
       }).catch(e => {
         console.warn('Error: Could not retrieve weather information from homey API. Are coordinates configured correctly?');
-        this.$notify({
-          title: 'Warning: Could not retrieve weather information',
-          type: 'warn'
-        })
+        notifications.notifyWarning('Warning: Could not retrieve hourly weather information');
       });
     },
     getDailyWeather: function() {
@@ -76,10 +74,7 @@ export default {
           if(res.data.length > 2) this.weatherDataDaily = res.data;
       }).catch(e => {
         console.warn('Error: Could not retrieve weather information from homey API. Are coordinates configured correctly?');
-        this.$notify({
-          title: 'Warning: Could not retrieve weather information',
-          type: 'warn'
-        })
+        notifications.notifyWarning('Warning: Could not retrieve weekly weather information');
       });
     },
     getSkycon: function(weatherType){

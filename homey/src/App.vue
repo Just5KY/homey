@@ -15,6 +15,8 @@ import ServiceContainer from './components/ServiceContainer.vue'
 import DockerContainer from './components/DockerContainer.vue'
 import CardContainer from './components/CardContainer.vue'
 
+import notifications from './notifications';
+
 import JsYaml from 'js-yaml';
 
 import configFile from './assets/config.yml'
@@ -38,11 +40,7 @@ export default {
       try { 
         this.config = JsYaml.load(configFile);
       } catch (e) { 
-        console.error('Error loading config file:' + e);
-        this.$notify({
-          title: 'Error: Could not load configuration file',
-          type: 'error'
-        }) 
+        notifications.notifyError('Error: Could not load configuration file');
       }
       finally{ 
         if(this.config.enable_service_status && !this.config.minimal_mode)  this.checkServices();  // send service list to backend for up/down checker
@@ -50,27 +48,16 @@ export default {
     },
     saveConfig() {
       this.axios.post('http://0.0.0.0:9101/writeFrontendConfig', this.config).then((res) => {
-        this.$notify({
-          title: 'Successfully saved configuration file',
-          type: 'success'
-        })
+        notifications.notifySuccess('Successfully saved configuration file');
       }).catch(e => {
-        console.warn('Error writing configuration file. Are permissions correct?');
-        this.$notify({
-          title: 'Error: Failed to save configuration file',
-          type: 'error'
-        })
+        notifications.notifyError('Error: Failed to save configuration file');
       });
     },
     checkServices: function() {
       this.axios.post('http://0.0.0.0:9101/updateServices', this.config.services).then((res) => {
           this.serviceStatuses = res.data;
       }).catch(e => {
-        console.warn('Error checking services: could not reach homey API');
-        this.$notify({
-          title: 'Error: Could not retrieve service uptime information',
-          type: 'error'
-        })
+        notifications.notifyWarning('Warning: Could not retrieve service uptime information');
       });
     }
   },

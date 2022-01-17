@@ -22,10 +22,7 @@
 <script>
 import DockerService from './DockerService.vue'
 import DockerControlPanel from './DockerControlPanel.vue';
-
-import { Howl, Howler } from 'howler';
-
-const successSfx = new Howl({ src: ['./sounds/sfxSuccess.mp3'] });
+import notifications from '../notifications';
 
 export default {
   name: 'DockerContainer',
@@ -52,19 +49,9 @@ export default {
           this.dockerServices = res.data;
       }).then(() => { 
         this.setGridSize();
-        if (shouldNotify) {
-          this.$notify({
-            title: 'Successfully refreshed container list',
-            type: 'success'
-          });
-          successSfx.play();
-        }
+        if (shouldNotify)   notifications.notifySuccess('Successfully refreshed container list');
       }).catch(e => {
-        console.warn('Error retrieving Docker containers. Is the selected Docker backend up and reachable?');
-        this.$notify({
-          title: 'Warning: Could not retrieve Docker container information',
-          type: 'warn'
-        })
+        notifications.notifyWarning('Warning: Could not retrieve Docker container information');
       });
 
     },
@@ -72,11 +59,7 @@ export default {
         this.axios.get('http://0.0.0.0:9101/' + this.backend + 'Auth').then((res) => {
           //console.log('INFO :: ' + this.backend + ' API authentication returned ' + res.data);
       }).catch(e => {
-        console.log('Error: Could not authenticate with ' + this.backend);
-        this.$notify({
-          title: 'Warning: Failed to authenticate with ' + this.backend,
-          type: 'warn'
-        })
+        notifications.notifyWarning('Warning: Failed to authenticate with ' + this.backend);
       });
     },
     togglePerspective() {
