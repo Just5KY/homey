@@ -1,12 +1,11 @@
 <template>
   <div v-on:click="openLink" :class="getClass">
     <div class="service-card-container__text-container">
-      <h3>{{ title }} 
-        <span v-if="displayStatus" :title="getStatusFormatted" :id="getStatus + ((isCompact) ? '__compact' : '')" class="service-card-container__text-container__indicator material-icons-outlined">{{ getStatus }}</span>
-      </h3>
+      <h3>{{ title }}</h3>
       <div class="service-card-container__text-container__subtitle">{{subtitle}}
       </div>
     </div>
+    <span v-if="displayStatus" :title="getStatusFormatted" :id="getStatus + ((isCompact) ? '__compact' : '')" class="service-card-container__indicator material-icons-outlined">{{ getStatus }}</span>
     <div class="service-card-container__image-container">
       <img :src="iconPath">
     </div>

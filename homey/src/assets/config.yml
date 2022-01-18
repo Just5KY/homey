@@ -15,8 +15,4 @@ services:
   name: Navidrome
   subtitle: Music streaming
   url: http://192.168.1.5:9004/app/#/login
-- icon: flood.png
-  name: aS
-  subtitle: a
-  url: a
 title: homey

@@ -68,7 +68,7 @@
               <div class="modal-option__header">
                   <select @change="dropdownUpdated" v-model="selectedService">
                     <option value="newService">New Service</option>
-                    <option v-for="s in localConfig.services" :key="s.name" :value="s.name">{{s.name}}</option>
+                    <option v-for="(s, i) in localConfig.services" :key="i" :value="s.name">{{s.name}}</option>
                   </select>
               </div>
               <div class="service-editor">
@@ -114,7 +114,7 @@
                     <li class="modal-option">
                       <h3>Name</h3>
                       <div class="modal-option__button-container">
-                        <input v-model="getSelectedService().name">
+                        <input v-model="localName">
                       </div>
                     </li>
                     <li class="modal-option">
@@ -135,6 +135,9 @@
           </div>
   
           <div class="modal-footer">
+            <transition name="fade">
+              <button v-if="selectedService != 'newService'" @click="deleteService(getSelectedService())" class="modal-button modal-button__delete">Delete</button>
+            </transition>
             <button @click="showServices = !showServices" class="modal-button modal-button__cancel">Back</button>
             <button @click="close(true)" class="modal-button modal-button__save">{{getSaveString}}</button>
           </div>
@@ -155,8 +158,10 @@ export default {
       showServices: false,
       newService: {'name': '', 'icon': '', 'subtitle': '', 'url': ''},
       selectedService: 'newService',
+      localName: String,
       newImage: null,
       showGallery: false,
+      servicesDeleted: false,
       minimalModeWarning: "Disables all API functionality & 3D eyecandy to save resources.\n\nOnce minimal mode is enabled, it can only be disabled by editing config.yml.",
     };
   },
@@ -176,16 +181,25 @@ export default {
   },
   created: function() {
     this.localConfig = this.config;
+    this.localName = ''
   },
   methods: {
     // close(true) will write newly selected settings to config.yml
     close(shouldSave) {
       if (shouldSave){
+        // save main options
+        if(!this.showServices || this.servicesDeleted){
+          this.$emit('saveConfig');
+          this.$emit('close');
+          return;
+        }
+
         // add new service
         if(this.selectedService == 'newService') {
-          if(this.newService.icon == '' && !this.newImage) console.log("Error creating new service: Image is required.")
+          this.newService.name = this.localName;
+          if(this.newService.icon == '' && !this.newImage) console.error("Error creating new service: Image is required.")
           else if(this.newService.name == '' || this.newService.url == '') {
-            console.log("Error saving service: Name & URL are required.");
+            console.error("Error saving service: Name & URL are required.");
           }
           // upload new image
           else {
@@ -200,6 +214,7 @@ export default {
         // update existing service
         else {
           let toUpdate = this.getSelectedService();
+          toUpdate.name = this.localName;
           if(toUpdate.name == '' || toUpdate.url == ''){
             console.log("Error saving service: Name & URL are required.");
           }
@@ -230,6 +245,12 @@ export default {
       }
 
       return this.newService;
+    },
+    deleteService(service){
+      this.localConfig.services.splice(this.localConfig.services.indexOf(service), 1);
+      this.selectedService = 'newService'
+      this.localName = ''
+      this.servicesDeleted = true;
     },
     selectNewIcon(filename){
       this.newImage = null;
@@ -269,6 +290,7 @@ export default {
       this.newImage = null;
       this.newService.icon = '';
       this.showGallery = false;
+      this.localName = this.getSelectedService().name;
     },
   },
 }

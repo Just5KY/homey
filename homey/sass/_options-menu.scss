@@ -110,4 +110,10 @@
         color: $backgroundColor2;
         margin-left: 1rem;
     }
+
+    &__delete {
+        justify-self: flex-start;
+        margin-right: auto;
+        background-color: $red;
+    }
 }
