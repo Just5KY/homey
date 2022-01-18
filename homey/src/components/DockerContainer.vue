@@ -10,7 +10,7 @@
         ref="cell"
       />
     </div>
-    <WhaleScene v-else :services="dockerServices" />
+    <WhaleScene @3dClick="controlContainer" v-else ref="whale" :services="dockerServices" />
     <DockerControlPanel
       @toggleView="togglePerspective()"
       @refreshContainers="loadContainerList(true)"
@@ -56,7 +56,6 @@ export default {
       }).catch(e => {
         notifications.notifyWarning('Warning: Could not retrieve Docker container information');
       });
-
     },
     authenticate: function() {
         this.axios.get('http://0.0.0.0:9101/' + this.backend + 'Auth').then((res) => {
@@ -65,11 +64,27 @@ export default {
         notifications.notifyWarning('Warning: Failed to authenticate with ' + this.backend);
       });
     },
+    controlContainer: function(name, operation){
+        if(operation == 'info'){   
+            return   // TODO: detailed info popup
+        }
+        notifications.notifyInfo('Attempting to ' + operation + ' container ' + name + '...');
+        this.axios.get('http://0.0.0.0:9101/' + this.backend + 'Control/' + name + '/' + operation).then((res) => {
+            if(res.data != 'success') throw 'controlException';
+            notifications.notifySuccess('Successfully ' + operation + ((operation == 'pause' || operation == 'unpause') ? 'd' : 'ed') + ' container ' + name + '!');
+            this.loadContainerList();
+        }).catch(e => { 
+            console.warn('Error: could not ' + operation + ' container ' + name + '. Is the selected ' + this.backend + ' backend up and reachable?'); 
+        });
+    },
     togglePerspective() {
       if(this.perspective == '2d')  this.perspective = '3d';
 
       else{
         this.perspective = '2d';
+
+        // dispose of 3D objects to prevent memory leaks
+        this.$refs.whale.cleanup();
 
         // wait 25ms to ensure 2D services are present before grid size calc
         this.refreshHandle = setInterval(() => {

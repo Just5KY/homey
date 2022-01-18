@@ -42,6 +42,7 @@ export default {
             if(operation == 'info'){   
                 return   // TODO: detailed info popup
             }
+            notifications.notifyInfo('Attempting to ' + operation + ' container ' + this.serviceName + '...');
             this.axios.get('http://0.0.0.0:9101/' + this.$parent.$parent.backend + 'Control/' + this.serviceName + '/' + operation).then((res) => {
                 if(res.data != 'success') throw 'controlException';
                 notifications.notifySuccess('Successfully ' + operation + ((operation == 'pause' || operation == 'unpause') ? 'd' : 'ed') + ' container ' + this.serviceName + '!');

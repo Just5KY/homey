@@ -1,52 +1,49 @@
 <template>
-  <div id="three-canvas" ref="threeCanvas"></div>
+  <div id="three-canvas" ref="threeCanvas">
+    <div ref="tooltip" id="tooltip">{{tooltipText}}</div>
+  </div>
 </template>
 
 <script>
-//import { Clock, PerspectiveCamera, Scene, WebGLRenderer } from 'three'
-import * as THREE from 'three';
+import * as THREE from 'three';   // TODO: selective import
 import * as TWEEN from '@tweenjs/tween.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry';
-import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
 
 // define three.js objects outside of vue export
 // to avoid making them reactive
 const scene = new THREE.Scene();
 const raycaster = new THREE.Raycaster();
+const light = new THREE.DirectionalLight(0xffffff);
 const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
     0.1,
     100
 );
-
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.localClippingEnabled = true
+const controls = new OrbitControls(camera, renderer.domElement);
+
 const clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -.34);
+const invisMat = new THREE.MeshPhongMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
 
 const gltfLoader = new GLTFLoader();
-const fontLoader = new FontLoader();
 const imgLoader = new THREE.TextureLoader();
-const light = new THREE.DirectionalLight(0xffffff);
-const invisMat = new THREE.MeshPhongMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
 
 let mousePos = new THREE.Vector2(100, 100);
 let boundingBoxes = [];
 let uiColor = 0x00a7ff;
 let hoveredButton;
 
-const controls = new OrbitControls(camera, renderer.domElement);
-
 export default {
     name: 'WhaleScene',
     props: {
       services: Array,
     },
-    emits: ['UI_event'],
+    emits: ['3dClick'],
+    components: {
+    },
     watch: {
       services: {
         handler: function() {
@@ -59,6 +56,7 @@ export default {
         return {
             serviceData: [],
             crates: [],
+            tooltipText: ''
         };
     },
     // scene setup
@@ -74,37 +72,34 @@ export default {
           scene.add(model.scene); 
         });
 
-        scene.add(camera)
-        scene.add(light)
+        scene.add(light);
+        scene.add(camera);
         light.position.set(-5, 3, 2);
         camera.position.set(-6, 1.5, 4);
         
         renderer.setPixelRatio( window.devicePixelRatio );
+        renderer.localClippingEnabled = true;
+
+        this.initControls();
 
         // for bounding boxes
         raycaster.layers.set(1);
-
-        // limit camera movement
-        controls.maxAzimuthAngle = 0 + 0.2;  
-        controls.minAzimuthAngle = Math.PI / -2 - 0.2;
-        controls.maxPolarAngle = Math.PI / 2 + 0.2;
-        controls.minPolarAngle = Math.PI / 4;
-        controls.enablePan = false;
-        controls.enableDamping = true;
-        controls.dampingFactor = .02;
-        controls.minDistance = 3;
-        controls.maxDistance = 15;
     },
-    // add canvas to page, begin animation loop
+    // add canvas & begin animation loop
     mounted: function() {
         this.$refs.threeCanvas.appendChild(renderer.domElement)
+
         camera.aspect = this.$refs.threeCanvas.clientWidth / this.$refs.threeCanvas.clientHeight;
         camera.updateProjectionMatrix();
+
         this.$refs.threeCanvas.addEventListener('mousemove', this.onMouseMove, false );
         this.$refs.threeCanvas.addEventListener('mousedown', this.onMouseDown, false );
+        
         this.animate()
     },
-    computed: {},
+    computed: {
+      
+    },
     methods: {
         // main loop
         animate: function() {
@@ -112,15 +107,14 @@ export default {
 
             TWEEN.update();
             controls.update();
-
             this.raycast();
 
             renderer.setSize(this.$refs.threeCanvas.clientWidth, this.$refs.threeCanvas.clientHeight);
             requestAnimationFrame(this.animate)
             
-            renderer.render(scene, camera);
-            
+            renderer.render(scene, camera); 
         },
+        // detect crate and button mouseover events
         raycast() {
           raycaster.setFromCamera(mousePos, camera);
           
@@ -232,7 +226,7 @@ export default {
           const buttonGeo = new THREE.PlaneGeometry(btnSize, btnSize);
 
           // service name
-          let text = this.TextToPlane(serviceName, .5, 1, 80, uiColor);
+          let text = this.TextToMesh(serviceName, .35, 1, 80, uiColor);
           text.rotateY(Math.PI * 1.5);
           text.position.x -= 0.02;
           
@@ -243,7 +237,9 @@ export default {
           textSize.setFromObject(text);
           uiGrp.add(text);
 
-          // button placeholders
+          
+
+          // buttons
           let btnStartMat = new THREE.MeshPhongMaterial({
               side: THREE.FrontSide,
               map: imgLoader.load('./images/ui/start.png'),
@@ -313,7 +309,7 @@ export default {
           // service image
           let serviceImgMat = new THREE.MeshPhongMaterial({
               side: THREE.FrontSide,
-              map: imgLoader.load('./images/icons/' + this.services.find(s => s.name == serviceName).icon),
+              map: imgLoader.load('./images/icons/' + serviceName + '.png'),
               transparent: true,
           });
           const serviceImg = new THREE.Mesh(buttonGeo, serviceImgMat);
@@ -355,40 +351,6 @@ export default {
           this.crates.push(grp);
           scene.add(grp);
         },
-        // credit to dcromley: https://discourse.threejs.org/t/an-example-of-text-to-canvas-to-texture-to-material-to-mesh-not-too-difficult/13757
-        TextToPlane(txt, hWorldTxt, hWorldAll, hPxTxt, color) {
-          let kPxToWorld = hWorldTxt/hPxTxt;                // px to world multplication factor
-          let hPxAll = Math.ceil(hWorldAll/kPxToWorld);     // height of the whole texture canvas
-
-          // create the canvas for the texture
-          let txtcanvas = document.createElement("canvas");
-          let ctx = txtcanvas.getContext("2d");
-          ctx.font = hPxTxt + "px sans-serif";   
-
-          // get all widths
-          let wPxTxt = ctx.measureText(txt).width;         // wPxTxt: width of the text in the texture canvas
-          let wWorldTxt = wPxTxt*kPxToWorld;               // wWorldTxt: world width of text in the plane
-          let wWorldAll = wWorldTxt+(hWorldAll-hWorldTxt); // wWorldAll: world width of the whole plane
-          let wPxAll = Math.ceil(wWorldAll/kPxToWorld);    // wPxAll: width of the whole texture canvas
-          
-          // resize the texture canvas
-          txtcanvas.width =  wPxAll;
-          txtcanvas.height = hPxAll;
-        
-          // fill text
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle"; 
-          ctx.fillStyle = "#" + color.toString(16)
-          ctx.font = hPxTxt + "px sans-serif";   // needed after resize
-          ctx.fillText(txt, wPxAll/2, hPxAll/2); 
-
-          // create material + mesh from text
-          let material = new THREE.MeshBasicMaterial( { side:THREE.FrontSide, map:new THREE.CanvasTexture(txtcanvas), 
-            transparent:true, clippingPlanes: [clippingPlane], clipIntersection: true
-          });
-          
-          return new THREE.Mesh(new THREE.PlaneGeometry(wWorldAll, hWorldAll), material);
-        },
         // remove existing crate
         removeCrate(crateObj) {
           boundingBoxes.splice(boundingBoxes.findIndex(b => b.name == crateObj.name + '_bbox'), 1);
@@ -419,16 +381,111 @@ export default {
             if (!found) this.removeCrate(c);
           })
         },
+        // camera settings
+        initControls(){
+          // limit movement
+          controls.maxAzimuthAngle = 0 + 0.2;  
+          controls.minAzimuthAngle = Math.PI / -2 - 0.2;
+          controls.maxPolarAngle = Math.PI / 2 + 0.2;
+          controls.minPolarAngle = Math.PI / 4;
+          controls.minDistance = 3;
+          controls.maxDistance = 15;
+          controls.enablePan = false;
+          // sense of inertia
+          controls.enableDamping = true;
+          controls.dampingFactor = .02;
+        },
         // UI click event
         onMouseDown(event) {
           if(!hoveredButton)  return;
-          this.$emit('UI_event', hoveredButton.name + ' ' + hoveredButton.parent.parent.name)
+          // emit 3dClick(serviceName, operation)
+          this.$emit('3dClick', hoveredButton.parent.parent.name, hoveredButton.name)
         },
         // keep track of mouse position (normalized to [-1, 1])
         onMouseMove(event) {
-          mousePos.x = ( (event.clientX / window.innerWidth)  ) * 2 - 1;
-          mousePos.y = - ( (event.clientY / window.innerHeight) ) * 2 + 1;
+          mousePos.x = ( (event.offsetX / this.$refs.threeCanvas.clientWidth)  ) * 2 - 1;
+          mousePos.y = - ( (event.offsetY / this.$refs.threeCanvas.clientHeight) ) * 2 + 1;
+
+          this.updateTooltip(event);  
         },
+        updateTooltip(event){
+          if (!hoveredButton) {
+            this.$refs.tooltip.style.opacity = 0;
+            return;
+          }
+          this.$refs.tooltip.style.opacity = 1;
+          this.tooltipText = hoveredButton.name[0].toUpperCase() + hoveredButton.name.substring(1) + ' ' + hoveredButton.parent.parent.name;
+          this.$refs.tooltip.style.left = event.offsetX + 'px';
+          this.$refs.tooltip.style.top = event.offsetY -25 + 'px';
+        },
+        // returns a transparent plane with specified text drawn
+        // credit to dcromley: https://discourse.threejs.org/t/13757
+        TextToMesh(txt, hWorldTxt, hWorldAll, hPxTxt, color, sprite=false) {
+          let kPxToWorld = hWorldTxt/hPxTxt;                // px to world multplication factor
+          let hPxAll = Math.ceil(hWorldAll/kPxToWorld);     // height of the whole texture canvas
+
+          // create the canvas for the texture
+          let txtcanvas = document.createElement("canvas");
+          let ctx = txtcanvas.getContext("2d");
+          ctx.font = hPxTxt + "px sans-serif";   
+
+          // get all widths
+          let wPxTxt = ctx.measureText(txt).width;         // wPxTxt: width of the text in the texture canvas
+          let wWorldTxt = wPxTxt*kPxToWorld;               // wWorldTxt: world width of text in the plane
+          let wWorldAll = wWorldTxt+(hWorldAll-hWorldTxt); // wWorldAll: world width of the whole plane
+          let wPxAll = Math.ceil(wWorldAll/kPxToWorld);    // wPxAll: width of the whole texture canvas
+          
+          // resize the texture canvas
+          txtcanvas.width =  wPxAll;
+          txtcanvas.height = hPxAll;
+        
+          // fill text
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle"; 
+          ctx.fillStyle = "#" + color.toString(16)
+          ctx.font = hPxTxt + "px sans-serif";   // needed after resize
+          ctx.fillText(txt, wPxAll/2, hPxAll/2); 
+
+          // create material + mesh from text
+          let material;
+          let textTexture = new THREE.CanvasTexture(txtcanvas)
+          if(sprite){
+            material = new THREE.SpriteMaterial({map: textTexture});
+            return new THREE.Sprite(material)
+          }
+          else{
+            material = new THREE.MeshBasicMaterial( { side:THREE.FrontSide, map: textTexture, 
+              transparent:true, clippingPlanes: [clippingPlane], clipIntersection: true
+            });
+            return new THREE.Mesh(new THREE.PlaneGeometry(wWorldAll, hWorldAll), material);
+          }
+        },
+        // prevent memory leaks when 3D view is switched off
+        // credit to trusktr: https://discourse.threejs.org/t/1549/18
+        cleanup() {
+          renderer.dispose()
+
+          scene.traverse(object => {
+            if (!object.isMesh) return
+            
+            object.geometry.dispose();
+
+            if (object.material.isMaterial) this.disposeMat(object.material);
+            else {
+              for (const material of object.material) this.disposeMat(material);
+            }
+          })
+        },
+        // free material & attached textures
+        disposeMat(material) {
+          material.dispose();
+
+          // dispose of textures
+          for (const key of Object.keys(material)) {
+            const value = material[key];
+            if (value && typeof value === 'object' && 'minFilter' in value)   value.dispose();
+          }
+        }
     },
 }
 </script>
