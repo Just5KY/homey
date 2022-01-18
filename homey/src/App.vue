@@ -2,7 +2,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900">
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <Header @loadConfig="loadConfig" @saveConfig="saveConfig" :config="this.config" :title="config.title" ref="header"/>
-  <ServiceContainer :fullscreen="config.minimal_mode" :statusIndicators="config.enable_service_status" :services="config.services" :statuses="this.serviceStatuses"/>
+  <ServiceContainer :fullscreen="config.minimal_mode" :compactServices="config.compact_services" :statusIndicators="config.enable_service_status" :services="config.services" :statuses="this.serviceStatuses"/>
   <DockerContainer v-if="!config.minimal_mode" :backend="config.docker_api_backend" @openSettings="this.$refs.header.showOptions = true"/>
   <CardContainer v-if="!config.minimal_mode" />
 

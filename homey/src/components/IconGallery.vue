@@ -9,6 +9,7 @@
 <script>
 export default {
     name: 'IconGallery',
+    emits: ['selectIcon'],
     props: {
     },
     data: function() {
@@ -27,9 +28,7 @@ export default {
         },
         pickIcon(name){
             this.icon = name;
-            // TODO: this should be emitted
-            this.$parent.selectNewIcon(this.icon);
-            this.$parent.showGallery = false;
+            this.$emit('selectIcon', name)
         }
     },
     created() {

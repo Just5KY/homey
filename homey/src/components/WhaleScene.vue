@@ -89,6 +89,7 @@ export default {
     mounted: function() {
         this.$refs.threeCanvas.appendChild(renderer.domElement)
 
+        // TODO: move to function and call on resize
         camera.aspect = this.$refs.threeCanvas.clientWidth / this.$refs.threeCanvas.clientHeight;
         camera.updateProjectionMatrix();
 

@@ -7,7 +7,8 @@
         :icon="s.icon"
         :url="s.url"
         :displayStatus="this.statusIndicators"
-        :isUp="this.getStatus(s.name)" 
+        :isUp="this.getStatus(s.name)"
+        :isCompact="this.compactServices" 
       />
   </div>
 </template>
@@ -22,10 +23,14 @@ export default {
     statuses: Array,
     statusIndicators: Boolean,
     fullscreen: Boolean,
+    compactServices: Boolean,
   },
   computed: {
     getClass: function() {
-      return ((this.fullscreen) ? 'service-container service-container__fullscreen' : 'service-container');
+      let cssClass = 'service-container';
+      if(this.fullscreen) cssClass += ' service-container__fullscreen';
+      if(this.compactServices) cssClass += ' service-container__compact'
+      return cssClass;
     },
   },
   components: {

@@ -1,3 +1,4 @@
+compact_services: false
 docker_api_backend: portainer
 enable_service_status: true
 minimal_mode: false
@@ -14,4 +15,8 @@ services:
   name: Navidrome
   subtitle: Music streaming
   url: http://192.168.1.5:9004/app/#/login
+- icon: flood.png
+  name: aS
+  subtitle: a
+  url: a
 title: homey

@@ -24,8 +24,13 @@
 }
 
 html {
+    height: 100vh;
     font-size: 10px;
     font-family: Montserrat, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    min-height: 100vh;
 }

@@ -1,8 +1,8 @@
 <template>
-  <div v-on:click="openLink" class="service-card-container">
+  <div v-on:click="openLink" :class="getClass">
     <div class="service-card-container__text-container">
       <h3>{{ title }} 
-        <span v-if="displayStatus" :title="getStatusFormatted" :id="getStatus" class="service-card-container__text-container__indicator material-icons-outlined">{{ getStatus }}</span>
+        <span v-if="displayStatus" :title="getStatusFormatted" :id="getStatus + ((isCompact) ? '__compact' : '')" class="service-card-container__text-container__indicator material-icons-outlined">{{ getStatus }}</span>
       </h3>
       <div class="service-card-container__text-container__subtitle">{{subtitle}}
       </div>
@@ -28,8 +28,12 @@ export default {
       url: String,
       displayStatus: Boolean,
       isUp: Boolean,
+      isCompact: Boolean,
   },
   computed: {
+    getClass() {
+      return ((this.isCompact) ? 'service-card-container service-card-container__compact' : 'service-card-container')
+    },
     getStatus: function() {
       if(this.isUp) return 'arrow_circle_up';
       return 'arrow_circle_down';

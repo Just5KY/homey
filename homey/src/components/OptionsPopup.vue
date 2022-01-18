@@ -24,6 +24,13 @@
                 </div>
               </li>
               <li class="modal-option">
+                <h3>Compact Services<span title="Reduces padding in services pane." class="material-icons-outlined">info</span></h3>
+                <div class="modal-option__button-container">
+                  On<input type="radio" :value="true" v-model="localConfig.compact_services">
+                  Off<input type="radio" :value="false" v-model="localConfig.compact_services">
+                </div>
+              </li>
+              <li class="modal-option">
                 <h3>Status Indicators</h3>
                 <div class="modal-option__button-container">
                   On<input type="radio" :value="true" v-model="localConfig.enable_service_status">
@@ -66,29 +73,28 @@
               </div>
               <div class="service-editor">
                 <div class="service-editor__image-container">
-                  <img v-if="getSelectedService.icon && !newImage" 
-                    :src="'./images/icons/'+getSelectedService.icon" 
+                  <img v-if="getSelectedService().icon && !newImage" 
+                    :src="'./images/icons/'+getSelectedService().icon" 
                     class="service-editor__image-container__image" />
-                  <img v-if="newService.icon != '' && !newImage" 
+                  <!-- <img v-if="newService.icon != '' && !newImage" 
                     :src="'./images/icons/'+newService.icon" 
-                    class="service-editor__image-container__image" />
+                    class="service-editor__image-container__image" /> -->
                   <img v-if="newImage"
                     :src="newImage" 
                     class="service-editor__image-container__image" />
                   <label for="uploader">
                     <transition name="slide-up">
-                      <span v-if="(getSelectedService.icon || newImage || newService.icon != '') && !showGallery" title="Upload New Icon" 
+                      <span v-if="(getSelectedService().icon || newImage || newService.icon != '') && !showGallery" title="Upload New Icon" 
                         class="uploader-button uploader-button__corner-right uploader-button__corner material-icons-outlined">
                         file_upload</span>
                     </transition>
                     <transition v-if="selectedService == 'newService'" name="fade">
-                      <span v-if="!showGallery && !getSelectedService.icon && !newImage && newService.icon ==''" 
+                      <span v-if="!showGallery && !getSelectedService().icon && !newImage && newService.icon ==''" 
                         class="uploader-button material-icons-outlined" id="upload_placeholder" title="Upload Icon">
                         file_upload</span>
                     </transition>
                   </label>
                   <input type="file" id="uploader" accept="image/png, image/jpeg" @change="fileUploaded" />
-                  <!-- to fix this -->
                   <transition name="fade">
                     <span v-if="!showGallery" title="Browse Uploaded Icons" @click="showGallery = !showGallery"
                         class="uploader-button uploader-button__corner-left uploader-button__corner material-icons-outlined">
@@ -100,7 +106,7 @@
                     </span>
                   </transition>
                   <transition name="slide-up">
-                    <IconGallery v-if="showGallery" />
+                    <IconGallery v-if="showGallery" @selectIcon="selectNewIcon" />
                   </transition>
                 </div>
                 <div class="service-editor__options">
@@ -108,19 +114,19 @@
                     <li class="modal-option">
                       <h3>Name</h3>
                       <div class="modal-option__button-container">
-                        <input v-model="getSelectedService.name">
+                        <input v-model="getSelectedService().name">
                       </div>
                     </li>
                     <li class="modal-option">
                       <h3>Subtitle</h3>
                       <div class="modal-option__button-container">
-                        <input v-model="getSelectedService.subtitle">
+                        <input v-model="getSelectedService().subtitle">
                       </div>
                     </li>
                     <li class="modal-option">
                       <h3>URL</h3>
                       <div class="modal-option__button-container">
-                        <input v-model="getSelectedService.url">
+                        <input v-model="getSelectedService().url">
                       </div>
                     </li>
                   </ul>
@@ -151,7 +157,7 @@ export default {
       selectedService: 'newService',
       newImage: null,
       showGallery: false,
-      minimalModeWarning: "Make homey more like Homer (disable all API functionality).\n\nOnce minimal mode is enabled, it can only be disabled by manually editing config.yml.",
+      minimalModeWarning: "Disables all API functionality & 3D eyecandy to save resources.\n\nOnce minimal mode is enabled, it can only be disabled by editing config.yml.",
     };
   },
   components: {
@@ -164,12 +170,6 @@ export default {
       config: Object,
   },
   computed: {
-    getSelectedService() {
-      for(let i = 0; i < this.localConfig.services.length; i++) {
-        if (this.localConfig.services[i].name == this.selectedService)  return JSON.parse(JSON.stringify(this.localConfig.services[i]));
-      }
-      return this.selectedService;
-    },
     getSaveString() {
       return 'Save' + (this.newImage ? ' & Upload' : '');
     }
@@ -182,21 +182,24 @@ export default {
     close(shouldSave) {
       if (shouldSave){
         // add new service
-        if(this.selectedService == 'addService') {
-          if(!this.newImage) console.log("Error creating new service: Image is required.")
+        if(this.selectedService == 'newService') {
+          if(this.newService.icon == '' && !this.newImage) console.log("Error creating new service: Image is required.")
           else if(this.newService.name == '' || this.newService.url == '') {
             console.log("Error saving service: Name & URL are required.");
           }
           // upload new image
           else {
-            this.uploadIcon();
+            if(this.newImage){
+              this.uploadIcon();
+              this.newService.icon = this.$el.querySelector('#uploader').files[0].name;
+            }
             this.localConfig.services.push(this.newService);
             this.$emit('saveConfig');
           }
         }
         // update existing service
         else {
-          let toUpdate = this.getSelectedService;
+          let toUpdate = this.getSelectedService();
           if(toUpdate.name == '' || toUpdate.url == ''){
             console.log("Error saving service: Name & URL are required.");
           }
@@ -207,7 +210,7 @@ export default {
               toUpdate.icon = this.$el.querySelector('#uploader').files[0].name;
             }
             for(let i = 0; i < this.localConfig.services.length; i++) {
-              if (this.localConfig.services[i].name == this.selectedService)  this.localConfig.services[i] = this.getSelectedService
+              if (this.localConfig.services[i].name == this.selectedService)  this.localConfig.services[i] = this.getSelectedService()
             }
             this.$emit('saveConfig');
           }
@@ -219,12 +222,22 @@ export default {
       // close modal either way
       this.$emit('close');
     },
+    getSelectedService() {
+      for(let i = 0; i < this.localConfig.services.length; i++) {
+        if (this.localConfig.services[i].name == this.selectedService)  {
+          return this.localConfig.services[i];
+        }
+      }
+
+      return this.newService;
+    },
     selectNewIcon(filename){
       this.newImage = null;
-      if(this.getSelectedService == 'newService'){
+      if(this.getSelectedService() == 'newService'){
         this.newService.icon = filename;
       }
-      else this.getSelectedService.icon = filename;
+      else this.getSelectedService().icon = filename;
+      this.showGallery = false;
     },
     fileUploaded() {
       let files = this.$el.querySelector('#uploader').files;
