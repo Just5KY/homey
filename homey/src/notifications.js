@@ -6,8 +6,7 @@ import { notify } from "@kyvg/vue3-notification";
 export default {
     trackHidden: false,
     isHidden() {
-        if(document.getElementsByClassName('vue-notification__hidden').length > 0 ||
-        document.getElementsByClassName('header__offline-bar').length > 0)
+        if(document.getElementsByClassName('header__offline-bar').length > 0)
                 this.trackHidden = true;
         else    this.trackHidden = false;
         return  this.trackHidden;
@@ -22,9 +21,7 @@ export default {
     },
     notifyWarning(msg) {
         if(this.isHidden()) return;
-
-        console.log(document.getElementsByClassName('header__offline-bar').length)
-
+        
         notify({ title: msg, type: 'warn' });
         console.warn(msg);
         failureSfx.play();

@@ -5,7 +5,7 @@
   <DockerContainer v-if="isAPIOnline" :backend="config.docker_api_backend" @openSettings="this.$refs.header.showOptions = true"/>
   <CardContainer v-if="isAPIOnline" />
 
-  <notifications :classes="'vue-notification vue-notification__' + ((isAPIOnline) ? 'shown' : 'hidden' ) " position="top left" />
+  <notifications  position="top left" />
 </template>
 
 <script>
