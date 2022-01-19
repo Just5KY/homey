@@ -76,9 +76,6 @@
                   <img v-if="getSelectedService().icon && !newImage" 
                     :src="'./images/icons/'+getSelectedService().icon" 
                     class="service-editor__image-container__image" />
-                  <!-- <img v-if="newService.icon != '' && !newImage" 
-                    :src="'./images/icons/'+newService.icon" 
-                    class="service-editor__image-container__image" /> -->
                   <img v-if="newImage"
                     :src="newImage" 
                     class="service-editor__image-container__image" />
@@ -148,7 +145,6 @@
 
 <script>
 import IconGallery from './IconGallery.vue';
-// TODO: clean up newService/selectedService/newImage spaghetti
 
 export default {
   name: 'OptionsPopup',

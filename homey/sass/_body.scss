@@ -8,7 +8,7 @@
     display: grid;
     height: 100%;
     
-    grid-template-rows: 15% 45% 40%;
+    grid-template-rows: 20vh 50vh 30vh;
     grid-template-columns: 3fr 2fr; // 60% 40%
 
     @media (max-width: $mobile-break-med) {
@@ -22,4 +22,9 @@
 h2 {
     font-weight: 300;
     font-size: 3rem;
+}
+
+// Notifications
+.vue-notification__hidden {
+    opacity: 0;
 }

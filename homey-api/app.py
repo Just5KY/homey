@@ -105,6 +105,10 @@ def updateServices():
     serviceChecker.assignAll(request.json)
     return jsonify(serviceChecker.checkAll())
 
+@app.route('/ping', methods=['GET'])
+def ping():
+    return {'status': 'up'}
+
 ### SETTINGS
 @app.route('/writeFrontendConfig', methods=['POST'])
 def writeFrontendConfig():

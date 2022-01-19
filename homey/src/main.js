@@ -14,6 +14,7 @@ const app = createApp(App);
 app.use(VueAxios, axios)
 app.use(Notifications)
 app.config.globalProperties.axios=axios
+app.config.globalProperties.window=window
 app.mount('#app')
 
 // Canvas

@@ -4,6 +4,14 @@ const failureSfx = new Audio('./sounds/sfxFailure.mp3');
 import { notify } from "@kyvg/vue3-notification";
 
 export default {
+    trackHidden: false,
+    isHidden() {
+        if(document.getElementsByClassName('vue-notification__hidden').length > 0 ||
+        document.getElementsByClassName('header__offline-bar').length > 0)
+                this.trackHidden = true;
+        else    this.trackHidden = false;
+        return  this.trackHidden;
+    },
     notifySuccess(msg) {
         notify({ title: msg, type: 'success' });
         successSfx.play();
@@ -13,11 +21,17 @@ export default {
         successSfx.play();
     },
     notifyWarning(msg) {
+        if(this.isHidden()) return;
+
+        console.log(document.getElementsByClassName('header__offline-bar').length)
+
         notify({ title: msg, type: 'warn' });
         console.warn(msg);
         failureSfx.play();
     },
     notifyError(msg) {
+        if(this.isHidden()) return;
+
         notify({ title: msg, type: 'error' });
         console.error(msg);
         failureSfx.play();

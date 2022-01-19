@@ -1,12 +1,12 @@
 <template>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <Header @loadConfig="loadConfig" @saveConfig="saveConfig" :config="this.config" :title="config.title" ref="header"/>
-  <ServiceContainer :fullscreen="config.minimal_mode" :compactServices="config.compact_services" :statusIndicators="config.enable_service_status" :services="config.services" :statuses="this.serviceStatuses"/>
-  <DockerContainer v-if="!config.minimal_mode" :backend="config.docker_api_backend" @openSettings="this.$refs.header.showOptions = true"/>
-  <CardContainer v-if="!config.minimal_mode" />
+  <Header @loadConfig="loadConfig" @saveConfig="saveConfig" :APIOnline="isAPIOnline" :config="this.config" :title="config.title" ref="header"/>
+  <ServiceContainer :fullscreen="!isAPIOnline" :compactServices="config.compact_services" :statusIndicators="config.enable_service_status" :services="config.services" :statuses="this.serviceStatuses"/>
+  <DockerContainer v-if="isAPIOnline" :backend="config.docker_api_backend" @openSettings="this.$refs.header.showOptions = true"/>
+  <CardContainer v-if="isAPIOnline" />
 
-  <notifications position="top left" />
+  <notifications :classes="'vue-notification vue-notification__' + ((isAPIOnline) ? 'shown' : 'hidden' ) " position="top left" />
 </template>
 
 <script>
@@ -26,6 +26,8 @@ export default {
   data() {
     return {
       config: Object,
+      isOnline: false,
+      pingTimer: Number,
       serviceStatuses: [],
     };
   },
@@ -35,6 +37,11 @@ export default {
     DockerContainer,
     CardContainer
   },
+  computed: {
+    isAPIOnline() {
+      return this.isOnline && !this.config.minimal_mode
+    }
+  },
   methods: {
     loadConfig: function() {
       try { 
@@ -42,27 +49,44 @@ export default {
       } catch (e) { 
         notifications.notifyError('Error: Could not load configuration file');
       }
+      // send service list to backend for up/down checker
       finally{ 
-        if(this.config.enable_service_status && !this.config.minimal_mode)  this.checkServices();  // send service list to backend for up/down checker
+        if(this.config.enable_service_status && !this.config.minimal_mode)  this.checkServices();
       }  
     },
     saveConfig() {
-      this.axios.post('http://0.0.0.0:9101/writeFrontendConfig', this.config).then((res) => {
+      this.axios.post('http://0.0.0.0:9101/writeFrontendConfig', this.config).then(() => {
         notifications.notifySuccess('Successfully saved configuration file');
-      }).catch(e => {
+      }).catch(() => {
         notifications.notifyError('Error: Failed to save configuration file');
       });
+    },
+    checkConnection() {
+      this.axios.get('http://0.0.0.0:9101/ping').then(() => {
+        this.isOnline = true;
+      }).catch(() => { this.isOnline = false; });
+
+      if(this.config.minimal_mode && this.pingTimer) clearInterval(this.pingTimer);
     },
     checkServices: function() {
       this.axios.post('http://0.0.0.0:9101/updateServices', this.config.services).then((res) => {
           this.serviceStatuses = res.data;
-      }).catch(e => {
-        notifications.notifyWarning('Warning: Could not retrieve service uptime information');
+      }).catch(() => {
+        if(this.isOnline) notifications.notifyWarning('Warning: Could not retrieve service uptime information');
       });
     }
   },
   beforeMount() {
+    this.checkConnection();
     this.loadConfig();
+
+    if(!this.config.minimal_mode) this.pingTimer = setInterval(this.checkConnection, 5000);
+  },
+  mounted() {
+    this.checkConnection();
+
+    window.addEventListener('online', (() => { this.isOnline = true }));
+    window.addEventListener('offline', (() => { this.isOnline = false; notifications.trackHidden = true; }));
   },
 }
 </script>

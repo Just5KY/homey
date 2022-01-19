@@ -1,11 +1,18 @@
 <template>
   <div class="header-container">
-    <canvas class="header-animation"></canvas>
-    <h1>{{ title }}</h1>
-    <span v-if="!this.config.minimal_mode" @click="showOptions = !showOptions" title="Settings" class="material-icons-outlined">settings</span>
-    <transition name="fade">
-      <OptionsPopup v-if="showOptions" @loadConfig="loadConfig" @saveConfig="saveConfig" :config="this.config" @close="showOptions = false" tabindex="0" @keydown.esc="showOptions = false"/>
-    </transition>
+    <div class="header-container__main">
+      <canvas class="header-animation"></canvas>
+      <h1>{{ title }}</h1>
+      <span v-if="APIOnline" @click="showOptions = !showOptions" title="Settings" class="material-icons-outlined">settings</span>
+      <transition name="fade">
+        <OptionsPopup v-if="showOptions" @loadConfig="loadConfig" @saveConfig="saveConfig" :config="this.config" @close="showOptions = false" tabindex="0" @keydown.esc="showOptions = false"/>
+      </transition>
+    </div>
+    <div class="header__offline-bar"
+      v-if="!APIOnline && !config.minimal_mode">
+      You're offline, bub
+      <span class="material-icons-outlined" @click="window.location.reload()" title="Force refresh">refresh</span>
+    </div>
   </div>
 </template>
 
@@ -21,6 +28,7 @@ export default {
   props: {
     title: String,
     config: Object,
+    APIOnline: Boolean,
   },
   data: function() {
     return {
@@ -34,6 +42,6 @@ export default {
     saveConfig() {
       this.$emit('saveConfig');
     },
-  }
+  },
 }
 </script>

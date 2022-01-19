@@ -1,13 +1,16 @@
 .header-container {
     grid-row: 1;
     grid-column: 1 / 3;
+}
+
+.header-container__main {
     text-align: center;
     background-color: $backgroundColor2;
     display: flex;
     width: 100%;
     //max-height: 15vh;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 
     box-shadow: 0px 10px 15px 5px $shadowColor;
 
@@ -29,7 +32,7 @@
     }
 
     & canvas {
-        margin-left: 18.5%;
+        //
     }
 
     // Settings icon
@@ -41,4 +44,29 @@
         margin-left: auto;
         cursor: pointer;
     }
+}
+
+// Displayed when offline
+.header__offline-bar {
+    width: 100%;
+    background-color: $red;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 2rem;
+    height: 4rem;
+    margin-top: -4rem;
+    
+
+    span {
+        margin-left: 1.5rem;
+        animation: spin 2s infinite;
+        //animation-play-state: paused;
+        cursor: pointer;
+    }   
 }

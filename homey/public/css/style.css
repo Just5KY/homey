@@ -394,34 +394,51 @@
 
 .header-container {
   grid-row: 1;
-  grid-column: 1 / 3;
+  grid-column: 1 / 3; }
+
+.header-container__main {
   text-align: center;
   background-color: #44475a;
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   box-shadow: 0px 10px 15px 5px #1c1c1c; }
-  .header-container h1 {
+  .header-container__main h1 {
     font-size: 7rem;
     font-weight: 200;
     letter-spacing: .75rem; }
     @media (max-width: 1350px) {
-      .header-container h1 {
+      .header-container__main h1 {
         font-size: 5rem;
         letter-spacing: .55rem; } }
     @media (max-width: 600px) {
-      .header-container h1 {
+      .header-container__main h1 {
         font-size: 3rem;
         letter-spacing: .3rem; } }
-  .header-container canvas {
-    margin-left: 18.5%; }
-  .header-container span {
+  .header-container__main span {
     color: #6272a4;
     margin: 1rem;
     font-size: 3.5rem;
     align-self: flex-start;
     margin-left: auto;
+    cursor: pointer; }
+
+.header__offline-bar {
+  width: 100%;
+  background-color: #ff5555;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  height: 4rem;
+  margin-top: -4rem; }
+  .header__offline-bar span {
+    margin-left: 1.5rem;
+    animation: spin 2s infinite;
     cursor: pointer; }
 
 #app {
@@ -430,7 +447,7 @@
   color: #f8f8f2;
   display: grid;
   height: 100%;
-  grid-template-rows: 15% 45% 40%;
+  grid-template-rows: 20vh 50vh 30vh;
   grid-template-columns: 3fr 2fr; }
   @media (max-width: 1350px) {
     #app {
@@ -440,6 +457,9 @@
 h2 {
   font-weight: 300;
   font-size: 3rem; }
+
+.vue-notification__hidden {
+  opacity: 0; }
 
 .flood-card-container {
   position: relative;
@@ -673,7 +693,7 @@ h2 {
     margin: .5rem; }
 
 .service-card-container {
-  margin: 2rem;
+  margin: 1.5rem;
   cursor: pointer;
   background-color: #44475a;
   border-radius: .5rem;
@@ -922,6 +942,7 @@ h2 {
 
 html {
   height: 100vh;
+  background-color: #282a36;
   font-size: 10px;
   font-family: Montserrat, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
