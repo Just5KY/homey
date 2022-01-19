@@ -81,29 +81,35 @@ export default {
       switch(weatherType){
         case 'Light Snow Showers':
         case 'Light Snow':
+        case 'Moderate Snow':
+        case 'Heavy Snow':
+        case 'Snow Grains':
           return 'snow'
-
         case 'Overcast':
         case 'Partly Cloudy':
           return 'cloudy'
-        
+        case 'Fog':
+        case 'Depositing rime fog':
+          return 'fog'
+        case 'Light Rain':
+        case 'Heavy Rain':
+        case 'Rain':
+        case 'Light Drizzle':
+        case 'Moderate Drizzle':
+        case 'Heavy Drizzle':
+        case 'Light Showers':
+        case 'Moderate Showers':
+        case 'Heavy Showers':
+        case 'Thunderstorm':
+          return 'rain'
+        case 'Light Freezing Rain':
+        case 'Heavy Freezing Rain':
+        case 'Light Thunderstorm w/ Hail':
+        case 'Heavy Thunderstorm w/ Hail':
+          return 'sleet'
       }
-        return 'clear-day'
 
-            /*
-   <skycon condition="clear-day" />
-    <skycon condition="clear-night" />
-    <skycon condition="partly-cloudy-day" />
-    <skycon condition="partly-cloudy-night" />
-    <skycon condition="cloudy" />
-    <skycon condition="rain" />
-    <skycon condition="sleet" />
-    <skycon condition="snow" />
-    <skycon condition="wind" />
-    <skycon condition="fog" />
-    <skycon condition="rain" size="128" color="orangered" paused @load="console.log" />
-    */
-    
+      return 'clear-day';    
     },
   },
   beforeMount() {
