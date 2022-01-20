@@ -70,13 +70,10 @@ def portainerList():
     if not portainerAPI.validConfig:    return jsonify({'Error': 'Portainer API not configured'})
     return jsonify(portainerAPI.listContainers())
 
-# TODO: rewrite as POST
-# valid operations: pause, unpause, start, stop, restart, kill
-@app.route('/portainerControl/<containerName>/<operation>', methods=['GET'])
-def portainerControl(containerName, operation):
+@app.route('/portainerControl', methods=['POST'])
+def portainerControl():
     if not portainerAPI.validConfig:    return jsonify({'Error': 'Portainer API not configured'})
-    return jsonify(portainerAPI.controlContainer(containerName, operation))
-
+    return jsonify(portainerAPI.controlContainer(request.json['name'], request.json['operation']))
 
 ### DOCKER
 @app.route('/dockerAuth', methods=['GET'])
@@ -87,11 +84,9 @@ def dockerAuth():
 def dockerList():
     return jsonify(dockerAPI.listContainers())
 
-# TODO: rewrite as POST
-# valid operations: pause, unpause, start, stop, restart, kill
-@app.route('/dockerControl/<containerName>/<operation>', methods=['GET'])
-def dockerControl(containerName, operation):
-    return jsonify(dockerAPI.controlContainer(containerName, operation))
+@app.route('/dockerControl', methods=['POST'])
+def dockerControl():
+    return jsonify(dockerAPI.controlContainer(request.json['name'], request.json['operation']))
 
 
 ### LOCAL MACHINE

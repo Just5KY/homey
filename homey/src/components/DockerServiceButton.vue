@@ -43,7 +43,8 @@ export default {
                 return   // TODO: detailed info popup
             }
             notifications.notifyInfo('Attempting to ' + operation + ' container ' + this.serviceName + '...');
-            this.axios.get('http://0.0.0.0:9101/' + this.$parent.$parent.backend + 'Control/' + this.serviceName + '/' + operation).then((res) => {
+            let postData = {name: this.serviceName, operation: operation}
+            this.axios.post('http://0.0.0.0:9101/' + this.$parent.$parent.backend + 'Control',  postData).then((res) => {
                 if(res.data != 'success') throw 'controlException';
                 notifications.notifySuccess('Successfully ' + operation + ((operation == 'pause' || operation == 'unpause') ? 'd' : 'ed') + ' container ' + this.serviceName + '!');
                 this.$parent.$parent.loadContainerList();
