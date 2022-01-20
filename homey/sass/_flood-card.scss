@@ -5,7 +5,6 @@
     }
 
     position: relative;
-    height: 90%;
     width: auto;
     flex-grow: 1;
 
@@ -54,10 +53,10 @@
 
     // Front
     &__heading {
-        width: 90%;
+        width: calc(100% - 4rem);
         position: absolute;
         top: 2rem;
-        right: 2rem;
+        left: 2rem;
 
         justify-content: space-between;
         display: flex;
@@ -79,15 +78,17 @@
         }
 
         &--stats {
-            margin-left: .5rem;
+            text-align: left;
+            margin-left: -.5rem;
             div {
                 display: flex;
+                align-items: center;
                 & span {
                     font-size: 2.2rem;
                 }
     
                 & p {
-                    font-size: 1.5rem;
+                    font-size: 1.3rem;
                 }
             }
 
@@ -101,8 +102,13 @@
     &__chart {
         margin-left: -1rem;
         width: 105%;
-        margin-top: 5rem;
-        transform: scaleY(.9);
+        height: 100%;
+        margin-top: 8rem;
+
+        display: flex;
+        flex-direction: column;
+        justify-items: flex-end;
+
     }
 
     // Back

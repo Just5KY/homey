@@ -549,7 +549,7 @@
   display: grid;
   height: 100%;
   grid-template-rows: 20vh 50vh 30vh;
-  grid-template-columns: 3fr 2fr; }
+  grid-template-columns: 2fr 1fr; }
   @media (max-width: 1350px) {
     #app {
       display: flex;
@@ -561,7 +561,6 @@ h2 {
 
 .flood-card-container {
   position: relative;
-  height: 90%;
   width: auto;
   flex-grow: 1;
   perspective: 100rem;
@@ -600,10 +599,10 @@ h2 {
     transform: rotateY(0deg);
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
   .flood-card-container__heading {
-    width: 90%;
+    width: calc(100% - 4rem);
     position: absolute;
     top: 2rem;
-    right: 2rem;
+    left: 2rem;
     justify-content: space-between;
     display: flex; }
     .flood-card-container__heading--title {
@@ -616,20 +615,25 @@ h2 {
       border-radius: 5px;
       background-image: linear-gradient(to right bottom, rgba(98, 114, 164, 0.8), rgba(40, 42, 54, 0.8)); }
     .flood-card-container__heading--stats {
-      margin-left: .5rem; }
+      text-align: left;
+      margin-left: -.5rem; }
       .flood-card-container__heading--stats div {
-        display: flex; }
+        display: flex;
+        align-items: center; }
         .flood-card-container__heading--stats div span {
           font-size: 2.2rem; }
         .flood-card-container__heading--stats div p {
-          font-size: 1.5rem; }
+          font-size: 1.3rem; }
       .flood-card-container__heading--stats__up {
         color: #8be9fd; }
   .flood-card-container__chart {
     margin-left: -1rem;
     width: 105%;
-    margin-top: 5rem;
-    transform: scaleY(0.9); }
+    height: 100%;
+    margin-top: 8rem;
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-end; }
   .flood-card-container__notifications ul {
     list-style: none; }
     .flood-card-container__notifications ul li {
@@ -651,10 +655,9 @@ h2 {
         margin-left: .5rem; }
 
 .weather-card-container {
-  height: 90%;
-  width: 45%;
   text-align: center;
   position: relative;
+  width: calc(50% - 2rem);
   padding: 1.5rem;
   border-radius: .5rem;
   overflow-wrap: break-word;
@@ -664,7 +667,7 @@ h2 {
   @media (max-width: 600px) {
     .weather-card-container {
       width: auto;
-      margin-bottom: 2rem; } }
+      flex-grow: 1; } }
   .weather-card-container__side {
     height: 100%;
     transition: all 0.7s ease-in-out;
@@ -698,10 +701,10 @@ h2 {
     transform: rotateY(0deg);
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
   .weather-card-container__heading {
-    width: 90%;
+    width: calc(100% - 4rem);
     position: absolute;
     top: 2rem;
-    right: 2rem;
+    left: 2rem;
     justify-content: space-between;
     display: flex; }
     .weather-card-container__heading--skycon {
@@ -719,7 +722,6 @@ h2 {
       background-image: linear-gradient(to right bottom, rgba(98, 114, 164, 0.8), rgba(40, 42, 54, 0.8)); }
     .weather-card-container__heading--daily-details {
       font-size: 1.7rem;
-      margin-left: 1rem;
       text-align: left; }
       .weather-card-container__heading--daily-details :nth-child(2) {
         font-size: 1.3rem; }
@@ -727,19 +729,22 @@ h2 {
     font-weight: 300;
     font-size: 1.4rem;
     text-align: left;
-    align-content: space-between;
     width: auto;
     flex-grow: 1;
     margin: 2rem;
     margin-top: 8rem;
-    z-index: 2; }
-    .weather-card-container__details .weatherElement span {
-      float: right; }
-    .weather-card-container__details .weatherElement__skycon {
-      margin-left: 1.5rem; }
-    .weather-card-container__details div {
-      padding: 0.5rem; }
-      .weather-card-container__details div:not(:first-child) {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; }
+    .weather-card-container__details .weatherElement {
+      display: flex;
+      justify-content: space-between;
+      align-content: center;
+      padding: .5rem 0; }
+      .weather-card-container__details .weatherElement__skycon {
+        margin-left: 1.5rem; }
+      .weather-card-container__details .weatherElement:not(:first-child) {
         border-top: 1px solid #f8f8f2; }
   .weather-card-container__weekly-forecast {
     height: 100%; }
@@ -756,7 +761,7 @@ h2 {
         align-items: center;
         justify-content: space-between;
         display: flex;
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         outline: 1px solid #6272a4;
         border-radius: .3rem;
         padding: .5rem; }
@@ -768,8 +773,8 @@ h2 {
 .card-container {
   grid-row: 3;
   grid-column: 2;
-  margin-right: 4rem;
-  margin-top: 2rem;
+  padding: 2rem;
+  padding-left: 0;
   display: flex;
   justify-content: space-between;
   column-gap: 2rem;
@@ -778,13 +783,11 @@ h2 {
   @media (max-width: 1350px) {
     .card-container {
       grid-column: 1;
-      margin-left: 4rem; } }
+      padding: 2rem; } }
   @media (max-width: 600px) {
     .card-container {
       flex-direction: column;
-      height: 70rem;
-      margin: 2rem;
-      margin-bottom: 0; } }
+      height: 70rem; } }
 
 .service-container {
   grid-row: 2 / 4;
@@ -898,31 +901,29 @@ h2 {
   grid-column: 2;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  margin: 4rem;
-  margin-bottom: 2rem;
+  margin: 2rem;
+  margin-bottom: 0;
   position: relative;
   min-height: 30rem;
   background-image: url("../images/docker-large-text.png");
   background-repeat: no-repeat;
-  background-size: 25%;
+  background-size: 20%;
   background-position: 100% 100%; }
   @media (max-width: 1350px) {
     .docker-container {
-      margin-top: 0;
       background-size: 15%; } }
   @media (max-width: 600px) {
     .docker-container {
       background-image: none;
       margin-bottom: 1.5rem;
-      margin-top: 1rem;
       transform: translateX(-2rem); } }
 
 .docker-container__whale {
   width: 35rem;
   margin-top: -6.7rem;
-  margin-left: 9.5rem; }
+  margin-left: 5.5rem; }
 
 .docker-container__grid {
   display: grid;
@@ -930,6 +931,7 @@ h2 {
   grid-template-rows: repeat(8, 4rem);
   row-gap: .5rem;
   column-gap: .5rem;
+  margin-left: 7rem;
   margin-top: -29rem; }
   .docker-container__grid__1-row {
     margin-top: -31.5rem; }
@@ -1033,7 +1035,7 @@ h2 {
   flex-direction: column;
   justify-content: space-around;
   position: absolute;
-  left: -4rem;
+  left: -2rem;
   bottom: 0; }
   .docker-control-panel span {
     margin-top: 1rem;
@@ -1047,7 +1049,7 @@ h2 {
       left: 0rem; } }
   @media (max-width: 600px) {
     .docker-control-panel {
-      right: -4rem;
+      right: -2rem;
       left: auto; } }
 
 *,

@@ -6,8 +6,8 @@
     // Position in main grid
     grid-row: 3;
     grid-column: 2;
-    margin-right: 4rem;
-    margin-top: 2rem;
+    padding: 2rem;
+    padding-left: 0;
 
     // Child layout
     display: flex;
@@ -18,13 +18,11 @@
 
     @media (max-width: $mobile-break-med) {
         grid-column: 1;
-        margin-left: 4rem;
+        padding: 2rem;
     }
 
     @media (max-width: $mobile-break-small) {
         flex-direction: column;
         height: 70rem;
-        margin: 2rem;
-        margin-bottom: 0;
     }
 }

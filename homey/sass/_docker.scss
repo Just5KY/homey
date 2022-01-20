@@ -6,28 +6,26 @@
     // Child layout
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    margin: 4rem;
-    margin-bottom: 2rem;
+    margin: 2rem;
+    margin-bottom: 0;
 
     position: relative;
     min-height: 30rem;
 
     background-image: url('../images/docker-large-text.png');
     background-repeat: no-repeat;
-    background-size: 25%;
+    background-size: 20%;
     background-position: 100% 100%;
 
     @media (max-width: $mobile-break-med) {
-        margin-top: 0;
         background-size: 15%;
     }
 
     @media (max-width: $mobile-break-small) {
         background-image: none;
         margin-bottom: 1.5rem;
-        margin-top: 1rem;
         transform: translateX(-2rem);
     }
 }
@@ -35,7 +33,7 @@
 .docker-container__whale {
     width: 35rem;
     margin-top: -6.7rem;
-    margin-left: 9.5rem;
+    margin-left: 5.5rem;
 }
 
 .docker-container__grid {
@@ -44,6 +42,8 @@
     grid-template-rows: repeat(8, $dockerCellSize);
     row-gap: .5rem;
     column-gap: .5rem;
+
+    margin-left: 7rem;
 
     margin-top: (-7 * $dockerCellSize) + (-2 * .5rem);
 
@@ -200,7 +200,7 @@
     justify-content: space-around;
 
     position: absolute;
-    left: -4rem;
+    left: -2rem;
     bottom: 0;
 
     & span {
@@ -218,7 +218,7 @@
     }
 
     @media (max-width: $mobile-break-small) {
-        right: -4rem;
+        right: -2rem;
         left: auto;
     }
 }

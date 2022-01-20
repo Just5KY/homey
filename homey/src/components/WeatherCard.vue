@@ -15,13 +15,12 @@
           <div class="weather-card-container__details">
               <div v-for="w in weatherDataHourly" 
                 :key="w.time" class="weatherElement" >
-                {{w.time}}
-                <span>{{w.temp}}°F
+                <p>{{w.time}}</p>
+                <p>{{w.temp}}°F</p>
                   <skycon class="weatherElement__skycon" :title="w.weather_type" 
                     size="16" color="#F8F8F2" 
                     :condition="getSkycon(w.weather_type)"
                   /> 
-                </span>
               </div>
           </div>
       </div>

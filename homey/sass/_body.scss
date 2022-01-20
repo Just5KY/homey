@@ -9,14 +9,12 @@
     height: 100%;
     
     grid-template-rows: 20vh 50vh 30vh;
-    grid-template-columns: 3fr 2fr; // 60% 40%
+    grid-template-columns: 2fr 1fr;
 
     @media (max-width: $mobile-break-med) {
-       //grid-template-columns: 1fr;
        display: flex;
        flex-direction: column;
     }
-    // repeat(n, width)
 }
 
 h2 {
