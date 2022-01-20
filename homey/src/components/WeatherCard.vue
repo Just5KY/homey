@@ -1,5 +1,5 @@
 <template>
-  <div class="weather-card-container">
+  <div :class="getClass" @click="isFlipped = !isFlipped" @mouseleave="isFlipped = false">
       <div class="weather-card-container__side weather-card-container__side--front">
           <skycon class="weather-card-container__background--skycon" v-if="weatherDataHourly.length > 1" 
                 :title="getCurrentWeather.weather_type" size=128 color="#44475a" :condition="getSkycon(getCurrentWeather.weather_type)"/>
@@ -15,17 +15,27 @@
           <div class="weather-card-container__details">
               <div v-for="w in weatherDataHourly" 
                 :key="w.time" class="weatherElement" >
-                {{w.time}}<span><skycon :title="w.weather_type" 
-                  size="16" color="#F8F8F2" 
-                  :condition="getSkycon(w.weather_type)"
-                /> {{w.temp}}°F </span>
+                {{w.time}}
+                <span>{{w.temp}}°F
+                  <skycon class="weatherElement__skycon" :title="w.weather_type" 
+                    size="16" color="#F8F8F2" 
+                    :condition="getSkycon(w.weather_type)"
+                  /> 
+                </span>
               </div>
           </div>
       </div>
       <div class="weather-card-container__side weather-card-container__side--back">
           <div class="weather-card-container__weekly-forecast">
             <ul>
-              <li v-for="n in this.weatherDataDaily" :key="n.time" class="weatherElement" >{{n.day}}: {{n.temp_min}}°F - {{n.temp_max}}°F ({{n.weather_type}})</li>
+              <li v-for="n in this.weatherDataDaily" :key="n.time" 
+                class="weatherElement" :title="n.day + ': ' + n.weather_type"  >
+                <p>{{n.weekday}}</p> <p>{{n.temp_min}}° - {{n.temp_max}}°F</p>
+                <skycon 
+                  size="24" color="#8be9fd" 
+                  :condition="getSkycon(n.weather_type)"
+                /> 
+              </li>
             </ul>
           </div>
       </div>
@@ -48,6 +58,7 @@ export default {
     return {
       weatherDataHourly: Array,
       weatherDataDaily: Array,
+      isFlipped: false,
     }
   },
   computed: {
@@ -56,6 +67,9 @@ export default {
         return this.weatherDataHourly[0];
       }
       return {temp: 0, weather_type: 'Weather API Error'}
+    },
+    getClass() {
+      return 'weather-card-container' + ((this.isFlipped) ? ' weather-card-container__flipped' : '' )
     }
   },
   methods: {

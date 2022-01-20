@@ -559,9 +559,6 @@ h2 {
   font-weight: 300;
   font-size: 3rem; }
 
-.vue-notification__hidden {
-  opacity: 0; }
-
 .flood-card-container {
   position: relative;
   height: 90%;
@@ -589,7 +586,13 @@ h2 {
       background-color: #6272a4; }
     .flood-card-container__side--back {
       background-color: #44475a;
-      transform: rotateY(180deg); }
+      transform: rotateY(180deg);
+      overflow-y: scroll;
+      scrollbar-width: none;
+      overflow: -moz-scrollbars-none;
+      -ms-overflow-style: none; }
+      .flood-card-container__side--back::-webkit-scrollbar {
+        width: 0 !important; }
   .flood-card-container:hover .flood-card-container__side--front {
     transform: rotateY(-180deg);
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
@@ -628,20 +631,24 @@ h2 {
     margin-top: 5rem;
     transform: scaleY(0.9); }
   .flood-card-container__notifications ul {
-    list-style: none;
-    width: 80%;
-    margin: 0 auto;
-    padding-top: 1.3rem; }
+    list-style: none; }
     .flood-card-container__notifications ul li {
       text-align: center;
       font-size: 1.3rem;
-      padding: 1rem;
-      overflow-wrap: break-word; }
-      .flood-card-container__notifications ul li:not(:last-child) {
-        border-bottom: 1px solid #f8f8f2; }
+      display: flex;
+      align-items: center;
+      outline: 1px solid #6272a4;
+      border-radius: .3rem;
+      margin: 1rem; }
+      .flood-card-container__notifications ul li p {
+        overflow-wrap: break-word;
+        flex-grow: 1;
+        width: 80%;
+        padding: .5rem;
+        cursor: default; }
       .flood-card-container__notifications ul li span {
-        text-align: left;
-        float: left; }
+        color: #50fa7b;
+        margin-left: .5rem; }
 
 .weather-card-container {
   height: 90%;
@@ -673,7 +680,8 @@ h2 {
     box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8); }
     .weather-card-container__side--front {
       background-color: #6272a4;
-      display: flex; }
+      display: flex;
+      cursor: pointer; }
     .weather-card-container__side--back {
       background-color: #44475a;
       transform: rotateY(180deg); }
@@ -683,10 +691,10 @@ h2 {
     right: 1rem;
     opacity: .5;
     z-index: 0; }
-  .weather-card-container:hover .weather-card-container__side--front {
+  .weather-card-container__flipped .weather-card-container__side--front {
     transform: rotateY(-180deg);
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
-  .weather-card-container:hover .weather-card-container__side--back {
+  .weather-card-container__flipped .weather-card-container__side--back {
     transform: rotateY(0deg);
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
   .weather-card-container__heading {
@@ -725,27 +733,37 @@ h2 {
     margin: 2rem;
     margin-top: 8rem;
     z-index: 2; }
-    .weather-card-container__details span {
+    .weather-card-container__details .weatherElement span {
       float: right; }
+    .weather-card-container__details .weatherElement__skycon {
+      margin-left: 1.5rem; }
     .weather-card-container__details div {
       padding: 0.5rem; }
       .weather-card-container__details div:not(:first-child) {
         border-top: 1px solid #f8f8f2; }
-  .weather-card-container__weekly-forecast ul {
-    list-style: none;
-    width: 80%;
-    margin: 0 auto;
-    padding-top: 1.3rem; }
-    .weather-card-container__weekly-forecast ul li {
-      text-align: center;
-      font-size: 1.3rem;
-      padding: 1rem;
-      overflow-wrap: break-word; }
-      .weather-card-container__weekly-forecast ul li:not(:last-child) {
-        border-bottom: 1px solid #f8f8f2; }
-      .weather-card-container__weekly-forecast ul li span {
+  .weather-card-container__weekly-forecast {
+    height: 100%; }
+    .weather-card-container__weekly-forecast ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-content: space-between;
+      justify-content: space-between;
+      margin: 1rem;
+      height: 94%; }
+      .weather-card-container__weekly-forecast ul li {
         text-align: left;
-        float: left; }
+        align-items: center;
+        justify-content: space-between;
+        display: flex;
+        font-size: 1.4rem;
+        outline: 1px solid #6272a4;
+        border-radius: .3rem;
+        padding: .5rem; }
+        .weather-card-container__weekly-forecast ul li :first-child {
+          width: 40%; }
+        .weather-card-container__weekly-forecast ul li skycon {
+          color: #8be9fd !important; }
 
 .card-container {
   grid-row: 3;

@@ -19,7 +19,10 @@
       <div class="flood-card-container__side flood-card-container__side--back">
           <div class="flood-card-container__notifications">
             <ul>
-              <li v-for="n in this.notifications" :key="n.time" class="weatherElement" >{{n.msg}}: Finished ({{n.time}})</li>
+              <li v-for="n in this.notifications" :key="n.time" :title="'Finished ' + n.time" >
+                <span class="material-icons-outlined">check</span>
+                <p>{{n.msg}}</p>
+               </li>
             </ul>
           </div>
       </div>
@@ -48,7 +51,7 @@ export default {
   methods: {
     getFloodData: function() {
         this.axios.get('http://0.0.0.0:9101/floodNotifications').then((res) => {
-          this.notifications = res.data.slice(0,6);
+          this.notifications = res.data;
       }).then(() => {
       this.axios.get('http://0.0.0.0:9101/floodStats').then((res) => {
           this.floodStats = res.data

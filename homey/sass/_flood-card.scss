@@ -32,6 +32,13 @@
         &--back {
             background-color: $backgroundColor2;
             transform: rotateY(180deg);
+
+            // hide scrollbar
+            overflow-y: scroll;
+            scrollbar-width: none;
+            &::-webkit-scrollbar { width: 0 !important }
+            overflow: -moz-scrollbars-none;
+            -ms-overflow-style: none;
         }
     }
 
@@ -102,23 +109,27 @@
     &__notifications {
         ul {
             list-style: none;
-            width: 80%;
-            margin: 0 auto;
-            padding-top: 1.3rem;
 
             li {
                 text-align: center;
                 font-size: 1.3rem;
-                padding: 1rem;
-                overflow-wrap: break-word;
+                display: flex;
+                align-items: center;
+                outline: 1px solid $commentColor;
+                border-radius: .3rem;
+                margin: 1rem;
 
-                &:not(:last-child) {
-                    border-bottom: 1px solid $white;
+                p {
+                    overflow-wrap: break-word;
+                    flex-grow: 1;
+                    width: 80%;
+                    padding: .5rem;
+                    cursor: default;
                 }
 
                 span {
-                    text-align: left;
-                    float: left;
+                    color: $green;
+                    margin-left: .5rem;
                 }
             }
         }

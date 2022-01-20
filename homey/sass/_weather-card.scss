@@ -37,6 +37,7 @@
         &--front {
             background-color: $commentColor;
             display: flex;
+            cursor: pointer;
         }
         &--back {
             background-color: $backgroundColor2;
@@ -53,11 +54,11 @@
     }
 
     // Hover flip animation
-    &:hover &__side--front {
+    &__flipped &__side--front {
         transform: rotateY(-180deg);
         box-shadow: .5rem 2.5rem 4rem rgba($shadowColor, 0.8);
     }
-    &:hover &__side--back {
+    &__flipped &__side--back {
         transform: rotateY(0deg);
         box-shadow: .5rem 2.5rem 4rem rgba($shadowColor, 0.8);
     }
@@ -116,8 +117,14 @@
         margin-top: 8rem;
         z-index: 2;
 
-        & span {
-            float: right;
+        .weatherElement {
+            & span {
+                float: right;
+            }
+
+            &__skycon {
+                margin-left: 1.5rem;
+            }
         }
 
         & div {
@@ -130,25 +137,33 @@
 
     // Back
     &__weekly-forecast {
+        height: 100%;
         ul {
             list-style: none;
-            width: 80%;
-            margin: 0 auto;
-            padding-top: 1.3rem;
+            display: flex;
+            flex-direction: column;
+            align-content: space-between;
+            justify-content: space-between;
+            margin: 1rem;
+            height: 94%;
+            
 
             li {
-                text-align: center;
-                font-size: 1.3rem;
-                padding: 1rem;
-                overflow-wrap: break-word;
-
-                &:not(:last-child) {
-                    border-bottom: 1px solid $white;
+                text-align: left;
+                align-items: center;
+                justify-content: space-between;
+                display: flex;
+                font-size: 1.4rem;               
+                :first-child {
+                    width: 40%;
                 }
+                
+                outline: 1px solid $commentColor;
+                border-radius: .3rem;
+                padding: .5rem;
 
-                span {
-                    text-align: left;
-                    float: left;
+                skycon {
+                    color: $cyan !important;
                 }
             }
         }
