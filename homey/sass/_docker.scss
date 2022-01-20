@@ -21,6 +21,7 @@
 
     @media (max-width: $mobile-break-med) {
         background-size: 15%;
+        align-items: center;
     }
 
     @media (max-width: $mobile-break-small) {
@@ -34,6 +35,10 @@
     width: 35rem;
     margin-top: -6.7rem;
     margin-left: 5.5rem;
+
+    @media (max-width: $mobile-break-med) {
+        margin-left: 9.5rem;
+    }
 }
 
 .docker-container__grid {

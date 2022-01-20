@@ -911,7 +911,8 @@ h2 {
   background-position: 100% 100%; }
   @media (max-width: 1350px) {
     .docker-container {
-      background-size: 15%; } }
+      background-size: 15%;
+      align-items: center; } }
   @media (max-width: 600px) {
     .docker-container {
       background-image: none;
@@ -922,6 +923,9 @@ h2 {
   width: 35rem;
   margin-top: -6.7rem;
   margin-left: 5.5rem; }
+  @media (max-width: 1350px) {
+    .docker-container__whale {
+      margin-left: 9.5rem; } }
 
 .docker-container__grid {
   display: grid;

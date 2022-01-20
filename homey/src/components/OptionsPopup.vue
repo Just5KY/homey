@@ -1,5 +1,6 @@
 
 <template>
+    <!-- main settings menu -->
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div v-if="!showServices" class="modal-container">
@@ -57,7 +58,7 @@
 
         </div>
 
-        <!-- services panel -->
+        <!-- services sub-menu -->
 
         <div v-else class="modal-container">
           <div class="modal-header">
@@ -233,6 +234,8 @@ export default {
       // close modal either way
       this.$emit('close');
     },
+    // get dropdown selected service
+    // can't v-model on name as it can be edited
     getSelectedService() {
       for(let i = 0; i < this.localConfig.services.length; i++) {
         if (this.localConfig.services[i].name == this.selectedService)  {
@@ -242,6 +245,8 @@ export default {
 
       return this.newService;
     },
+    // remove a service from the list & flag it for deletion from config file
+    // changes are discarded if user does not hit 'Save' after
     deleteService(service){
       this.localConfig.services.splice(this.localConfig.services.indexOf(service), 1);
       this.selectedService = 'newService'
@@ -256,6 +261,7 @@ export default {
       else this.getSelectedService().icon = filename;
       this.showGallery = false;
     },
+    // load image (into page) from file picker dialog
     fileUploaded() {
       let files = this.$el.querySelector('#uploader').files;
       
@@ -264,11 +270,12 @@ export default {
       fr.onload = e => { this.newImage = e.target.result; }
       fr.readAsDataURL(files[0]);
     },
+    // upload icon from filepicker
     uploadIcon() {
       let files = this.$el.querySelector('#uploader').files;
       this.newService.icon = files[0].name;
 
-      // attempt to save image to public/images/icons folder
+      // attempt to save image to public/images/icons
       let fd = new FormData();
       fd.append("image", files[0])
       let header = {'Content-Type': 'multipart/form-data'}
