@@ -69,7 +69,7 @@ class api:
         for i in range(API_DAYS):
             dailyData.append({
                 'day': datetime.strptime(response['time'][i], '%Y-%m-%d').strftime('%A, %b %-m'),
-                'weekday': datetime.strptime(response['time'][i], '%Y-%m-%d').strftime('%A'),
+                'weekday': 'Today' if i == 0 else datetime.strptime(response['time'][i], '%Y-%m-%d').strftime('%A'),
                 'weather_type': WEATHER_CODES[response['weathercode'][i]],
                 'temp_min': int(round(response['temperature_2m_min'][i])),
                 'temp_max': int(round(response['temperature_2m_max'][i])),

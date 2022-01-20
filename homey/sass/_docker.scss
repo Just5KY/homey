@@ -45,6 +45,10 @@
 
     margin-left: 7rem;
 
+    @media (max-width: $mobile-break-med) {
+        margin-left: 0;
+    }
+
     margin-top: (-7 * $dockerCellSize) + (-2 * .5rem);
 
     &__1-row {

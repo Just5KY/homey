@@ -4,8 +4,6 @@
           <skycon class="weather-card-container__background--skycon" v-if="weatherDataHourly.length > 1" 
                 :title="getCurrentWeather.weather_type" size=128 color="#44475a" :condition="getSkycon(getCurrentWeather.weather_type)"/>
           <div class="weather-card-container__heading">
-            <!-- <skycon class="weather-card-container__heading--skycon" v-if="weatherDataHourly.length > 1" 
-                :title="getCurrentWeather.weather_type" size=48 color="#f8f8f2" :condition="getSkycon(getCurrentWeather.weather_type)"/> -->
             <div class="weather-card-container__heading--daily-details">
               <div>{{getCurrentWeather.temp}}°F</div>
               <div>{{getCurrentWeather.weather_type}}</div>
@@ -13,11 +11,11 @@
             <span class="weather-card-container__heading--title">Weather</span>
           </div>
           <div class="weather-card-container__details">
-              <div v-for="w in weatherDataHourly" 
-                :key="w.time" class="weatherElement" >
+              <div v-for="w in weatherDataHourly" :title="w.weather_type" 
+                :key="w.time" class="weather-element" >
                 <p>{{w.time}}</p>
                 <p>{{w.temp}}°F</p>
-                  <skycon class="weatherElement__skycon" :title="w.weather_type" 
+                  <skycon class="weather-element__skycon" 
                     size="16" color="#F8F8F2" 
                     :condition="getSkycon(w.weather_type)"
                   /> 
@@ -28,9 +26,9 @@
           <div class="weather-card-container__weekly-forecast">
             <ul>
               <li v-for="n in this.weatherDataDaily" :key="n.time" 
-                class="weatherElement" :title="n.day + ': ' + n.weather_type"  >
+                class="weather-element" :title="n.day + ': ' + n.weather_type"  >
                 <p>{{n.weekday}}</p> <p>{{n.temp_min}}° - {{n.temp_max}}°F</p>
-                <skycon 
+                <skycon class="weather-element__skycon"
                   size="24" color="#8be9fd" 
                   :condition="getSkycon(n.weather_type)"
                 /> 

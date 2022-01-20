@@ -47,7 +47,7 @@
     &__background--skycon {
         position: absolute;
         bottom: 0;
-        right: 1rem;
+        right: 0;
         opacity: .5;
         z-index: 0;
     }
@@ -71,12 +71,6 @@
 
         justify-content: space-between;
         display: flex;
-
-        &--skycon {
-            position: absolute;
-            top: 0;
-            left: 1rem;
-        }
 
         &--title {
             font-size: 2rem;
@@ -117,14 +111,18 @@
         flex-direction: column;
         justify-content: space-between;
 
-        .weatherElement {
+        .weather-element {
             display: flex;
             justify-content: space-between;
             align-content: center;
             padding: .5rem 0;
+
+            :first-child {
+                flex-grow: 1;
+            }
             
             &__skycon {
-                margin-left: 1.5rem;
+                margin-left: 1rem;
             }
 
             &:not(:first-child){
@@ -146,22 +144,23 @@
             height: 94%;
             
 
-            li {
+            .weather-element {
                 text-align: left;
                 align-items: center;
                 justify-content: space-between;
                 display: flex;
-                font-size: 1.2rem;               
+                font-size: 1.2rem;     
+
                 :first-child {
-                    width: 40%;
+                    flex-grow: 1;
                 }
                 
                 outline: 1px solid $commentColor;
                 border-radius: .3rem;
                 padding: .5rem;
 
-                skycon {
-                    color: $cyan !important;
+                &__skycon {
+                    margin-left: 1.5rem;
                 }
             }
         }
