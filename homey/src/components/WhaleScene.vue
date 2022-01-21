@@ -22,6 +22,12 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     100
 );
+
+// orthographic camera
+// let width = window.innerWidth
+// let height = window.innerHeight
+// const camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 100 );
+
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -75,7 +81,14 @@ export default {
         scene.add(light);
         scene.add(camera);
         light.position.set(-5, 3, 2);
-        camera.position.set(-6, 1.5, 4);
+        camera.position.set(-.25, 1, 8);
+        const camSpawnTween = new TWEEN.Tween(camera).to({
+          position: { x: -6, y: 2, z: 4 },
+        }, 4000)
+        .easing(TWEEN.Easing.Sinusoidal.InOut)
+        .delay(1000)
+        .onUpdate(() => { camera.updateProjectionMatrix() })
+        .start();
         
         renderer.setPixelRatio( window.devicePixelRatio );
         renderer.localClippingEnabled = true;
@@ -92,6 +105,14 @@ export default {
         // TODO: move to function and call on resize
         camera.aspect = this.$refs.threeCanvas.clientWidth / this.$refs.threeCanvas.clientHeight;
         camera.updateProjectionMatrix();
+
+        // let width = this.$refs.threeCanvas.clientWidth
+        // let height =this.$refs.threeCanvas.clientHeight
+        // camera.left = width / - 100
+        // camera.right = width / 100
+        // camera.top = height / 100
+        // camera.bottom = height / - 100
+        // camera.updateProjectionMatrix();
 
         this.$refs.threeCanvas.addEventListener('mousemove', this.onMouseMove, false );
         this.$refs.threeCanvas.addEventListener('mousedown', this.onMouseDown, false );
