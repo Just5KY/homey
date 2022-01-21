@@ -1,7 +1,7 @@
 <template>
   <div class="header-container">
     <div class="header-container__main">
-      <canvas class="header-animation"></canvas>
+      <HouseScene />
       <h1>{{ title }}</h1>
       <span v-if="APIOnline" 
         title="Settings" class="material-icons-outlined"
@@ -30,11 +30,13 @@
 
 <script>
 import OptionsPopup from './OptionsPopup.vue';
+import HouseScene from './HouseScene.vue';
 
 export default {
   name: 'Header',
   components: {
     OptionsPopup,
+    HouseScene
   },
   props: {
     title: String,

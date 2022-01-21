@@ -11,7 +11,7 @@
     background-color: $backgroundColor2;
     display: flex;
     width: 100%;
-    //max-height: 15vh;
+    height: 20vh;
     align-items: center;
     justify-content: flex-start;
 
@@ -34,10 +34,6 @@
         }
     }
 
-    & canvas {
-        //
-    }
-
     // Settings icon
     & span {    
         color: $commentColor;
@@ -47,6 +43,12 @@
         margin-left: auto;
         cursor: pointer;
     }
+}
+
+// Three.js container
+#house-canvas {
+    width: 15rem;
+    height: 100%;
 }
 
 // Displayed when offline

@@ -1,5 +1,5 @@
 <template>
-  <div id="three-canvas" ref="threeCanvas">
+  <div id="whale-canvas" ref="threeCanvas">
     <div ref="tooltip" id="tooltip">{{tooltipText}}</div>
   </div>
 </template>
