@@ -37,6 +37,12 @@ const invisMat = new THREE.MeshPhongMaterial({side: THREE.FrontSide, color: 0x00
 const gltfLoader = new GLTFLoader();
 const imgLoader = new THREE.TextureLoader();
 
+// load whale once (not on every component load)
+gltfLoader.load('./models/docker.glb', (model) => { 
+  model.scene.position.y -= .75; 
+  scene.add(model.scene); 
+});
+
 let mousePos = new THREE.Vector2(100, 100);
 let boundingBoxes = [];
 let uiColor = 0x00a7ff;
@@ -62,7 +68,8 @@ export default {
         return {
             serviceData: [],
             crates: [],
-            tooltipText: ''
+            tooltipText: '',
+            animationFinished: false,
         };
     },
     // scene setup
@@ -72,40 +79,36 @@ export default {
         // spawn a crate for each service
         this.serviceData.forEach(s => { this.addCrate(s.name); });
 
-        // load whale
-        gltfLoader.load('./models/docker.glb', (model) => { 
-          model.scene.position.y -= .75; 
-          scene.add(model.scene); 
-        });
+        // for bounding boxes
+        raycaster.layers.set(1);
 
+        // lights & camera
         scene.add(light);
         scene.add(camera);
         light.position.set(-5, 3, 2);
         camera.position.set(-.25, 1, 8);
+
+        // initial camera transition animation
         const camSpawnTween = new TWEEN.Tween(camera).to({
           position: { x: -6, y: 2, z: 4 },
         }, 4000)
         .easing(TWEEN.Easing.Sinusoidal.InOut)
         .delay(1000)
-        .onUpdate(() => { camera.updateProjectionMatrix() })
+        .onStart(() => { this.animationFinished = false; })
+        //.onUpdate(() => { camera.updateProjectionMatrix() })  // ortho camera swap
+        .onComplete(() => { this.animationFinished = true; })
         .start();
         
         renderer.setPixelRatio( window.devicePixelRatio );
         renderer.localClippingEnabled = true;
 
         this.initControls();
-
-        // for bounding boxes
-        raycaster.layers.set(1);
     },
     // add canvas & begin animation loop
     mounted: function() {
         this.$refs.threeCanvas.appendChild(renderer.domElement)
 
-        // TODO: move to function and call on resize
-        camera.aspect = this.$refs.threeCanvas.clientWidth / this.$refs.threeCanvas.clientHeight;
-        camera.updateProjectionMatrix();
-
+        // ortho camera swap
         // let width = this.$refs.threeCanvas.clientWidth
         // let height =this.$refs.threeCanvas.clientHeight
         // camera.left = width / - 100
@@ -119,51 +122,75 @@ export default {
         
         this.animate()
     },
-    computed: {
-      
-    },
     methods: {
         // main loop
         animate: function() {
             if(!this.$refs.threeCanvas) return;
+            
+            let width = this.$refs.threeCanvas.clientWidth;
+            let height = this.$refs.threeCanvas.clientHeight;
+
+            if(camera.aspect != width / height) this.updateCameraAspect(width, height);
 
             TWEEN.update();
             controls.update();
-            this.raycast();
+            
+            // raycasting moved to onMouseMove for efficiency
 
-            renderer.setSize(this.$refs.threeCanvas.clientWidth, this.$refs.threeCanvas.clientHeight);
+            renderer.setSize(width, height);
             requestAnimationFrame(this.animate)
             
             renderer.render(scene, camera); 
-        },
+        },  
         // detect crate and button mouseover events
         raycast() {
           raycaster.setFromCamera(mousePos, camera);
           
-          // intersects[0] is closest (to camera) hovered crate's bounding box 
+          // detect mouseover events on crates
           const intersects = raycaster.intersectObjects(boundingBoxes);
           if(intersects.length > 0) {
+            // intersects[0] is hovered crate's bounding box 
             let hitCrate = intersects[0].object.parent;
+
+            // if crate is expanded enough...
             if(hitCrate.userData.box.position.z > 1.4) {
+              // ...detect mouseover events on its buttons
               const uiCast = raycaster.intersectObjects(hitCrate.userData.UI.children);
+              // if a button is hovered
               if (uiCast.length > 0) {
-                if(hoveredButton) hoveredButton.material.emissive.set(uiColor)
-                hoveredButton = uiCast[0].object;
-                hoveredButton.material.emissive.set(0x000000);
+                // reset last hovered button color
+                if(hoveredButton) hoveredButton.material.emissive.set(uiColor)  
+                // set hovered button to selected color
+                hoveredButton = uiCast[0].object;                               
+                hoveredButton.material.emissive.set(0x000000);             
               }
+              // if no button is hovered
               else {
+                // reset all button colors
                 hitCrate.userData.UI.children.forEach(btn => {
                   if(btn.material.emissive) btn.material.emissive.set(uiColor)
                 });
                 hoveredButton = null;
               }
             }
-            if(hitCrate.userData.box.scale.z > 1.05)  return;
 
-            // expand hitCrate; shrink all others
+            // if crate is already expanding or expanded, do nothing
+            if(hitCrate.userData.box.scale.z > 1.05)  return;
+            // otherwise expand selected crate and shrink all others
             this.shrinkAll(hitCrate);
           }
-          else this.shrinkAll(); // if no hit, shrink any expanded crates
+          // if no raycast hit...
+          else{
+            // ...shrink any expanded crates
+            this.shrinkAll();
+            // and reset tooltip
+            hoveredButton = null;
+          }
+        },
+        // update camera to canvas size
+        updateCameraAspect(width, height){
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix();
         },
         // update bounding boxes to parent positions
         updateBoundingBoxes(){
@@ -202,7 +229,7 @@ export default {
                 UI: {
                   position: {z: .25 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 }
                 }
-             }}, 1400) 
+             }}, 1600) 
             .easing(TWEEN.Easing.Elastic.Out)
             .onUpdate(this.updateBoundingBoxes)
             .start();
@@ -258,8 +285,6 @@ export default {
           text.position.z -= ((textSize.max.z - textSize.min.z) / 2 + (btnSize * 6)) 
           textSize.setFromObject(text);
           uiGrp.add(text);
-
-          
 
           // buttons
           let btnStartMat = new THREE.MeshPhongMaterial({
@@ -362,12 +387,12 @@ export default {
             textSize: textSize
           };
 
-          // elastic spawn animation
-          // TODO: stagger
+          // elastic spawn animation          
           grp.scale.set(0,0,0)
           let tScale = new TWEEN.Tween(grp.scale)
-            .to({x: 1, y: 1, z: 1}, 750)
+            .to({x: 1, y: 1, z: 1}, (Math.random() + 1) * 1500)   // slightly random stagger
             .easing(TWEEN.Easing.Elastic.Out)
+            .delay(this.crates.length * 175)
           tScale.start();
 
           this.crates.push(grp);
@@ -388,7 +413,7 @@ export default {
             })
           tScale.start()
         },
-        // triggered on bound services array change
+        // triggered on services array change
         updateCrates() {
           // add crates for newly added services
           this.serviceData.forEach(s => {
@@ -428,7 +453,9 @@ export default {
           mousePos.x = ( (event.offsetX / this.$refs.threeCanvas.clientWidth)  ) * 2 - 1;
           mousePos.y = - ( (event.offsetY / this.$refs.threeCanvas.clientHeight) ) * 2 + 1;
 
-          this.updateTooltip(event);  
+          // do not raycast if initial camera transition is playing
+          if(this.animationFinished)  this.raycast();     
+          this.updateTooltip(event);
         },
         updateTooltip(event){
           if (!hoveredButton) {
@@ -482,21 +509,16 @@ export default {
             return new THREE.Mesh(new THREE.PlaneGeometry(wWorldAll, hWorldAll), material);
           }
         },
-        // prevent memory leaks when 3D view is switched off
-        // credit to trusktr: https://discourse.threejs.org/t/1549/18
+        // destroy scene (triggered on 3D -> 2D swap)
         cleanup() {
-          renderer.dispose()
+          this.crates.forEach(c => {
+            scene.remove(scene.getObjectByName(c.name + '_bbox'));
+            scene.remove(scene.getObjectByName(c.name));
+          });
 
-          scene.traverse(object => {
-            if (!object.isMesh) return
-            
-            object.geometry.dispose();
-
-            if (object.material.isMaterial) this.disposeMat(object.material);
-            else {
-              for (const material of object.material) this.disposeMat(material);
-            }
-          })
+          boundingBoxes.splice(0, boundingBoxes.length);
+          this.crates.splice(0, this.crates.length);
+          TWEEN.removeAll();
         },
         // free material & attached textures
         disposeMat(material) {

@@ -82,11 +82,12 @@ export default {
       if(this.perspective == '2d')  this.perspective = '3d';
 
       else{
+        this.$refs.whale.cleanup();
         this.perspective = '2d';
 
         // dispose of 3D objects to prevent memory leaks
         // TODO: figure out. This breaks some things.
-        //this.$refs.whale.cleanup();
+        
 
         // wait 25ms to ensure 2D services are present before grid size calc
         this.refreshHandle = setInterval(() => {

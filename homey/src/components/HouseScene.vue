@@ -202,32 +202,6 @@ export default {
           const rad = degrees * Math.PI / 180;
           mesh.rotateY(rad)
         },
-        // prevent memory leaks when house is toggled off
-        // credit to trusktr: https://discourse.threejs.org/t/1549/18
-        cleanup() {
-          renderer.dispose()
-
-          scene.traverse(object => {
-            if (!object.isMesh) return
-            
-            object.geometry.dispose();
-
-            if (object.material.isMaterial) this.disposeMat(object.material);
-            else {
-              for (const material of object.material) this.disposeMat(material);
-            }
-          })
-        },
-        // free material & attached textures
-        disposeMat(material) {
-          material.dispose();
-
-          // dispose of textures
-          for (const key of Object.keys(material)) {
-            const value = material[key];
-            if (value && typeof value === 'object' && 'minFilter' in value)   value.dispose();
-          }
-        }
     },
 }
 </script>
