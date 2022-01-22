@@ -21,7 +21,7 @@ let hoveredButton;
 // define three.js objects outside vue to avoid making them reactive
 let scene, raycaster, light, ambientLight, camera, renderer, controls, clippingPlane;
 let gltfLoader, imgLoader, invisMat, boxMat, buttonGeo, roundedBoxGeo;
-let btnStartMat, btnRestartMat, btnPauseMat, btnStopMat, btnInfoMat, placeholderIconTex;
+let btnStartMat, btnRestartMat, btnPauseMat, btnUnpauseMat, btnStopMat, btnInfoMat, placeholderIconTex;
 
 threeInitScene();
 threeLoadAssets();
@@ -60,7 +60,7 @@ export default {
         raycaster.layers.set(1);
 
         // lights & camera
-        camera.position.set(-.25, 1, 8);
+        camera.position.set(-.25, 0, 8);
         scene.add(camera);
 
         light.position.set(-5, 5, 2);
@@ -339,7 +339,7 @@ export default {
           btnPause.name = 'pause'
           uiGrp.add(btnPause);
 
-          const btnUnpause = new THREE.Mesh(buttonGeo, btnStartMat);
+          const btnUnpause = new THREE.Mesh(buttonGeo, btnUnpauseMat);
           btnUnpause.rotateY(Math.PI * 1.5);
           btnUnpause.position.copy(btnPause.position);
           btnUnpause.name = 'unpause'
@@ -594,6 +594,11 @@ function threeLoadAssets() {
       map: imgLoader.load('./images/ui/stop.png')
   });
   btnStartMat = new THREE.MeshPhongMaterial({
+      side: THREE.FrontSide, transparent: true, emissive: uiColor,
+      clippingPlanes: [clippingPlane], clipIntersection: true,
+      map: imgLoader.load('./images/ui/start.png')
+  });
+  btnUnpauseMat = new THREE.MeshPhongMaterial({
       side: THREE.FrontSide, transparent: true, emissive: uiColor,
       clippingPlanes: [clippingPlane], clipIntersection: true,
       map: imgLoader.load('./images/ui/start.png')
