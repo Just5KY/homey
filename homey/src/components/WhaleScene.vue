@@ -9,6 +9,7 @@ import * as THREE from 'three';   // TODO: selective import
 import * as TWEEN from '@tweenjs/tween.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry';
 
 let btnSize = .4;
@@ -43,7 +44,7 @@ export default {
     data: function() {
         return {
             serviceData: [],
-            crates: [],
+            crates: [], 
             tooltipText: '',
             animationFinished: false,
         };
@@ -213,6 +214,11 @@ export default {
              }}, 1600) 
             .easing(TWEEN.Easing.Elastic.Out)
             .onUpdate(this.updateBoundingBoxes)
+            .onComplete((c) => { 
+              c.userData.UI.children.forEach((btn, i) => {
+                if(i != 0)  btn.layers.enable(1);
+              }); 
+            })
             .start();
         },
         // smooth shrink animation
@@ -233,6 +239,11 @@ export default {
              }}, 600)
             .easing(TWEEN.Easing.Quadratic.Out)
             .onUpdate(this.updateBoundingBoxes)
+            .onStart((c) => { 
+              c.userData.UI.children.forEach((btn) => {
+                btn.layers.disable(1);
+              }); 
+            })
             .start();
         },
         // new crate from service name
@@ -325,14 +336,12 @@ export default {
           btnPause.rotateY(Math.PI * 1.5);
           btnPause.position.x = text.position.x - .02;
           btnPause.position.z = textSize.max.z + (btnSize / 4);
-          btnPause.layers.enable(1);
           btnPause.name = 'pause'
           uiGrp.add(btnPause);
 
           const btnUnpause = new THREE.Mesh(buttonGeo, btnStartMat);
           btnUnpause.rotateY(Math.PI * 1.5);
           btnUnpause.position.copy(btnPause.position);
-          btnUnpause.layers.enable(1);
           btnUnpause.name = 'unpause'
           uiGrp.add(btnUnpause);
  
@@ -340,14 +349,12 @@ export default {
           btnStop.rotateY(Math.PI * 1.5);
           btnStop.position.x = text.position.x - .02;
           btnStop.position.z = btnPause.position.z + btnSize;
-          btnStop.layers.enable(1);
           btnStop.name = 'stop'
           uiGrp.add(btnStop);
 
           const btnStart = new THREE.Mesh(buttonGeo, btnStartMat);
           btnStart.rotateY(Math.PI * 1.5);
           btnStart.position.copy(btnStop.position);
-          btnStart.layers.enable(1);
           btnStart.name = 'start'
           uiGrp.add(btnStart);
         
@@ -355,7 +362,6 @@ export default {
           btnRestart.rotateY(Math.PI * 1.5);
           btnRestart.position.x = text.position.x - .02;
           btnRestart.position.z = btnStop.position.z + btnSize;
-          btnRestart.layers.enable(1);
           btnRestart.name = 'restart'
           uiGrp.add(btnRestart);
         
@@ -363,7 +369,6 @@ export default {
           btnInfo.rotateY(Math.PI * 1.5);
           btnInfo.position.x = text.position.x - .02;
           btnInfo.position.z = btnRestart.position.z + btnSize;
-          btnInfo.layers.enable(1);
           btnInfo.name = 'info'
           uiGrp.add(btnInfo);
 
@@ -599,8 +604,12 @@ function threeLoadAssets() {
       map: imgLoader.load('./images/icons/default.png')
   });
 
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath( 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/libs/draco/' );
+  gltfLoader.setDRACOLoader( dracoLoader );
+
   // load whale
-  gltfLoader.load('./models/whale_textured.glb', (model) => { 
+  gltfLoader.load('./models/whale_draco.glb', (model) => { 
     model.scene.position.y -= .75; 
     scene.add(model.scene); 
   });
