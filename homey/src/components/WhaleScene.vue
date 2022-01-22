@@ -12,15 +12,15 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry';
 
 let btnSize = .4;
-let uiColor = 0x00a7ff;
+let uiColor = 0x6272a4;
 let mousePos = new THREE.Vector2(100, 100);
 let boundingBoxes = [];
 let hoveredButton;
 
 // define three.js objects outside vue to avoid making them reactive
-let scene, raycaster, light, camera, renderer, controls, clippingPlane;
+let scene, raycaster, light, ambientLight, camera, renderer, controls, clippingPlane;
 let gltfLoader, imgLoader, invisMat, boxMat, buttonGeo, roundedBoxGeo;
-let btnStartMat, btnRestartMat, btnStopMat, btnInfoMat, placeholderIconTex;
+let btnStartMat, btnRestartMat, btnPauseMat, btnStopMat, btnInfoMat, placeholderIconTex;
 
 threeInitScene();
 threeLoadAssets();
@@ -53,20 +53,22 @@ export default {
         this.serviceData = this.services;
 
         // spawn a crate for each service
-        this.serviceData.forEach(s => { this.addCrate(s.name); });
+        this.serviceData.forEach(s => { this.addCrate(s.name, s.status); });
 
         // for bounding boxes
         raycaster.layers.set(1);
 
         // lights & camera
-        scene.add(light);
-        scene.add(camera);
-        light.position.set(-5, 3, 2);
         camera.position.set(-.25, 1, 8);
+        scene.add(camera);
+
+        light.position.set(-5, 5, 2);
+        scene.add(ambientLight);
+        scene.add(light);
 
         // initial camera transition animation
         const camSpawnTween = new TWEEN.Tween(camera).to({
-          position: { x: -6, y: 2, z: 4 },
+          position: { x: -6, y: this.services.length / 5, z: (this.services.length / 5) -.5 },
         }, 4000)
         .easing(TWEEN.Easing.Sinusoidal.InOut)
         .delay(1000)
@@ -83,7 +85,6 @@ export default {
     // add canvas, add listeners, begin animation loop
     mounted: function() {
         this.$refs.threeCanvas.appendChild(renderer.domElement)
-        console.log(this.$refs.threeCanvas.children)
 
         // ortho camera swap
         // let width = this.$refs.threeCanvas.clientWidth
@@ -181,6 +182,7 @@ export default {
               b.position.z = box.position.z;
             }
           });
+          
         },
         // shrinks all crates except specified
         shrinkAll(exceptCrate){
@@ -234,7 +236,7 @@ export default {
             .start();
         },
         // new crate from service name
-        addCrate(serviceName) {
+        addCrate(serviceName, serviceStatus) {
           let grp = new THREE.Group();
           grp.name = serviceName;
 
@@ -255,7 +257,7 @@ export default {
           boundingBoxes.push(bbox);
 
           // 2D elements
-          let uiGrp = this.buildCrateUI(serviceName);
+          let uiGrp = this.buildCrateUI(serviceName, serviceStatus);
           grp.add(uiGrp);
 
           // search for matching icon and load if exists
@@ -304,37 +306,50 @@ export default {
           grp.add(serviceImgHidden);
         },
         // build 2D container control interface
-        buildCrateUI(serviceName){
+        buildCrateUI(serviceName, serviceStatus){
           let uiGrp = new THREE.Group();
           
           // service name
-          let text = this.TextToMesh(serviceName, .35, 1, 80, uiColor);
+          let text = this.TextToMesh(serviceName, .35, 1, 128, uiColor);
           text.rotateY(Math.PI * 1.5);
           text.position.x -= 0.02;
           
           let textSize = new THREE.Box3().setFromObject(text);
           text.position.x -= .5;
-          text.position.y -= .02;
           text.position.z -= ((textSize.max.z - textSize.min.z) / 2 + (btnSize * 6)) 
           textSize.setFromObject(text);
           uiGrp.add(text);
 
           // buttons
-          const btnStart = new THREE.Mesh(buttonGeo, btnStartMat);
-          btnStart.rotateY(Math.PI * 1.5);
-          btnStart.position.x = text.position.x - .02;
-          btnStart.position.z = textSize.max.z + (btnSize / 4);
-          btnStart.layers.enable(1);
-          btnStart.name = 'start'
-          uiGrp.add(btnStart);
+          const btnPause = new THREE.Mesh(buttonGeo, btnPauseMat);
+          btnPause.rotateY(Math.PI * 1.5);
+          btnPause.position.x = text.position.x - .02;
+          btnPause.position.z = textSize.max.z + (btnSize / 4);
+          btnPause.layers.enable(1);
+          btnPause.name = 'pause'
+          uiGrp.add(btnPause);
+
+          const btnUnpause = new THREE.Mesh(buttonGeo, btnStartMat);
+          btnUnpause.rotateY(Math.PI * 1.5);
+          btnUnpause.position.copy(btnPause.position);
+          btnUnpause.layers.enable(1);
+          btnUnpause.name = 'unpause'
+          uiGrp.add(btnUnpause);
  
           const btnStop = new THREE.Mesh(buttonGeo, btnStopMat);
           btnStop.rotateY(Math.PI * 1.5);
           btnStop.position.x = text.position.x - .02;
-          btnStop.position.z = btnStart.position.z + btnSize;
+          btnStop.position.z = btnPause.position.z + btnSize;
           btnStop.layers.enable(1);
           btnStop.name = 'stop'
           uiGrp.add(btnStop);
+
+          const btnStart = new THREE.Mesh(buttonGeo, btnStartMat);
+          btnStart.rotateY(Math.PI * 1.5);
+          btnStart.position.copy(btnStop.position);
+          btnStart.layers.enable(1);
+          btnStart.name = 'start'
+          uiGrp.add(btnStart);
         
           const btnRestart = new THREE.Mesh(buttonGeo, btnRestartMat);
           btnRestart.rotateY(Math.PI * 1.5);
@@ -351,6 +366,25 @@ export default {
           btnInfo.layers.enable(1);
           btnInfo.name = 'info'
           uiGrp.add(btnInfo);
+
+          switch (serviceStatus) {
+            case 'paused':
+              btnPause.scale.set(0, 0, 0); 
+              btnUnpause.scale.set(1, 1, 1); 
+              break;
+
+            case 'stopped':
+              btnStop.scale.set(0, 0, 0);
+              btnStart.scale.set(1, 1, 1);
+              btnPause.scale.set(0, 0, 0);
+              btnUnpause.scale.set(0, 0, 0);
+              break;
+          
+            default:
+              btnStart.scale.set(0, 0, 0); 
+              btnUnpause.scale.set(0, 0, 0); 
+              break;
+          }
 
           uiGrp.userData = { textSize: textSize };
 
@@ -403,8 +437,44 @@ export default {
         // UI click event
         onMouseDown(event) {
           if(!hoveredButton)  return;
+
           // emit 3dClick(serviceName, operation)
           this.$emit('3dClick', hoveredButton.parent.parent.name, hoveredButton.name)
+
+          // update UI
+          switch (hoveredButton.name) {
+            case 'pause':
+              hoveredButton.scale.set(0, 0, 0);
+              hoveredButton.parent.getObjectByName('unpause').scale.set(1, 1, 1);
+              hoveredButton = hoveredButton.parent.getObjectByName('unpause') 
+              break;
+
+            case 'unpause':
+              hoveredButton.scale.set(0, 0, 0);
+              hoveredButton.parent.getObjectByName('pause').scale.set(1, 1, 1);
+              hoveredButton = hoveredButton.parent.getObjectByName('pause') 
+              break;
+
+            case 'stop':
+              hoveredButton.scale.set(0, 0, 0);
+              hoveredButton.parent.getObjectByName('pause').scale.set(0, 0, 0);
+              hoveredButton.parent.getObjectByName('unpause').scale.set(0, 0, 0);
+              hoveredButton.parent.getObjectByName('start').scale.set(1, 1, 1);
+              hoveredButton = hoveredButton.parent.getObjectByName('start') 
+              break;
+
+            case 'start':
+              hoveredButton.scale.set(0, 0, 0);
+              hoveredButton.parent.getObjectByName('stop').scale.set(1, 1, 1);
+              hoveredButton.parent.getObjectByName('pause').scale.set(1, 1, 1);
+              hoveredButton = hoveredButton.parent.getObjectByName('stop') 
+              break;
+          
+            default:
+              break;
+          }
+
+          this.tooltipText = hoveredButton.name[0].toUpperCase() + hoveredButton.name.substring(1) + ' ' + hoveredButton.parent.parent.name;
         },
         // keep track of mouse position (normalized to [-1, 1])
         onMouseMove(event) {
@@ -432,7 +502,7 @@ export default {
           // create the canvas for the texture
           let txtcanvas = document.createElement("canvas");
           let ctx = txtcanvas.getContext("2d");
-          ctx.font = hPxTxt + "px sans-serif";   
+          ctx.font = hPxTxt + "px Montserrat";   
 
           // get all widths
           let wPxTxt = ctx.measureText(txt).width;         // wPxTxt: width of the text in the texture canvas
@@ -448,7 +518,7 @@ export default {
           ctx.textAlign = "center";
           ctx.textBaseline = "middle"; 
           ctx.fillStyle = "#" + color.toString(16)
-          ctx.font = hPxTxt + "px sans-serif";   // needed after resize
+          ctx.font = hPxTxt + "px Montserrat";    // needed after resize
           ctx.fillText(txt, wPxAll/2, hPxAll/2); 
 
           // create material + mesh from text
@@ -473,6 +543,7 @@ export default {
           });
 
           scene.remove(light);
+          scene.remove(ambientLight);
           scene.remove(camera);
 
           boundingBoxes.splice(0, boundingBoxes.length);
@@ -496,7 +567,7 @@ function threeLoadAssets() {
   gltfLoader = new GLTFLoader();
   imgLoader = new THREE.TextureLoader();
 
-  // load images
+  // load UI images
   btnInfoMat = new THREE.MeshPhongMaterial({
       side: THREE.FrontSide, transparent: true, emissive: uiColor,
       clippingPlanes: [clippingPlane], clipIntersection: true,
@@ -506,6 +577,11 @@ function threeLoadAssets() {
       side: THREE.FrontSide, transparent: true, emissive: uiColor,
       clippingPlanes: [clippingPlane], clipIntersection: true,
       map: imgLoader.load('./images/ui/restart.png')
+  });
+  btnPauseMat = new THREE.MeshPhongMaterial({
+      side: THREE.FrontSide, transparent: true, emissive: uiColor,
+      clippingPlanes: [clippingPlane], clipIntersection: true,
+      map: imgLoader.load('./images/ui/pause.png')
   });
   btnStopMat = new THREE.MeshPhongMaterial({
       side: THREE.FrontSide, transparent: true, emissive: uiColor,
@@ -517,21 +593,29 @@ function threeLoadAssets() {
       clippingPlanes: [clippingPlane], clipIntersection: true,
       map: imgLoader.load('./images/ui/start.png')
   });
+  // load fallback service icon
   placeholderIconTex = new THREE.MeshPhongMaterial({
       side: THREE.FrontSide, transparent: true,
-      map: imgLoader.load('./images/icons/placeholder.png')
+      map: imgLoader.load('./images/icons/default.png')
   });
 
   // load whale
-  gltfLoader.load('./models/docker.glb', (model) => { 
+  gltfLoader.load('./models/whale_textured.glb', (model) => { 
     model.scene.position.y -= .75; 
     scene.add(model.scene); 
   });
 }
 // create geometries and materials that will not be destroyed on view swap
 function threeCreateAssets() {
-  invisMat = new THREE.MeshPhongMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
-  boxMat = new THREE.MeshPhongMaterial({ side: THREE.FrontSide, color: 0xf8f8f2, });
+  invisMat = new THREE.MeshBasicMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
+  boxMat = new THREE.MeshPhongMaterial({ side: THREE.FrontSide, color: 0xf8f8f2 });
+   
+  // imgLoader.load('./images/textures/crate_tex.png', (tex) => {
+  //     crateTex = tex;
+  //     boxMat = new THREE.MeshBasicMaterial({ map: crateTex, });
+  //     crateTex.wrapS = THREE.RepeatWrapping;
+  //     crateTex.needsUpdate = true;
+  //   });
 
   buttonGeo = new THREE.PlaneGeometry(btnSize, btnSize);
   roundedBoxGeo = new RoundedBoxGeometry(1, 1, 1, 6, .1);
@@ -539,17 +623,21 @@ function threeCreateAssets() {
 // create core three components outside of vue to avoid cascading DOM update every tick
 function threeInitScene() {
   scene = new THREE.Scene();
-  raycaster = new THREE.Raycaster();
-  light = new THREE.DirectionalLight(0xffffff);
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
-
+  
   // orthographic camera
   // let width = window.innerWidth
   // let height = window.innerHeight
   // const camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 100 );
 
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   controls = new OrbitControls(camera, renderer.domElement);
+  raycaster = new THREE.Raycaster();
+
+  // lights
+  light = new THREE.DirectionalLight(0xffffff, 1.1);
+  ambientLight = new THREE.AmbientLight(0xffffff, .2)
+  light.position.set(-5, 5, 2);
 
   clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -.34);
 }
