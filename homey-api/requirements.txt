@@ -1,8 +1,10 @@
-docker==5.0.3
+docker_py==1.10.6
 Flask==2.0.2
 Flask_Cors==3.0.10
-psutil==5.8.0
-python_dateutil==2.8.2
-requests==2.25.1
 python-dotenv==0.19.2
+python_dateutil==2.8.2
+PyYAML==6.0
+requests==2.25.1
+urllib3==1.26.5
+Werkzeug==2.0.2
 gunicorn==20.1.0

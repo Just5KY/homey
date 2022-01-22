@@ -10,11 +10,5 @@ module.exports = {
       },
       devServer: {
         progress: false
-      },
-      pluginOptions: {
-        webpackBundleAnalyzer: {
-          openAnalyzer: true
-        }
       }
-
 }
