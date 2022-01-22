@@ -1,3 +1,4 @@
+
 module.exports = { 
     chainWebpack: (config) => {
         config.module
@@ -9,5 +10,11 @@ module.exports = {
       },
       devServer: {
         progress: false
+      },
+      pluginOptions: {
+        webpackBundleAnalyzer: {
+          openAnalyzer: true
+        }
       }
+
 }
