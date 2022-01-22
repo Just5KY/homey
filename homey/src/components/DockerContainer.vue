@@ -85,10 +85,6 @@ export default {
         this.$refs.whale.cleanup();
         this.perspective = '2d';
 
-        // dispose of 3D objects to prevent memory leaks
-        // TODO: figure out. This breaks some things.
-        
-
         // wait 25ms to ensure 2D services are present before grid size calc
         this.refreshHandle = setInterval(() => {
           this.setGridSize();
@@ -98,7 +94,7 @@ export default {
     },
     // 3-row, 8-row, etc based on highest cell
     setGridSize(){
-      if(!this.$refs.cell) return 'docker-container__grid';
+      if(!this.$refs.cell) return this.gridClass;
       let highRow = 0;
       this.$refs.cell.forEach(c => {
         if(c.getYIndex() > highRow) highRow = c.getYIndex();

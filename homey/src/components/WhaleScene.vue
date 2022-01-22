@@ -11,42 +11,20 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry';
 
-// define three.js objects outside of vue export
-// to avoid making them reactive
-const scene = new THREE.Scene();
-const raycaster = new THREE.Raycaster();
-const light = new THREE.DirectionalLight(0xffffff);
-const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    100
-);
-
-// orthographic camera
-// let width = window.innerWidth
-// let height = window.innerHeight
-// const camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 100 );
-
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-const controls = new OrbitControls(camera, renderer.domElement);
-
-const clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -.34);
-const invisMat = new THREE.MeshPhongMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
-
-const gltfLoader = new GLTFLoader();
-const imgLoader = new THREE.TextureLoader();
-
-// load whale once (not on every component load)
-gltfLoader.load('./models/docker.glb', (model) => { 
-  model.scene.position.y -= .75; 
-  scene.add(model.scene); 
-});
-
+let btnSize = .4;
+let uiColor = 0x00a7ff;
 let mousePos = new THREE.Vector2(100, 100);
 let boundingBoxes = [];
-let uiColor = 0x00a7ff;
 let hoveredButton;
+
+// define three.js objects outside vue to avoid making them reactive
+let scene, raycaster, light, camera, renderer, controls, clippingPlane;
+let gltfLoader, imgLoader, invisMat, boxMat, buttonGeo, roundedBoxGeo;
+let btnStartMat, btnRestartMat, btnStopMat, btnInfoMat, placeholderIconTex;
+
+threeInitScene();
+threeLoadAssets();
+threeCreateAssets();
 
 export default {
     name: 'WhaleScene',
@@ -54,8 +32,6 @@ export default {
       services: Array,
     },
     emits: ['3dClick'],
-    components: {
-    },
     watch: {
       services: {
         handler: function() {
@@ -104,9 +80,10 @@ export default {
 
         this.initControls();
     },
-    // add canvas & begin animation loop
+    // add canvas, add listeners, begin animation loop
     mounted: function() {
         this.$refs.threeCanvas.appendChild(renderer.domElement)
+        console.log(this.$refs.threeCanvas.children)
 
         // ortho camera swap
         // let width = this.$refs.threeCanvas.clientWidth
@@ -134,8 +111,11 @@ export default {
 
             TWEEN.update();
             controls.update();
+
+            // !! add interval timer to mouse move to stop raycasting 100ms after mouse stops
             
-            // raycasting moved to onMouseMove for efficiency
+            // do not raycast if initial camera transition is playing
+            if(this.animationFinished)  this.raycast();     
 
             renderer.setSize(width, height);
             requestAnimationFrame(this.animate)
@@ -204,14 +184,10 @@ export default {
         },
         // shrinks all crates except specified
         shrinkAll(exceptCrate){
-          if(exceptCrate) {
-            this.growCrate(exceptCrate);
-          }
+          if(exceptCrate)   this.growCrate(exceptCrate);
 
           this.crates.forEach(c => {
-            if(exceptCrate) {
-              if(c.name != exceptCrate.name)  this.shrinkCrate(c);
-            }
+            if(exceptCrate && c.name != exceptCrate.name)  this.shrinkCrate(c);
             else this.shrinkCrate(c);
           });
         },
@@ -220,14 +196,17 @@ export default {
           if(crateObj.userData.box.scale.z > 1.05) return;
 
           if(crateObj.userData.animation) TWEEN.remove(crateObj.userData.animation);
+
+          // title + button panel width
+          let textWidth = crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z;
           crateObj.userData.animation = new TWEEN.Tween(crateObj)
             .to({ userData: {
                 box: {
-                  scale: {z: (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 },   // title + button panel width
-                  position: {z:(-1 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 ) / 2}
+                  scale: {z: textWidth + .4 * 6 },   
+                  position: {z:(-1 + textWidth + .4 * 6 ) / 2}
                 },
                 UI: {
-                  position: {z: .25 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) + .4 * 6 }
+                  position: {z: .25 + textWidth + .4 * 6 }
                 }
              }}, 1600) 
             .easing(TWEEN.Easing.Elastic.Out)
@@ -239,8 +218,7 @@ export default {
           if(crateObj.userData.box.scale.z < 1.05) return;
 
           if(crateObj.userData.animation) TWEEN.remove(crateObj.userData.animation);
-          // crateObj.userData.animation = new TWEEN.Tween(crateObj.userData.box)
-          //   .to({ scale: {x: 1, z: 1, y: 1}, position: {z: 0} }, 600)
+
           crateObj.userData.animation = new TWEEN.Tween(crateObj)
             .to({ userData: {
                 box: {
@@ -259,21 +237,76 @@ export default {
         addCrate(serviceName) {
           let grp = new THREE.Group();
           grp.name = serviceName;
+
+          // position
           grp.position.x += ((this.crates.length % 5) * 1.1) - 2.9;
           grp.position.y += Math.floor(this.crates.length / 5)
 
-          // rounded box
-          const boxMat = new THREE.MeshPhongMaterial({
-              side: THREE.FrontSide,
-              color: 0xf8f8f8,
-          });
-          let box = new THREE.Mesh(new RoundedBoxGeometry(1, 1, 1, 6, .1), boxMat);
+          // rounded box          
+          let box = new THREE.Mesh(roundedBoxGeo, boxMat);
           grp.add(box);
 
-          let uiGrp = new THREE.Group();
-          let btnSize = .4;
-          const buttonGeo = new THREE.PlaneGeometry(btnSize, btnSize);
+          // bounding box
+          let bbox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), invisMat);
+          bbox.name = grp.name + '_bbox';
+          bbox.layers.enable(1);
+          scene.add(bbox);
+          bbox.parent = grp;
+          boundingBoxes.push(bbox);
 
+          // 2D elements
+          let uiGrp = this.buildCrateUI(serviceName);
+          grp.add(uiGrp);
+
+          // search for matching icon and load if exists
+          imgLoader.load('./images/icons/' + serviceName + '.png', (tex) => {
+            const serviceImgMat = new THREE.MeshPhongMaterial({ map: tex,
+              side: THREE.FrontSide, transparent: true, });
+
+            this.setCrateImage(serviceImgMat, grp, box);
+          },
+          undefined,
+          // otherwise load default icon
+          () => { this.setCrateImage(placeholderIconTex, grp, box); })
+
+          // elastic spawn animation          
+          grp.scale.set(0,0,0)
+          let tScale = new TWEEN.Tween(grp.scale)
+            .to({x: 1, y: 1, z: 1}, (Math.random() + 1) * 1500)   // slightly random stagger
+            .easing(TWEEN.Easing.Elastic.Out)
+            .delay(this.crates.length * 175)
+          tScale.start();
+
+          grp.userData = { 
+            animation: null,
+            box: box,
+            UI: uiGrp,
+            textSize: uiGrp.userData.textSize
+          };
+
+          this.crates.push(grp);
+          scene.add(grp);
+        },
+        // draw icon on left & front of crate. box = rounded parent geometry
+        setCrateImage(serviceImgMat, grp, box) {
+          // front image
+          const serviceImg = new THREE.Mesh(buttonGeo, serviceImgMat);
+          serviceImg.position.z += .502;
+          serviceImg.scale.set(1.5, 1.5, 1)
+          grp.add(serviceImg);
+          serviceImg.parent = box;
+
+          // side image
+          const serviceImgHidden = new THREE.Mesh(buttonGeo, serviceImgMat);
+          serviceImgHidden.position.x -= .502;
+          serviceImgHidden.scale.set(1.5, 1.5, 1)
+          serviceImgHidden.rotateY(Math.PI * 1.5);      
+          grp.add(serviceImgHidden);
+        },
+        // build 2D container control interface
+        buildCrateUI(serviceName){
+          let uiGrp = new THREE.Group();
+          
           // service name
           let text = this.TextToMesh(serviceName, .35, 1, 80, uiColor);
           text.rotateY(Math.PI * 1.5);
@@ -287,14 +320,6 @@ export default {
           uiGrp.add(text);
 
           // buttons
-          let btnStartMat = new THREE.MeshPhongMaterial({
-              side: THREE.FrontSide,
-              map: imgLoader.load('./images/ui/start.png'),
-              transparent: true,
-              emissive: uiColor,
-              clippingPlanes: [clippingPlane],
-              clipIntersection: true
-          });
           const btnStart = new THREE.Mesh(buttonGeo, btnStartMat);
           btnStart.rotateY(Math.PI * 1.5);
           btnStart.position.x = text.position.x - .02;
@@ -302,15 +327,7 @@ export default {
           btnStart.layers.enable(1);
           btnStart.name = 'start'
           uiGrp.add(btnStart);
-
-          let btnStopMat = new THREE.MeshPhongMaterial({
-              side: THREE.FrontSide,
-              map: imgLoader.load('./images/ui/stop.png'),
-              transparent: true,
-              emissive: uiColor,
-              clippingPlanes: [clippingPlane],
-              clipIntersection: true
-          });
+ 
           const btnStop = new THREE.Mesh(buttonGeo, btnStopMat);
           btnStop.rotateY(Math.PI * 1.5);
           btnStop.position.x = text.position.x - .02;
@@ -318,15 +335,7 @@ export default {
           btnStop.layers.enable(1);
           btnStop.name = 'stop'
           uiGrp.add(btnStop);
-
-          let btnRestartMat = new THREE.MeshPhongMaterial({
-              side: THREE.FrontSide,
-              map: imgLoader.load('./images/ui/restart.png'),
-              transparent: true,
-              emissive: uiColor,
-              clippingPlanes: [clippingPlane],
-              clipIntersection: true
-          });
+        
           const btnRestart = new THREE.Mesh(buttonGeo, btnRestartMat);
           btnRestart.rotateY(Math.PI * 1.5);
           btnRestart.position.x = text.position.x - .02;
@@ -334,15 +343,7 @@ export default {
           btnRestart.layers.enable(1);
           btnRestart.name = 'restart'
           uiGrp.add(btnRestart);
-
-          let btnInfoMat = new THREE.MeshPhongMaterial({
-              side: THREE.FrontSide,
-              map: imgLoader.load('./images/ui/info.png'),
-              transparent: true,
-              emissive: uiColor,
-              clippingPlanes: [clippingPlane],
-              clipIntersection: true
-          });
+        
           const btnInfo = new THREE.Mesh(buttonGeo, btnInfoMat);
           btnInfo.rotateY(Math.PI * 1.5);
           btnInfo.position.x = text.position.x - .02;
@@ -351,52 +352,9 @@ export default {
           btnInfo.name = 'info'
           uiGrp.add(btnInfo);
 
-          grp.add(uiGrp);
+          uiGrp.userData = { textSize: textSize };
 
-          // service image
-          let serviceImgMat = new THREE.MeshPhongMaterial({
-              side: THREE.FrontSide,
-              map: imgLoader.load('./images/icons/' + serviceName + '.png'),
-              transparent: true,
-          });
-          const serviceImg = new THREE.Mesh(buttonGeo, serviceImgMat);
-          serviceImg.position.z += .502;
-          serviceImg.scale.set(1.5, 1.5, 1)
-          grp.add(serviceImg);
-          serviceImg.parent = box;
-
-          const serviceImgHidden = new THREE.Mesh(buttonGeo, serviceImgMat);
-          serviceImgHidden.position.x -= .502;
-          serviceImgHidden.scale.set(1.5, 1.5, 1)
-          serviceImgHidden.rotateY(Math.PI * 1.5);
-          
-          grp.add(serviceImgHidden);
-
-          // bounding box
-          let bbox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), invisMat);
-          bbox.name = grp.name + '_bbox';
-          bbox.layers.enable(1);
-          scene.add(bbox);
-          bbox.parent = grp;
-          boundingBoxes.push(bbox);
-
-          grp.userData = { 
-            animation: null,
-            box: box,
-            UI: uiGrp,
-            textSize: textSize
-          };
-
-          // elastic spawn animation          
-          grp.scale.set(0,0,0)
-          let tScale = new TWEEN.Tween(grp.scale)
-            .to({x: 1, y: 1, z: 1}, (Math.random() + 1) * 1500)   // slightly random stagger
-            .easing(TWEEN.Easing.Elastic.Out)
-            .delay(this.crates.length * 175)
-          tScale.start();
-
-          this.crates.push(grp);
-          scene.add(grp);
+          return uiGrp;
         },
         // remove existing crate
         removeCrate(crateObj) {
@@ -453,8 +411,6 @@ export default {
           mousePos.x = ( (event.offsetX / this.$refs.threeCanvas.clientWidth)  ) * 2 - 1;
           mousePos.y = - ( (event.offsetY / this.$refs.threeCanvas.clientHeight) ) * 2 + 1;
 
-          // do not raycast if initial camera transition is playing
-          if(this.animationFinished)  this.raycast();     
           this.updateTooltip(event);
         },
         updateTooltip(event){
@@ -516,6 +472,9 @@ export default {
             scene.remove(scene.getObjectByName(c.name));
           });
 
+          scene.remove(light);
+          scene.remove(camera);
+
           boundingBoxes.splice(0, boundingBoxes.length);
           this.crates.splice(0, this.crates.length);
           TWEEN.removeAll();
@@ -531,5 +490,67 @@ export default {
           }
         }
     },
+}
+// load external assets that will not be reloaded on view swap
+function threeLoadAssets() {
+  gltfLoader = new GLTFLoader();
+  imgLoader = new THREE.TextureLoader();
+
+  // load images
+  btnInfoMat = new THREE.MeshPhongMaterial({
+      side: THREE.FrontSide, transparent: true, emissive: uiColor,
+      clippingPlanes: [clippingPlane], clipIntersection: true,
+      map: imgLoader.load('./images/ui/info.png')
+  });
+  btnRestartMat = new THREE.MeshPhongMaterial({
+      side: THREE.FrontSide, transparent: true, emissive: uiColor,
+      clippingPlanes: [clippingPlane], clipIntersection: true,
+      map: imgLoader.load('./images/ui/restart.png')
+  });
+  btnStopMat = new THREE.MeshPhongMaterial({
+      side: THREE.FrontSide, transparent: true, emissive: uiColor,
+      clippingPlanes: [clippingPlane], clipIntersection: true,
+      map: imgLoader.load('./images/ui/stop.png')
+  });
+  btnStartMat = new THREE.MeshPhongMaterial({
+      side: THREE.FrontSide, transparent: true, emissive: uiColor,
+      clippingPlanes: [clippingPlane], clipIntersection: true,
+      map: imgLoader.load('./images/ui/start.png')
+  });
+  placeholderIconTex = new THREE.MeshPhongMaterial({
+      side: THREE.FrontSide, transparent: true,
+      map: imgLoader.load('./images/icons/placeholder.png')
+  });
+
+  // load whale
+  gltfLoader.load('./models/docker.glb', (model) => { 
+    model.scene.position.y -= .75; 
+    scene.add(model.scene); 
+  });
+}
+// create geometries and materials that will not be destroyed on view swap
+function threeCreateAssets() {
+  invisMat = new THREE.MeshPhongMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
+  boxMat = new THREE.MeshPhongMaterial({ side: THREE.FrontSide, color: 0xf8f8f2, });
+
+  buttonGeo = new THREE.PlaneGeometry(btnSize, btnSize);
+  roundedBoxGeo = new RoundedBoxGeometry(1, 1, 1, 6, .1);
+}
+// create core three components outside of vue to avoid cascading DOM update every tick
+function threeInitScene() {
+  scene = new THREE.Scene();
+  raycaster = new THREE.Raycaster();
+  light = new THREE.DirectionalLight(0xffffff);
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+
+  // orthographic camera
+  // let width = window.innerWidth
+  // let height = window.innerHeight
+  // const camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 100 );
+
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  controls = new OrbitControls(camera, renderer.domElement);
+
+  clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -.34);
 }
 </script>

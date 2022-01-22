@@ -284,7 +284,7 @@ export default {
           if(res.data['Success']){
             // Successful image upload
           }
-          else  console.log('Error uploading icon: ' + res.data['Error']);
+          else  console.error('Error uploading icon: ' + res.data['Error']);
       }).catch(e => {
         console.log('Could not reach homey API');
       });
