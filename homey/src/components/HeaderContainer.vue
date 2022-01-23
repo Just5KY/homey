@@ -33,7 +33,7 @@ import OptionsPopup from './OptionsPopup.vue';
 import HouseScene from './HouseScene.vue';
 
 export default {
-  name: 'Header',
+  name: 'HeaderContainer',
   components: {
     OptionsPopup,
     HouseScene

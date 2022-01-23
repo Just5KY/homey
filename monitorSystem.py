@@ -4,19 +4,24 @@ from psutil import cpu_percent, virtual_memory
 from time import sleep
 import json
 
-# Run on host (outside of Docker)
-# If homey is running in Docker, dataFile must be accessible inside the container
 
-# Gets disk/CPU/RAM usage and writes JSON to file
-
+# README ################################################################
+# Writes CPU, RAM, and disk usage to a .json file for Docker containers.
+#
+# 0. pip install psutil
+# 1. Configure dataFile to match homey-api's /config volume mount point.
+# 2. Configure watchedDisks if desired.
+# 3. Run on host machine (where docker engine is running). 
+#
+# This script will write to the file every intervalSeconds.
+# Homey-api will read it intermittently to display performance stas.
 # CONFIGURATION #########################################################
-
-dataFile = "./homey-api/local_machine_data.json"    # file to write to
-watchedDisks = ["/"]                                # list of disks to report on: "/", "/mnt/media", etc
-intervalMinutes = 2                                 # write to file every X minutes
-intervalCPUCalc = 6                                 # average CPU usage over X seconds  
-
+dataFile = "./homey-api/local_machine_data.json"    # output file
+watchedDisks = ["/"]    # report disk usage for: "/", "/mnt/media", etc
+intervalSeconds = 30    # write to file every X seconds
+intervalCPUCalc = 6     # average CPU usage over X seconds  
 #########################################################################
+
 
 # get free, available, & total space for each disk in watchedDisks
 def getDiskUsage():
@@ -68,4 +73,4 @@ while(True):
         f.write(getRAMUsage())
         f.write(' }')
 
-    sleep( (intervalMinutes * 60) - intervalCPUCalc)
+    sleep( intervalSeconds - intervalCPUCalc )

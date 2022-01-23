@@ -1,6 +1,6 @@
 <template>
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <Header 
+  <HeaderContainer 
     :APIOnline="isAPIOnline" 
     :config="this.config" 
     :title="config.title"
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import Header from './components/Header.vue'
+import HeaderContainer from './components/HeaderContainer.vue'
 import ServiceContainer from './components/ServiceContainer.vue'
 import DockerContainer from './components/DockerContainer.vue'
 import CardContainer from './components/CardContainer.vue'
@@ -44,7 +44,7 @@ export default {
     };
   },
   components: {
-    Header,
+    HeaderContainer,
     ServiceContainer,
     DockerContainer,
     CardContainer
