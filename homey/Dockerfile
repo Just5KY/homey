@@ -1,7 +1,7 @@
-FROM debian:bullseye-slim
+FROM debian:bullseye-slim as build
 
-# node:lts-alpine, standard practices                   965MB
-# debian:bullseye-slim, manual node & npm management    277MB
+# node:16-alpine, standard practices           965MB
+# multi-stage build, manual node management    123MB
 
 # install node & npm
 RUN apt-get update && \
@@ -25,9 +25,13 @@ RUN npm install --production && \
     npm run build && \
     rm -rf ./node_modules
 
+FROM node:16-alpine
+WORKDIR /app
+COPY --from=build /app/dist .
+
 # install production http server
 RUN npm install -g http-server
 
 # serve on 8080
 EXPOSE 8080
-CMD ["http-server", "dist"]
+CMD ["http-server", "."]
