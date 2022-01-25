@@ -17,6 +17,11 @@
 
     box-shadow: 0px 10px 15px 5px $shadowColor;
 
+    // Padding for when 3D house is disabled
+    &--house-padding {
+        width: 8rem;
+    }
+
     // Page title
     & h1 {
         font-size: 7rem;

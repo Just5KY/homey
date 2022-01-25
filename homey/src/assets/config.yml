@@ -1,7 +1,9 @@
-compact_services: false
-docker_api_backend: portainer
-enable_service_status: true
+title: homey
 minimal_mode: false
+hide_house: false
+compact_services: false
+enable_service_status: true
+docker_api_backend: docker
 services:
 - icon: portainer.png
   name: Portainer
@@ -15,4 +17,12 @@ services:
   name: Navidrome
   subtitle: Music streaming
   url: http://192.168.1.5:9004/app/#/login
-title: homey
+cards:
+- enable: true
+  name: Torrents
+- enable: true
+  name: Weather
+- enable: true
+  name: System
+- enable: true
+  name: Bookmarks

@@ -16,7 +16,7 @@
   <DockerContainer v-if="isAPIOnline" 
     :backend="config.docker_api_backend" 
     @openSettings="this.$refs.header.showOptions = true"/>
-  <CardContainer v-if="isAPIOnline" />
+  <CardContainer v-if="isAPIOnline" :cards="config.cards" />
 
   <notifications position="top left" />
 </template>
@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       config: Object,
-      isOnline: false,
+      isOnline: true,
       pingTimer: Number,
       serviceStatuses: [],
     };

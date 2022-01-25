@@ -1,7 +1,8 @@
 <template>
   <div class="header-container">
     <div class="header-container__main">
-      <HouseScene />
+      <HouseScene v-if="showHouse" />
+      <div v-else class="header-container__main--house-padding"></div>
       <h1>{{ title }}</h1>
       <span v-if="APIOnline" 
         title="Settings" class="material-icons-outlined"
@@ -47,6 +48,12 @@ export default {
     return {
       showOptions: false,
     };
+  },
+  computed: {
+    showHouse() {
+      if(this.config.hide_house)  return false;
+      return !this.config.minimal_mode;
+    },
   },
   methods: {
     loadConfig() {

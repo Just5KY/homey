@@ -1,8 +1,5 @@
 FROM debian:bullseye-slim as build
 
-# node:16-alpine, standard practices           965MB
-# multi-stage build, manual node management    123MB
-
 # install node & npm
 RUN apt-get update && \
     apt-get install -y --no-install-recommends curl && \
@@ -12,10 +9,9 @@ RUN apt-get update && \
     apt-get clean
 
 WORKDIR /app
-
 ENV NODE_ENV production
 
-# copy source into container
+# copy source into build layer
 COPY . .
 
 # install node modules, compile SASS,
@@ -25,8 +21,13 @@ RUN npm install --production && \
     npm run build && \
     rm -rf ./node_modules
 
+
+# final image - optimized for size
 FROM node:16-alpine
+
 WORKDIR /app
+
+# copy only build output out of intermediate layer
 COPY --from=build /app/dist .
 
 # install production http server

@@ -48,6 +48,16 @@ const frontWall = new THREE.Mesh(wallGeo,wallMat)
 const roof = new THREE.Mesh(roofGeo, wallMat)
 const chimney = new THREE.Mesh(chimneyGeo, chimneyMat)
 
+leftWall.position.x -= .5
+rotateDegrees(leftWall, 90)
+rightWall.position.x += .5
+rotateDegrees(rightWall, -90)
+backWall.position.z -= .5
+frontWall.position.z += .5
+roof.position.y += 3
+chimney.position.y -= 5
+chimney.position.x += .35
+
 let houseGroup;
 
 export default {
@@ -66,6 +76,7 @@ export default {
 
         // house
         this.initMeshes();
+        chimney.scale.set(0, 0, 0);
         camera.lookAt(houseGroup);    
         
         renderer.setPixelRatio( window.devicePixelRatio );
@@ -75,6 +86,7 @@ export default {
     // add canvas & begin animation loop
     mounted: function() {
         this.$refs.threeCanvas.appendChild(renderer.domElement);
+        chimney.scale.set(0, 0, 0);
 
         this.initTweens();
         this.animate();
@@ -122,6 +134,7 @@ export default {
           const tween = new TWEEN.Tween({x: 0, y: startHeight, z: 0 })
               .to({x: 0, y: .9, z: 0 }, 3000)
               .easing(TWEEN.Easing.Bounce.Out)
+              .onStart(() => {chimney.scale.set(0, 0, 0)})
               .onUpdate(function ({ x, y, z }, elapsed) {
                   roof.position.set(x, y, z)
           })
@@ -135,6 +148,7 @@ export default {
           const chimneyTween = new TWEEN.Tween({x:.35, y: 0, z: 0})
               .to({x: .35, y: 1, z: 0}, 1200)
               .easing(TWEEN.Easing.Elastic.Out)
+              .onStart(() => {chimney.scale.set(1, 1, 1)})
               .onUpdate(function ({x, y, z}, elapsed) {
                   chimney.position.set(x, y, z)
           })
@@ -177,15 +191,7 @@ export default {
         },
         // house components
         initMeshes() {
-          leftWall.position.x -= .5
-          this.rotateDegrees(leftWall, 90)
-          rightWall.position.x += .5
-          this.rotateDegrees(rightWall, -90)
-          backWall.position.z -= .5
-          frontWall.position.z += .5
-          roof.position.y += 3
-          chimney.position.y += 40
-          chimney.position.x += .35
+          if(houseGroup)    return;
 
           houseGroup = new THREE.Group()
           houseGroup.add(leftWall)
@@ -197,11 +203,12 @@ export default {
 
           scene.add(houseGroup);
         },
-        // rotate mesh on Y axis
-        rotateDegrees(mesh, degrees){
-          const rad = degrees * Math.PI / 180;
-          mesh.rotateY(rad)
-        },
     },
+}
+
+// rotate mesh on Y axis
+function rotateDegrees(mesh, degrees){
+    const rad = degrees * Math.PI / 180;
+    mesh.rotateY(rad)
 }
 </script>

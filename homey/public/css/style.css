@@ -438,6 +438,9 @@
   cursor: pointer; }
   .modal-button__services {
     justify-self: flex-start;
+    margin-right: 1rem; }
+  .modal-button__cards {
+    justify-self: flex-start;
     margin-right: auto; }
   .modal-button__save {
     background-color: #8be9fd;
@@ -463,6 +466,8 @@
   align-items: center;
   justify-content: flex-start;
   box-shadow: 0px 10px 15px 5px #1c1c1c; }
+  .header-container__main--house-padding {
+    width: 8rem; }
   .header-container__main h1 {
     font-size: 7rem;
     font-weight: 200;
@@ -525,11 +530,13 @@ h2 {
   position: relative;
   width: auto;
   flex-grow: 1;
+  width: calc(50% - 1rem);
   perspective: 100rem;
   -moz-perspective: 100rem; }
   @media (max-width: 600px) {
     .flood-card-container {
-      margin-bottom: 2rem; } }
+      margin-bottom: 2rem;
+      width: auto; } }
   .flood-card-container__side {
     height: 100%;
     transition: all 0.7s ease-in-out;
@@ -619,7 +626,8 @@ h2 {
 .weather-card-container {
   text-align: center;
   position: relative;
-  width: calc(50% - 2rem);
+  width: calc(50% - 1rem);
+  flex-grow: 1;
   padding: 1.5rem;
   border-radius: .5rem;
   overflow-wrap: break-word;
@@ -628,8 +636,7 @@ h2 {
   -moz-perspective: 100rem; }
   @media (max-width: 600px) {
     .weather-card-container {
-      width: auto;
-      flex-grow: 1; } }
+      width: auto; } }
   .weather-card-container__side {
     height: 100%;
     transition: all 0.7s ease-in-out;

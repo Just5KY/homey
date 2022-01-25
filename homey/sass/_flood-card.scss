@@ -2,11 +2,13 @@
 
     @media(max-width: $mobile-break-small){
         margin-bottom: 2rem;
+        width: auto;
     }
 
     position: relative;
     width: auto;
     flex-grow: 1;
+    width: calc(50% - 1rem);
 
     perspective: 100rem;
     -moz-perspective: 100rem;

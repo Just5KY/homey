@@ -1,7 +1,7 @@
 <template>
   <div class="card-container">
-    <FloodCard/>
-    <WeatherCard/>
+    <FloodCard v-if="cardEnabled('Torrents')" />
+    <WeatherCard v-if="cardEnabled('Weather')" />
   </div>
 </template>
 
@@ -15,12 +15,18 @@ export default {
       WeatherCard,
       FloodCard,
   },
+  props: {
+    cards: Array,
+  },
   data() {
     return {
       apiCards: Array,
     };
   },
   methods: {
-  }
+    cardEnabled(name) {
+      return this.cards.find(c => c.name === name).enable;
+    },
+  },
 }
 </script>

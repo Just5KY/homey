@@ -2,9 +2,13 @@ title: "homey"
 
 # valid options: docker, portainer
 docker_api_backend: "portainer"
-# hide docker panel & API cards; remove dependency on backend
+# disables functionality, hides 3D eyecandy
 minimal_mode: false
-# toggle up/down indicators on service cards (recommended off if minimal_mode enabled)
+# reduces service grid padding
+compact_services: false
+# toggles 3D house
+hide_house: false
+# toggles service up/down indicators
 enable_service_status: true
 
 # additional service icons: https://github.com/vlfldr/homer-icons

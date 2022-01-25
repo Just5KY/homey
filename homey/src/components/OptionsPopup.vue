@@ -3,7 +3,7 @@
     <!-- main settings menu -->
     <div class="modal-mask">
       <div class="modal-wrapper">
-        <div v-if="!showServices" class="modal-container">
+        <div v-if="!showServices && !showCards" class="modal-container">
 
           <div class="modal-header">
             <h2>Settings</h2>
@@ -24,8 +24,17 @@
                   Off<input type="radio" :value="false" v-model="localConfig.minimal_mode">
                 </div>
               </li>
+              <li v-if="!localConfig.minimal_mode" class="modal-option">
+                <h3>3D House</h3>
+                <div class="modal-option__button-container">
+                  On<input type="radio" :value="false" v-model="localConfig.hide_house">
+                  Off<input type="radio" :value="true" v-model="localConfig.hide_house">
+                </div>
+              </li>
               <li class="modal-option">
-                <h3>Compact Services<span title="Reduces padding in services pane." class="material-icons-outlined">info</span></h3>
+                <h3>Compact Services
+                  <span title="Reduces padding in services pane." class="material-icons-outlined">info</span>
+                </h3>
                 <div class="modal-option__button-container">
                   On<input type="radio" :value="true" v-model="localConfig.compact_services">
                   Off<input type="radio" :value="false" v-model="localConfig.compact_services">
@@ -51,16 +60,17 @@
           </div>
 
           <div class="modal-footer">
-            <button @click="showServices = !showServices" class="modal-button modal-button__services">Services...</button>
+            <button @click="showServices = !showServices" class="modal-button modal-button__services">Services</button>
+            <button @click="showCards = !showCards" class="modal-button modal-button__cards">Cards</button>
             <button @click="close(false)" class="modal-button modal-button__cancel">Cancel</button>
             <button @click="close(true)" class="modal-button modal-button__save">Save</button>
           </div>
 
         </div>
 
-        <!-- services sub-menu -->
+        <!-- service editor sub-menu -->
 
-        <div v-else class="modal-container">
+        <div v-if="showServices" class="modal-container">
           <div class="modal-header">
             <h2>Services</h2>
           </div>
@@ -82,7 +92,8 @@
                     class="service-editor__image-container__image" />
                   <label for="uploader">
                     <transition name="slide-up">
-                      <span v-if="(getSelectedService().icon || newImage || newService.icon != '') && !showGallery" title="Upload New Icon" 
+                      <span v-if="(getSelectedService().icon || newImage || newService.icon != '') && !showGallery" 
+                        title="Upload New Icon" 
                         class="uploader-button uploader-button__corner-right uploader-button__corner material-icons-outlined">
                         file_upload</span>
                     </transition>
@@ -134,12 +145,47 @@
   
           <div class="modal-footer">
             <transition name="fade">
-              <button v-if="selectedService != 'newService'" @click="deleteService(getSelectedService())" class="modal-button modal-button__delete">Delete</button>
+              <button v-if="selectedService != 'newService'" 
+                @click="deleteService(getSelectedService())" 
+                class="modal-button modal-button__delete">
+                Delete</button>
             </transition>
             <button @click="showServices = !showServices" class="modal-button modal-button__cancel">Back</button>
             <button @click="close(true)" class="modal-button modal-button__save">{{getSaveString}}</button>
           </div>
         </div>
+      
+        <!-- show/hide cards sub-menu -->
+
+        <div v-if="showCards" class="modal-container">
+          <div class="modal-header">
+            <h2>Cards</h2>
+          </div>
+
+          <div class="modal-body">
+            <ul>
+              <li v-for="c in localConfig.cards" :key="c.name" class="modal-option">
+                <h3>{{ c.name }}</h3>
+                <div class="modal-option__button-container">
+                  On<input type="radio" :value="true" v-model="c.enable">
+                  Off<input type="radio" :value="false" v-model="c.enable">
+                </div>
+              </li>
+            </ul>
+          </div>
+  
+          <div class="modal-footer">
+            <transition name="fade">
+              <button v-if="selectedService != 'newService'" 
+                @click="deleteService(getSelectedService())" 
+                class="modal-button modal-button__delete">
+                Delete</button>
+            </transition>
+            <button @click="showCards = !showCards" class="modal-button modal-button__cancel">Back</button>
+            <button @click="close(true)" class="modal-button modal-button__save">{{getSaveString}}</button>
+          </div>
+        </div>
+      
       </div>
     </div>
 </template>
@@ -153,6 +199,7 @@ export default {
     return {
       localConfig: Object,
       showServices: false,
+      showCards: false,
       newService: {'name': '', 'icon': '', 'subtitle': '', 'url': ''},
       selectedService: 'newService',
       localName: String,

@@ -109,7 +109,7 @@ def ping():
 def writeFrontendConfig():
     try:
         with open('../homey/src/assets/config.yml', 'w') as f:
-            yaml.dump(request.json, f)
+            yaml.dump(request.json, f, sort_keys=False)
     except: 
         return jsonify({'Error': 'Could not write new config file. Are permissions correct?'})
 
