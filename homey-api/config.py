@@ -20,13 +20,18 @@ def validateWeather(lat, long):
     return True
 
 class Config:
-    if not os.path.exists('../.env'):
-        print('Fatal error: Could not load ../.env.')
-        print('Please refer to the readme for configuration instructions.')
-        quit(1)
-        
-    load_dotenv('../.env')
+    RUNNING_IN_DOCKER = os.environ.get('HOMEY_API_RUNNING_IN_DOCKER', False)
 
+    # if running on metal, load .env file from project root
+    if not RUNNING_IN_DOCKER:
+        if not os.path.exists('../.env'):
+            print('Fatal error: Could not load ../.env.')
+            print('Please refer to the readme for configuration instructions.')
+            quit(1)
+        load_dotenv('../.env')
+
+    # if running in docker, .env is passed in via docker-compose.yml
+ 
     NICEHASH_URL = os.environ.get('HOMEY_API_NICEHASH_URL')
     NICEHASH_API_KEY = os.environ.get('HOMEY_API_NICEHASH_API_KEY')
     NICEHASH_SECRET = os.environ.get('HOMEY_API_NICEHASH_SECRET')

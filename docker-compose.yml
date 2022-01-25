@@ -7,6 +7,7 @@ services:
     image: vlfldr/homey-api:latest
     build: ./homey-api/
     user: "${HOMEY_API_DOCKER_USER_ID}:${HOMEY_API_DOCKER_GROUP_ID}"
+    env_file: .env
     ports: 
       - "9101:9101"
     volumes:

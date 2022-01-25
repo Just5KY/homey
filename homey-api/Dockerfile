@@ -1,14 +1,16 @@
-FROM python:3.9-slim-bullseye
+FROM python:3.9-alpine
 
 WORKDIR /code
+
+# tell the API it's inside a container
+ENV HOMEY_API_RUNNING_IN_DOCKER Yes
 
 # install dependencies
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-# install docker
-RUN apt update && apt install -y docker
-RUN groupadd docker && usermod -aG docker root && newgrp docker
+# install docker-cli to communicate with mounted socket
+RUN apk update --no-cache && apk add --no-cache docker-cli openrc
 
 # copy source into container
 COPY . .
