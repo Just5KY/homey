@@ -28,9 +28,9 @@ When the project is released, docker images and better documentation will be pro
     git clone https://github.com/vlfldr/homey
     cd homey
     
+    mkdir ~/<docker_volume>
     cp .env.example .env
-    mkdir ~/homey-data
-    cp homey-api/config/config.yml.example ~/homey-data/config.yml
+    cp homey-api/config/config.yml.example ~/<docker_volume>/config.yml
 
     <edit .env>
     <edit config.yml>
@@ -43,10 +43,10 @@ When the project is released, docker images and better documentation will be pro
 ### Minimal mode
 **Minimal mode** turns homey into a more traditional dashboard with links to services and low overhead. API functionality (Docker/Portainer, Flood, weather, service checker, settings menu) is disabled along with 3D eyecandy. This option can be toggled using the settings menu or the `minimal_mode` flag in `config.yml`.
 
-*Note: Homey has no way of writing updated config files to the disk in minimal mode. Once it is switched on, all configuration (**including switching minimal mode off**) must be done manually through `config.yml`*
+*Note: Settings cannot be changed from the web UI in minimal mode. Once it is switched on, all configuration (**including switching minimal mode off**) must be done manually through `config.yml`*
 
 ### Icons
-The `icon` field in `config.yml` points to homey/public/data/icons. New icons can be added via this folder or uploaded using the built-in service editor. You can find a huge collection of PNG self-hosted service icons at NX211's [Homer Icons](https://github.com/NX211/homer-icons) (512x512) or my fork [Homer Icons Compressed](https://github.com/vlfldr/homer-icons) (128x128). Docker containers will use icons that are an exact name match.
+Icons are loaded from <docker_volume>/icons (or /public/data/icons if not using Docker)). New icons can be added in bulk via this folder or uploaded using the built-in service editor. You can find a collection of PNG self-hosted service icons at NX211's [Homer Icons](https://github.com/NX211/homer-icons) (512x512) or my fork [Homer Icons Compressed](https://github.com/vlfldr/homer-icons) (128x128). Docker containers will use icons that are an exact name match.
 
 ## Built with:
 

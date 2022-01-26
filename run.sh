@@ -1,16 +1,15 @@
 #! /bin/bash
 
-# local launch script for development/debugging
-# the app will not launch unless .env and homey-api/disks.txt are configured correctly
+# local launch script for development
 
 # install requirements
-# cd homey
-# npm i
-# cd ../homey-api
-# pip install -r ./requirements.txt
+# cd homey && npm i && cd ../homey-api && pip install -r ./requirements.txt
 cd homey-api
 
-# run backend; capture process ID for exit
+# copy config file to frontend (fallback)
+cp ./config/config.yml ../homey/public/config
+
+# run backend
 python ./app.py &
 pid[0]=$!
 # run frontend

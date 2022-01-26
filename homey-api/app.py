@@ -122,7 +122,6 @@ def writeFrontendConfig():
 @app.route('/readFrontendConfig', methods=['GET'])
 def readFrontendConfig():
     try:
-        print(os.getcwd())
         with open('./config/config.yml') as f:
             return jsonify(yaml.safe_load(f))
     except: 

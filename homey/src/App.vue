@@ -31,21 +31,11 @@ import notifications from './notifications';
 
 import JsYaml from 'js-yaml';
 
-import configFile from './assets/config.yml'
-
 export default {
   name: 'App',
   data() {
     return {
-      config: {
-        services: Array,
-        cards: Array,
-        minimal_mode: Boolean,
-        docker_api_backend: String,
-        title: String,
-        compact_services: Boolean,
-        enable_service_status: Boolean,
-      },
+      config: {},
       configLoaded: false,
       isOnline: true,
       pingTimer: Number,
@@ -60,23 +50,24 @@ export default {
   },
   computed: {
     isAPIOnline() {
-      if(this.config.minimal_mode == true)  return false;
+      if(!this.configLoaded || this.config.minimal_mode)  return false;
       return this.isOnline;
     }
   },
   methods: {
-    // request config from backend; fallback to local
+    // load configuration
     loadConfig: function() {
+      // request from backend
       this.axios.get('http://0.0.0.0:9101/readFrontendConfig').then((res) => {
         this.config = res.data;
       }).catch(() => {
+        // on error, fall back to local file
         console.info('Failed to fetch config from backend. Loading local config.yml.')
-        try {
-          this.config = JsYaml.load(configFile);
-          console.info('Successfully loaded local config.yml.') 
-        } catch (e) {
+        this.axios.get('/config/config.yml').then((res) => {
+          this.config = JsYaml.load(res.data);
+        }).catch(() => {
           notifications.notifyError('Error: Failed to load configuration file');
-        }
+        });
       }).finally(() => {
         // send service list to backend if status indicators enabled
         // TODO: rework service checker
