@@ -14,6 +14,7 @@ VALID_ICON_EXTS = {'png', 'jpeg', 'jpg'}
 
 app = Flask(__name__)
 app.config.from_object(config)
+app.config['JSON_SORT_KEYS'] = False            # TESTING -  remove if API data becomes mangled
 app.config['UPLOAD_FOLDER'] = ICONS_UPLOAD_PATH
 CORS(app, resources={r'/*': {'origins': '*'}})
 
@@ -108,12 +109,22 @@ def ping():
 @app.route('/writeFrontendConfig', methods=['POST'])
 def writeFrontendConfig():
     try:
-        with open('../homey/src/assets/config.yml', 'w') as f:
+        with open('./config/config.yml', 'w') as f:
             yaml.dump(request.json, f, sort_keys=False)
     except: 
         return jsonify({'Error': 'Could not write new config file. Are permissions correct?'})
 
     return jsonify({'Success': 'Wrote updated config file'})
+
+@app.route('/readFrontendConfig', methods=['GET'])
+def readFrontendConfig():
+    try:
+        print(os.getcwd())
+        with open('./config/config.yml') as f:
+            return jsonify(yaml.safe_load(f))
+    except: 
+        return jsonify({'Error': 'Could not read config file. Are permissions correct?'})
+
 
 @app.route('/uploadIcon', methods=['POST'])
 def uploadIcon():
@@ -151,4 +162,4 @@ def nicehashMinerStats():
 
 ### ENTRYPOINT
 if __name__ == '__main__':
-    app.run('0.0.0.0', 9101, debug=False)
+    app.run('0.0.0.0', 9101, debug=True)

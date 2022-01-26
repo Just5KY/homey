@@ -23,19 +23,22 @@ Homey is a simple home server dashboard packed with functionality. The layout is
 
 ## Installation & Configuration
 
-When the project is released, a docker image and better documentation will be provided. If you want to check it out before release:
+When the project is released, docker images and better documentation will be provided. If you want to check it out beforehand:
 
     git clone https://github.com/vlfldr/homey
     cd homey
-    mv .env.example .env
-    mv homey/src/assets/config.yml.example homey/src/assets/config.yml
+    
+    cp .env.example .env
+    mkdir ~/homey-data
+    cp homey-api/config/config.yml.example ~/homey-data/config.yml
 
-    <fill out .env & homey/src/assets/config.yml>
-    <add service icons to homey/public/images/icons>
+    <edit .env>
+    <edit config.yml>
+    <edit docker-compose.yml>
 
     docker-compose up
 
-**NOTE: This is a work in progress and currently unstable. If any of the #required endpoints in the .env file are configured incorrectly or unreachable, the application will crash.**
+**NOTE: This is a work in progress. Editing configuration from the frontend inside Docker is not yet supported.**
 
 ### Minimal mode
 **Minimal mode** turns homey into a more traditional dashboard with links to services and low overhead. API functionality (Docker/Portainer, Flood, weather, service checker, settings menu) is disabled along with 3D eyecandy. This option can be toggled using the settings menu or the `minimal_mode` flag in `config.yml`.

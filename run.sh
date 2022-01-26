@@ -4,15 +4,17 @@
 # the app will not launch unless .env and homey-api/disks.txt are configured correctly
 
 # install requirements
-cd homey
-npm i
-pip install -r ../homey-api/requirements.txt
+# cd homey
+# npm i
+# cd ../homey-api
+# pip install -r ./requirements.txt
+cd homey-api
 
 # run backend; capture process ID for exit
-python ../homey-api/app.py &
+python ./app.py &
 pid[0]=$!
 # run frontend
-npm run dev &
+cd ../homey && npm run dev &
 pid[1]=$!
 
 # kill both on interrupt

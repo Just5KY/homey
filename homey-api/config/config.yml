@@ -1,0 +1,28 @@
+title: homey
+minimal_mode: false
+hide_house: false
+compact_services: false
+enable_service_status: true
+docker_api_backend: docker
+services:
+- icon: portainer.png
+  name: Portainer
+  subtitle: Docker container management
+  url: https://192.168.1.5:9443
+- icon: flood.png
+  name: Flood
+  subtitle: Web UI for rTorrent
+  url: http://192.168.1.5:9005
+- icon: navidrome.png
+  name: Navidrome
+  subtitle: Music streaming
+  url: http://192.168.1.5:9004/app/#/login
+cards:
+- enable: true
+  name: Torrents
+- enable: true
+  name: Weather
+- enable: true
+  name: System
+- enable: true
+  name: Bookmarks

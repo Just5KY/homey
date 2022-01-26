@@ -1,23 +1,23 @@
 <template>
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <HeaderContainer 
-    :APIOnline="isAPIOnline" 
-    :config="this.config" 
-    :title="config.title"
-    @loadConfig="loadConfig" 
-    @saveConfig="saveConfig" 
-    ref="header"/>
-  <ServiceContainer 
-    :fullscreen="!isAPIOnline" 
-    :compactServices="config.compact_services" 
-    :statusIndicators="config.enable_service_status" 
-    :services="config.services" 
-    :statuses="this.serviceStatuses"/>
-  <DockerContainer v-if="isAPIOnline" 
-    :backend="config.docker_api_backend" 
-    @openSettings="this.$refs.header.showOptions = true"/>
-  <CardContainer v-if="isAPIOnline" :cards="config.cards" />
-
+    <HeaderContainer v-if="configLoaded"
+      :APIOnline="isAPIOnline" 
+      :config="this.config" 
+      :title="config.title"
+      @loadConfig="loadConfig" 
+      @saveConfig="saveConfig" 
+      ref="header"/>
+    <ServiceContainer v-if="configLoaded"
+      :fullscreen="!isAPIOnline" 
+      :compactServices="config.compact_services" 
+      :statusIndicators="config.enable_service_status" 
+      :services="config.services" 
+      :statuses="this.serviceStatuses"/>
+    <DockerContainer v-if="configLoaded && isAPIOnline" 
+      :backend="config.docker_api_backend" 
+      @openSettings="this.$refs.header.showOptions = true"/>
+    <CardContainer v-if="configLoaded && isAPIOnline" 
+      :cards="config.cards" />
   <notifications position="top left" />
 </template>
 
@@ -37,7 +37,16 @@ export default {
   name: 'App',
   data() {
     return {
-      config: Object,
+      config: {
+        services: Array,
+        cards: Array,
+        minimal_mode: Boolean,
+        docker_api_backend: String,
+        title: String,
+        compact_services: Boolean,
+        enable_service_status: Boolean,
+      },
+      configLoaded: false,
       isOnline: true,
       pingTimer: Number,
       serviceStatuses: [],
@@ -51,18 +60,31 @@ export default {
   },
   computed: {
     isAPIOnline() {
-      return this.isOnline && !this.config.minimal_mode
+      if(this.config.minimal_mode == true)  return false;
+      return this.isOnline;
     }
   },
   methods: {
-    // load config.yml
+    // request config from backend; fallback to local
     loadConfig: function() {
-      try { this.config = JsYaml.load(configFile); } catch (e) { 
-        notifications.notifyError('Error: Failed to load configuration file'); }
+      this.axios.get('http://0.0.0.0:9101/readFrontendConfig').then((res) => {
+        this.config = res.data;
+      }).catch(() => {
+        console.info('Failed to fetch config from backend. Loading local config.yml.')
+        try {
+          this.config = JsYaml.load(configFile);
+          console.info('Successfully loaded local config.yml.') 
+        } catch (e) {
+          notifications.notifyError('Error: Failed to load configuration file');
+        }
+      }).finally(() => {
+        // send service list to backend if status indicators enabled
+        // TODO: rework service checker
+        if(this.config.enable_service_status && !this.config.minimal_mode)  
+          this.checkServices();
+        this.configLoaded = true;
+      });
 
-      // send service list to backend if status indicators enabled
-      finally{ if(this.config.enable_service_status && !this.config.minimal_mode)  
-        this.checkServices(); }  
     },
     // write settings to config.yml
     saveConfig() {
@@ -72,10 +94,14 @@ export default {
     },
     // verify backend is up
     checkConnection() {
+      if(this.config.minimal_mode == true) {
+        clearInterval(this.pingTimer);
+        return;
+      }
       this.axios.get('http://0.0.0.0:9101/ping').then(() => { this.isOnline = true; })
         .catch(() => { this.isOnline = false; });
 
-      if(this.config.minimal_mode && this.pingTimer) clearInterval(this.pingTimer);
+      if(this.config.minimal_mode == true && this.pingTimer) clearInterval(this.pingTimer);
     },
     // retrieve service statuses
     checkServices: function() {
@@ -90,7 +116,7 @@ export default {
     this.checkConnection();
     this.loadConfig();
 
-    if(!this.config.minimal_mode) this.pingTimer = setInterval(this.checkConnection, 5000);
+    this.pingTimer = setInterval(this.checkConnection, 5000);
   },
   mounted() {
     this.checkConnection();
