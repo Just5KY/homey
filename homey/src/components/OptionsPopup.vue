@@ -85,7 +85,7 @@
               <div class="service-editor">
                 <div class="service-editor__image-container">
                   <img v-if="getSelectedService().icon && !newImage" 
-                    :src="'./images/icons/'+getSelectedService().icon" 
+                    :src="'./data/icons/'+getSelectedService().icon" 
                     class="service-editor__image-container__image" />
                   <img v-if="newImage"
                     :src="newImage" 
@@ -103,7 +103,7 @@
                         file_upload</span>
                     </transition>
                   </label>
-                  <input type="file" id="uploader" accept="image/png, image/jpeg" @change="fileUploaded" />
+                  <input type="file" id="uploader" ref="uploader" accept="image/png, image/jpeg" @change="fileUploaded" />
                   <transition name="fade">
                     <span v-if="!showGallery" title="Browse Uploaded Icons" @click="showGallery = !showGallery"
                         class="uploader-button uploader-button__corner-left uploader-button__corner material-icons-outlined">
@@ -248,8 +248,8 @@ export default {
           // upload new image
           else {
             if(this.newImage){
-              this.uploadIcon();
-              this.newService.icon = this.$el.querySelector('#uploader').files[0].name;
+              this.uploadIcon(this.$refs.uploader.files[0]);
+              this.newService.icon = this.$refs.uploader.files[0].name;
             }
             this.localConfig.services.push(this.newService);
             this.$emit('saveConfig');
@@ -265,8 +265,8 @@ export default {
           else{
             // upload new image if selected
             if(this.newImage){
-              this.uploadIcon();
-              toUpdate.icon = this.$el.querySelector('#uploader').files[0].name;
+              this.uploadIcon(this.$refs.uploader.files[0]);
+              toUpdate.icon = this.$refs.uploader.files[0].name;
             }
             for(let i = 0; i < this.localConfig.services.length; i++) {
               if (this.localConfig.services[i].name == this.selectedService)  this.localConfig.services[i] = this.getSelectedService()
@@ -309,8 +309,8 @@ export default {
       this.showGallery = false;
     },
     // load image (into page) from file picker dialog
-    fileUploaded() {
-      let files = this.$el.querySelector('#uploader').files;
+    fileUploaded(event) {
+      let files = event.target.files;
       
       // load image into UI for previewing
       let fr = new FileReader();
@@ -318,13 +318,12 @@ export default {
       fr.readAsDataURL(files[0]);
     },
     // upload icon from filepicker
-    uploadIcon() {
-      let files = this.$el.querySelector('#uploader').files;
-      this.newService.icon = files[0].name;
+    uploadIcon(file) {
+      this.newService.icon = file.name;
 
-      // attempt to save image to public/images/icons
+      // attempt to save image to public/data/icons
       let fd = new FormData();
-      fd.append("image", files[0])
+      fd.append("image", file)
       let header = {'Content-Type': 'multipart/form-data'}
       this.axios.post('http://0.0.0.0:9101/uploadIcon', fd, 
         {headers: header}).then((res) => {

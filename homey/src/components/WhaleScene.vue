@@ -272,7 +272,7 @@ export default {
           grp.add(uiGrp);
 
           // search for matching icon and load if exists
-          imgLoader.load('./images/icons/' + serviceName + '.png', (tex) => {
+          imgLoader.load('./data/icons/' + serviceName + '.png', (tex) => {
             const serviceImgMat = new THREE.MeshPhongMaterial({ map: tex,
               side: THREE.FrontSide, transparent: true, });
 
@@ -606,7 +606,7 @@ function threeLoadAssets() {
   // load fallback service icon
   placeholderIconTex = new THREE.MeshPhongMaterial({
       side: THREE.FrontSide, transparent: true,
-      map: imgLoader.load('./images/icons/default.png')
+      map: imgLoader.load('./data/icons/default.png')
   });
 
   const dracoLoader = new DRACOLoader();

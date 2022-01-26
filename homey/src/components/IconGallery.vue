@@ -1,7 +1,7 @@
 <template>
     <div class="icon-gallery">
         <div class="icon-gallery__icon" v-for="i in icons" :key=icons.indexOf(i) :title="i">
-            <img :src="'./images/icons/' + i" @click="pickIcon(i)" />
+            <img :src="'./data/icons/' + i" @click="pickIcon(i)" />
         </div>
     </div>
 </template>

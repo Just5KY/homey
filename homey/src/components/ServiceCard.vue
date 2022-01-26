@@ -17,7 +17,7 @@ export default {
   name: 'ServiceCard',
   data: function () {
     return {
-      iconPath: "./images/icons/" + this.icon,
+      iconPath: "./data/icons/" + this.icon,
     };
   },
   props: {

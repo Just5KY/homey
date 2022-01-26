@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     getIconPath: function() {
-      return ((this.imageError) ? './images/icons/default.png' : './images/icons/' + this.serviceName + '.png')
+      return ((this.imageError) ? './data/icons/default.png' : './data/icons/' + this.serviceName + '.png')
     },
   },
   data () {

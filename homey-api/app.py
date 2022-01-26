@@ -9,14 +9,17 @@ from config import config
 from modules import open_meteo, docker_api, portainer, flood, local_machine, service_checker
 
 ### INITIALIZATION
-ICONS_UPLOAD_PATH = '../homey/public/images/icons'
-VALID_ICON_EXTS = {'png', 'jpeg', 'jpg'}
-
 app = Flask(__name__)
-app.config.from_object(config)
-app.config['JSON_SORT_KEYS'] = False            # TESTING -  remove if API data becomes mangled
-app.config['UPLOAD_FOLDER'] = ICONS_UPLOAD_PATH
 CORS(app, resources={r'/*': {'origins': '*'}})
+
+app.config.from_object(config)
+app.config['JSON_SORT_KEYS'] = False     # TESTING -  remove if API data becomes mangled
+
+VALID_ICON_EXTS = {'png', 'jpeg', 'jpg'}
+if config.RUNNING_IN_DOCKER:
+    app.config['UPLOAD_FOLDER'] = './config/icons'  
+else:
+    app.config['UPLOAD_FOLDER'] = '../homey/public/data/icons'
 
 weatherAPI = open_meteo.api(config.WEATHER_LAT, config.WEATHER_LONG)
 portainerAPI = portainer.api(config.PORTAINER_URL, config.PORTAINER_USER, config.PORTAINER_PASSWORD)

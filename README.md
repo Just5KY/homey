@@ -46,7 +46,7 @@ When the project is released, docker images and better documentation will be pro
 *Note: Homey has no way of writing updated config files to the disk in minimal mode. Once it is switched on, all configuration (**including switching minimal mode off**) must be done manually through `config.yml`*
 
 ### Icons
-The `icon` field in `config.yml` points to homey/public/images/icons. New icons can be added via this folder or uploaded using the built-in service editor. You can find a huge collection of PNG self-hosted service icons at NX211's [Homer Icons](https://github.com/NX211/homer-icons) (512x512) or my fork [Homer Icons Compressed](https://github.com/vlfldr/homer-icons) (128x128). Docker containers will use icons that are an exact name match.
+The `icon` field in `config.yml` points to homey/public/data/icons. New icons can be added via this folder or uploaded using the built-in service editor. You can find a huge collection of PNG self-hosted service icons at NX211's [Homer Icons](https://github.com/NX211/homer-icons) (512x512) or my fork [Homer Icons Compressed](https://github.com/vlfldr/homer-icons) (128x128). Docker containers will use icons that are an exact name match.
 
 ## Built with:
 
