@@ -34,7 +34,7 @@ const chimneyGeo = new THREE.BoxGeometry(.15, .6, .2)
 // Materials
 const wallMat = new THREE.MeshBasicMaterial({       color: 0xC2B280 });
 const roofMat = new THREE.MeshBasicMaterial({       color: 0x282a36 });
-const chimneyMat = new THREE.MeshBasicMaterial({    color: 0x8be9fd });
+const chimneyMat = new THREE.MeshBasicMaterial({    color: 0xE65F5C });
 const windowMat = new THREE.MeshBasicMaterial({     color: 0x6272a4 });
 //const wireMat = new THREE.LineBasicMaterial({     color: 0xf8f8f2});
 

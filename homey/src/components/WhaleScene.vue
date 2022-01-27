@@ -205,8 +205,8 @@ export default {
           crateObj.userData.animation = new TWEEN.Tween(crateObj)
             .to({ userData: {
                 box: {
-                  scale: {z: textWidth + .4 * 6 },   
-                  position: {z:(-1 + textWidth + .4 * 6 ) / 2}
+                  scale: {z: textWidth + .4 * 7 },   
+                  position: {z:(-1 + textWidth + .4 * 7 ) / 2}
                 },
                 UI: {
                   position: {z: .25 + textWidth + .4 * 6 }
