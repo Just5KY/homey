@@ -99,9 +99,8 @@ def systemInfo():
     return Response(localMachine.getAllInfo(), mimetype="text/json");
 
 ### SERVICE CHECKER
-@app.route('/updateServices', methods=['POST'])
-def updateServices():
-    serviceChecker.assignAll(request.json)
+@app.route('/checkServices', methods=['GET'])
+def checkServices():
     return jsonify(serviceChecker.checkAll())
 
 @app.route('/ping', methods=['GET'])
@@ -117,16 +116,18 @@ def writeFrontendConfig():
     except: 
         return jsonify({'Error': 'Could not write new config file. Are permissions correct?'})
 
+    serviceChecker.assignAll(request.json['services'])
     return jsonify({'Success': 'Wrote updated config file'})
 
 @app.route('/readFrontendConfig', methods=['GET'])
 def readFrontendConfig():
     try:
         with open('./config/config.yml') as f:
-            return jsonify(yaml.safe_load(f))
+            cfg = jsonify(yaml.safe_load(f))
+            serviceChecker.assignAll(cfg.json['services'])
+            return cfg
     except: 
         return jsonify({'Error': 'Could not read config file. Are permissions correct?'})
-
 
 @app.route('/uploadIcon', methods=['POST'])
 def uploadIcon():

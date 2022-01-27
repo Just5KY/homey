@@ -57,25 +57,20 @@ export default {
   methods: {
     // load configuration
     loadConfig: function() {
-      // request from backend
+      // fetch from backend
       this.axios.get('http://0.0.0.0:9101/readFrontendConfig').then((res) => {
         this.config = res.data;
+        this.configLoaded = true;
       }).catch(() => {
         // on error, fall back to local file
         console.info('Failed to fetch config from backend. Loading local config.yml.')
         this.axios.get('/config/config.yml').then((res) => {
           this.config = JsYaml.load(res.data);
+          this.configLoaded = true;
         }).catch(() => {
           notifications.notifyError('Error: Failed to load configuration file');
         });
-      }).finally(() => {
-        // send service list to backend if status indicators enabled
-        // TODO: rework service checker
-        if(this.config.enable_service_status && !this.config.minimal_mode)  
-          this.checkServices();
-        this.configLoaded = true;
       });
-
     },
     // write settings to config.yml
     saveConfig() {
@@ -89,15 +84,17 @@ export default {
         clearInterval(this.pingTimer);
         return;
       }
-      this.axios.get('http://0.0.0.0:9101/ping').then(() => { this.isOnline = true; })
-        .catch(() => { this.isOnline = false; });
+      this.axios.get('http://0.0.0.0:9101/ping').then(() => { 
+        this.isOnline = true;
+        if(this.config.enable_service_status) this.checkServices(); 
+      }).catch(() => { this.isOnline = false; });
 
       if(this.config.minimal_mode == true && this.pingTimer) clearInterval(this.pingTimer);
     },
     // retrieve service statuses
     checkServices: function() {
-      this.axios.post('http://0.0.0.0:9101/updateServices', this.config.services).then((res) => {
-          this.serviceStatuses = res.data;
+      this.axios.get('http://0.0.0.0:9101/checkServices').then((res) => { 
+        this.serviceStatuses = res.data;
       }).catch(() => {
         if(this.isOnline) notifications.notifyWarning('Warning: Could not retrieve service uptime information');
       });

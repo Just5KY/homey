@@ -53,8 +53,8 @@ export default {
   },
   data () {
     return {
-      weatherDataHourly: Array,
-      weatherDataDaily: Array,
+      weatherDataHourly: [],
+      weatherDataDaily: [],
       isFlipped: false,
     }
   },
@@ -123,7 +123,7 @@ export default {
       return 'clear-day';    
     },
   },
-  beforeMount() {
+  created() {
       this.getHourlyWeather();
       this.getDailyWeather();
   },

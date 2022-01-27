@@ -6,6 +6,7 @@
 import * as THREE from 'three';   // TODO: selective import
 import * as TWEEN from '@tweenjs/tween.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { randFloat } from 'three/src/math/MathUtils';
 
 // define three.js objects outside of vue export
 // to avoid making them reactive
@@ -31,21 +32,32 @@ const roofGeo = new THREE.ConeGeometry(1, .77, 4)
 const chimneyGeo = new THREE.BoxGeometry(.15, .6, .2)
 
 // Materials
-const wallMat = new THREE.MeshStandardMaterial({ 
-    color: new THREE.Color(0x00ab9f), flatShading: false, roughness: .3, metalness: 0.3, side: THREE.FrontSide,
-    polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1
-})
-const chimneyMat = new THREE.MeshStandardMaterial({ 
-    color: new THREE.Color(0xFF5555), flatShading: false, roughness: 1, metalness: 0, side: THREE.FrontSide, 
-})
-const wireMat = new THREE.LineBasicMaterial({color: 0xf8f8f2})
+const wallMat = new THREE.MeshBasicMaterial({       color: 0xC2B280 });
+const roofMat = new THREE.MeshBasicMaterial({       color: 0x282a36 });
+const chimneyMat = new THREE.MeshBasicMaterial({    color: 0x8be9fd });
+const windowMat = new THREE.MeshBasicMaterial({     color: 0x6272a4 });
+//const wireMat = new THREE.LineBasicMaterial({     color: 0xf8f8f2});
 
 // Meshes
-const leftWall = new THREE.Mesh(wallGeo,wallMat)
-const rightWall = new THREE.Mesh(wallGeo,wallMat)
+const lwWall = new THREE.Mesh(wallGeo,wallMat)
+const rwWall = new THREE.Mesh(wallGeo,wallMat)
 const backWall = new THREE.Mesh(wallGeo,wallMat)
-const frontWall = new THREE.Mesh(wallGeo,wallMat)
-const roof = new THREE.Mesh(roofGeo, wallMat)
+const frontWall = new THREE.Group()
+const leftWall = new THREE.Group()
+const rightWall = new THREE.Group()
+const fwWall = new THREE.Mesh(wallGeo,wallMat)
+const rwWindow = new THREE.Mesh(new THREE.BoxGeometry(.2, .35, .01), windowMat);
+const lwWindow = new THREE.Mesh(new THREE.BoxGeometry(.2, .35, .01), windowMat);
+const fwDoor = new THREE.Mesh(new THREE.BoxGeometry(.3, .45, .02),    windowMat);
+
+frontWall.add(fwWall)
+frontWall.add(fwDoor)
+rightWall.add(rwWall)
+rightWall.add(rwWindow)
+leftWall.add(lwWall)
+leftWall.add(lwWindow)
+
+const roof = new THREE.Mesh(roofGeo, roofMat)
 const chimney = new THREE.Mesh(chimneyGeo, chimneyMat)
 
 leftWall.position.x -= .5
@@ -53,7 +65,18 @@ rotateDegrees(leftWall, 90)
 rightWall.position.x += .5
 rotateDegrees(rightWall, -90)
 backWall.position.z -= .5
+
 frontWall.position.z += .5
+fwDoor.position.z += .03;
+fwDoor.position.y -= .29;
+
+lwWindow.position.x += (randFloat(-.3, .3))
+rwWindow.position.x += (randFloat(-.3, .3))
+rwWindow.position.z -= .03;
+lwWindow.position.z -= .03;
+rwWindow.position.y += (randFloat(-.1, .2))
+lwWindow.position.y += (randFloat(-.1, .2))
+
 roof.position.y += 3
 chimney.position.y -= 5
 chimney.position.x += .35
@@ -105,7 +128,7 @@ export default {
             controls.update();
 
             // spin house
-            houseGroup.rotation.y -= .01;
+            houseGroup.rotation.y -= .007;
 
             renderer.setSize(width, height);
             requestAnimationFrame(this.animate)

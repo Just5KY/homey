@@ -110,7 +110,7 @@ export default {
     }, 30 * 1000)   // Refresh container info every 30 seconds
   },
   beforeMount() {
-      this.authenticate();
+      //this.authenticate();  // auth is built into list function on backend
   },
 }
 </script>
