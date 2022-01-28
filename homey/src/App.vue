@@ -14,7 +14,7 @@
       :services="config.services" 
       :statuses="this.serviceStatuses"/>
     <DockerContainer v-if="configLoaded && isAPIOnline" 
-      :backend="config.docker_api_backend" 
+      :backend="config.docker_api_backend"
       @openSettings="this.$refs.header.showOptions = true"/>
     <CardContainer v-if="configLoaded && isAPIOnline" 
       :cards="config.cards" />
@@ -70,12 +70,16 @@ export default {
         }).catch(() => {
           notifications.notifyError('Error: Failed to load configuration file');
         });
-      });
+      })
+      .finally(() => {
+        this.checkConnection();
+      } );
     },
     // write settings to config.yml
     saveConfig() {
       this.axios.post('http://0.0.0.0:9101/writeFrontendConfig', this.config).then(() => {
         notifications.notifySuccess('Successfully saved configuration file');
+        window.location.reload();
       }).catch(() => { notifications.notifyError('Error: Failed to save configuration file'); });
     },
     // verify backend is up
@@ -107,8 +111,6 @@ export default {
     this.pingTimer = setInterval(this.checkConnection, 5000);
   },
   mounted() {
-    this.checkConnection();
-
     // track up/down status of frontend application
     window.addEventListener('online', (() => { this.isOnline = true }));
     window.addEventListener('offline', (() => { this.isOnline = false; notifications.trackHidden = true; }));

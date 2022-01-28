@@ -12,6 +12,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry';
 
+import crateIndexes from '../crateIndexes';
+
 let btnSize = .4;
 let uiColor = 0x6272a4;
 let mousePos = new THREE.Vector2(100, 100);
@@ -52,7 +54,7 @@ export default {
     // scene setup
     created: function() {
         this.serviceData = this.services;
-
+        
         // spawn a crate for each service
         this.serviceData.forEach(s => { this.addCrate(s.name, s.status); });
 
@@ -69,7 +71,11 @@ export default {
 
         // initial camera transition animation
         const camSpawnTween = new TWEEN.Tween(camera).to({
-          position: { x: -6, y: this.services.length / 5, z: (this.services.length / 5) -.5 },
+          position: { 
+            x: -8, 
+            y: Math.max(this.services.length / 5, 2), 
+            z: Math.max((this.services.length / 5) -.5, 3), 
+          },
         }, 4000)
         .easing(TWEEN.Easing.Sinusoidal.InOut)
         .delay(1000)
@@ -95,6 +101,7 @@ export default {
         // camera.top = height / 100
         // camera.bottom = height / - 100
         // camera.updateProjectionMatrix();
+
 
         this.$refs.threeCanvas.addEventListener('mousemove', this.onMouseMove, false );
         this.$refs.threeCanvas.addEventListener('mousedown', this.onMouseDown, false );
@@ -252,8 +259,8 @@ export default {
           grp.name = serviceName;
 
           // position
-          grp.position.x += ((this.crates.length % 5) * 1.1) - 2.9;
-          grp.position.y += Math.floor(this.crates.length / 5)
+          grp.position.x = crateIndexes.CrateIndexes[this.crates.length].x - 3.8;
+          grp.position.y = crateIndexes.CrateIndexes[this.crates.length].y
 
           // rounded box          
           let box = new THREE.Mesh(roundedBoxGeo, boxMat);
@@ -655,4 +662,5 @@ function threeInitScene() {
 
   clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -.34);
 }
+
 </script>
