@@ -696,7 +696,7 @@ h2 {
     width: auto;
     flex-grow: 1;
     margin: 2rem;
-    margin-top: 8rem;
+    margin-top: 7.4rem;
     z-index: 2;
     display: flex;
     flex-direction: column;
@@ -761,21 +761,6 @@ h2 {
     box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8); }
     .bookmark-card-container__side--front {
       background-color: #6272a4; }
-    .bookmark-card-container__side--back {
-      background-color: #44475a;
-      transform: rotateY(180deg);
-      overflow-y: scroll;
-      scrollbar-width: none;
-      overflow: -moz-scrollbars-none;
-      -ms-overflow-style: none; }
-      .bookmark-card-container__side--back::-webkit-scrollbar {
-        width: 0 !important; }
-  .bookmark-card-container:hover .bookmark-card-container__side--front {
-    transform: rotateY(-180deg);
-    box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
-  .bookmark-card-container:hover .bookmark-card-container__side--back {
-    transform: rotateY(0deg);
-    box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
   .bookmark-card-container__heading {
     width: calc(100% - 4rem);
     position: absolute;
@@ -792,45 +777,53 @@ h2 {
       padding: .5rem 1rem;
       border-radius: 5px;
       background-image: linear-gradient(to right bottom, rgba(98, 114, 164, 0.8), rgba(40, 42, 54, 0.8)); }
-    .bookmark-card-container__heading--stats {
-      text-align: left;
-      margin-left: -.5rem; }
-      .bookmark-card-container__heading--stats div {
-        display: flex;
-        align-items: center; }
-        .bookmark-card-container__heading--stats div span {
-          font-size: 2.2rem; }
-        .bookmark-card-container__heading--stats div p {
-          font-size: 1.3rem; }
-      .bookmark-card-container__heading--stats__up {
-        color: #8be9fd; }
   .bookmark-card-container__main {
-    margin-left: -1rem;
-    width: 105%;
-    height: 100%;
-    margin-top: 8rem;
+    margin-top: 5.4rem;
     display: flex;
-    flex-direction: column;
-    justify-items: flex-end; }
-  .bookmark-card-container__notifications ul {
-    list-style: none; }
-    .bookmark-card-container__notifications ul li {
-      text-align: center;
-      font-size: 1.3rem;
+    flex-direction: column; }
+    .bookmark-card-container__main ul {
+      list-style: none;
       display: flex;
-      align-items: center;
-      outline: 1px solid #6272a4;
-      border-radius: .3rem;
-      margin: 1rem; }
-      .bookmark-card-container__notifications ul li p {
-        overflow-wrap: break-word;
-        flex-grow: 1;
-        width: 80%;
+      flex-direction: column;
+      align-content: space-between;
+      justify-content: space-between;
+      margin: 2rem; }
+      .bookmark-card-container__main ul .bookmark {
+        position: relative;
         padding: .5rem;
-        cursor: default; }
-      .bookmark-card-container__notifications ul li span {
-        color: #50fa7b;
-        margin-left: .5rem; }
+        background-color: rgba(248, 248, 242, 0.1);
+        border-radius: .3rem;
+        display: flex;
+        align-content: center;
+        cursor: pointer; }
+        .bookmark-card-container__main ul .bookmark__arrow {
+          margin-right: 0;
+          margin-left: auto;
+          transition: all ease-in-out 1s; }
+        .bookmark-card-container__main ul .bookmark:hover > .bookmark__arrow {
+          color: #8be9fd; }
+        .bookmark-card-container__main ul .bookmark::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 2;
+          border: 2px solid #8be9fd;
+          transition: all ease-in-out 1s;
+          clip-path: polygon(2% 80%, 50% 50%, 80% 100%, 2% 100%);
+          border-radius: .3rem; }
+        .bookmark-card-container__main ul .bookmark:hover::before {
+          clip-path: polygon(50% 80%, 130% -100%, 100% 130%, 80% 100%); }
+        .bookmark-card-container__main ul .bookmark h3 {
+          font-size: 1.5rem;
+          transform: translateY(3px);
+          font-style: italic;
+          font-family: Montserrat;
+          font-weight: 100; }
+        .bookmark-card-container__main ul .bookmark:not(:first-child) {
+          margin-top: 1rem; }
 
 .system-card-container {
   position: relative;

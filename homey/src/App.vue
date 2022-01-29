@@ -17,7 +17,8 @@
       :backend="config.docker_api_backend"
       @openSettings="this.$refs.header.showOptions = true"/>
     <CardContainer v-if="configLoaded && isAPIOnline" 
-      :cards="config.cards" />
+      :cards="config.cards"
+      :bookmarks="config.bookmarks" />
   <notifications position="top left" />
 </template>
 
@@ -104,7 +105,7 @@ export default {
       });
     }
   },
-  beforeMount() {
+  created() {
     this.checkConnection();
     this.loadConfig();
 

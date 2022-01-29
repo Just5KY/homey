@@ -2,7 +2,8 @@
   <div class="card-container">
     <FloodCard v-if="cardEnabled('Torrents')" />
     <WeatherCard v-if="cardEnabled('Weather')" />
-    <BookmarkCard v-if="cardEnabled('Bookmarks')" />
+    <BookmarkCard v-if="cardEnabled('Bookmarks')"
+      :bookmarks="bookmarks" />
     <SystemCard v-if="cardEnabled('System')" />
   </div>
 </template>
@@ -23,10 +24,10 @@ export default {
   },
   props: {
     cards: Array,
+    bookmarks: Array,
   },
   data() {
     return {
-      apiCards: Array,
     };
   },
   methods: {

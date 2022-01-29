@@ -26,3 +26,10 @@ cards:
   name: System
 - enable: true
   name: Bookmarks
+bookmarks:
+- name: GitHub
+  url: https://github.com
+  hover: 
+- name: YTMND
+  url: https://ytmnd.com/
+  hover: lol internet

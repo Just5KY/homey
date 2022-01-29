@@ -29,30 +29,8 @@
         &--front {
             background-color: $commentColor;
         }
-        &--back {
-            background-color: $backgroundColor2;
-            transform: rotateY(180deg);
-
-            // hide scrollbar
-            overflow-y: scroll;
-            scrollbar-width: none;
-            &::-webkit-scrollbar { width: 0 !important }
-            overflow: -moz-scrollbars-none;
-            -ms-overflow-style: none;
-        }
     }
 
-    // Hover flip animation
-    &:hover &__side--front {
-        transform: rotateY(-180deg);
-        box-shadow: .5rem 2.5rem 4rem rgba($shadowColor, 0.8);
-    }
-    &:hover &__side--back {
-        transform: rotateY(0deg);
-        box-shadow: .5rem 2.5rem 4rem rgba($shadowColor, 0.8);
-    }
-
-    // Front
     &__heading {
         width: calc(100% - 4rem);
         position: absolute;
@@ -77,68 +55,84 @@
                 rgba($commentColor, .8), 
                 rgba($backgroundColor, .8));
         }
-
-        &--stats {
-            text-align: left;
-            margin-left: -.5rem;
-            div {
-                display: flex;
-                align-items: center;
-                & span {
-                    font-size: 2.2rem;
-                }
-    
-                & p {
-                    font-size: 1.3rem;
-                }
-            }
-
-            &__up {
-                color: $cyan;
-            }
-
-        }
     }
 
     &__main {
-        margin-left: -1rem;
-        width: 105%;
-        height: 100%;
-        margin-top: 8rem;
-
+        margin-top: 5.4rem;
         display: flex;
         flex-direction: column;
-        justify-items: flex-end;
 
-    }
-
-    // Back
-    &__notifications {
         ul {
             list-style: none;
+            display: flex;
+            flex-direction: column;
+            align-content: space-between;
+            justify-content: space-between;
+            margin: 2rem;                 
 
-            li {
-                text-align: center;
-                font-size: 1.3rem;
-                display: flex;
-                align-items: center;
-                outline: 1px solid $commentColor;
+            .bookmark {
+                position: relative;
+                padding: .5rem;
+                background-color: rgba($white, .1);
                 border-radius: .3rem;
-                margin: 1rem;
+                display: flex;
+                align-content: center;
+                cursor: pointer;
 
-                p {
-                    overflow-wrap: break-word;
-                    flex-grow: 1;
-                    width: 80%;
-                    padding: .5rem;
-                    cursor: default;
+                &__arrow {
+                    margin-right: 0;
+                    margin-left: auto;
+                    transition: all ease-in-out 1s;
                 }
 
-                span {
-                    color: $green;
-                    margin-left: .5rem;
+                &:hover > .bookmark__arrow {
+                    color: $cyan;
+                }
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    z-index: 2;
+
+                    border: 2px solid $cyan;
+                    transition: all ease-in-out 1s;
+
+                    clip-path: polygon(
+                        2% 80%,
+                        50% 50%,
+                        80% 100%,
+                        2% 100%
+                    );
+
+                    border-radius: .3rem;
+                }
+
+                &:hover::before {
+                    clip-path: polygon(
+                        50% 80%,
+                        130% -100%,
+                        100% 130%,
+                        80% 100%
+                    );
+                }
+                    
+                h3 {
+                    font-size: 1.5rem;
+                    transform: translateY(3px);
+                    
+                    font-style: italic;
+                    font-family: Montserrat;
+                    font-weight: 100;
+                }
+                &:not(:first-child) {
+                    margin-top: 1rem;
                 }
             }
         }
+
     }
 }
