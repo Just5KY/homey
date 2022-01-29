@@ -8,7 +8,7 @@
     display: grid;
     height: 100%;
     
-    grid-template-rows: 20vh 50vh 30vh;
+    grid-template-rows: 20vh 50vh auto;
     grid-template-columns: 2fr 1fr;
 
     @media (max-width: $mobile-break-med) {

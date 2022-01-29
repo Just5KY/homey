@@ -91,22 +91,22 @@ export default {
     },
     // add canvas, add listeners, begin animation loop
     mounted: function() {
-        this.$refs.threeCanvas.appendChild(renderer.domElement)
+      this.$refs.threeCanvas.appendChild(renderer.domElement)
 
-        // ortho camera swap
-        // let width = this.$refs.threeCanvas.clientWidth
-        // let height =this.$refs.threeCanvas.clientHeight
-        // camera.left = width / - 100
-        // camera.right = width / 100
-        // camera.top = height / 100
-        // camera.bottom = height / - 100
-        // camera.updateProjectionMatrix();
+      // ortho camera swap
+      // let width = this.$refs.threeCanvas.clientWidth
+      // let height =this.$refs.threeCanvas.clientHeight
+      // camera.left = width / - 100
+      // camera.right = width / 100
+      // camera.top = height / 100
+      // camera.bottom = height / - 100
+      // camera.updateProjectionMatrix();
 
 
-        this.$refs.threeCanvas.addEventListener('mousemove', this.onMouseMove, false );
-        this.$refs.threeCanvas.addEventListener('mousedown', this.onMouseDown, false );
-        
-        this.animate()
+      this.$refs.threeCanvas.addEventListener('mousemove', this.onMouseMove, false );
+      this.$refs.threeCanvas.addEventListener('mousedown', this.onMouseDown, false );
+      
+      this.animate()
     },
     methods: {
         // main loop
@@ -130,7 +130,7 @@ export default {
             requestAnimationFrame(this.animate)
             
             renderer.render(scene, camera); 
-        },  
+        },
         // detect crate and button mouseover events
         raycast() {
           raycaster.setFromCamera(mousePos, camera);

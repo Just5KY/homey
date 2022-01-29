@@ -1,4 +1,4 @@
-.flood-card-container {
+.system-card-container {
 
     @media(max-width: $mobile-break-small){
         width: auto;
@@ -100,7 +100,7 @@
         }
     }
 
-    &__chart {
+    &__main {
         margin-left: -1rem;
         width: 105%;
         height: 100%;
