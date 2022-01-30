@@ -10,6 +10,7 @@
     width: calc(50% - 1rem);
     flex-grow: 1;
     height: 34rem;
+    transition: all .35s ease-out;
 
     border-radius: .5rem;
     overflow-wrap: break-word;
@@ -30,11 +31,11 @@
         width: 100%;
         border-radius: 5px;
         overflow: hidden;
-        box-shadow: 0 1.5rem 2rem rgba($shadowColor, 0.8);
 
         &--front {
             background-color: $commentColor;
             display: flex;
+            flex-direction: column;
             cursor: pointer;
         }
         &--back {
@@ -51,7 +52,17 @@
         z-index: 0;
     }
 
-    // Hover flip animation
+    // Hover & click shadow
+    &:hover {
+        box-shadow: 0 1.5rem 2rem rgba($shadowColor, 0.8);
+        transform: translateY(-2px);
+    }
+    &:active {
+        transform: translateY(-1px);
+        box-shadow: 2px 2px 7px 5px $shadowColor;
+    }
+
+    // Click flip animation
     &__flipped &__side--front {
         transform: rotateY(-180deg);
         box-shadow: .5rem 2.5rem 4rem rgba($shadowColor, 0.8);
@@ -63,19 +74,15 @@
 
     // Front
     &__heading {
-        width: calc(100% - 4rem);
-        position: absolute;
-        top: 2rem;
-        left: 2rem;
-
+        margin: 2rem;
         justify-content: space-between;
         display: flex;
 
         &--title {
-            font-size: 2rem;
-            height: 3.4rem;
+            font-size: 1.7rem;
+            height: 3.1rem;
             font-weight: 300;
-            text-transform: uppercase;
+            text-transform: lowercase;
             text-align: right;
 
             padding: .5rem 1rem;
@@ -104,7 +111,7 @@
         width: auto;
         flex-grow: 1;
         margin: 2rem;
-        margin-top: 7.4rem;
+        margin-top: 0;
         z-index: 2;
         display: flex;
         flex-direction: column;

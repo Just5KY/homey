@@ -2,6 +2,7 @@
   <div class="bookmark-card-container">
       <div class="bookmark-card-container__side bookmark-card-container__side--front">
           <div class="bookmark-card-container__heading">
+            <span class="material-icons-outlined bookmark-card-container__heading__icon">bookmarks</span>
             <span class="bookmark-card-container__heading--title">Bookmarks</span>
           </div>
           <div class="bookmark-card-container__main">

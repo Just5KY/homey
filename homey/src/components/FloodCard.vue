@@ -1,5 +1,5 @@
 <template>
-  <div class="flood-card-container">
+  <div :class="getClass" @click="isFlipped = !isFlipped" @mouseleave="isFlipped = false">
       <div class="flood-card-container__side flood-card-container__side--front">
           <div class="flood-card-container__heading">
             <div class="flood-card-container__heading--stats">
@@ -46,7 +46,13 @@ export default {
       notifications: Array,
       floodStats: Object,
       loaded: false,
+      isFlipped: false,
     }
+  },
+  computed: {
+    getClass() {
+      return 'flood-card-container' + ((this.isFlipped) ? ' flood-card-container__flipped' : '' )
+    },
   },
   methods: {
     getFloodData: function() {

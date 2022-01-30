@@ -18,6 +18,10 @@
             return {
                 config: {
                     responsive: true,
+                    interaction: {
+                        mode: "index",
+                        intersect: false,
+                    },
                     scales: {
                         x: {
                             ticks: { display: false},
@@ -37,7 +41,35 @@
                     plugins: {
                         legend: {
                             display: false,
-                        }
+                        },
+                        tooltip: {
+                            position: 'nearest',
+                            backgroundColor: 'rgba(40, 42, 54, .8)',
+                            titleColor: '#f8f8f2',
+                            bodyColor: '#f8f8f2',
+                            titleFont: {
+                                family: 'Montserrat'
+                            },
+                            bodyFont: {
+                                family: 'Montserrat'
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    label += ': '
+
+                                    if (context.parsed.y > 1000000)  
+                                        label += Math.floor(context.parsed.y / 100000).toString() + 'gb/s';
+                                    else if (context.parsed.y > 100000)
+                                        label += Math.floor(context.parsed.y / 10000).toString() + 'mb/s';
+                                    else if (context.parsed.y > 10000)
+                                        label += Math.floor(context.parsed.y / 1000).toString() + 'kb/s';
+                                    else label += Math.floor(context.parsed.y).toString() + ' b/s'
+
+                                    return label;
+                                }
+                            }
+                        },
                     }
                 }
             }
@@ -56,7 +88,7 @@
                     labels: timeLabels,
                     datasets: [ 
                         { 
-                            label: 'Upload', 
+                            label: 'Up', 
                             data: upData, 
                             borderColor: '#8be9fd', backgroundColor: '#8be9fd', 
                             pointRadius: 0, 
@@ -65,7 +97,7 @@
                             order: this.getDrawOrder.up
                         }, 
                         { 
-                            label: 'Download', 
+                            label: 'Down', 
                             data: downData, 
                             borderColor: '#f8f8f2', backgroundColor: '#f8f8f2', 
                             pointRadius: 0, 

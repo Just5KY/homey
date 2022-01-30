@@ -531,6 +531,7 @@ h2 {
   flex-grow: 1;
   width: calc(50% - 1rem);
   height: 34rem;
+  transition: all .35s ease-out;
   perspective: 100rem;
   -moz-perspective: 100rem; }
   @media (max-width: 600px) {
@@ -550,7 +551,8 @@ h2 {
     overflow: hidden;
     box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8); }
     .flood-card-container__side--front {
-      background-color: #6272a4; }
+      background-color: #6272a4;
+      cursor: pointer; }
     .flood-card-container__side--back {
       background-color: #44475a;
       transform: rotateY(180deg);
@@ -560,25 +562,30 @@ h2 {
       -ms-overflow-style: none; }
       .flood-card-container__side--back::-webkit-scrollbar {
         width: 0 !important; }
-  .flood-card-container:hover .flood-card-container__side--front {
+  .flood-card-container:hover {
+    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8);
+    transform: translateY(-2px); }
+  .flood-card-container:active {
+    transform: translateY(-1px);
+    box-shadow: 2px 2px 7px 5px #1c1c1c; }
+  .flood-card-container__flipped .flood-card-container__side--front {
     transform: rotateY(-180deg);
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
-  .flood-card-container:hover .flood-card-container__side--back {
+  .flood-card-container__flipped .flood-card-container__side--back {
     transform: rotateY(0deg);
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
   .flood-card-container__heading {
-    width: calc(100% - 4rem);
-    position: absolute;
-    top: 2rem;
-    left: 2rem;
+    margin: 2rem;
     justify-content: space-between;
     display: flex; }
     .flood-card-container__heading--title {
-      font-size: 2rem;
-      height: 3.4rem;
+      font-size: 1.7rem;
+      height: 3.1rem;
       font-weight: 300;
-      text-transform: uppercase;
+      text-transform: lowercase;
       text-align: right;
+      margin-right: 0;
+      margin-left: auto;
       padding: .5rem 1rem;
       border-radius: 5px;
       background-image: linear-gradient(to right bottom, rgba(98, 114, 164, 0.8), rgba(40, 42, 54, 0.8)); }
@@ -598,7 +605,6 @@ h2 {
     margin-left: -1rem;
     width: 105%;
     height: 100%;
-    margin-top: 8rem;
     display: flex;
     flex-direction: column;
     justify-items: flex-end; }
@@ -628,6 +634,7 @@ h2 {
   width: calc(50% - 1rem);
   flex-grow: 1;
   height: 34rem;
+  transition: all .35s ease-out;
   border-radius: .5rem;
   overflow-wrap: break-word;
   z-index: 0;
@@ -647,11 +654,11 @@ h2 {
     left: 0;
     width: 100%;
     border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8); }
+    overflow: hidden; }
     .weather-card-container__side--front {
       background-color: #6272a4;
       display: flex;
+      flex-direction: column;
       cursor: pointer; }
     .weather-card-container__side--back {
       background-color: #44475a;
@@ -662,6 +669,12 @@ h2 {
     right: 0;
     opacity: .5;
     z-index: 0; }
+  .weather-card-container:hover {
+    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8);
+    transform: translateY(-2px); }
+  .weather-card-container:active {
+    transform: translateY(-1px);
+    box-shadow: 2px 2px 7px 5px #1c1c1c; }
   .weather-card-container__flipped .weather-card-container__side--front {
     transform: rotateY(-180deg);
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
@@ -669,17 +682,14 @@ h2 {
     transform: rotateY(0deg);
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
   .weather-card-container__heading {
-    width: calc(100% - 4rem);
-    position: absolute;
-    top: 2rem;
-    left: 2rem;
+    margin: 2rem;
     justify-content: space-between;
     display: flex; }
     .weather-card-container__heading--title {
-      font-size: 2rem;
-      height: 3.4rem;
+      font-size: 1.7rem;
+      height: 3.1rem;
       font-weight: 300;
-      text-transform: uppercase;
+      text-transform: lowercase;
       text-align: right;
       padding: .5rem 1rem;
       border-radius: 5px;
@@ -696,7 +706,7 @@ h2 {
     width: auto;
     flex-grow: 1;
     margin: 2rem;
-    margin-top: 7.4rem;
+    margin-top: 0;
     z-index: 2;
     display: flex;
     flex-direction: column;
@@ -741,6 +751,7 @@ h2 {
   flex-grow: 1;
   width: calc(50% - 1rem);
   height: 34rem;
+  transition: all .35s ease-out;
   perspective: 100rem;
   -moz-perspective: 100rem; }
   @media (max-width: 600px) {
@@ -757,28 +768,36 @@ h2 {
     left: 0;
     width: 100%;
     border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8); }
+    overflow: hidden; }
     .bookmark-card-container__side--front {
-      background-color: #6272a4; }
+      background-color: #6272a4;
+      display: flex;
+      flex-direction: column; }
+  .bookmark-card-container:hover {
+    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8);
+    transform: translateY(-2px); }
+  .bookmark-card-container:active {
+    transform: translateY(-1px);
+    box-shadow: 2px 2px 7px 5px #1c1c1c; }
   .bookmark-card-container__heading {
-    width: calc(100% - 4rem);
-    position: absolute;
-    top: 2rem;
-    left: 2rem;
+    margin: 2rem;
     justify-content: space-between;
+    align-items: center;
     display: flex; }
+    .bookmark-card-container__heading__icon {
+      color: #8be9fd; }
     .bookmark-card-container__heading--title {
-      font-size: 2rem;
-      height: 3.4rem;
+      font-size: 1.7rem;
+      height: 3.1rem;
       font-weight: 300;
-      text-transform: uppercase;
+      text-transform: lowercase;
       text-align: right;
+      margin-right: 0;
+      margin-left: auto;
       padding: .5rem 1rem;
       border-radius: 5px;
       background-image: linear-gradient(to right bottom, rgba(98, 114, 164, 0.8), rgba(40, 42, 54, 0.8)); }
   .bookmark-card-container__main {
-    margin-top: 5.4rem;
     display: flex;
     flex-direction: column; }
     .bookmark-card-container__main ul {
@@ -787,7 +806,8 @@ h2 {
       flex-direction: column;
       align-content: space-between;
       justify-content: space-between;
-      margin: 2rem; }
+      margin: 2rem;
+      margin-top: 0; }
       .bookmark-card-container__main ul .bookmark {
         position: relative;
         padding: .5rem;
@@ -811,7 +831,7 @@ h2 {
           bottom: 0;
           z-index: 2;
           border: 2px solid #8be9fd;
-          transition: all ease-in-out 1s;
+          transition: all ease-in-out .7s;
           clip-path: polygon(2% 80%, 50% 50%, 80% 100%, 2% 100%);
           border-radius: .3rem; }
         .bookmark-card-container__main ul .bookmark:hover::before {
@@ -830,6 +850,7 @@ h2 {
   flex-grow: 1;
   width: calc(50% - 1rem);
   height: 34rem;
+  transition: all .35s ease-out;
   perspective: 100rem;
   -moz-perspective: 100rem; }
   @media (max-width: 600px) {
@@ -859,25 +880,33 @@ h2 {
       -ms-overflow-style: none; }
       .system-card-container__side--back::-webkit-scrollbar {
         width: 0 !important; }
-  .system-card-container:hover .system-card-container__side--front {
+  .system-card-container:hover {
+    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8);
+    transform: translateY(-2px); }
+  .system-card-container:active {
+    transform: translateY(-1px);
+    box-shadow: 2px 2px 7px 5px #1c1c1c; }
+  .system-card-container__flipped .system-card-container__side--front {
     transform: rotateY(-180deg);
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
-  .system-card-container:hover .system-card-container__side--back {
+  .system-card-container__flipped .system-card-container__side--back {
     transform: rotateY(0deg);
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
   .system-card-container__heading {
-    width: calc(100% - 4rem);
-    position: absolute;
-    top: 2rem;
-    left: 2rem;
+    margin: 2rem;
     justify-content: space-between;
+    align-items: center;
     display: flex; }
+    .system-card-container__heading__icon {
+      color: #8be9fd; }
     .system-card-container__heading--title {
-      font-size: 2rem;
-      height: 3.4rem;
+      font-size: 1.7rem;
+      height: 3.1rem;
       font-weight: 300;
-      text-transform: uppercase;
+      text-transform: lowercase;
       text-align: right;
+      margin-right: 0;
+      margin-left: auto;
       padding: .5rem 1rem;
       border-radius: 5px;
       background-image: linear-gradient(to right bottom, rgba(98, 114, 164, 0.8), rgba(40, 42, 54, 0.8)); }
