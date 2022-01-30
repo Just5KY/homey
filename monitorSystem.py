@@ -1,7 +1,9 @@
 from genericpath import exists
 from shutil import disk_usage
-from psutil import cpu_percent, virtual_memory
-from time import sleep
+from psutil import cpu_percent, virtual_memory, boot_time
+from time import sleep, time
+from datetime import datetime, timedelta
+from socket import gethostname
 import json
 
 
@@ -41,6 +43,20 @@ def getDiskUsage():
 def getCPUUsage():
     return '\"cpu\": ' + str(cpu_percent(intervalCPUCalc))
 
+# get system uptime
+def getUptime():
+    secondsUp = time() - boot_time()
+    uptime = datetime(1,1,1) + timedelta(seconds=secondsUp)
+    toReturn = '\"uptime\": \"'
+
+    if uptime.day-1 > 0:
+        toReturn += ('%d days, ' % uptime.day-1)
+    if uptime.hour > 0:
+        toReturn += ('%d hours, ' % uptime.hour)
+    toReturn += ('%d minutes\"' % uptime.minute)
+
+    return toReturn
+
 # return values formatted in megabytes as JSON string
 def getRAMUsage():
     raw = virtual_memory()
@@ -68,6 +84,8 @@ while(True):
 
     with open(dataFile, "w") as f:
         f.write('{ ')
+        f.write('\"hostname\" : \"' + gethostname() + '\", ')
+        f.write(getUptime() + ', ')
         f.write(getDiskUsage() + ', ')
         f.write(currentCPU + ', ')
         f.write(getRAMUsage())

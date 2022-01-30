@@ -63,7 +63,7 @@ export default {
       if(this.weatherDataHourly.length > 2){
         return this.weatherDataHourly[0];
       }
-      return {temp: 0, weather_type: 'Weather API Error'}
+      return {temp: 0, weather_type: ''}
     },
     getClass() {
       return 'weather-card-container' + ((this.isFlipped) ? ' weather-card-container__flipped' : '' )

@@ -1,1 +1,20 @@
-{ "disks": [ {"label": "/", "total": 232, "used": 24, "free": 195, "percent_used": 11} ], "cpu": 20.1, "ram": {"total": 20721, "free": 15004, "used": 4594, "percent_used": 27.6} }
+{
+    "hostname": "safehouse",
+    "uptime": "4 hours, 16 minutes",
+    "disks": [
+        {
+            "label": "/",
+            "total": 232,
+            "used": 27,
+            "free": 193,
+            "percent_used": 12
+        }
+    ],
+    "cpu": 37.6,
+    "ram": {
+        "total": 20721,
+        "free": 16486,
+        "used": 3306,
+        "percent_used": 20.4
+    }
+}

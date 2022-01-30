@@ -29,6 +29,7 @@
 
         &--front {
             background-color: $commentColor;
+            cursor: pointer;
         }
         &--back {
             background-color: $backgroundColor2;
@@ -72,6 +73,8 @@
 
         &__icon {
             color: $cyan;
+            font-size: 2.8rem;
+            cursor: default;
         }
 
         &--title {
@@ -115,16 +118,10 @@
     }
 
     &__main {
-        margin-left: -1rem;
-        width: 105%;
-        height: 100%;
-        margin-top: 8rem;
-
-        display: flex;
-        flex-direction: column;
-        justify-items: flex-end;
-
+        height: calc(100% - 7.1rem);
     }
+
+    
 
     // Back
     &__notifications {
@@ -153,6 +150,67 @@
                     margin-left: .5rem;
                 }
             }
+        }
+    }
+}
+
+.system-card-chart-container {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
+    height: 100%;
+
+    &__panel {
+        display: flex;
+        align-items: center;
+        border-radius: .5rem;
+        background-color: rgba($white, .1);
+        flex-grow: 1;
+        margin-bottom: 2rem;
+
+        .chart-container {
+            min-height: 8rem;
+            min-width:  8rem;
+            max-width:  8rem;
+            max-height: 8rem;
+            margin: 0;
+            padding: 0;
+            margin: 1.5rem;
+            position: relative;
+
+            &__label {
+                position: absolute;
+                font-size: 1.5rem;
+                top: calc(50% - .75rem);
+                left: 2.55rem;
+                width: 3rem;
+                color: $white;
+            }            
+        }
+
+        &--details {
+            display: flex;
+            flex-direction: column;
+            margin-left: auto;
+            margin-right: 1.5rem;
+
+            & h3 {
+                font-size: 2.2rem;
+                border: 1px dashed $cyan;
+                border-radius: 5px;
+                color: $white;
+                padding: .75rem;
+                font-family: 'Montserrat';
+                font-weight: 200;
+                font-style: italic;
+                border-radius: 5px;
+                
+            }
+            & p {
+                font-size: 1.2rem;
+                font-family: 'Montserrat';
+            }
+            
         }
     }
 }
