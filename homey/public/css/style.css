@@ -948,19 +948,19 @@ h2 {
         color: #50fa7b;
         margin-left: .5rem; }
 
-.system-card-chart-container {
+.system-card-front-chart-container {
   display: flex;
   flex-direction: column;
   margin: 2rem;
   height: 100%; }
-  .system-card-chart-container__panel {
+  .system-card-front-chart-container__panel {
     display: flex;
     align-items: center;
     border-radius: .5rem;
     background-color: rgba(248, 248, 242, 0.1);
     flex-grow: 1;
     margin-bottom: 2rem; }
-    .system-card-chart-container__panel .chart-container {
+    .system-card-front-chart-container__panel .chart-container {
       min-height: 8rem;
       min-width: 8rem;
       max-width: 8rem;
@@ -969,19 +969,19 @@ h2 {
       padding: 0;
       margin: 1.5rem;
       position: relative; }
-      .system-card-chart-container__panel .chart-container__label {
+      .system-card-front-chart-container__panel .chart-container__label {
         position: absolute;
         font-size: 1.5rem;
         top: calc(50% - .75rem);
         left: 2.55rem;
         width: 3rem;
         color: #f8f8f2; }
-    .system-card-chart-container__panel--details {
+    .system-card-front-chart-container__panel--details {
       display: flex;
       flex-direction: column;
       margin-left: auto;
       margin-right: 1.5rem; }
-      .system-card-chart-container__panel--details h3 {
+      .system-card-front-chart-container__panel--details h3 {
         font-size: 2.2rem;
         border: 1px dashed #8be9fd;
         border-radius: 5px;
@@ -991,7 +991,7 @@ h2 {
         font-weight: 200;
         font-style: italic;
         border-radius: 5px; }
-      .system-card-chart-container__panel--details p {
+      .system-card-front-chart-container__panel--details p {
         font-size: 1.2rem;
         font-family: 'Montserrat'; }
 

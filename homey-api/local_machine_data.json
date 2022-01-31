@@ -8,6 +8,13 @@
             "used": 27,
             "free": 193,
             "percent_used": 12
+        },
+        {
+            "label": "/cyan",
+            "total": 3000,
+            "used": 1000,
+            "free": 2000,
+            "percent_used": 33
         }
     ],
     "cpu": 37.6,

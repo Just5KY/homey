@@ -6,25 +6,27 @@
             <span class="system-card-container__heading--title">System</span>
           </div>
           <div class="system-card-container__main">
-            <SystemCardChart v-if="isLoaded" :chartData="systemData" />
+            <SystemCardFrontChart v-if="isLoaded" :chartData="systemData" />
           </div>
       </div>
       <div class="system-card-container__side system-card-container__side--back">
-          <div class="system-card-container__notifications">
-            
+          <div class="system-card-container__disks">
+            <SystemCardBackChart v-if="isLoaded" :chartData="systemData" />
           </div>
       </div>
   </div>
 </template>
 
 <script>
-import SystemCardChart from './SystemCardChart.vue'
+import SystemCardFrontChart from './SystemCardFrontChart.vue'
+import SystemCardBackChart from './SystemCardBackChart.vue'
 import notifications from '../notifications';
 
 export default {
   name: 'SystemCard',
   components: {
-      SystemCardChart,
+      SystemCardFrontChart,
+      SystemCardBackChart,
   },
   computed: {
     getClass() {

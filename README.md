@@ -38,15 +38,40 @@ When the project is released, docker images and better documentation will be pro
 
     docker-compose up
 
-**NOTE: This is a work in progress. Editing configuration from the frontend inside Docker is not yet supported.**
+### Local Docker API
+
+To find the appropriate config values for `.env`:
+- User ID: `id -u`
+- Docker group ID: `getent group docker | cut -d: -f3`
+- Docker socket path: `/var/run/docker.sock` (unless you've changed it)
+
+### Windows
+
+If you're running homey on a Windows host and wish to use the local Docker API backend, modify `docker-compose.yml` as follows:
+
+    ...
+    volumes:
+      - //var/run/docker.sock://var/run/docker.sock
+    ...
+
+This will allow homey to view and control containers on the host machine. It's safe to ignore `HOMEY_API_DOCKER_USER_ID` and `GROUP_ID`.
+
+### Docker backends
+**Portainer** - Communicates with a running [Portainer](https://github.com/portainer/portainer) instance. Preferred as it provides an additional layer of security via password authentication.
+
+**Docker API** - Communicates with the parent Docker Engine process if running in a container. Communicates with the local Docker Engine process otherwise.
 
 ### Minimal mode
-**Minimal mode** turns homey into a more traditional dashboard with links to services and low overhead. API functionality (Docker/Portainer, Flood, weather, service checker, settings menu) is disabled along with 3D eyecandy. This option can be toggled using the settings menu or the `minimal_mode` flag in `config.yml`.
+**Minimal mode** turns homey into a more traditional dashboard with links to services and low overhead. All features besides service links and bookmarks are disabled, along with 3D eyecandy. This option can be toggled using the settings menu or the `minimal_mode` flag in `config.yml`.
 
-*Note: Settings cannot be changed from the web UI in minimal mode. Once it is switched on, all configuration (**including switching minimal mode off**) must be done manually through `config.yml`*
+*Note: Once switched on, minimal mode can only be disabled by editing `config.yml`. Writing config to disk is API functionality.*
 
 ### Icons
-Icons are loaded from <docker_volume>/icons (or /public/data/icons if not using Docker)). New icons can be added in bulk via this folder or uploaded using the built-in service editor. You can find a collection of PNG self-hosted service icons at NX211's [Homer Icons](https://github.com/NX211/homer-icons) (512x512) or my fork [Homer Icons Compressed](https://github.com/vlfldr/homer-icons) (128x128). Docker containers will use icons that are an exact name match.
+Homey looks for service icons in <docker_volume>/icons and /public/data/icons. Icons can also be uploaded via GUI in the settings menu. **Currently only PNG is supported.** 
+
+Docker containers will use icons which share their exact name. For example: to set `portainer-agent`'s icon, upload a new icon named `portainer-agent.png`.
+
+You can find a collection of PNG self-hosted service icons at NX211's [Homer Icons](https://github.com/NX211/homer-icons) (512x512) or [Homer Icons Compressed](https://github.com/vlfldr/homer-icons) (128x128). 
 
 ## Built with:
 
