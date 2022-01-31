@@ -5,11 +5,10 @@
 </template>
 
 <script>
-//import * as THREE from 'three';   // TODO: selective import
 import { Vector2, Group, Mesh, BoxGeometry, MeshPhongMaterial, Box3, CanvasTexture, 
-  SpriteMaterial, Sprite, MeshBasicMaterial, PlaneGeometry, TextureLoader, Scene, 
-  /*OrthographicCamera,*/ PerspectiveCamera, WebGLRenderer, Raycaster, DirectionalLight, 
-  AmbientLight, Plane, Vector3, FrontSide, BufferGeometryUtils, BufferGeometry } from 'three';
+  MeshBasicMaterial, PlaneGeometry, TextureLoader, Scene, PerspectiveCamera, 
+  WebGLRenderer, Raycaster, DirectionalLight, AmbientLight, Plane, Vector3, FrontSide 
+  /*, BufferGeometryUtils, BufferGeometry, OrthographicCamera */ } from 'three';
 import { Tween, update as tweenUpdate, remove as tweenRemove, removeAll as tweenRemoveAll, Easing } from '@tweenjs/tween.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -508,7 +507,7 @@ export default {
         },
         // returns a transparent plane with specified text drawn
         // credit to dcromley: https://discourse.threejs.org/t/13757
-        TextToMesh(txt, hWorldTxt, hWorldAll, hPxTxt, color, sprite=false) {
+        TextToMesh(txt, hWorldTxt, hWorldAll, hPxTxt, color) {
           let kPxToWorld = hWorldTxt/hPxTxt;                // px to world multplication factor
           let hPxAll = Math.ceil(hWorldAll/kPxToWorld);     // height of the whole texture canvas
 
@@ -537,16 +536,11 @@ export default {
           // create material + mesh from text
           let material;
           let textTexture = new CanvasTexture(txtcanvas)
-          if(sprite){
-            material = new SpriteMaterial({map: textTexture});
-            return new Sprite(material)
-          }
-          else{
-            material = new MeshBasicMaterial( { side:FrontSide, map: textTexture, 
-              transparent:true, clippingPlanes: [clippingPlane], clipIntersection: true
-            });
-            return new Mesh(new PlaneGeometry(wWorldAll, hWorldAll), material);
-          }
+
+          material = new MeshBasicMaterial( { side:FrontSide, map: textTexture, 
+            transparent:true, clippingPlanes: [clippingPlane], clipIntersection: true
+          });
+          return new Mesh(new PlaneGeometry(wWorldAll, hWorldAll), material);
         },
         // destroy scene (triggered on 3D -> 2D swap)
         cleanup() {

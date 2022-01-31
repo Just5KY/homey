@@ -1,12 +1,12 @@
 @font-face {
   font-family: 'Montserrat';
   font-display: swap;
-  src: local(""), url("../fonts/montserrat_variable_stripped.woff2") format("woff2"); }
+  src: local(""), url("../fonts/montserrat_variable_min.woff2") format("woff2"); }
 
 @font-face {
   font-family: 'Material Icons';
   font-display: swap;
-  src: local(""), url("../fonts/material_design_icons_stripped.woff2") format("woff2"); }
+  src: local(""), url("../fonts/material_icons_min.woff2") format("woff2"); }
 
 .material-icon {
   font-family: 'Material Icons';
@@ -45,7 +45,7 @@
 .icon-memory::after {
   content: "\E322"; }
 
-.icon-photo::after {
+.icon-image::after {
   content: "\E3F4"; }
 
 .icon-close::after {
@@ -68,6 +68,15 @@
 
 .icon-arrow_up::after {
   content: "\F182"; }
+
+.icon-upload_file::after {
+  content: "\E2C6"; }
+
+.icon-down_speed::after {
+  content: "\EAD0"; }
+
+.icon-up_speed::after {
+  content: "\EACF"; }
 
 .u-center-text {
   text-align: center; }
@@ -610,8 +619,6 @@ h2 {
       .flood-card-container__heading--stats div {
         display: flex;
         align-items: center; }
-        .flood-card-container__heading--stats div span {
-          font-size: 2.2rem; }
         .flood-card-container__heading--stats div p {
           font-size: 1.3rem; }
       .flood-card-container__heading--stats__up {
