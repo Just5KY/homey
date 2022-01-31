@@ -58,11 +58,11 @@
                                     let label = context.dataset.label || '';
                                     label += ': '
 
-                                    if (context.parsed.y > 1000000)  
+                                    if (context.parsed.y > Math.pow(2, 30))  
                                         label += Math.floor(context.parsed.y / 100000).toString() + 'gb/s';
-                                    else if (context.parsed.y > 100000)
+                                    else if (context.parsed.y > Math.pow(2, 20))
                                         label += Math.floor(context.parsed.y / 10000).toString() + 'mb/s';
-                                    else if (context.parsed.y > 10000)
+                                    else if (context.parsed.y > Math.pow(2, 10))
                                         label += Math.floor(context.parsed.y / 1000).toString() + 'kb/s';
                                     else label += Math.floor(context.parsed.y).toString() + ' b/s'
 

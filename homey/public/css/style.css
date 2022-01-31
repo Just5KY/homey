@@ -534,14 +534,14 @@ h2 {
       font-weight: 300;
       text-transform: lowercase;
       text-align: right;
-      margin-right: 0;
-      margin-left: auto;
       padding: .5rem 1rem;
       border-radius: 5px;
       background-image: linear-gradient(to right bottom, rgba(98, 114, 164, 0.8), rgba(40, 42, 54, 0.8)); }
     .flood-card-container__heading--stats {
       text-align: left;
-      margin-left: -.5rem; }
+      margin-left: -.25rem;
+      margin-right: auto;
+      max-width: 40%; }
       .flood-card-container__heading--stats div {
         display: flex;
         align-items: center; }
@@ -719,11 +719,15 @@ h2 {
     left: 0;
     width: 100%;
     border-radius: 5px;
-    overflow: hidden; }
-    .bookmark-card-container__side--front {
-      background-color: #6272a4;
-      display: flex;
-      flex-direction: column; }
+    background-color: #6272a4;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none; }
+    .bookmark-card-container__side::-webkit-scrollbar {
+      width: 0 !important; }
   .bookmark-card-container__heading {
     margin: 2rem;
     justify-content: space-between;
@@ -731,7 +735,8 @@ h2 {
     display: flex; }
     .bookmark-card-container__heading__icon {
       color: #8be9fd;
-      cursor: default; }
+      cursor: default;
+      width: 24px; }
     .bookmark-card-container__heading--title {
       font-size: 1.7rem;
       height: 3.1rem;
@@ -787,7 +792,7 @@ h2 {
           transform: translateY(3px);
           font-style: italic;
           font-family: Montserrat;
-          font-weight: 100; }
+          font-weight: 400; }
         .bookmark-card-container__main ul .bookmark:not(:first-child) {
           margin-top: 1rem; }
 
@@ -847,6 +852,7 @@ h2 {
     .system-card-container__heading__icon {
       color: #8be9fd;
       font-size: 2.8rem;
+      width: 28px;
       cursor: default; }
     .system-card-container__heading--title {
       font-size: 1.7rem;
@@ -931,8 +937,9 @@ h2 {
         border-radius: 5px;
         color: #f8f8f2;
         padding: .75rem;
+        padding-right: 1rem;
         font-family: 'Montserrat';
-        font-weight: 200;
+        font-weight: 400;
         font-style: italic; }
       .system-card-front-chart-container__panel--details p {
         font-size: 1.2rem;

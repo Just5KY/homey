@@ -76,8 +76,6 @@
             font-weight: 300;
             text-transform: lowercase;
             text-align: right;
-            margin-right: 0;
-            margin-left: auto;
 
             padding: .5rem 1rem;
             border-radius: 5px;
@@ -90,7 +88,10 @@
 
         &--stats {
             text-align: left;
-            margin-left: -.5rem;
+            margin-left: -.25rem;
+            margin-right: auto;
+            max-width: 40%;
+
             div {
                 display: flex;
                 align-items: center;

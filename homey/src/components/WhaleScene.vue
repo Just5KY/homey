@@ -5,18 +5,21 @@
 </template>
 
 <script>
-import * as THREE from 'three';   // TODO: selective import
-import * as TWEEN from '@tweenjs/tween.js'
+//import * as THREE from 'three';   // TODO: selective import
+import { Vector2, Group, Mesh, BoxGeometry, MeshPhongMaterial, Box3, CanvasTexture, 
+  SpriteMaterial, Sprite, MeshBasicMaterial, PlaneGeometry, TextureLoader, Scene, 
+  /*OrthographicCamera,*/ PerspectiveCamera, WebGLRenderer, Raycaster, DirectionalLight, 
+  AmbientLight, Plane, Vector3, FrontSide, BufferGeometryUtils, BufferGeometry } from 'three';
+import { Tween, update as tweenUpdate, remove as tweenRemove, removeAll as tweenRemoveAll, Easing } from '@tweenjs/tween.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry';
 
 import crateIndexes from '../crateIndexes';
 
 let btnSize = .4;
 let uiColor = 0x6272a4;
-let mousePos = new THREE.Vector2(100, 100);
+let mousePos = new Vector2(100, 100);
 let boundingBoxes = [];
 let hoveredButton;
 
@@ -70,14 +73,14 @@ export default {
         scene.add(light);
 
         // initial camera transition animation
-        const camSpawnTween = new TWEEN.Tween(camera).to({
+        const camSpawnTween = new Tween(camera).to({
           position: { 
             x: -8, 
             y: Math.max(this.services.length / 5, 2), 
             z: Math.max((this.services.length / 5) -.5, 3), 
           },
         }, 4000)
-        .easing(TWEEN.Easing.Sinusoidal.InOut)
+        .easing(Easing.Sinusoidal.InOut)
         .delay(1000)
         .onStart(() => { this.animationFinished = false; })
         //.onUpdate(() => { camera.updateProjectionMatrix() })  // ortho camera swap
@@ -118,10 +121,8 @@ export default {
 
             if(camera.aspect != width / height) this.updateCameraAspect(width, height);
 
-            TWEEN.update();
+            tweenUpdate();
             controls.update();
-
-            // !! add interval timer to mouse move to stop raycasting 100ms after mouse stops
             
             // do not raycast if initial camera transition is playing
             if(this.animationFinished)  this.raycast();     
@@ -205,11 +206,11 @@ export default {
         growCrate(crateObj){
           if(crateObj.userData.box.scale.z > 1.05) return;
 
-          if(crateObj.userData.animation) TWEEN.remove(crateObj.userData.animation);
+          if(crateObj.userData.animation) tweenRemove(crateObj.userData.animation);
 
           // title + button panel width
           let textWidth = crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z;
-          crateObj.userData.animation = new TWEEN.Tween(crateObj)
+          crateObj.userData.animation = new Tween(crateObj)
             .to({ userData: {
                 box: {
                   scale: {z: textWidth + .4 * 7 },   
@@ -219,7 +220,7 @@ export default {
                   position: {z: .25 + textWidth + .4 * 6 }
                 }
              }}, 1600) 
-            .easing(TWEEN.Easing.Elastic.Out)
+            .easing(Easing.Elastic.Out)
             .onUpdate(this.updateBoundingBoxes)
             .onComplete((c) => { 
               c.userData.UI.children.forEach((btn, i) => {
@@ -232,9 +233,9 @@ export default {
         shrinkCrate(crateObj){
           if(crateObj.userData.box.scale.z < 1.05) return;
 
-          if(crateObj.userData.animation) TWEEN.remove(crateObj.userData.animation);
+          if(crateObj.userData.animation) tweenRemove(crateObj.userData.animation);
 
-          crateObj.userData.animation = new TWEEN.Tween(crateObj)
+          crateObj.userData.animation = new Tween(crateObj)
             .to({ userData: {
                 box: {
                   scale: {x: 1, z: 1, y: 1}, 
@@ -244,7 +245,7 @@ export default {
                   position: {z: -2 + (crateObj.userData.textSize.max.z - crateObj.userData.textSize.min.z) / 2 - (.4 * 6) },
                 }
              }}, 600)
-            .easing(TWEEN.Easing.Quadratic.Out)
+            .easing(Easing.Quadratic.Out)
             .onUpdate(this.updateBoundingBoxes)
             .onStart((c) => { 
               c.userData.UI.children.forEach((btn) => {
@@ -255,7 +256,7 @@ export default {
         },
         // new crate from service name
         addCrate(serviceName, serviceStatus) {
-          let grp = new THREE.Group();
+          let grp = new Group();
           grp.name = serviceName;
 
           // position
@@ -263,11 +264,11 @@ export default {
           grp.position.y = crateIndexes.CrateIndexes[this.crates.length].y
 
           // rounded box          
-          let box = new THREE.Mesh(roundedBoxGeo, boxMat);
+          let box = new Mesh(roundedBoxGeo, boxMat);
           grp.add(box);
 
           // bounding box
-          let bbox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), invisMat);
+          let bbox = new Mesh(new BoxGeometry(1, 1, 1), invisMat);
           bbox.name = grp.name + '_bbox';
           bbox.layers.enable(1);
           scene.add(bbox);
@@ -280,8 +281,8 @@ export default {
 
           // search for matching icon and load if exists
           imgLoader.load('./data/icons/' + serviceName + '.png', (tex) => {
-            const serviceImgMat = new THREE.MeshPhongMaterial({ map: tex,
-              side: THREE.FrontSide, transparent: true, });
+            const serviceImgMat = new MeshPhongMaterial({ map: tex,
+              side: FrontSide, transparent: true, });
 
             this.setCrateImage(serviceImgMat, grp, box);
           },
@@ -291,9 +292,9 @@ export default {
 
           // elastic spawn animation          
           grp.scale.set(0,0,0)
-          let tScale = new TWEEN.Tween(grp.scale)
+          let tScale = new Tween(grp.scale)
             .to({x: 1, y: 1, z: 1}, (Math.random() + 1) * 1500)   // slightly random stagger
-            .easing(TWEEN.Easing.Elastic.Out)
+            .easing(Easing.Elastic.Out)
             .delay(this.crates.length * 175)
           tScale.start();
 
@@ -310,14 +311,14 @@ export default {
         // draw icon on left & front of crate. box = rounded parent geometry
         setCrateImage(serviceImgMat, grp, box) {
           // front image
-          const serviceImg = new THREE.Mesh(buttonGeo, serviceImgMat);
+          const serviceImg = new Mesh(buttonGeo, serviceImgMat);
           serviceImg.position.z += .502;
           serviceImg.scale.set(1.5, 1.5, 1)
           grp.add(serviceImg);
           serviceImg.parent = box;
 
           // side image
-          const serviceImgHidden = new THREE.Mesh(buttonGeo, serviceImgMat);
+          const serviceImgHidden = new Mesh(buttonGeo, serviceImgMat);
           serviceImgHidden.position.x -= .502;
           serviceImgHidden.scale.set(1.5, 1.5, 1)
           serviceImgHidden.rotateY(Math.PI * 1.5);      
@@ -325,54 +326,54 @@ export default {
         },
         // build 2D container control interface
         buildCrateUI(serviceName, serviceStatus){
-          let uiGrp = new THREE.Group();
+          let uiGrp = new Group();
           
           // service name
           let text = this.TextToMesh(serviceName, .35, 1, 128, uiColor);
           text.rotateY(Math.PI * 1.5);
           text.position.x -= 0.02;
           
-          let textSize = new THREE.Box3().setFromObject(text);
+          let textSize = new Box3().setFromObject(text);
           text.position.x -= .5;
           text.position.z -= ((textSize.max.z - textSize.min.z) / 2 + (btnSize * 6)) 
           textSize.setFromObject(text);
           uiGrp.add(text);
 
           // buttons
-          const btnPause = new THREE.Mesh(buttonGeo, btnPauseMat);
+          const btnPause = new Mesh(buttonGeo, btnPauseMat);
           btnPause.rotateY(Math.PI * 1.5);
           btnPause.position.x = text.position.x - .02;
           btnPause.position.z = textSize.max.z + (btnSize / 4);
           btnPause.name = 'pause'
           uiGrp.add(btnPause);
 
-          const btnUnpause = new THREE.Mesh(buttonGeo, btnUnpauseMat);
+          const btnUnpause = new Mesh(buttonGeo, btnUnpauseMat);
           btnUnpause.rotateY(Math.PI * 1.5);
           btnUnpause.position.copy(btnPause.position);
           btnUnpause.name = 'unpause'
           uiGrp.add(btnUnpause);
  
-          const btnStop = new THREE.Mesh(buttonGeo, btnStopMat);
+          const btnStop = new Mesh(buttonGeo, btnStopMat);
           btnStop.rotateY(Math.PI * 1.5);
           btnStop.position.x = text.position.x - .02;
           btnStop.position.z = btnPause.position.z + btnSize;
           btnStop.name = 'stop'
           uiGrp.add(btnStop);
 
-          const btnStart = new THREE.Mesh(buttonGeo, btnStartMat);
+          const btnStart = new Mesh(buttonGeo, btnStartMat);
           btnStart.rotateY(Math.PI * 1.5);
           btnStart.position.copy(btnStop.position);
           btnStart.name = 'start'
           uiGrp.add(btnStart);
         
-          const btnRestart = new THREE.Mesh(buttonGeo, btnRestartMat);
+          const btnRestart = new Mesh(buttonGeo, btnRestartMat);
           btnRestart.rotateY(Math.PI * 1.5);
           btnRestart.position.x = text.position.x - .02;
           btnRestart.position.z = btnStop.position.z + btnSize;
           btnRestart.name = 'restart'
           uiGrp.add(btnRestart);
         
-          const btnInfo = new THREE.Mesh(buttonGeo, btnInfoMat);
+          const btnInfo = new Mesh(buttonGeo, btnInfoMat);
           btnInfo.rotateY(Math.PI * 1.5);
           btnInfo.position.x = text.position.x - .02;
           btnInfo.position.z = btnRestart.position.z + btnSize;
@@ -408,9 +409,9 @@ export default {
           this.crates.splice(this.crates.indexOf(crateObj), 1);
 
           //elastic despawn animation
-          const tScale = new TWEEN.Tween(crateObj.scale)
+          const tScale = new Tween(crateObj.scale)
             .to({x: 0, y: 0, z: 0}, 750)
-            .easing(TWEEN.Easing.Elastic.In)
+            .easing(Easing.Elastic.In)
             .onComplete(() => {
               scene.remove(scene.getObjectByName(crateObj.name + '_bbox'));
               scene.remove(scene.getObjectByName(crateObj.name));
@@ -535,16 +536,16 @@ export default {
 
           // create material + mesh from text
           let material;
-          let textTexture = new THREE.CanvasTexture(txtcanvas)
+          let textTexture = new CanvasTexture(txtcanvas)
           if(sprite){
-            material = new THREE.SpriteMaterial({map: textTexture});
-            return new THREE.Sprite(material)
+            material = new SpriteMaterial({map: textTexture});
+            return new Sprite(material)
           }
           else{
-            material = new THREE.MeshBasicMaterial( { side:THREE.FrontSide, map: textTexture, 
+            material = new MeshBasicMaterial( { side:FrontSide, map: textTexture, 
               transparent:true, clippingPlanes: [clippingPlane], clipIntersection: true
             });
-            return new THREE.Mesh(new THREE.PlaneGeometry(wWorldAll, hWorldAll), material);
+            return new Mesh(new PlaneGeometry(wWorldAll, hWorldAll), material);
           }
         },
         // destroy scene (triggered on 3D -> 2D swap)
@@ -560,7 +561,7 @@ export default {
 
           boundingBoxes.splice(0, boundingBoxes.length);
           this.crates.splice(0, this.crates.length);
-          TWEEN.removeAll();
+          tweenRemoveAll();
         },
         // free material & attached textures
         disposeMat(material) {
@@ -577,90 +578,86 @@ export default {
 // load external assets that will not be reloaded on view swap
 function threeLoadAssets() {
   gltfLoader = new GLTFLoader();
-  imgLoader = new THREE.TextureLoader();
+  imgLoader = new TextureLoader();
 
   // load UI images
-  btnInfoMat = new THREE.MeshPhongMaterial({
-      side: THREE.FrontSide, transparent: true, emissive: uiColor,
+  btnInfoMat = new MeshPhongMaterial({
+      side: FrontSide, transparent: true, emissive: uiColor,
       clippingPlanes: [clippingPlane], clipIntersection: true,
       map: imgLoader.load('./images/ui/info.png')
   });
-  btnRestartMat = new THREE.MeshPhongMaterial({
-      side: THREE.FrontSide, transparent: true, emissive: uiColor,
+  btnRestartMat = new MeshPhongMaterial({
+      side: FrontSide, transparent: true, emissive: uiColor,
       clippingPlanes: [clippingPlane], clipIntersection: true,
       map: imgLoader.load('./images/ui/restart.png')
   });
-  btnPauseMat = new THREE.MeshPhongMaterial({
-      side: THREE.FrontSide, transparent: true, emissive: uiColor,
+  btnPauseMat = new MeshPhongMaterial({
+      side: FrontSide, transparent: true, emissive: uiColor,
       clippingPlanes: [clippingPlane], clipIntersection: true,
       map: imgLoader.load('./images/ui/pause.png')
   });
-  btnStopMat = new THREE.MeshPhongMaterial({
-      side: THREE.FrontSide, transparent: true, emissive: uiColor,
+  btnStopMat = new MeshPhongMaterial({
+      side: FrontSide, transparent: true, emissive: uiColor,
       clippingPlanes: [clippingPlane], clipIntersection: true,
       map: imgLoader.load('./images/ui/stop.png')
   });
-  btnStartMat = new THREE.MeshPhongMaterial({
-      side: THREE.FrontSide, transparent: true, emissive: uiColor,
+  btnStartMat = new MeshPhongMaterial({
+      side: FrontSide, transparent: true, emissive: uiColor,
       clippingPlanes: [clippingPlane], clipIntersection: true,
       map: imgLoader.load('./images/ui/start.png')
   });
-  btnUnpauseMat = new THREE.MeshPhongMaterial({
-      side: THREE.FrontSide, transparent: true, emissive: uiColor,
+  btnUnpauseMat = new MeshPhongMaterial({
+      side: FrontSide, transparent: true, emissive: uiColor,
       clippingPlanes: [clippingPlane], clipIntersection: true,
       map: imgLoader.load('./images/ui/start.png')
   });
   // load fallback service icon
-  placeholderIconTex = new THREE.MeshPhongMaterial({
-      side: THREE.FrontSide, transparent: true,
+  placeholderIconTex = new MeshPhongMaterial({
+      side: FrontSide, transparent: true,
       map: imgLoader.load('./data/icons/default.png')
   });
-
-  const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath( 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/libs/draco/' );
-  gltfLoader.setDRACOLoader( dracoLoader );
-
+  
   // load whale
-  gltfLoader.load('./models/whale_draco.glb', (model) => { 
-    model.scene.position.y -= .75; 
+  gltfLoader.load('./models/whale_optimized.glb', (model) => { 
+    model.scene.position.y -= .75;
     scene.add(model.scene); 
   });
 }
 // create geometries and materials that will not be destroyed on view swap
 function threeCreateAssets() {
-  invisMat = new THREE.MeshBasicMaterial({side: THREE.FrontSide, color: 0x000000, visible: false});
-  boxMat = new THREE.MeshPhongMaterial({ side: THREE.FrontSide, color: 0xf8f8f2 });
+  invisMat = new MeshBasicMaterial({side: FrontSide, color: 0x000000, visible: false});
+  boxMat = new MeshPhongMaterial({ side: FrontSide, color: 0xf8f8f2 });
    
   // imgLoader.load('./images/textures/crate_tex.png', (tex) => {
   //     crateTex = tex;
-  //     boxMat = new THREE.MeshBasicMaterial({ map: crateTex, });
-  //     crateTex.wrapS = THREE.RepeatWrapping;
+  //     boxMat = new MeshBasicMaterial({ map: crateTex, });
+  //     crateTex.wrapS = RepeatWrapping;
   //     crateTex.needsUpdate = true;
   //   });
 
-  buttonGeo = new THREE.PlaneGeometry(btnSize, btnSize);
+  buttonGeo = new PlaneGeometry(btnSize, btnSize);
   roundedBoxGeo = new RoundedBoxGeometry(1, 1, 1, 6, .1);
 }
 // create core three components outside of vue to avoid cascading DOM update every tick
 function threeInitScene() {
-  scene = new THREE.Scene();
+  scene = new Scene();
   
   // orthographic camera
   // let width = window.innerWidth
   // let height = window.innerHeight
-  // const camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 100 );
+  // const camera = new OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 100 );
 
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+  renderer = new WebGLRenderer({ antialias: true, alpha: true });
   controls = new OrbitControls(camera, renderer.domElement);
-  raycaster = new THREE.Raycaster();
+  raycaster = new Raycaster();
 
   // lights
-  light = new THREE.DirectionalLight(0xffffff, 1.1);
-  ambientLight = new THREE.AmbientLight(0xffffff, .2)
+  light = new DirectionalLight(0xffffff, 1.1);
+  ambientLight = new AmbientLight(0xffffff, .2)
   light.position.set(-5, 5, 2);
 
-  clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -.34);
+  clippingPlane = new Plane(new Vector3(0, 0, 1), -.34);
 }
 
 </script>

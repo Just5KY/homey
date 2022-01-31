@@ -20,7 +20,7 @@ services:
 cards:
 - enable: true
   name: Torrents
-- enable: true
+- enable: false
   name: Weather
 - enable: true
   name: System
@@ -29,7 +29,7 @@ cards:
 bookmarks:
 - name: GitHub
   url: https://github.com
-  hover: 
+  hover: null
 - name: YTMND
   url: https://ytmnd.com/
   hover: lol internet

@@ -3,23 +3,24 @@
 </template>
 
 <script>
-import * as THREE from 'three';   // TODO: selective import
-import * as TWEEN from '@tweenjs/tween.js'
+import { PerspectiveCamera, WebGLRenderer, Scene, Mesh, Group, 
+    HemisphereLight, BoxGeometry, ConeGeometry, MeshBasicMaterial } from 'three';
+import { randFloat, degToRad } from 'three/src/math/MathUtils';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { randFloat } from 'three/src/math/MathUtils';
+import { Tween, update, Easing } from '@tweenjs/tween.js'
 
 // define three.js objects outside of vue export
 // to avoid making them reactive
-const scene = new THREE.Scene();
-const light = new THREE.HemisphereLight(0xffffbb, 0x000000, 2)
-const camera = new THREE.PerspectiveCamera(
+const scene = new Scene();
+const light = new HemisphereLight(0xffffbb, 0x000000, 2)
+const camera = new PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
     0.1,
     100
 );
 
-const renderer = new THREE.WebGLRenderer({ 
+const renderer = new WebGLRenderer({ 
   antialias: true, 
   alpha: true,
   logarithmicDepthBuffer: true,
@@ -27,28 +28,26 @@ const renderer = new THREE.WebGLRenderer({
 const controls = new OrbitControls(camera, renderer.domElement);
 
 // Geometry
-const wallGeo = new THREE.BoxGeometry(1.05, 1.05, 0.05)
-const roofGeo = new THREE.ConeGeometry(1, .77, 4)
-const chimneyGeo = new THREE.BoxGeometry(.15, .6, .2)
-
+const wallGeo = new BoxGeometry(1.05, 1.05, 0.05)
+const roofGeo = new ConeGeometry(1, .77, 4)
+const chimneyGeo = new BoxGeometry(.15, .6, .2)
 // Materials
-const wallMat = new THREE.MeshBasicMaterial({       color: 0xC2B280 });
-const roofMat = new THREE.MeshBasicMaterial({       color: 0x282a36 });
-const chimneyMat = new THREE.MeshBasicMaterial({    color: 0xE65F5C });
-const windowMat = new THREE.MeshBasicMaterial({     color: 0x6272a4 });
-//const wireMat = new THREE.LineBasicMaterial({     color: 0xf8f8f2});
+const wallMat = new MeshBasicMaterial({       color: 0xC2B280 });
+const roofMat = new MeshBasicMaterial({       color: 0x282a36 });
+const chimneyMat = new MeshBasicMaterial({    color: 0xE65F5C });
+const windowMat = new MeshBasicMaterial({     color: 0x6272a4 });
 
 // Meshes
-const lwWall = new THREE.Mesh(wallGeo,wallMat)
-const rwWall = new THREE.Mesh(wallGeo,wallMat)
-const backWall = new THREE.Mesh(wallGeo,wallMat)
-const frontWall = new THREE.Group()
-const leftWall = new THREE.Group()
-const rightWall = new THREE.Group()
-const fwWall = new THREE.Mesh(wallGeo,wallMat)
-const rwWindow = new THREE.Mesh(new THREE.BoxGeometry(.2, .35, .01), windowMat);
-const lwWindow = new THREE.Mesh(new THREE.BoxGeometry(.2, .35, .01), windowMat);
-const fwDoor = new THREE.Mesh(new THREE.BoxGeometry(.3, .45, .02),    windowMat);
+const lwWall = new Mesh(wallGeo,wallMat)
+const rwWall = new Mesh(wallGeo,wallMat)
+const backWall = new Mesh(wallGeo,wallMat)
+const frontWall = new Group()
+const leftWall = new Group()
+const rightWall = new Group()
+const fwWall = new Mesh(wallGeo,wallMat)
+const rwWindow = new Mesh(new BoxGeometry(.2, .35, .01), windowMat);
+const lwWindow = new Mesh(new BoxGeometry(.2, .35, .01), windowMat);
+const fwDoor = new Mesh(new BoxGeometry(.3, .45, .02),    windowMat);
 
 frontWall.add(fwWall)
 frontWall.add(fwDoor)
@@ -57,8 +56,8 @@ rightWall.add(rwWindow)
 leftWall.add(lwWall)
 leftWall.add(lwWindow)
 
-const roof = new THREE.Mesh(roofGeo, roofMat)
-const chimney = new THREE.Mesh(chimneyGeo, chimneyMat)
+const roof = new Mesh(roofGeo, roofMat)
+const chimney = new Mesh(chimneyGeo, chimneyMat)
 
 leftWall.position.x -= .5
 rotateDegrees(leftWall, 90)
@@ -124,7 +123,7 @@ export default {
 
             if(camera.aspect != width / height) this.updateCameraAspect(width, height);
 
-            TWEEN.update();
+            update();
             controls.update();
 
             // spin house
@@ -154,52 +153,52 @@ export default {
           const startHeight = 7
 
           // roof
-          const tween = new TWEEN.Tween({x: 0, y: startHeight, z: 0 })
+          const tween = new Tween({x: 0, y: startHeight, z: 0 })
               .to({x: 0, y: .9, z: 0 }, 3000)
-              .easing(TWEEN.Easing.Bounce.Out)
+              .easing(Easing.Bounce.Out)
               .onStart(() => {chimney.scale.set(0, 0, 0)})
               .onUpdate(function ({ x, y, z }, elapsed) {
                   roof.position.set(x, y, z)
           })
-          const roofSpinTween = new TWEEN.Tween({rot: -100})
+          const roofSpinTween = new Tween({rot: -100})
               .to({rot: 45}, 3000)
-              .easing(TWEEN.Easing.Quadratic.InOut)
+              .easing(Easing.Quadratic.InOut)
               .onUpdate(function ({rot}, elapsed) {
-                  roof.rotation.y = THREE.MathUtils.degToRad(rot)
+                  roof.rotation.y = degToRad(rot)
           })
           // chimney
-          const chimneyTween = new TWEEN.Tween({x:.35, y: 0, z: 0})
+          const chimneyTween = new Tween({x:.35, y: 0, z: 0})
               .to({x: .35, y: 1, z: 0}, 1200)
-              .easing(TWEEN.Easing.Elastic.Out)
+              .easing(Easing.Elastic.Out)
               .onStart(() => {chimney.scale.set(1, 1, 1)})
               .onUpdate(function ({x, y, z}, elapsed) {
                   chimney.position.set(x, y, z)
           })
           // left wall
-          const leftTween = new TWEEN.Tween({x: leftWall.position.x, y: leftWall.position.y - startHeight, z: leftWall.position.z})
+          const leftTween = new Tween({x: leftWall.position.x, y: leftWall.position.y - startHeight, z: leftWall.position.z})
               .to({x: leftWall.position.x, y: leftWall.position.y, z: leftWall.position.z}, 2000)
-              .easing(TWEEN.Easing.Bounce.Out)
+              .easing(Easing.Bounce.Out)
               .onUpdate(function ({ x, y, z }, elapsed) {
                   leftWall.position.set(x, y, z)
           })
           // right wall
-          const rightTween = new TWEEN.Tween({x: rightWall.position.x, y: rightWall.position.y - startHeight + .7, z: rightWall.position.z})
+          const rightTween = new Tween({x: rightWall.position.x, y: rightWall.position.y - startHeight + .7, z: rightWall.position.z})
               .to({x: rightWall.position.x, y: rightWall.position.y, z: rightWall.position.z}, 2600)
-              .easing(TWEEN.Easing.Bounce.Out)
+              .easing(Easing.Bounce.Out)
               .onUpdate(function ({ x, y, z }, elapsed) {
                   rightWall.position.set(x, y, z)
           })
           // front wall
-          const frontTween = new TWEEN.Tween({x: backWall.position.x, y: backWall.position.y - startHeight - .4, z: backWall.position.z})
+          const frontTween = new Tween({x: backWall.position.x, y: backWall.position.y - startHeight - .4, z: backWall.position.z})
               .to({x: backWall.position.x, y: backWall.position.y, z: backWall.position.z}, 1800)
-              .easing(TWEEN.Easing.Bounce.Out)
+              .easing(Easing.Bounce.Out)
               .onUpdate(function ({ x, y, z }, elapsed) {
                   backWall.position.set(x, y, z)
           })
           // back wall
-          const backTween = new TWEEN.Tween({x: frontWall.position.x, y: frontWall.position.y - startHeight, z: frontWall.position.z})
+          const backTween = new Tween({x: frontWall.position.x, y: frontWall.position.y - startHeight, z: frontWall.position.z})
               .to({x: frontWall.position.x, y: frontWall.position.y, z: frontWall.position.z}, 2900)
-              .easing(TWEEN.Easing.Bounce.Out)
+              .easing(Easing.Bounce.Out)
               .onUpdate(function ({ x, y, z }, elapsed) {
                   frontWall.position.set(x, y, z)
           })
@@ -216,7 +215,7 @@ export default {
         initMeshes() {
           if(houseGroup)    return;
 
-          houseGroup = new THREE.Group()
+          houseGroup = new Group()
           houseGroup.add(leftWall)
           houseGroup.add(rightWall)
           houseGroup.add(backWall)

@@ -24,7 +24,6 @@
     "axios": "^0.25.0",
     "chart.js": "^3.7.0",
     "core-js": "^3.20.3",
-    "draco3d": "^1.5.0",
     "js-yaml": "^4.1.0",
     "node-sass": "^7.0.1",
     "raw-loader": "^4.0.2",

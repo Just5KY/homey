@@ -74,6 +74,7 @@
         &__icon {
             color: $cyan;
             font-size: 2.8rem;
+            width: 28px;
             cursor: default;
         }
 
@@ -200,8 +201,9 @@
                 border-radius: 5px;
                 color: $white;
                 padding: .75rem;
+                padding-right: 1rem;
                 font-family: 'Montserrat';
-                font-weight: 200;
+                font-weight: 400;
                 font-style: italic;
             }
             & p {

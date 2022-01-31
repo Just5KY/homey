@@ -24,13 +24,16 @@
         left: 0;
         width: 100%;
         border-radius: 5px;
-        overflow: hidden;
-
-        &--front {
-            background-color: $commentColor;
-            display: flex;
-            flex-direction: column;
-        }
+        background-color: $commentColor;
+        display: flex;
+        flex-direction: column;
+        
+         // hide scrollbar
+         overflow-y: scroll;
+         scrollbar-width: none;
+         &::-webkit-scrollbar { width: 0 !important }
+         overflow: -moz-scrollbars-none;
+         -ms-overflow-style: none;
     }
 
     &__heading {
@@ -42,6 +45,7 @@
         &__icon {
             color: $cyan;
             cursor: default;
+            width: 24px;
         }
 
         &--title {
@@ -132,7 +136,7 @@
                     
                     font-style: italic;
                     font-family: Montserrat;
-                    font-weight: 100;
+                    font-weight: 400;
                 }
                 &:not(:first-child) {
                     margin-top: 1rem;
