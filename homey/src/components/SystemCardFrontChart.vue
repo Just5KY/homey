@@ -2,9 +2,9 @@
   <div class="system-card-front-chart-container">
 
     <div class="system-card-front-chart-container__panel">
-        <div class="chart-container">
+        <div class="front-chart-container">
             <DoughnutChart :chartData="cpuChartData" :options="config"/>
-            <div class="chart-container__label">{{Math.floor(this.chartData.cpu)}}%</div>
+            <div class="front-chart-container__label">{{Math.floor(this.chartData.cpu)}}%</div>
         </div>
         <div class="system-card-front-chart-container__panel--details">
             <h3>CPU</h3>
@@ -13,9 +13,9 @@
 
     <div class="system-card-front-chart-container__panel"
         :title="getMemoryInfo">
-        <div class="chart-container">
+        <div class="front-chart-container">
             <DoughnutChart :chartData="memoryChartData" :options="config"/>
-            <div class="chart-container__label">{{Math.floor(this.chartData.ram.percent_used)}}%</div>
+            <div class="front-chart-container__label">{{Math.floor(this.chartData.ram.percent_used)}}%</div>
         </div>
         <div class="system-card-front-chart-container__panel--details">
             <h3>RAM</h3>

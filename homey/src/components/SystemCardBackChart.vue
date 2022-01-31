@@ -1,14 +1,15 @@
 <template>
   <div class="system-card-back-chart-container">
 
-    <div v-for="d in chartData.disks" :key="d.label" 
+    <div v-for="d in chartData.disks" :key="d.label"
+        :title="getDiskInfo(d)"
         class="system-card-back-chart-container__panel">
         <div class="system-card-back-chart-container__panel--details">
             <h3>{{ d.label }}</h3>
+            <p>{{ d.free }}GB free</p>
         </div>
-        <div class="chart-container">
+        <div class="back-chart-container">
             <BarChart :chartData="diskChartData(d)" :options="config"/>
-            <!-- <div class="chart-container__label">{{Math.floor(this.chartData.ram.percent_used)}}%</div> -->
         </div>
     </div>
 
@@ -31,10 +32,13 @@
             return {
                 config: {
                     indexAxis: 'y',
-                    responsive: true,
-                    interaction: {
-                        mode: "index",
-                        intersect: false,
+                    reactive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: -10,
+                            bottom: -10,
+                        },
                     },
                     scales: {
                         x: {
@@ -54,9 +58,8 @@
                         }
                     },
                     plugins: {
-                        legend: {
-                            display: false,
-                        },
+                        tooltip: { enabled: false },
+                        legend: { display: false },
                     }
                 }
             }
@@ -67,24 +70,31 @@
                     labels: [disk.label],
                     datasets: [{
                         borderWidth: 0,
-                        borderRadius: 7.5,
+                        borderRadius: 5,
                         borderSkipped: false,
-                        maxBarThickness: 34,
+                        barPercentage: 1,
+                        categoryPercentage: 1,
                         backgroundColor: ['#8be9fd'],
                         label: disk.label,
-                        data: [ disk.used ],
+                        data: [ disk.percent_used ],
                     },
                     {
                         borderWidth: 0,
-                        borderRadius: 7.5,
+                        borderRadius: 5,
                         borderSkipped: false,
-                        maxBarThickness: 34,
+                        barPercentage: 1,
+                        categoryPercentage: 1,
                         backgroundColor: ['rgba(248, 248, 242, .1)'],
                         label: disk.label,
-                        data: [ disk.free ],
+                        data: [ 100 ],
                     }]
                 };
             },
+            getDiskInfo(disk){
+                return 'Label: ' + disk.label + '\nTotal size: ' + disk.total 
+                    + 'GB\nUsed: ' + disk.used + 'GB (' + disk.percent_used 
+                    + '%) \nFree: ' + disk.free + 'GB (' + (100 - disk.percent_used) + '%)'
+            }
         },
         computed: {
             

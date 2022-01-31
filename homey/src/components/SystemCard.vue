@@ -10,6 +10,10 @@
           </div>
       </div>
       <div class="system-card-container__side system-card-container__side--back">
+          <div class="system-card-container__details--back">
+            <h3>{{ systemData.hostname }}</h3>
+            <p>Up {{ systemData.uptime }}</p>
+          </div>
           <div class="system-card-container__disks">
             <SystemCardBackChart v-if="isLoaded" :chartData="systemData" />
           </div>

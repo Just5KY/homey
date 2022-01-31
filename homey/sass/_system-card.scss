@@ -154,6 +154,7 @@
     }
 }
 
+// CPU & RAM charts
 .system-card-front-chart-container {
     display: flex;
     flex-direction: column;
@@ -168,12 +169,11 @@
         flex-grow: 1;
         margin-bottom: 2rem;
 
-        .chart-container {
+        & .front-chart-container {
             min-height: 8rem;
             min-width:  8rem;
             max-width:  8rem;
             max-height: 8rem;
-            margin: 0;
             padding: 0;
             margin: 1.5rem;
             position: relative;
@@ -203,8 +203,6 @@
                 font-family: 'Montserrat';
                 font-weight: 200;
                 font-style: italic;
-                border-radius: 5px;
-                
             }
             & p {
                 font-size: 1.2rem;
@@ -212,5 +210,74 @@
             }
             
         }
+    }
+}
+
+// Disk usage charts
+.system-card-back-chart-container {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    height: 100%;
+
+    &__panel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: .5rem;
+        border: 1px solid $commentColor;
+
+        &:not(:first-child) {
+            margin-top: 1rem;
+        }
+
+        & .back-chart-container {
+            min-height: 3.44rem;
+            max-height: 3.44rem;
+            margin: 1rem;
+            margin-bottom: .8rem;
+            min-width: calc(100% - 2rem);
+
+            & div {
+                max-height: 3.44rem;
+            }
+        }
+
+        &--details {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            padding-bottom: 0;
+            width: 100%;
+
+            & h3 {
+                font-size: 1.7rem;
+                //margin-left: 1rem;
+                margin-right: auto;
+                
+                color: $white;
+                font-family: 'Montserrat';
+                font-weight: 400;
+            }
+            & p {
+                font-size: 1.4rem;
+                font-style: italic;
+                font-family: 'Montserrat';
+            }
+            
+        }
+    }
+}
+
+.system-card-container__details--back {
+    margin: 1.5rem;
+    margin-bottom: 1.65rem;
+    font-family: 'Montserrat';
+    & h3 {
+        font-size: 2rem;
+        font-weight: 500;
+    }
+    & p {
+        font-size: 1.3rem;
     }
 }

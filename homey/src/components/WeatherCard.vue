@@ -2,7 +2,7 @@
   <div :class="getClass" @click="isFlipped = !isFlipped" @mouseleave="isFlipped = false">
       <div class="weather-card-container__side weather-card-container__side--front">
           <skycon class="weather-card-container__background--skycon" v-if="weatherDataHourly.length > 1" 
-                :title="getCurrentWeather.weather_type" size=128 color="#44475a" :condition="getSkycon(getCurrentWeather.weather_type)"/>
+                size=128 color="#44475a" :condition="getSkycon(getCurrentWeather.weather_type)"/>
           <div class="weather-card-container__heading">
             <div class="weather-card-container__heading--daily-details">
               <div>{{getCurrentWeather.temp}}°F</div>
@@ -11,7 +11,7 @@
             <span class="weather-card-container__heading--title">Weather</span>
           </div>
           <div class="weather-card-container__details">
-              <div v-for="w in weatherDataHourly" :title="w.weather_type" 
+              <div v-for="w in weatherDataHourly" :title="w.time + ': ' + w.weather_type" 
                 :key="w.time" class="weather-element" >
                 <p>{{w.time}}</p>
                 <p>{{w.temp}}°F</p>
