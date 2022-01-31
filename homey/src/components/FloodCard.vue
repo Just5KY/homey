@@ -4,10 +4,10 @@
           <div class="flood-card-container__heading">
             <div class="flood-card-container__heading--stats">
               <div class="flood-card-container__heading--stats__up">
-                <span class="material-icon icon-arrow_up"></span><p>{{floodStats.upSpeed}}</p>
+                <span class="material-icon icon-up_speed"></span><p>{{floodStats.upSpeed}}</p>
               </div>
               <div class="flood-card-container__heading--stats__down">
-                <span class="material-icon icon-arrow_down"></span><p>{{floodStats.downSpeed}}</p>
+                <span class="material-icon icon-down_speed"></span><p>{{floodStats.downSpeed}}</p>
               </div>
             </div>
             <span class="flood-card-container__heading--title">Torrents</span>

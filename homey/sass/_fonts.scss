@@ -2,14 +2,14 @@
 @font-face {
   font-family: 'Montserrat';
   font-display: swap;
-  src: local(''), url('../fonts/montserrat_variable_stripped.woff2') format('woff2');   
+  src: local(''), url('../fonts/montserrat_variable_min.woff2') format('woff2');   
 }
 
 // Icon font (material icons subset)
 @font-face {
   font-family: 'Material Icons';
   font-display: swap;
-  src: local(''), url('../fonts/material_design_icons_stripped.woff2') format('woff2');   
+  src: local(''), url('../fonts/material_icons_min.woff2') format('woff2');   
 }
 
 .material-icon {
@@ -27,6 +27,7 @@
   direction: ltr;
 }
 
+// Glyph mappings
 .icon-settings::after { content: "\E8B8"; }
 .icon-refresh::after { content: "\E5D5"; }
 .icon-3d::after { content: "\E84D"; }
@@ -35,7 +36,7 @@
 .icon-pause::after { content: "\E036"; }
 .icon-storage::after { content: "\E1DB"; }
 .icon-memory::after { content: "\E322"; }
-.icon-photo::after { content: "\E3F4"; }
+.icon-image::after { content: "\E3F4"; }
 .icon-close::after { content: "\E5CD"; }
 .icon-info::after { content: "\E88E"; }
 .icon-check::after { content: "\E92D"; }
@@ -43,3 +44,6 @@
 .icon-arrow_right::after { content: "\EAAA"; }
 .icon-arrow_down::after { content: "\F181"; }
 .icon-arrow_up::after { content: "\F182"; }
+.icon-upload_file::after { content: "\E2C6"; }
+.icon-down_speed::after { content: "\EAD0"; }
+.icon-up_speed::after { content: "\EACF"; }
