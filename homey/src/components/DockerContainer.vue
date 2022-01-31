@@ -20,9 +20,9 @@
 </template>
 
 <script>
+import WhaleScene from './WhaleScene.vue';
 import DockerService from './DockerService.vue'
 import DockerControlPanel from './DockerControlPanel.vue';
-import WhaleScene from './WhaleScene.vue';
 import notifications from '../notifications';
 
 export default {
