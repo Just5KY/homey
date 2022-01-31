@@ -54,6 +54,7 @@ class Config:
     FLOOD_USER = os.environ.get('HOMEY_API_FLOOD_USER')
     FLOOD_PASSWORD = os.environ.get('HOMEY_API_FLOOD_PASSWORD')
     
-    SYSTEM_MONITOR_FILE = os.environ.get('HOMEY_API_SYSTEM_MONITOR_FILE')
+    SYSTEM_MONITOR_FILE = './config/local_machine_data.json'
+    VALID_ICON_EXTS = {'png', 'jpeg', 'jpg'}
 
 config = Config

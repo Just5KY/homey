@@ -71,8 +71,7 @@
                     labels: ['RAM'],
                     datasets: [{
                         borderWidth: 0,
-                        borderRadius: 7.5,
-                        rotation: 180,
+                        borderRadius: [7.5, 0],
                         backgroundColor: ['#f8f8f2', 'transparent'],
                         label: 'RAM',
                         data: [ this.chartData.ram.percent_used, 100 - this.chartData.ram.percent_used ],
@@ -82,7 +81,7 @@
             getMemoryInfo() {
                 return 'Total: ' + Math.floor(this.chartData.ram.total / 1000) + 'GB\n' +
                     'Free: ' + Math.floor(this.chartData.ram.free / 1000) + 'GB\n' +
-                    'Used: ' + this.chartData.ram.used + 'MB\n'
+                    'Used: ' + this.chartData.ram.used + 'MB (' + Math.floor(this.chartData.ram.percent_used) + '%)'
             }
         },
         mounted() {

@@ -6,29 +6,25 @@ from datetime import datetime, timedelta
 from socket import gethostname
 import json
 
-
 # README ################################################################
-# Writes CPU, RAM, and disk usage to a .json file for Docker containers.
+# Outputs host info to file in an infinite loop.
 #
-# 0. pip install psutil
-# 1. Configure dataFile to match homey-api's /config volume mount point.
-# 2. Configure watchedDisks if desired.
-# 3. Run on host machine (where docker engine is running). 
+# 1. pip install psutil
+# 2. Configure dataFile to match homey-api's config volume path.
+# 3. Configure watchedDisks if desired.
+# 4. Run on host machine (where docker engine is running). 
 #
-# This script will write to the file every intervalSeconds.
-# Homey-api will read it intermittently to display performance stas.
+# * To run in the background:  $ pythonw monitorSystem.py
 # CONFIGURATION #########################################################
-dataFile = "./homey-api/local_machine_data.json"    # output file
+dataFile = "/home/steve/homey-data/local_machine_data.json"    # output file
 watchedDisks = ["/"]    # report disk usage for: "/", "/mnt/media", etc
 intervalSeconds = 30    # write to file every X seconds
 intervalCPUCalc = 6     # average CPU usage over X seconds  
 #########################################################################
 
-
 # get free, available, & total space for each disk in watchedDisks
 def getDiskUsage():
     if len(watchedDisks) < 1:   return
-    if not exists(dataFile):    return "Error: Data file not found " + dataFile
 
     diskUsage = []
     for d in watchedDisks:
@@ -50,7 +46,11 @@ def getUptime():
     toReturn = '\"uptime\": \"'
 
     if uptime.day-1 > 0:
-        toReturn += ('%d days, ' % uptime.day-1)
+        toReturn += ('%d day' % (uptime.day-1))
+        if uptime.day-1 < 2:
+            toReturn += ', '
+        else:
+            toReturn += 's, '
     if uptime.hour > 0:
         toReturn += ('%d hours, ' % uptime.hour)
     toReturn += ('%d minutes\"' % uptime.minute)

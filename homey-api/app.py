@@ -6,16 +6,15 @@ import os
 import yaml
 
 from config import config
-from modules import open_meteo, docker_api, portainer, flood, local_machine, service_checker
+from modules import open_meteo, docker_api, portainer, flood, service_checker
 
 ### INITIALIZATION
 app = Flask(__name__)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 app.config.from_object(config)
-app.config['JSON_SORT_KEYS'] = False     # TESTING -  remove if API data becomes mangled
+app.config['JSON_SORT_KEYS'] = False
 
-VALID_ICON_EXTS = {'png', 'jpeg', 'jpg'}
 if config.RUNNING_IN_DOCKER:
     app.config['UPLOAD_FOLDER'] = './config/icons'  
 else:
@@ -25,7 +24,6 @@ weatherAPI = open_meteo.api(config.WEATHER_LAT, config.WEATHER_LONG)
 portainerAPI = portainer.api(config.PORTAINER_URL, config.PORTAINER_USER, config.PORTAINER_PASSWORD)
 dockerAPI = docker_api.api(config.DOCKER_SOCKET)
 floodAPI = flood.api(config.FLOOD_URL, config.FLOOD_USER, config.FLOOD_PASSWORD)
-localMachine = local_machine.local_machine(config.SYSTEM_MONITOR_FILE)
 serviceChecker = service_checker.service_checker()
 
 ### WEATHER
@@ -96,7 +94,11 @@ def dockerControl():
 ### LOCAL MACHINE
 @app.route('/systemInfo', methods=['GET'])
 def systemInfo():
-    return Response(localMachine.getAllInfo(), mimetype="text/json");
+    if not exists(config.SYSTEM_MONITOR_FILE):
+        return jsonify({'Error': config.SYSTEM_MONITOR_FILE + ' does not exist'})
+
+    with open(config.SYSTEM_MONITOR_FILE, 'r') as f:
+        return Response(f.read(), mimetype="text/json");        
 
 ### SERVICE CHECKER
 @app.route('/checkServices', methods=['GET'])
@@ -133,7 +135,7 @@ def readFrontendConfig():
 def uploadIcon():
     try:
         f = request.files['image']
-        if f and f.filename != '' and '.' in f.filename and f.filename.rsplit('.')[1].lower() in VALID_ICON_EXTS:
+        if f and f.filename != '' and '.' in f.filename and f.filename.rsplit('.')[1].lower() in config.VALID_ICON_EXTS:
             filename = secure_filename(f.filename)
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return jsonify ({'Success': 'Uploaded ' + f.filename})

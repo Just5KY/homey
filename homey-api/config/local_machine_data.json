@@ -1,0 +1,1 @@
+{ "hostname" : "safehouse", "uptime": "1 day, 22 hours, 26 minutes", "disks": [ {"label": "/", "total": 232, "used": 27, "free": 193, "percent_used": 12} ], "cpu": 62.4, "ram": {"total": 20721, "free": 14821, "used": 4939, "percent_used": 28.5} }

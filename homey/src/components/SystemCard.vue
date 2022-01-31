@@ -58,7 +58,10 @@ export default {
   created() {
     this.getSystemInfo()
 
-    // set interval
+    // Refresh system info every 30 seconds
+    setInterval(() => {
+      this.getSystemInfo()
+    }, 30 * 1000)
   }
 }
 </script>
