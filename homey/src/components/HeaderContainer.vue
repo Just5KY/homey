@@ -5,8 +5,8 @@
       <div v-else class="header-container__main--house-padding"></div>
       <h1>{{ title }}</h1>
       <span v-if="APIOnline" 
-        title="Settings" class="material-icons-outlined"
-        @click="showOptions = !showOptions">settings
+        title="Settings" class="material-icon icon-settings"
+        @click="showOptions = !showOptions">
       </span>
       <transition name="fade">
         <OptionsPopup v-if="showOptions" 
@@ -21,9 +21,9 @@
     <div class="header__offline-bar"
       v-if="!APIOnline && !config.minimal_mode">
       You're offline, bub
-      <span class="material-icons-outlined" 
+      <span class="material-icon icon-refresh" 
         @click="window.location.reload()" 
-        title="Force refresh">refresh
+        title="Force refresh">
       </span>
     </div>
   </div>

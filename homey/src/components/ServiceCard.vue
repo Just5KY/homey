@@ -5,7 +5,7 @@
       <div class="service-card-container__text-container__subtitle">{{subtitle}}
       </div>
     </div>
-    <span v-if="displayStatus" :title="getStatusFormatted" :id="getStatus + ((isCompact) ? '__compact' : '')" class="service-card-container__indicator material-icons-outlined">{{ getStatus }}</span>
+    <span v-if="displayStatus" :title="getStatusFormatted" :id="getStatus + ((isCompact) ? '__compact' : '')" :class="'service-card-container__indicator material-icon ' + getStatus"></span>
     <div class="service-card-container__image-container">
       <img :src="iconPath">
     </div>
@@ -34,8 +34,8 @@ export default {
       return ((this.isCompact) ? 'service-card-container service-card-container__compact' : 'service-card-container')
     },
     getStatus: function() {
-      if(this.isUp) return 'arrow_circle_up';
-      return 'arrow_circle_down';
+      if(this.isUp) return 'icon-arrow_up';
+      return 'icon-arrow_down';
     },
     getStatusFormatted: function() {
       return this.title + ' is ' + ( (this.isUp) ? '' : 'un' ) + 'reachable at ' + this.url

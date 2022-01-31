@@ -54,6 +54,7 @@ class api:
         )
 
         if response.status_code != 200:
+            self.authenticate()
             raise Exception(str(response.status_code) + ": " + response.reason)
         
         containerData = []

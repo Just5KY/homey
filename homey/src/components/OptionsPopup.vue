@@ -18,7 +18,7 @@
                 </div>
               </li>
               <li class="modal-option">
-                <h3>Minimal Mode<span :title="this.minimalModeWarning" class="material-icons-outlined">info</span></h3>
+                <h3>Minimal Mode<span :title="this.minimalModeWarning" class="material-icon icon-info"></span></h3>
                 <div class="modal-option__button-container">
                   On<input type="radio" :value="true" v-model="localConfig.minimal_mode">
                   Off<input type="radio" :value="false" v-model="localConfig.minimal_mode">
@@ -33,7 +33,7 @@
               </li>
               <li class="modal-option">
                 <h3>Compact Services
-                  <span title="Reduces padding in services pane." class="material-icons-outlined">info</span>
+                  <span title="Reduces padding in services pane." class="material-icon icon-info"></span>
                 </h3>
                 <div class="modal-option__button-container">
                   On<input type="radio" :value="true" v-model="localConfig.compact_services">
@@ -94,23 +94,23 @@
                     <transition name="slide-up">
                       <span v-if="(getSelectedService().icon || newImage || newService.icon != '') && !showGallery" 
                         title="Upload New Icon" 
-                        class="uploader-button uploader-button__corner-right uploader-button__corner material-icons-outlined">
+                        class="uploader-button uploader-button__corner-right uploader-button__corner material-icon icon-arrow_up">
                         file_upload</span>
                     </transition>
                     <transition v-if="selectedService == 'newService'" name="fade">
                       <span v-if="!showGallery && !getSelectedService().icon && !newImage && newService.icon ==''" 
-                        class="uploader-button material-icons-outlined" id="upload_placeholder" title="Upload Icon">
+                        class="uploader-button material-icon" id="upload_placeholder" title="Upload Icon">
                         file_upload</span>
                     </transition>
                   </label>
                   <input type="file" id="uploader" ref="uploader" accept="image/png, image/jpeg" @change="fileUploaded" />
                   <transition name="fade">
                     <span v-if="!showGallery" title="Browse Uploaded Icons" @click="showGallery = !showGallery"
-                        class="uploader-button uploader-button__corner-left uploader-button__corner material-icons-outlined">
+                        class="uploader-button uploader-button__corner-left uploader-button__corner material-icon">
                         image
                     </span>
                     <span v-else title="Cancel" @click="showGallery = !showGallery"
-                        class="uploader-button uploader-button__corner-left uploader-button__corner material-icons-outlined">
+                        class="uploader-button uploader-button__corner-left uploader-button__corner material-icon">
                         close
                     </span>
                   </transition>

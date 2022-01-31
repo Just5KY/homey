@@ -1,5 +1,5 @@
 <template>
-    <span  v-on:click="controlContainer(this.type)" :title="getTooltip" class="material-icons-outlined docker-card-btn">{{getIcon}}</span>
+    <span  v-on:click="controlContainer(this.type)" :title="getTooltip" :class="getIcon + ' material-icon docker-card-btn'"></span>
 </template>
 
 <script>
@@ -22,17 +22,17 @@ export default {
         getIcon: function(){
             switch(this.type){
                 case 'pause':
-                    return 'pause_circle'
+                    return 'icon-pause'
                 case 'unpause':
-                    return 'play_circle'
+                    return 'icon-play'
                 case 'start':
-                    return 'play_circle'
+                    return 'icon-play'
                 case 'stop':
-                    return 'stop_circle'
+                    return 'icon-stop'
                 case 'info':
-                    return 'info'
+                    return 'icon-info'
                 case 'restart':
-                    return 'refresh'
+                    return 'icon-refresh'
             }
             return ''
         }

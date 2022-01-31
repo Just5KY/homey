@@ -3,7 +3,7 @@ import App from './App.vue'
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import Notifications from '@kyvg/vue3-notification';
-import '@material-design-icons/font'
+//import '@material-design-icons/font'
 
 // Vue entrypoint
 const app = createApp(App);

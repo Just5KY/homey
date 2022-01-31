@@ -1,14 +1,14 @@
 <template>
     <div class="docker-control-panel">
-        <span class="material-icons-outlined" 
+        <span class="material-icon icon-3d" 
             @click="this.$emit('toggleView')" title="Toggle view">
-        3d_rotation</span>
-        <span class="material-icons-outlined" 
+        </span>
+        <span class="material-icon icon-refresh" 
             @click="this.$emit('refreshContainers')" title="Refresh containers">
-        refresh</span>
-        <span class="material-icons-outlined" 
+        </span>
+        <span class="material-icon icon-settings" 
             @click="this.$emit('openSettings')" title="Settings">
-        settings</span>
+        </span>
     </div>
 </template>
 

@@ -4,10 +4,10 @@
           <div class="flood-card-container__heading">
             <div class="flood-card-container__heading--stats">
               <div class="flood-card-container__heading--stats__up">
-                <span class="material-icons-outlined">arrow_upward</span><p>{{floodStats.upSpeed}}</p>
+                <span class="material-icon icon-arrow_up"></span><p>{{floodStats.upSpeed}}</p>
               </div>
               <div class="flood-card-container__heading--stats__down">
-                <span class="material-icons-outlined">arrow_downward</span><p>{{floodStats.downSpeed}}</p>
+                <span class="material-icon icon-arrow_down"></span><p>{{floodStats.downSpeed}}</p>
               </div>
             </div>
             <span class="flood-card-container__heading--title">Torrents</span>
@@ -20,7 +20,7 @@
           <div class="flood-card-container__notifications">
             <ul>
               <li v-for="n in this.notifications" :key="n.time" :title="'Finished ' + n.time" >
-                <span class="material-icons-outlined">check</span>
+                <span class="material-icon icon-check"></span>
                 <p>{{n.msg}}</p>
                </li>
             </ul>

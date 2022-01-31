@@ -137,29 +137,29 @@
         margin-top: 1.5rem;
     }
 
-    #arrow_circle_up,
-    #arrow_circle_up__compact {
+    #icon-arrow_up,
+    #icon-arrow_up__compact {
         color: $green;
     }
 
-    #arrow_circle_down,
-    #arrow_circle_down__compact {
+    #icon-arrow_down,
+    #icon-arrow_down__compact {
         color: $red;
     }
 
-    &:hover #arrow_circle_up {
+    &:hover #icon-arrow_up {
         transform: translateY(210%) rotate(90deg) scale(1.2);
     }
 
-    &:hover #arrow_circle_up__compact {
+    &:hover #icon-arrow_up__compact {
         transform: translateY(180%) rotate(90deg) scale(1.2);
     }
 
     // don't rotate down arrow (ends up backwards)
-    &:hover #arrow_circle_down {
+    &:hover #icon-arrow_down {
         transform: translateY(200%) scale(1.2);
     }
-    &:hover #arrow_circle_down__compact {
+    &:hover #icon-arrow_down__compact {
         transform: translateY(180%) scale(1.2);
     }
 }
