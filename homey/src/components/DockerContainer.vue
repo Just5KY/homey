@@ -15,7 +15,7 @@
       @toggleView="togglePerspective()"
       @refreshContainers="loadContainerList(true)"
       @openSettings="this.$emit('openSettings')" />
-    <img v-if="perspective == '2d'" class="docker-container__whale" :src="'./images/docker-large-blank.png'">
+    <img v-if="perspective == '2d' && gridClass != 'docker-container__grid'" class="docker-container__whale" :src="'./images/docker-large-blank.png'">
   </div>
 </template>
 
@@ -38,7 +38,7 @@ export default {
   },
   data() {
     return {
-      dockerServices: Array,
+      dockerServices: [],
       gridClass: 'docker-container__grid',
       perspective: '2d',
       refreshHandle: null,

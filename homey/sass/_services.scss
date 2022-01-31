@@ -36,8 +36,8 @@
     }
 }
 
+// individual service
 .service-card-container {
-
     &__compact {
         height: 8rem;
     }
@@ -50,7 +50,6 @@
         margin-top: .75rem;
     }
 
-    //margin: 1rem;
     cursor: pointer;
     background-color: $backgroundColor2;
     border-radius: .5rem;
@@ -59,36 +58,7 @@
     display: flex;
     height: 10rem;
 
-    &:hover {
-        transform: translateY(-3px);
-        box-shadow: 5px 5px 15px 5px $shadowColor;
-    }
-
-    &:hover > &__image-container {
-        clip-path: polygon(0 0, 100% 0%, 100% 100%, 25% 100%);
-    }
-
-    &:hover #arrow_circle_up {
-        transform: translateY(210%) rotate(90deg) scale(1.2);
-    }
-
-    &:hover #arrow_circle_up__compact {
-        transform: translateY(180%) rotate(90deg) scale(1.2);
-    }
-
-    // don't rotate down arrow (ends up backwards)
-    &:hover #arrow_circle_down {
-        transform: translateY(200%) scale(1.2);
-    }
-    &:hover #arrow_circle_down__compact {
-        transform: translateY(180%) scale(1.2);
-    }
-
-    &:active {
-        transform: translateY(-1px);
-        box-shadow: 2px 2px 7px 5px $shadowColor;
-    }
-
+    // service name & subtitle
     &__text-container {
         align-self: flex-start;
         text-align: left;
@@ -117,24 +87,7 @@
         }
     }
 
-    &__indicator {
-        transition: all .35s ease-out;
-        font-size: 2.2rem;
-        height: fit-content;
-        
-        margin-top: 1.5rem;
-    }
-
-    #arrow_circle_up,
-    #arrow_circle_up__compact {
-        color: $green;
-    }
-
-    #arrow_circle_down,
-    #arrow_circle_down__compact {
-        color: $red;
-    }
-
+    // service icon
     &__image-container {
         transform: translateZ(0);   // Fix child elements shaking on hover
         transition: all .35s ease-out;
@@ -148,13 +101,65 @@
         border-radius: inherit;
         border-bottom-left-radius: 0px;
         border-top-left-radius: 0px;
-        width: 12rem;
+        min-width: 12rem;
+        max-width: 12rem;
         padding-left: 1.5rem;
+        
         
         & img {
             padding: 1rem;
             height: 80%;
             object-fit: contain;
         }
+    }
+
+    // Hover animation & shadow
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 5px 5px 15px 5px $shadowColor;
+    }
+
+    &:hover > &__image-container {
+        clip-path: polygon(0 0, 100% 0%, 100% 100%, 25% 100%);
+    }
+
+    &:active {
+        transform: translateY(-1px);
+        box-shadow: 2px 2px 7px 5px $shadowColor;
+    }
+
+    // up/down arrows
+    &__indicator {
+        transition: all .35s ease-out;
+        font-size: 2.2rem;
+        height: fit-content;
+        width: 2.2rem;
+        margin-top: 1.5rem;
+    }
+
+    #arrow_circle_up,
+    #arrow_circle_up__compact {
+        color: $green;
+    }
+
+    #arrow_circle_down,
+    #arrow_circle_down__compact {
+        color: $red;
+    }
+
+    &:hover #arrow_circle_up {
+        transform: translateY(210%) rotate(90deg) scale(1.2);
+    }
+
+    &:hover #arrow_circle_up__compact {
+        transform: translateY(180%) rotate(90deg) scale(1.2);
+    }
+
+    // don't rotate down arrow (ends up backwards)
+    &:hover #arrow_circle_down {
+        transform: translateY(200%) scale(1.2);
+    }
+    &:hover #arrow_circle_down__compact {
+        transform: translateY(180%) scale(1.2);
     }
 }
