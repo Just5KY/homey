@@ -3,7 +3,7 @@ minimal_mode: false
 hide_house: false
 compact_services: false
 enable_service_status: true
-docker_api_backend: portainer
+docker_api_backend: docker
 services:
 - icon: portainer.png
   name: Portainer

@@ -8,16 +8,14 @@ import json
 
 # README ################################################################
 # Outputs host info to file in an infinite loop.
-#
 # 1. pip install psutil
 # 2. Configure dataFile to match homey-api's config volume path.
 # 3. Configure watchedDisks if desired.
 # 4. Run on host machine (where docker engine is running). 
-#
-# * To run in the background:  $ pythonw monitorSystem.py
+#       * To run in background:     pythonw monitorSystem.py
 # CONFIGURATION #########################################################
 dataFile = "./homey-api/config/local_machine_data.json"    # output file
-watchedDisks = ["/"]    # report disk usage for: "/", "/mnt/media", etc
+watchedDisks = ["/", "/cyan", "/red", "/blue", "/green"]    # report disk usage for: "/", "/mnt/media", etc
 intervalSeconds = 30    # write to file every X seconds
 intervalCPUCalc = 6     # average CPU usage over X seconds  
 #########################################################################
