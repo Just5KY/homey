@@ -38,9 +38,25 @@ When the project is released, docker images and better documentation will be pro
 
     docker-compose up
 
-### Local Docker API
 
-To find the appropriate config values for `.env`:
+### System monitor module
+
+Displays CPU/RAM/disk usage and uptime. Docker containers cannot query the host for this information (for security reasons). This can be circumvented by **running a script on the host** to update a file mounted inside the container: `monitorSystem.py`.
+- Put the script anywhere
+- Install process utilities: `pip install psutil`
+- Point `dataFile` at homey's config Docker volume
+    - Or at `homey-api/config` if running outside of Docker
+- Add mount points to `watchedDisks` to enable space usage reports
+- Save & run in background with `pythonw monitorSystem.py`
+- Launch homey
+
+### Docker backends
+**Portainer** - Communicates with a running [Portainer](https://github.com/portainer/portainer) instance. Preferred as it provides an additional layer of security.
+- To use, expose port 9000:9000 on the target Portainer container
+- Currently only the HTTP API is supported. Therefore..
+- **Do not connect to Portainer instances outside of the local network - credentials will be leaked.**
+
+**Docker API** - Communicates with the parent Docker Engine process if running in a container. Communicates with the local Docker Engine process otherwise. To find the appropriate config values for `.env`:
 - User ID: `id -u`
 - Docker group ID: `getent group docker | cut -d: -f3`
 - Docker socket path: `/var/run/docker.sock` (unless you've changed it)
@@ -55,11 +71,6 @@ If you're running homey on a Windows host and wish to use the local Docker API b
     ...
 
 This will allow homey to view and control containers on the host machine. It's safe to ignore `HOMEY_API_DOCKER_USER_ID` and `GROUP_ID`.
-
-### Docker backends
-**Portainer** - Communicates with a running [Portainer](https://github.com/portainer/portainer) instance. Preferred as it provides an additional layer of security via password authentication.
-
-**Docker API** - Communicates with the parent Docker Engine process if running in a container. Communicates with the local Docker Engine process otherwise.
 
 ### Minimal mode
 **Minimal mode** turns homey into a more traditional dashboard with links to services and low overhead. All features besides service links and bookmarks are disabled, along with 3D eyecandy. This option can be toggled using the settings menu or the `minimal_mode` flag in `config.yml`.

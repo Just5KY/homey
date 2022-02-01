@@ -11,7 +11,7 @@ class api:
         if dockerSocketPath == '/var/run/docker.sock':   # default
             self.client = docker.from_env()
         else:
-            print('ERROR: Lazy author has not implemented custom socket paths yet.')
+            print('ERROR: Custom docker socket paths are not yet supported.')
 
     def listContainers(self):
         containerData = []
@@ -26,7 +26,7 @@ class api:
 
         return containerData
 
-    # valid operations: pause, unpause, start, stop, restart, kill
+    # valid operations: pause, unpause, start, stop, restart, kill, info
     def controlContainer(self, containerName, operation):     
         targetId = ''
         for con in self.listContainers():
@@ -37,8 +37,22 @@ class api:
         if targetId == '':
             return 'error: ' + containerName + ' not found'
 
+        container = self.client.containers.get(targetId)
+        
+        # get detailed container stats & logs
+        if operation == 'info':
+            logs = []
+            for line in container.logs(timestamps=True, tail=100).split(b'\n'):
+                logs.append(line.decode().replace('\"','').strip())
+            logs.pop()
+
+            return {
+                'stats': container.stats(stream=False),
+                'log': logs,
+            }
+
+        # every other operation name is a valid Docker API method
         try:
-            container = self.client.containers.get(targetId)
             targetOp = getattr(container, operation)
             targetOp()
         except:

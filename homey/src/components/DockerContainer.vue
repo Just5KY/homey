@@ -7,6 +7,7 @@
         :serviceName="s.name" 
         :state="s.status" 
         :uptime="s.uptime"
+        @showDetailsPopup="showDetailedInfo"
         ref="cell"
       />
     </div>
@@ -16,6 +17,7 @@
       @refreshContainers="loadContainerList(true)"
       @openSettings="this.$emit('openSettings')" />
     <img v-if="perspective == '2d' && gridClass != 'docker-container__grid'" class="docker-container__whale" :src="'./images/docker-large-blank.png'">
+    <div v-if="showDetails">{{ containerDetails }}</div>
   </div>
 </template>
 
@@ -42,11 +44,17 @@ export default {
       gridClass: 'docker-container__grid',
       perspective: '2d',
       refreshHandle: null,
+      showDetails: false,
+      containerDetails: {}
     };
   },
   computed: {
   },
   methods: {
+    showDetailedInfo(containerData) {
+      this.containerDetails = containerData;
+      this.showDetails = true;
+    },
     loadContainerList: function(shouldNotify=false) {
         this.axios.get('http://0.0.0.0:9101/' + this.backend + 'List').then((res) => {
           this.dockerServices = res.data;

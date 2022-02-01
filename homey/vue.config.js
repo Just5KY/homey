@@ -20,7 +20,6 @@ module.exports = {
         watchOptions: {
           ignored: /node_modules/
         },
-        mode: 'production',
         // Forward all three imports to minimized exports file
         // resolve: {
         //   alias: {

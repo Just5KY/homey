@@ -1,5 +1,4 @@
 <template>
-  <!-- <div class="docker-card-container"> -->
   <div :class="['docker-cell', 'd' + gridIndex]" ref="cell">
     <img v-if="!imageError" :src="getIconPath" @error="onImageError">
     <span v-if="imageError" class="docker-cell__image-placeholder material-icon icon-storage"></span>
@@ -11,7 +10,7 @@
         <DockerServiceButton v-if="state=='exited'" :serviceName="serviceName" type="start"/>
         <DockerServiceButton v-if="state=='running' || state=='paused'" :serviceName="serviceName" type="stop"/>
         <DockerServiceButton v-if="state=='running' || state=='paused'" :serviceName="serviceName" type="restart"/>
-        <DockerServiceButton :serviceName="serviceName" :serviceData="infoString" type="info"/>
+        <DockerServiceButton @showDetailsPopup="emitToParent" :serviceName="serviceName" :serviceData="infoString" type="info"/>
       </div>
     </div>
   </div>
@@ -26,6 +25,7 @@ export default {
   components: {
     DockerServiceButton,
   },
+  emits: [ 'showDetailsPopup' ],
   props: {
       gridIndex: Number,
       serviceName: String,
@@ -47,6 +47,9 @@ export default {
     };
   },
   methods: {
+    emitToParent(containerData){
+      this.$emit('showDetailsPopup', containerData);
+    },
     onImageError: function() {
       this.imageError = true;
     },

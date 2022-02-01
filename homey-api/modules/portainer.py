@@ -84,6 +84,12 @@ class api:
         if targetId == '':
             return 'error: ' + containerName + ' not found'
 
+        if operation == 'info':
+            return ses.request('GET',
+                url=self.host + '/endpoints/' + str(self.endpointId) + '/docker/containers/' + targetId + '/json', 
+                headers={"Authorization": self.authToken}
+            ).json()
+
         response = ses.request('POST', 
             url=self.host + '/endpoints/' + str(self.endpointId) + '/docker/containers/' + targetId + '/' + operation, 
             headers={"Authorization": self.authToken}

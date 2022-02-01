@@ -16,11 +16,14 @@ import json
 #
 # * To run in the background:  $ pythonw monitorSystem.py
 # CONFIGURATION #########################################################
-dataFile = "/home/steve/homey-data/local_machine_data.json"    # output file
+dataFile = "./homey-api/config/local_machine_data.json"    # output file
 watchedDisks = ["/"]    # report disk usage for: "/", "/mnt/media", etc
 intervalSeconds = 30    # write to file every X seconds
 intervalCPUCalc = 6     # average CPU usage over X seconds  
 #########################################################################
+
+
+
 
 # get free, available, & total space for each disk in watchedDisks
 def getDiskUsage():
@@ -45,6 +48,7 @@ def getUptime():
     uptime = datetime(1,1,1) + timedelta(seconds=secondsUp)
     toReturn = '\"uptime\": \"'
 
+    # construct intelligent uptime string
     if uptime.day-1 > 0:
         toReturn += ('%d day' % (uptime.day-1))
         if uptime.day-1 < 2:
@@ -57,7 +61,7 @@ def getUptime():
 
     return toReturn
 
-# return values formatted in megabytes as JSON string
+# return mem usage values formatted in MB as JSON
 def getRAMUsage():
     raw = virtual_memory()
 
@@ -68,7 +72,7 @@ def getRAMUsage():
         "percent_used": raw[2]
     })
 
-# convert int disk usage values to JSON string
+# convert int disk usage values to JSON
 def formatDiskLine(label, total, used, free):
     return json.dumps({
         "label":  label.replace(":", ""),

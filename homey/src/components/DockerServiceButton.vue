@@ -12,6 +12,7 @@ export default {
       serviceName: String,
       serviceData: String,
     },
+    emits: [ 'showDetailsPopup' ],
     computed: {
         getTooltip: function(){
             if(this.type == 'info'){
@@ -39,12 +40,15 @@ export default {
     },
     methods: {  
         controlContainer: function(operation){
-            if(operation == 'info'){   
-                return   // TODO: detailed info popup
-            }
-            notifications.notifyInfo('Attempting to ' + operation + ' container ' + this.serviceName + '...');
+            if(operation != 'info')
+                notifications.notifyInfo('Attempting to ' + operation + ' container ' + this.serviceName + '...');
+
             let postData = {name: this.serviceName, operation: operation}
             this.axios.post('http://0.0.0.0:9101/' + this.$parent.$parent.backend + 'Control',  postData).then((res) => {
+                if(operation == 'info'){
+                    this.$emit('showDetailsPopup', res.data)
+                    return;
+                }
                 if(res.data != 'success') throw 'controlException';
                 notifications.notifySuccess('Successfully ' + operation + ((operation == 'pause' || operation == 'unpause') ? 'd' : 'ed') + ' container ' + this.serviceName + '!');
                 this.$parent.$parent.loadContainerList();
