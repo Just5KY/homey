@@ -59,7 +59,7 @@ export default {
     // load configuration
     loadConfig: function() {
       // fetch from backend
-      this.axios.get('http://0.0.0.0:9101/readFrontendConfig').then((res) => {
+      this.axios.get('/api/readFrontendConfig').then((res) => {
         this.config = res.data;
         this.configLoaded = true;
       }).catch(() => {
@@ -78,7 +78,7 @@ export default {
     },
     // write settings to config.yml
     saveConfig() {
-      this.axios.post('http://0.0.0.0:9101/writeFrontendConfig', this.config).then(() => {
+      this.axios.post('/api/writeFrontendConfig', this.config).then(() => {
         notifications.notifySuccess('Successfully saved configuration file');
         window.location.reload();
       }).catch(() => { notifications.notifyError('Error: Failed to save configuration file'); });
@@ -89,7 +89,7 @@ export default {
         clearInterval(this.pingTimer);
         return;
       }
-      this.axios.get('http://0.0.0.0:9101/ping').then(() => { 
+      this.axios.get('/ping').then(() => { 
         this.isOnline = true;
         if(this.config.enable_service_status) this.checkServices(); 
       }).catch(() => { this.isOnline = false; });
@@ -98,7 +98,7 @@ export default {
     },
     // retrieve service statuses
     checkServices: function() {
-      this.axios.get('http://0.0.0.0:9101/checkServices').then((res) => { 
+      this.axios.get('/api/checkServices').then((res) => { 
         this.serviceStatuses = res.data;
       }).catch(() => {
         if(this.isOnline) notifications.notifyWarning('Warning: Could not retrieve service uptime information');
