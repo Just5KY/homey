@@ -20,7 +20,7 @@ export default {
     },
     methods: {
         getIcons() {
-            this.axios.get('http://0.0.0.0:9101/getIconPath/all').then((res) => {
+            this.axios.get('/api/getIconPath/all').then((res) => {
                 this.icons = res.data;
             }).catch(e => {
                 console.log('Could not reach homey API');

@@ -56,10 +56,10 @@ export default {
   },
   methods: {
     getFloodData: function() {
-        this.axios.get('http://0.0.0.0:9101/floodNotifications').then((res) => {
+        this.axios.get('/api/floodNotifications').then((res) => {
           this.notifications = res.data;
       }).then(() => {
-      this.axios.get('http://0.0.0.0:9101/floodStats').then((res) => {
+      this.axios.get('/api/floodStats').then((res) => {
           this.floodStats = res.data
           this.loaded = true;
       })}).catch(e => {

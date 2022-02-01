@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     getSystemInfo: function() {
-        this.axios.get('http://0.0.0.0:9101/systemInfo').then((res) => {
+        this.axios.get('/api/systemInfo').then((res) => {
             this.systemData = res.data;
             this.isLoaded = true;
       }).catch(e => {

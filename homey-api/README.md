@@ -5,7 +5,7 @@ Backend written in Flask for [homey dashboard](https://github.com/vlfldr/homey).
 ## Documentation
 The backend runs on port 9101 by default. For example, to get JSON-formatted hourly weather for March 12th 2021:
     
-    GET http://0.0.0.0:9101/weatherHourly/20210312
+    GET /api/weatherHourly/20210312
 
 Weather location, timezone, and Portainer API information can be configured in `.env`.
 

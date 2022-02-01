@@ -56,7 +56,7 @@ export default {
       this.showDetails = true;
     },
     loadContainerList: function(shouldNotify=false) {
-        this.axios.get('http://0.0.0.0:9101/' + this.backend + 'List').then((res) => {
+        this.axios.get('/api/' + this.backend + 'List').then((res) => {
           this.dockerServices = res.data;
       }).then(() => { 
         this.setGridSize();
@@ -66,19 +66,25 @@ export default {
       });
     },
     authenticate: function() {
-        this.axios.get('http://0.0.0.0:9101/' + this.backend + 'Auth').then((res) => {
+        this.axios.get('/api/' + this.backend + 'Auth').then((res) => {
           //console.log('INFO :: ' + this.backend + ' API authentication returned ' + res.data);
       }).catch(e => {
         notifications.notifyWarning('Warning: Failed to authenticate with ' + this.backend);
       });
     },
     controlContainer: function(name, operation){
-        if(operation == 'info'){   
-            return   // TODO: detailed info popup
-        }
-        notifications.notifyInfo('Attempting to ' + operation + ' container ' + name + '...');
         let postData = {name: name, operation: operation};
-        this.axios.post('http://0.0.0.0:9101/' + this.backend + 'Control', postData).then((res) => {
+
+        if(operation == 'info'){   
+            let postData = {name: name, operation: 'info'}
+            this.axios.post('/api/' + this.$parent.$parent.backend + 'Control',  postData).then((res) => {
+              this.showDetailedInfo(res.data);
+              return;
+            })
+        }
+
+        notifications.notifyInfo('Attempting to ' + operation + ' container ' + name + '...');
+        this.axios.post('/api/' + this.backend + 'Control', postData).then((res) => {
             if(res.data != 'success') throw 'controlException';
             notifications.notifySuccess('Successfully ' + operation + ((operation == 'pause' || operation == 'unpause') ? 'd' : 'ed') + ' container ' + name + '!');
             this.loadContainerList();

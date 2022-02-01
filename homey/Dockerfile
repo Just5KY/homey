@@ -35,4 +35,6 @@ RUN npm install -g http-server
 
 # serve on 8080
 EXPOSE 8080
-CMD ["http-server", "."]
+CMD ["http-server", ".", "--gzip",\ 
+    "--proxy", "http://homey-api:9101",\ 
+    "--proxy-options.secure", "false" ]

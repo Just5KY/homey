@@ -323,7 +323,7 @@ export default {
       let fd = new FormData();
       fd.append("image", file)
       let header = {'Content-Type': 'multipart/form-data'}
-      this.axios.post('http://0.0.0.0:9101/uploadIcon', fd, 
+      this.axios.post('/api/uploadIcon', fd, 
         {headers: header}).then((res) => {
           if(res.data['Success']){
             // Successful image upload

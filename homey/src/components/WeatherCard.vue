@@ -72,7 +72,7 @@ export default {
   methods: {
     getHourlyWeather: function() {
         let today = new Date().toJSON().slice(0, 10).replaceAll('-', '');
-        this.axios.get('http://0.0.0.0:9101/weatherHourly/' + today).then((res) => {
+        this.axios.get('/api/weatherHourly/' + today).then((res) => {
             this.weatherDataHourly = res.data.slice(0,9);
       }).catch(e => {
         console.warn('Error: Could not retrieve weather information from homey API. Are coordinates configured correctly?');
@@ -81,7 +81,7 @@ export default {
     },
     getDailyWeather: function() {
         let today = new Date().toJSON().slice(0, 10).replaceAll('-', '');
-        this.axios.get('http://0.0.0.0:9101/weatherWeekly').then((res) => {
+        this.axios.get('/api/weatherWeekly').then((res) => {
           if(res.data.length > 2) this.weatherDataDaily = res.data;
       }).catch(e => {
         console.warn('Error: Could not retrieve weather information from homey API. Are coordinates configured correctly?');

@@ -11,6 +11,15 @@ module.exports = {
           .end();
       },
       devServer: {
+        proxy: {
+          "^/api/": {
+            target: "http://0.0.0.0:9101",
+            secure: false,
+            pathRewrite: {
+              '/api/*': '/'
+            }
+          }
+        },
         progress: false
       },
       configureWebpack: {

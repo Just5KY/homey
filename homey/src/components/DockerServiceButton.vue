@@ -44,7 +44,7 @@ export default {
                 notifications.notifyInfo('Attempting to ' + operation + ' container ' + this.serviceName + '...');
 
             let postData = {name: this.serviceName, operation: operation}
-            this.axios.post('http://0.0.0.0:9101/' + this.$parent.$parent.backend + 'Control',  postData).then((res) => {
+            this.axios.post('/api/' + this.$parent.$parent.backend + 'Control',  postData).then((res) => {
                 if(operation == 'info'){
                     this.$emit('showDetailsPopup', res.data)
                     return;
