@@ -1,5 +1,7 @@
 // Layout & fill order for Docker whale grid
-// y index is 0-indexed, x is not
+
+// We could do it in one line with x = (index % 5) y = floor(index / 5),
+// but that's boring and doesn't take long enough...
 
 export default { 
     CrateIndexes: [  

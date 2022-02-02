@@ -10,6 +10,7 @@ module.exports = {
           .loader("raw-loader")
           .end();
       },
+      // development API proxy
       devServer: {
         proxy: {
           "^/api/": {

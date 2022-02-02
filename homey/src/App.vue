@@ -1,24 +1,24 @@
 <template>
   <link rel="stylesheet" type="text/css" href="css/style.css">
-    <HeaderContainer v-if="configLoaded"
-      :APIOnline="isAPIOnline" 
-      :config="this.config" 
-      :title="config.title"
-      @loadConfig="loadConfig" 
-      @saveConfig="saveConfig" 
-      ref="header"/>
-    <ServiceContainer v-if="configLoaded"
-      :fullscreen="!isAPIOnline" 
-      :compactServices="config.compact_services" 
-      :statusIndicators="config.enable_service_status" 
-      :services="config.services" 
-      :statuses="this.serviceStatuses"/>
-    <DockerContainer v-if="configLoaded && isAPIOnline" 
-      :backend="config.docker_api_backend"
-      @openSettings="this.$refs.header.showOptions = true"/>
-    <CardContainer v-if="configLoaded && isAPIOnline" 
-      :cards="config.cards"
-      :bookmarks="config.bookmarks" />
+  <HeaderContainer v-if="configLoaded"
+    :APIOnline="isAPIOnline" 
+    :config="this.config" 
+    :title="config.title"
+    @loadConfig="loadConfig" 
+    @saveConfig="saveConfig" 
+    ref="header"/>
+  <ServiceContainer v-if="configLoaded"
+    :fullscreen="!isAPIOnline" 
+    :compactServices="config.compact_services" 
+    :statusIndicators="config.enable_service_status" 
+    :services="config.services" 
+    :statuses="this.serviceStatuses"/>
+  <DockerContainer v-if="configLoaded && isAPIOnline" 
+    :backend="config.docker_api_backend"
+    @openSettings="this.$refs.header.showOptions = true"/>
+  <CardContainer v-if="configLoaded && isAPIOnline" 
+    :cards="config.cards"
+    :bookmarks="config.bookmarks" />
   <notifications position="top left" />
 </template>
 
