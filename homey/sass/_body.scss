@@ -2,6 +2,7 @@
 
 body {
     min-height: 100vh;
+    width: 100%;
 }
 
 #app {
@@ -12,7 +13,7 @@ body {
     display: grid;
         
     grid-template-rows: 15rem auto auto;
-    grid-template-columns: 66vw 34vw;
+    grid-template-columns: 66% 34%;
 
     @media (max-width: $mobile-break-med) {
        display: flex;

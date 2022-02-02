@@ -534,7 +534,8 @@
     cursor: pointer; }
 
 body {
-  min-height: 100vh; }
+  min-height: 100vh;
+  width: 100%; }
 
 #app {
   box-sizing: border-box;
@@ -542,7 +543,7 @@ body {
   color: #f8f8f2;
   display: grid;
   grid-template-rows: 15rem auto auto;
-  grid-template-columns: 66vw 34vw; }
+  grid-template-columns: 66% 34%; }
   @media (max-width: 1350px) {
     #app {
       display: flex;
@@ -601,6 +602,7 @@ h2 {
     box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
   .flood-card-container__heading {
     margin: 2rem;
+    margin-bottom: 0;
     justify-content: space-between;
     display: flex; }
     .flood-card-container__heading--title {
@@ -627,10 +629,12 @@ h2 {
   .flood-card-container__chart {
     margin-left: -1rem;
     width: 105%;
-    height: 100%;
+    height: calc(100% - 7.1rem);
     display: flex;
     flex-direction: column;
     justify-items: flex-end; }
+    .flood-card-container__chart div {
+      max-height: 100%; }
   .flood-card-container__notifications ul {
     list-style: none; }
     .flood-card-container__notifications ul li {
@@ -1321,6 +1325,9 @@ h2 {
 #whale-canvas {
   width: 100%;
   height: 100%; }
+  #whale-canvas canvas {
+    width: 100%;
+    height: 100%; }
 
 #tooltip {
   position: absolute;

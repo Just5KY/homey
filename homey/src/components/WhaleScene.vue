@@ -104,7 +104,6 @@ export default {
       // camera.bottom = height / - 100
       // camera.updateProjectionMatrix();
 
-
       this.$refs.threeCanvas.addEventListener('mousemove', this.onMouseMove, false );
       this.$refs.threeCanvas.addEventListener('mousedown', this.onMouseDown, false );
       

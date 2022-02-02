@@ -68,6 +68,7 @@
     // Front
     &__heading {
         margin: 2rem;
+        margin-bottom: 0;
         justify-content: space-between;
         display: flex;
 
@@ -112,11 +113,15 @@
     &__chart {
         margin-left: -1rem;
         width: 105%;
-        height: 100%;
+        height: calc(100% - 7.1rem);
 
         display: flex;
         flex-direction: column;
         justify-items: flex-end;
+
+        & div {
+            max-height: 100%;
+        }
 
     }
 
