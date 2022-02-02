@@ -22,7 +22,7 @@ services:
     image: vlfldr/homey:latest
     build: ./homey/
     ports:
-      - "8080:8080"
+      - "8080:80"
     volumes:
       - ~/homey-data:/app/data
     depends_on:

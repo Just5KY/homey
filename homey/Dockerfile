@@ -1,40 +1,31 @@
-FROM debian:bullseye-slim as build
-
-# install node & npm
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl && \
-    (curl -sL https://deb.nodesource.com/setup_16.x | bash -) && \
-    apt-get install -y --no-install-recommends nodejs npm && \
-    rm -rf /var/lib/apt/lists/* && \
-    apt-get clean
+FROM node:lts-slim as build
 
 WORKDIR /app
+
 ENV NODE_ENV production
 
-# copy source into build layer
 COPY . .
 
-# install node modules, compile SASS,
-# build for production, remove intermediate files
 RUN npm install --production && \
     npm run prod_compile:sass && \
-    npm run build && \
-    rm -rf ./node_modules
-
+    npm run build
 
 # final image - optimized for size
-FROM node:16-alpine
+FROM nginx:alpine
 
+# this may break things - old file used /app workdir
+#WORKDIR /usr/share/nginx/html
 WORKDIR /app
+
+# copy nginx config
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+# clean nginx default files
+#RUN rm -rf ./*
 
 # copy only build output out of intermediate layer
 COPY --from=build /app/dist .
 
-# install production http server
-RUN npm install -g http-server
-
 # serve on 8080
-EXPOSE 8080
-CMD ["http-server", ".", "--gzip",\ 
-    "--proxy", "http://homey-api:9101",\ 
-    "--proxy-options.secure", "false" ]
+# EXPOSE 8080
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

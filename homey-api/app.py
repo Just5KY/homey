@@ -26,6 +26,12 @@ dockerAPI = docker_api.api(config.DOCKER_SOCKET)
 floodAPI = flood.api(config.FLOOD_URL, config.FLOOD_USER, config.FLOOD_PASSWORD)
 serviceChecker = service_checker.service_checker()
 
+def readConfigFile():
+    with open('./config/config.yml') as f:
+        cfg = jsonify(yaml.safe_load(f))
+        serviceChecker.assignAll(cfg.json['services'])
+        return cfg
+
 ### WEATHER
 @app.route('/weatherWeekly', methods=['GET'])
 def weatherWeekly():
@@ -124,10 +130,7 @@ def writeFrontendConfig():
 @app.route('/readFrontendConfig', methods=['GET'])
 def readFrontendConfig():
     try:
-        with open('./config/config.yml') as f:
-            cfg = jsonify(yaml.safe_load(f))
-            serviceChecker.assignAll(cfg.json['services'])
-            return cfg
+        return readConfigFile()
     except: 
         return jsonify({'Error': 'Could not read config file. Are permissions correct?'})
 
@@ -168,3 +171,4 @@ def nicehashMinerStats():
 ### ENTRYPOINT
 if __name__ == '__main__':
     app.run('0.0.0.0', 9101, debug=True)
+

@@ -89,7 +89,7 @@ export default {
         clearInterval(this.pingTimer);
         return;
       }
-      this.axios.get('/ping').then(() => { 
+      this.axios.get('/api/ping').then(() => { 
         this.isOnline = true;
         if(this.config.enable_service_status) this.checkServices(); 
       }).catch(() => { this.isOnline = false; });
