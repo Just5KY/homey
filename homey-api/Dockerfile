@@ -10,7 +10,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # install docker-cli to communicate with mounted socket
-RUN apk update --no-cache && apk add --no-cache docker-cli openrc
+RUN apk update --no-cache && apk add --no-cache docker-cli openrc && apk clean
 
 # copy source into container
 COPY . .

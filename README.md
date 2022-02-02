@@ -5,21 +5,16 @@
 
 Homey is a simple home server dashboard packed with functionality. The layout is loosely inspired by [Homer](https://github.com/bastienwirtz/homer).
 
-
-
 **Work in progress! Not ready yet.**
 
 ## Features
 
-* Securely manage Docker containers (remote & local) via [Portainer](https://github.com/portainer/portainer)
-* Manage local containers via the native Docker API
-* View qBittorent/rTorrent/Transmission/Deluge realtime stats & download progress through [Flood](https://github.com/jesec/flood/) *(ruTorrent support will be added in the future)*
-* Configure from web interface or with a simple YAML file
-* View up/down status of services at a glance
-* View host CPU, RAM, & disk usage
-* Get hourly & weekly weather forecasts
-* Watch your Docker containers stack up on the interactive whale!
-* Play with 3D things that spin!
+* Local Docker container management
+* Remote Docker container management via [Portainer](https://github.com/portainer/portainer)
+* Torrent transfer speed & download notifications (*supported clients: qBittorent, rTorrent, Transmission, Deluge*) via [Flood](https://github.com/jesec/flood/) 
+* Monitor up/down status of services
+* Monitor server's CPU usage, RAM usage, disk usage, uptime
+* Easter eggs :)
 
 ## Installation & Configuration
 
@@ -38,10 +33,10 @@ When the project is released, docker images and better documentation will be pro
 
     docker-compose up
 
-
 ### System monitor module
 
-Displays CPU/RAM/disk usage and uptime. Docker containers cannot query the host for this information (for security reasons). This can be circumvented by **running a script on the host** to update a file mounted inside the container: `monitorSystem.py`.
+Displays CPU/RAM/disk usage and uptime. Docker containers cannot query the host for this information (for security reasons). This can be circumvented by **running a script on the host**: `monitorSystem.py`
+
 - Put the script anywhere
 - Install process utilities: `pip install psutil`
 - Point `dataFile` at homey's config Docker volume
@@ -83,6 +78,10 @@ Homey looks for service icons in <docker_volume>/icons and /public/data/icons. I
 Docker containers will use icons which share their exact name. For example: to set `portainer-agent`'s icon, upload a new icon named `portainer-agent.png`.
 
 You can find a collection of PNG self-hosted service icons at NX211's [Homer Icons](https://github.com/NX211/homer-icons) (512x512) or [Homer Icons Compressed](https://github.com/vlfldr/homer-icons) (128x128). 
+
+## Planned features
+- **HTTPS Portainer API support**
+- ruTorrent support
 
 ## Built with:
 

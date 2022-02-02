@@ -1,14 +1,17 @@
 // Body
 
+body {
+    min-height: 100vh;
+}
+
 #app {
     box-sizing: border-box;
     background-color: $backgroundColor;
     color: $white;
     
     display: grid;
-    height: 100%;
         
-    grid-template-rows: 20vh 50vh auto;
+    grid-template-rows: 15rem auto auto;
     grid-template-columns: 66vw 34vw;
 
     @media (max-width: $mobile-break-med) {
