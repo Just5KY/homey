@@ -589,17 +589,13 @@ h2 {
       .flood-card-container__side--back::-webkit-scrollbar {
         width: 0 !important; }
   .flood-card-container:hover .flood-card-container__side--front {
-    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8);
-    transform: translateY(-2px) rotateY(0deg); }
-  .flood-card-container__flipped:hover .flood-card-container__side--front {
-    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8);
-    transform: translateY(-2px) rotateY(-180deg); }
+    box-shadow: 0.5rem 1rem 2rem rgba(28, 28, 28, 0.8);
+    transform: translateY(-2px); }
+  .flood-card-container__flipped:hover .flood-card-container__side--front,
   .flood-card-container__flipped .flood-card-container__side--front {
-    transform: rotateY(-180deg);
-    box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
+    transform: translateY(-2px) rotateY(-180deg); }
   .flood-card-container__flipped .flood-card-container__side--back {
-    transform: rotateY(0deg);
-    box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
+    transform: rotateY(0deg); }
   .flood-card-container__heading {
     margin: 2rem;
     margin-bottom: 0;
@@ -697,17 +693,13 @@ h2 {
     opacity: .5;
     z-index: 0; }
   .weather-card-container:hover .weather-card-container__side--front {
-    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8);
-    transform: translateY(-2px) rotateY(0deg); }
-  .weather-card-container__flipped:hover .weather-card-container__side--front {
-    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8);
-    transform: translateY(-2px) rotateY(-180deg); }
+    box-shadow: 0.5rem 1rem 2rem rgba(28, 28, 28, 0.8);
+    transform: translateY(-2px); }
+  .weather-card-container__flipped:hover .weather-card-container__side--front,
   .weather-card-container__flipped .weather-card-container__side--front {
-    transform: rotateY(-180deg);
-    box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
+    transform: translateY(-2px) rotateY(-180deg); }
   .weather-card-container__flipped .weather-card-container__side--back {
-    transform: rotateY(0deg);
-    box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
+    transform: rotateY(0deg); }
   .weather-card-container__heading {
     margin: 2rem;
     justify-content: space-between;
@@ -909,17 +901,13 @@ h2 {
       .system-card-container__side--back::-webkit-scrollbar {
         width: 0 !important; }
   .system-card-container:hover .system-card-container__side--front {
-    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8);
-    transform: translateY(-2px) rotateY(0deg); }
-  .system-card-container__flipped:hover .system-card-container__side--front {
-    box-shadow: 0 1.5rem 2rem rgba(28, 28, 28, 0.8);
-    transform: translateY(-2px) rotateY(-180deg); }
+    box-shadow: 0.5rem 1rem 2rem rgba(28, 28, 28, 0.8);
+    transform: translateY(-2px); }
+  .system-card-container__flipped:hover .system-card-container__side--front,
   .system-card-container__flipped .system-card-container__side--front {
-    transform: rotateY(-180deg);
-    box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
+    transform: translateY(-2px) rotateY(-180deg); }
   .system-card-container__flipped .system-card-container__side--back {
-    transform: rotateY(0deg);
-    box-shadow: 0.5rem 2.5rem 4rem rgba(28, 28, 28, 0.8); }
+    transform: rotateY(0deg); }
   .system-card-container__heading {
     margin: 2rem;
     justify-content: space-between;

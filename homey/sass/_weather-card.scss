@@ -52,25 +52,19 @@
         z-index: 0;
     }
 
-    // Hover shadow
+    // hover shadow
     &:hover &__side--front {
-        box-shadow: 0 1.5rem 2rem rgba($shadowColor, 0.8);
-        transform: translateY(-2px) rotateY(0deg);
-    }
-
-    &__flipped:hover &__side--front {
-        box-shadow: 0 1.5rem 2rem rgba($shadowColor, 0.8);
-        transform: translateY(-2px) rotateY(-180deg);
+        box-shadow: .5rem 1rem 2rem rgba($shadowColor, 0.8);
+        transform: translateY(-2px);
     }
 
     // Click flip animation
+    &__flipped:hover &__side--front,
     &__flipped &__side--front {
-        transform: rotateY(-180deg);
-        box-shadow: .5rem 2.5rem 4rem rgba($shadowColor, 0.8);
+        transform: translateY(-2px) rotateY(-180deg);
     }
     &__flipped &__side--back {
         transform: rotateY(0deg);
-        box-shadow: .5rem 2.5rem 4rem rgba($shadowColor, 0.8);
     }
 
     // Front
