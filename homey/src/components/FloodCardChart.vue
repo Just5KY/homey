@@ -59,12 +59,12 @@
                                     label += ': '
 
                                     if (context.parsed.y > Math.pow(2, 30))  
-                                        label += Math.floor(context.parsed.y / 100000).toString() + 'gb/s';
+                                        label += (context.parsed.y / Math.pow(2, 30)).toFixed(2) + 'gb/s';
                                     else if (context.parsed.y > Math.pow(2, 20))
-                                        label += Math.floor(context.parsed.y / 10000).toString() + 'mb/s';
+                                        label += (context.parsed.y / Math.pow(2, 20)).toFixed(1) + 'mb/s';
                                     else if (context.parsed.y > Math.pow(2, 10))
-                                        label += Math.floor(context.parsed.y / 1000).toString() + 'kb/s';
-                                    else label += Math.floor(context.parsed.y).toString() + ' b/s'
+                                        label += Math.floor(context.parsed.y / Math.pow(2, 10)) + 'kb/s';
+                                    else label += Math.floor(context.parsed.y) + ' b/s'
 
                                     return label;
                                 }
@@ -94,7 +94,7 @@
                             pointRadius: 0, 
                             tension: .15, 
                             fill: false,
-                            order: this.getDrawOrder.up
+                            order: 0
                         }, 
                         { 
                             label: 'Down', 
@@ -103,17 +103,11 @@
                             pointRadius: 0, 
                             tension: .15, 
                             fill: false, 
-                            order: this.getDrawOrder.down
+                            order: 1
                         } 
                     ], 
                 };
             },
-            getDrawOrder: function() {
-                if(this.chartData[this.chartData.length-1].up > this.chartData[this.chartData.length-1].down){
-                    return {up: 1, down: 0}
-                }
-                return {up: 0, down: 1}
-            }
         },
         mounted() {
         }

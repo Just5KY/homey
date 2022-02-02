@@ -18,14 +18,16 @@
           @keydown.esc="showOptions = false" />
       </transition>
     </div>
-    <div class="header__offline-bar"
-      v-if="!APIOnline && !config.minimal_mode">
-      You're offline, bub
-      <span class="material-icon icon-refresh" 
-        @click="window.location.reload()" 
-        title="Force refresh">
-      </span>
-    </div>
+    <transition name="fade">
+      <div class="header__offline-bar"
+        v-if="!APIOnline && !config.minimal_mode">
+        Offline
+        <span class="material-icon icon-refresh" 
+          @click="window.location.reload()" 
+          title="Force refresh">
+        </span>
+      </div>
+    </transition>
   </div>
 </template>
 
