@@ -10,7 +10,7 @@
   <ServiceContainer v-if="configLoaded"
     :fullscreen="!isAPIOnline" 
     :compactServices="config.compact_services" 
-    :statusIndicators="config.enable_service_status" 
+    :statusIndicators="config.enable_service_status && !config.minimal_mode" 
     :services="config.services" 
     :statuses="this.serviceStatuses"/>
   <DockerContainer v-if="configLoaded && isAPIOnline" 
@@ -19,6 +19,9 @@
   <CardContainer v-if="configLoaded && isAPIOnline" 
     :cards="config.cards"
     :bookmarks="config.bookmarks" />
+  <BookmarkCard v-if="configLoaded && config.minimal_mode" 
+    :bookmarks="config.bookmarks"
+    :center="true" />
   <notifications position="top left" />
 </template>
 
@@ -27,6 +30,7 @@ import HeaderContainer from './components/HeaderContainer.vue'
 import ServiceContainer from './components/ServiceContainer.vue'
 import DockerContainer from './components/DockerContainer.vue'
 import CardContainer from './components/CardContainer.vue'
+import BookmarkCard from './components/BookmarkCard.vue';
 
 import notifications from './notifications';
 
@@ -47,7 +51,8 @@ export default {
     HeaderContainer,
     ServiceContainer,
     DockerContainer,
-    CardContainer
+    CardContainer,
+    BookmarkCard
   },
   computed: {
     isAPIOnline() {

@@ -17,7 +17,7 @@
       @refreshContainers="loadContainerList(true)"
       @openSettings="this.$emit('openSettings')" />
     <img v-if="perspective == '2d' && gridClass != 'docker-container__grid'" class="docker-container__whale" :src="'./images/docker-large-blank.png'">
-    <div v-if="showDetails">{{ containerDetails }}</div>
+    <DockerInfoPopup v-if="showDetails" :details="containerDetails" @close="showDetails = false" />
   </div>
 </template>
 
@@ -25,6 +25,7 @@
 import WhaleScene from './WhaleScene.vue';
 import DockerService from './DockerService.vue'
 import DockerControlPanel from './DockerControlPanel.vue';
+import DockerInfoPopup from './DockerInfoPopup.vue';
 import notifications from '../notifications';
 
 export default {
@@ -32,6 +33,7 @@ export default {
   components: {
       DockerService,
       DockerControlPanel,
+      DockerInfoPopup,
       WhaleScene,
   },
   emits: ['openSettings'],

@@ -236,3 +236,45 @@
         left: auto;
     }
 }
+
+// Popup
+.modal-container--large {
+    width: 90%;
+    max-height: 90vh;
+
+
+    & h2 {
+
+        & .material-icon {
+            float: right;
+            font-size: 3.2rem;
+            margin-top: .5rem;
+            color: $cyan;
+        }
+    }
+
+    & h3 {
+        font-size: 1.7rem;
+        font-style: italic;
+        font-weight: 400;
+        margin-bottom: .5rem;
+    }
+    
+    & .docker-info--stats {
+        font-size: 1.3rem;
+        background-color: rgba($white, .1);
+        border-radius: .5rem;
+        margin-bottom: 1rem;
+        padding: .5rem;
+    }
+
+    & .docker-info--log {
+        font-size: 1.3rem;
+        background-color: rgba($white, .1);
+        border-radius: .5rem;
+        padding: .5rem;
+
+        max-height: 30vh;
+        overflow-y: scroll;
+    }
+}

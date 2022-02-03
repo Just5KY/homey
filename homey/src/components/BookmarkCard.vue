@@ -1,5 +1,5 @@
 <template>
-  <div class="bookmark-card-container">
+  <div :class="getClass">
       <div class="bookmark-card-container__side bookmark-card-container__side--front">
           <div class="bookmark-card-container__heading">
             <span class="material-icon icon-bookmarks bookmark-card-container__heading__icon"></span>
@@ -22,7 +22,14 @@
 export default {
   name: 'BookmarkCard',
   props: {
-      bookmarks: Array
+      bookmarks: Array,
+      center: Boolean,
+  },
+  computed: {
+    getClass() {
+      if(this.center) return 'bookmark-card-container bookmark-card-container--centered'
+      return 'bookmark-card-container'
+    }
   },
   data () {
     return {

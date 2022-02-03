@@ -40,7 +40,7 @@
                   Off<input type="radio" :value="false" v-model="localConfig.compact_services">
                 </div>
               </li>
-              <li class="modal-option">
+              <li v-if="!localConfig.minimal_mode" class="modal-option">
                 <h3>Status Indicators</h3>
                 <div class="modal-option__button-container">
                   On<input type="radio" :value="true" v-model="localConfig.enable_service_status">
