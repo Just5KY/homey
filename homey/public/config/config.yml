@@ -1,5 +1,5 @@
 title: homey
-minimal_mode: true
+minimal_mode: false
 hide_house: false
 compact_services: false
 enable_service_status: true

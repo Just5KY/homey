@@ -13,9 +13,11 @@ Homey is a simple home server dashboard packed with functionality. The layout is
 * Remote Docker container management via [Portainer](https://github.com/portainer/portainer)
 * Torrent transfer speed & download notifications via [Flood](https://github.com/jesec/flood/) 
   * *supported clients: qBittorent, rTorrent, Transmission, Deluge*
+* Hourly & daily weather forecast
 * Monitor up/down status of services
 * Monitor server's CPU usage, RAM usage, disk usage, uptime
-* Easter eggs :)
+* GUI configuration
+* Easter eggs 🥚👀
 
 ## Installation & Configuration
 

@@ -492,10 +492,18 @@
   box-shadow: 0px 10px 15px 5px #1c1c1c; }
   .header-container__main--house-padding {
     width: 8rem; }
+    @media (max-width: 1350px) {
+      .header-container__main--house-padding {
+        width: 4rem; } }
+    @media (max-width: 1350px) {
+      .header-container__main--house-padding {
+        width: 2rem; } }
   .header-container__main h1 {
     font-size: 7rem;
     font-weight: 200;
-    letter-spacing: .75rem; }
+    letter-spacing: .75rem;
+    margin: 2rem;
+    margin-left: 0; }
     @media (max-width: 1350px) {
       .header-container__main h1 {
         font-size: 5rem;

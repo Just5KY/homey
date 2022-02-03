@@ -20,6 +20,14 @@
     // Padding for when 3D house is disabled
     &--house-padding {
         width: 8rem;
+
+        @media(max-width: $mobile-break-med) {
+            width: 4rem;
+        }
+
+        @media(max-width: $mobile-break-med) {
+            width: 2rem;
+        }
     }
 
     // Page title
@@ -27,6 +35,8 @@
         font-size: 7rem;
         font-weight: 200;
         letter-spacing: .75rem;
+        margin: 2rem;
+        margin-left: 0;
 
         @media (max-width: $mobile-break-med) {
             font-size: 5rem;
