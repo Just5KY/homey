@@ -1219,8 +1219,8 @@ h2 {
   @media (max-width: 600px) {
     .docker-container {
       background-image: none;
-      margin-bottom: 1.5rem;
-      transform: translateX(-2rem); } }
+      margin-bottom: 1rem;
+      margin-left: -2rem; } }
 
 .docker-container__whale {
   height: 20.5rem;
@@ -1357,14 +1357,15 @@ h2 {
         margin-top: .5rem; } }
   @media (max-width: 1350px) {
     .docker-control-panel {
-      left: 0rem; } }
+      left: 0; } }
   @media (max-width: 600px) {
     .docker-control-panel {
-      right: -2rem;
+      right: 0;
       left: auto; } }
 
 .modal-container--large {
-  width: 90%;
+  max-width: 95vw;
+  width: 80vw;
   max-height: 90vh; }
   .modal-container--large h2 .material-icon {
     float: right;

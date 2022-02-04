@@ -16,6 +16,7 @@ Homey is a simple home server dashboard packed with functionality. The layout is
 * Hourly & daily weather forecast
 * Monitor up/down status of services
 * Monitor server's CPU usage, RAM usage, disk usage, uptime
+* Tablet & mobile layouts
 * GUI configuration
 * Easter eggs 🥚👀
 

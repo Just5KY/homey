@@ -56,8 +56,9 @@ export default {
     getYPos(){
       return this.$refs.cell.getBoundingClientRect().y;
     },
+    // 8 rows, offset for 1-indexed grid__n-row class
     getYIndex(){
-      return window.getComputedStyle(this.$refs.cell).getPropertyValue('grid-column-start');
+      return 9 - window.getComputedStyle(this.$refs.cell).getPropertyValue('grid-row-start');
     }
   },
 }

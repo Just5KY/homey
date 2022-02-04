@@ -38,9 +38,6 @@ export default {
   components: {
     FloodCardChart,
   },
-  props: {
-      title: String,
-  },
   data () {
     return {
       notifications: Array,
@@ -60,8 +57,18 @@ export default {
           this.notifications = res.data;
       }).then(() => {
       this.axios.get('/api/floodStats').then((res) => {
+        if(!res.data['Error']) {
           this.floodStats = res.data
           this.loaded = true;
+        }
+        else {
+          this.notifications = [
+            {
+              msg: 'No response from Flood API',
+              time: 'Now'
+            }
+          ]
+        }
       })}).catch(e => {
         console.info('Warning: Could not reach Flood API. The API could be overloaded - it is usually safe to ignore this message.');
       });

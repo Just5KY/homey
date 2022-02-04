@@ -17,7 +17,9 @@
       @refreshContainers="loadContainerList(true)"
       @openSettings="this.$emit('openSettings')" />
     <img v-if="perspective == '2d' && gridClass != 'docker-container__grid'" class="docker-container__whale" :src="'./images/docker-large-blank.png'">
-    <DockerInfoPopup v-if="showDetails" :details="containerDetails" @close="showDetails = false" />
+    <transition name="fade">
+      <DockerInfoPopup v-if="showDetails" :details="containerDetails" @close="showDetails = false" />
+    </transition>
   </div>
 </template>
 
@@ -78,21 +80,25 @@ export default {
         let postData = {name: name, operation: operation};
 
         if(operation == 'info'){   
+            notifications.notifyInfo('Fetching detailed information for container ' + name + '...')
             let postData = {name: name, operation: 'info'}
-            this.axios.post('/api/' + this.$parent.$parent.backend + 'Control',  postData).then((res) => {
+            this.axios.post('/api/' + this.backend + 'Control',  postData).then((res) => {
               this.showDetailedInfo(res.data);
               return;
-            })
+            }).catch(e => { 
+              notifications.notifyError('Error: could not retrieve information for container ' + name) 
+          });
         }
-
-        notifications.notifyInfo('Attempting to ' + operation + ' container ' + name + '...');
-        this.axios.post('/api/' + this.backend + 'Control', postData).then((res) => {
-            if(res.data != 'success') throw 'controlException';
-            notifications.notifySuccess('Successfully ' + operation + ((operation == 'pause' || operation == 'unpause') ? 'd' : 'ed') + ' container ' + name + '!');
-            this.loadContainerList();
-        }).catch(e => { 
-            console.warn('Error: could not ' + operation + ' container ' + name + '. Is the selected ' + this.backend + ' backend up and reachable?'); 
-        });
+        else {
+          notifications.notifyInfo('Attempting to ' + operation + ' container ' + name + '...');
+          this.axios.post('/api/' + this.backend + 'Control', postData).then((res) => {
+              if(res.data != 'success') throw 'controlException';
+              notifications.notifySuccess('Successfully ' + operation + ((operation == 'pause' || operation == 'unpause') ? 'd' : 'ed') + ' container ' + name + '!');
+              this.loadContainerList();
+          }).catch(e => { 
+              console.warn('Error: could not ' + operation + ' container ' + name + '. Is the selected ' + this.backend + ' backend up and reachable?'); 
+          });
+        }
     },
     togglePerspective() {
       if(this.perspective == '2d')  this.perspective = '3d';
@@ -115,7 +121,7 @@ export default {
       this.$refs.cell.forEach(c => {
         if(c.getYIndex() > highRow) highRow = c.getYIndex();
       });
-      this.gridClass = 'docker-container__grid docker-container__grid__' + highRow.toString() + '-row';
+      this.gridClass = 'docker-container__grid docker-container__grid__' + highRow + '-row';
     }
   },
   mounted: function() {

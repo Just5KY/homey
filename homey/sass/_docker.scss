@@ -26,8 +26,8 @@
 
     @media (max-width: $mobile-break-small) {
         background-image: none;
-        margin-bottom: 1.5rem;
-        transform: translateX(-2rem);
+        margin-bottom: 1rem;
+        margin-left: -2rem;
     }
 }
 
@@ -157,13 +157,6 @@
             opacity: 1;
             transition-delay: 0s;
         }
-
-        // img,
-        // .docker-cell__image-placeholder {
-        //     width: 0;
-        //     opacity: 0;
-        //     transition-delay: 0s;
-        // }
     }
 }
 
@@ -228,20 +221,20 @@
     }
 
     @media (max-width: $mobile-break-med) {
-        left: 0rem;
+        left: 0;
     }
 
     @media (max-width: $mobile-break-small) {
-        right: -2rem;
+        right: 0;
         left: auto;
     }
 }
 
 // Popup
 .modal-container--large {
-    width: 90%;
+    max-width: 95vw;
+    width: 80vw;
     max-height: 90vh;
-
 
     & h2 {
 
