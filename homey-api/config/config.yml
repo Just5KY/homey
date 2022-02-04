@@ -3,6 +3,8 @@ minimal_mode: false
 hide_house: false
 compact_services: false
 enable_service_status: true
+enable_notifications: true
+audio_notifications: false
 docker_api_backend: docker
 services:
 - icon: portainer.png

@@ -22,7 +22,7 @@
   <BookmarkCard v-if="configLoaded && (config.minimal_mode || !isAPIOnline)" 
     :bookmarks="config.bookmarks"
     :center="true" />
-  <notifications position="top left" />
+  <notifications v-if="config.enable_notifications" position="top left" />
 </template>
 
 <script>
@@ -79,6 +79,8 @@ export default {
       })
       .finally(() => {
         this.checkConnection();
+        notifications.hide = !this.config.enable_notifications;
+        notifications.soundOn = this.config.audio_notifications;
       } );
     },
     // write settings to config.yml
@@ -119,7 +121,7 @@ export default {
   mounted() {
     // track up/down status of frontend application
     window.addEventListener('online', (() => { this.isOnline = true }));
-    window.addEventListener('offline', (() => { this.isOnline = false; notifications.trackHidden = true; }));
+    window.addEventListener('offline', (() => { this.isOnline = false; notifications.hide = true; }));
   },
 }
 </script>

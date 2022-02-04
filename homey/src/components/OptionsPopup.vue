@@ -47,6 +47,20 @@
                   Off<input type="radio" :value="false" v-model="localConfig.enable_service_status">
                 </div>
               </li>
+              <li class="modal-option">
+                <h3>Notifications</h3>
+                <div class="modal-option__button-container">
+                  On<input type="radio" :value="true" v-model="localConfig.enable_notifications">
+                  Off<input type="radio" :value="false" v-model="localConfig.enable_notifications">
+                </div>
+              </li>
+              <li v-if="localConfig.enable_notifications" class="modal-option">
+                <h3>Audio Notifications</h3>
+                <div class="modal-option__button-container">
+                  On<input type="radio" :value="true" v-model="localConfig.audio_notifications">
+                  Off<input type="radio" :value="false" v-model="localConfig.audio_notifications">
+                </div>
+              </li>
               <li v-if="!localConfig.minimal_mode" class="modal-option">
                 <h3>Docker Backend</h3>
                 <div class="modal-option__button-container">

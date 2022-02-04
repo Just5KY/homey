@@ -4,33 +4,34 @@ const failureSfx = new Audio('./sounds/sfxFailure.mp3');
 import { notify } from "@kyvg/vue3-notification";
 
 export default {
-    trackHidden: false,
+    hide: false,
+    soundOn: true,
     isHidden() {
         if(document.getElementsByClassName('header__offline-bar').length > 0)
-                this.trackHidden = true;
-        else    this.trackHidden = false;
-        return  this.trackHidden;
+                this.hide = true;
+        else    this.hide = false;
+        return  this.hide;
     },
     notifySuccess(msg) {
         notify({ title: msg, type: 'success' });
-        successSfx.play();
+        if(this.soundOn) successSfx.play();
     },
     notifyInfo(msg) {
         notify({ title: msg });
-        successSfx.play();
+        if(this.soundOn) successSfx.play();
     },
     notifyWarning(msg) {
         if(this.isHidden()) return;
         
         notify({ title: msg, type: 'warn' });
         console.warn(msg);
-        failureSfx.play();
+        if(this.soundOn) failureSfx.play();
     },
     notifyError(msg) {
         if(this.isHidden()) return;
 
         notify({ title: msg, type: 'error' });
         console.error(msg);
-        failureSfx.play();
+        if(this.soundOn) failureSfx.play();
     },
 }
