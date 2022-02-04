@@ -106,12 +106,12 @@
 
     &__chart {
         margin-left: -1rem;
-        width: 105%;
+        margin-right: -.5rem;
         height: calc(100% - 7.1rem);
 
         display: flex;
         flex-direction: column;
-        justify-items: flex-end;
+        justify-content: flex-end;
 
         & div {
             max-height: 100%;

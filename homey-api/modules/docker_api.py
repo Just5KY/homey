@@ -46,8 +46,10 @@ class api:
                 logs.append(line.decode().replace('\"','').strip())
             logs.pop()
 
+            stats = container.stats(stream=False)
+
             return {
-                'stats': container.stats(stream=False),
+                'stats': stats,
                 'log': logs,
             }
 

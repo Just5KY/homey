@@ -632,11 +632,11 @@ h2 {
         color: #8be9fd; }
   .flood-card-container__chart {
     margin-left: -1rem;
-    width: 105%;
+    margin-right: -.5rem;
     height: calc(100% - 7.1rem);
     display: flex;
     flex-direction: column;
-    justify-items: flex-end; }
+    justify-content: flex-end; }
     .flood-card-container__chart div {
       max-height: 100%; }
   .flood-card-container__notifications ul {
@@ -1370,7 +1370,7 @@ h2 {
     float: right;
     font-size: 3.2rem;
     margin-top: .5rem;
-    color: #8be9fd; }
+    color: #f8f8f2; }
   .modal-container--large h3 {
     font-size: 1.7rem;
     font-style: italic;
@@ -1381,13 +1381,15 @@ h2 {
     background-color: rgba(248, 248, 242, 0.1);
     border-radius: .5rem;
     margin-bottom: 1rem;
-    padding: .5rem; }
+    padding: .5rem;
+    max-height: 30vh;
+    overflow-y: scroll; }
   .modal-container--large .docker-info--log {
     font-size: 1.3rem;
     background-color: rgba(248, 248, 242, 0.1);
     border-radius: .5rem;
     padding: .5rem;
-    max-height: 30vh;
+    max-height: 25vh;
     overflow-y: scroll; }
 
 *,

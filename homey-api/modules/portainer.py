@@ -84,11 +84,20 @@ class api:
         if targetId == '':
             return 'error: ' + containerName + ' not found'
 
+        # TODO: ensure parity with docker format
+        # json {
+        #   stats: {
+        #   },
+        #   log: []
+        # }
         if operation == 'info':
-            return ses.request('GET',
+            rawInfo = ses.request('GET',
                 url=self.host + '/endpoints/' + str(self.endpointId) + '/docker/containers/' + targetId + '/json', 
                 headers={"Authorization": self.authToken}
             ).json()
+
+            print(rawInfo)
+            return rawInfo
 
         response = ses.request('POST', 
             url=self.host + '/endpoints/' + str(self.endpointId) + '/docker/containers/' + targetId + '/' + operation, 

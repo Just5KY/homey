@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 ### See config.yml for frontend config and .env for backend ###
 ################## DO NOT MODIFY THIS FILE ####################
 
-# functions to ensure config values are valid
+# ensure config values are valid
 def validateWeather(lat, long):
     try:
         fLat = float(lat)

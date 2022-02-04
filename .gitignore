@@ -5,4 +5,6 @@ homey-api/disks.txt
 homey/dist
 homey/node_modules
 homey/package-lock.json
-*config.yml
+*/public/data/icons/*
+homey-api/config/config.yml
+homey/public/config/config.yml

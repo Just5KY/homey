@@ -5,20 +5,16 @@
         <div class="modal-container modal-container--large">
 
           <div class="modal-header">
-            <h2>Statistics &amp; Logs for {{ details.stats.name.substring(1) }}
+            <h2>Statistics &amp; logs for {{ details.stats.name.substring(1) }}
               <span class="material-icon icon-info"></span>
             </h2>
           </div>
 
           <div class="modal-body">
             <div class="docker-info--stats">
-              <ul>
-                <li v-for="stat in details.stats" :key="stat">
-                  <p>{{ stat }}</p>
-                </li>
-              </ul>
+              <pre ref="jsonContainer" 
+                class="docker-info--stats__json">{{ prettyPrintedStats }}</pre>
             </div>
-            <h3>Log</h3>
             <div class="docker-info--log">
               <ul>
                 <li v-for="line in reversedLog" :key="line">
@@ -29,7 +25,7 @@
           </div>
 
           <div class="modal-footer">
-            <button @click="close" class="modal-button modal-button__save">OK</button>
+            <button @click="this.$emit('close')" class="modal-button modal-button__save">OK</button>
           </div>
         </div>
       </div>
@@ -48,19 +44,13 @@ export default {
       details: {},
   },
   computed: {
-    reversedLog() {
-      let d = this.details.log.map(e => e);
-      return d.reverse();
-    }
-  },
-  created: function() {
-    console.log(this.details.stats)
-  },
-  methods: {
-    // close(true) will write newly selected settings to config.yml
-    close(shouldSave) {
-      this.$emit('close');
+    prettyPrintedStats() {
+      return JSON.stringify(this.details.stats, null, 2);
     },
+    reversedLog() {
+      let deepCopy = this.details.log.map(ele => ele);
+      return deepCopy.reverse();
+    }
   },
 }
 </script>

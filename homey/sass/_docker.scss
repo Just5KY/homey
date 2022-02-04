@@ -249,7 +249,7 @@
             float: right;
             font-size: 3.2rem;
             margin-top: .5rem;
-            color: $cyan;
+            color: $white;
         }
     }
 
@@ -266,6 +266,9 @@
         border-radius: .5rem;
         margin-bottom: 1rem;
         padding: .5rem;
+
+        max-height: 30vh;
+        overflow-y: scroll;
     }
 
     & .docker-info--log {
@@ -274,7 +277,7 @@
         border-radius: .5rem;
         padding: .5rem;
 
-        max-height: 30vh;
+        max-height: 25vh;
         overflow-y: scroll;
     }
 }

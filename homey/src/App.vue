@@ -19,7 +19,7 @@
   <CardContainer v-if="configLoaded && isAPIOnline" 
     :cards="config.cards"
     :bookmarks="config.bookmarks" />
-  <BookmarkCard v-if="configLoaded && config.minimal_mode" 
+  <BookmarkCard v-if="configLoaded && (config.minimal_mode || !isAPIOnline)" 
     :bookmarks="config.bookmarks"
     :center="true" />
   <notifications position="top left" />

@@ -2,7 +2,7 @@ title: homey
 minimal_mode: false
 hide_house: false
 compact_services: false
-enable_service_status: false
+enable_service_status: true
 docker_api_backend: docker
 services:
 - icon: portainer.png
@@ -16,9 +16,37 @@ services:
 - icon: navidrome.png
   name: Navidrome
   subtitle: Music streaming
+  url: http://192.168.1.5:9004
+- icon: jellyfin.png
+  name: Jellyfin
+  subtitle: Video streaming
+  url: http://192.168.1.5:9002
+- icon: sonarr.png
+  name: Sonarr
+  subtitle: Automated TV downloads
+  url: http://192.168.1.5:9012
+- icon: jackett.png
+  name: Jackett
+  subtitle: Sonarr indexing service
   url: http://192.168.1.5:9004/app/#/login
+- icon: mealie.png
+  name: Mealie
+  subtitle: Recipe collection
+  url: http://192.168.1.5:9004/app/#/login
+- icon: hoppscotch.png
+  name: Hoppscotch
+  subtitle: Rapid API development
+  url: http://192.168.1.5:9007
+- icon: nextcloud.png
+  name: Nextcloud
+  subtitle: Online file storage
+  url: http://redacted
+- icon: nginx-proxy-manager.png
+  name: NGINX Proxy Manager
+  subtitle: Reverse proxy manager
+  url: http://192.168.1.5:81
 cards:
-- enable: true
+- enable: false
   name: Torrents
 - enable: false
   name: Weather
