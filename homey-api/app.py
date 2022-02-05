@@ -109,6 +109,8 @@ def systemInfo():
 ### SERVICE CHECKER
 @app.route('/checkServices', methods=['GET'])
 def checkServices():
+    if serviceChecker.services == []:
+        readConfigFile()
     return jsonify(serviceChecker.checkAll())
 
 @app.route('/ping', methods=['GET'])

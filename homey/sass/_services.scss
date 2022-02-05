@@ -51,6 +51,16 @@
     display: flex;
     height: 10rem;
 
+    // remove default link styling
+    &,
+    &:link,
+    &:hover,
+    &:visited,
+    &:active {
+        text-decoration: none;
+        color: $white;
+    }
+
     // service name & subtitle
     &__text-container {
         align-self: flex-start;

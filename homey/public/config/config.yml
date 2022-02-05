@@ -3,6 +3,8 @@ minimal_mode: false
 hide_house: false
 compact_services: false
 enable_service_status: true
+enable_notifications: true
+audio_notifications: true
 docker_api_backend: docker
 services:
 - icon: portainer.png
@@ -46,9 +48,9 @@ services:
   subtitle: Reverse proxy manager
   url: http://192.168.1.5:81
 cards:
-- enable: false
+- enable: true
   name: Torrents
-- enable: false
+- enable: true
   name: Weather
 - enable: true
   name: System

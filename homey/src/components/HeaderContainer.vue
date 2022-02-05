@@ -22,7 +22,7 @@
       <div class="header__offline-bar"
         v-if="!APIOnline && !config.minimal_mode">
         Offline
-        <span class="material-icon icon-refresh" 
+        <span class="material-icon icon-offline" 
           @click="window.location.reload()" 
           title="Force refresh">
         </span>

@@ -1,26 +1,8 @@
 // Utilities
 
-// Add invisible psuedoelement to clear float. Uncollapses 0 height elements
-@mixin clearfix {
-    &::after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-}
-
-.u-center-text {
-    text-align: center;
-}
-
-.u-margin-big-bottom {
-    margin-bottom: 6rem;
-}
-
-.u-margin-small-bottom {
-    margin-bottom: 2rem;
-}
-
-.u-margin-huge-top {
-    margin-top: 10rem;
+// Notifications
+.vue-notification {
+        //width: 300px;
+        border: none;
+        border-bottom: 2px solid $white;
 }

@@ -1,5 +1,4 @@
 //const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;   // analyze chunk size in dev
-//const path = require('path')    // manual three.js tree shaking via exports
 
 module.exports = {
     chainWebpack: (config) => {
@@ -14,7 +13,7 @@ module.exports = {
       devServer: {
         proxy: {
           "^/api/": {
-            target: "http://0.0.0.0:9101",
+            target: "http://localhost:9101",
             secure: false,
             pathRewrite: {
               '/api/*': '/'
@@ -30,11 +29,5 @@ module.exports = {
         watchOptions: {
           ignored: /node_modules/
         },
-        // Forward all three imports to minimized exports file
-        // resolve: {
-        //   alias: {
-        //     three$: path.resolve('./src/three-exports.js'),
-        //   },
-        // },
       }
 }

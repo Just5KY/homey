@@ -1,5 +1,5 @@
 <template>
-  <div v-on:click="openLink" :class="getClass">
+  <a :href="url" target="_blank" :class="getClass">
     <div class="service-card-container__text-container">
       <h3>{{ title }}</h3>
       <div class="service-card-container__text-container__subtitle">{{subtitle}}
@@ -9,7 +9,7 @@
     <div class="service-card-container__image-container">
       <img :src="iconPath">
     </div>
-  </div>
+  </a>
 </template>
 
 <script>

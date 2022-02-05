@@ -14,7 +14,7 @@ import json
 # 4. Run on host machine (where docker engine is running). 
 #       * To run in background:     pythonw monitorSystem.py
 # CONFIGURATION #########################################################
-dataFile = "./homey-api/config/local_machine_data.json"    # output file
+dataFile = "/home/steve/homey-data/local_machine_data.json"    # output file
 watchedDisks = ["/", "/cyan", "/red", "/blue", "/green"]    # report disk usage for: "/", "/mnt/media", etc
 intervalSeconds = 30    # write to file every X seconds
 intervalCPUCalc = 6     # average CPU usage over X seconds  

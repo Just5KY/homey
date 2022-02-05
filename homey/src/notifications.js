@@ -7,31 +7,41 @@ export default {
     hide: false,
     soundOn: true,
     isHidden() {
-        if(document.getElementsByClassName('header__offline-bar').length > 0)
-                this.hide = true;
-        else    this.hide = false;
+        // if(document.getElementsByClassName('header__offline-bar').length > 0)
+        //         this.hide = true;
+        // else    this.hide = false;
         return  this.hide;
     },
     notifySuccess(msg) {
-        notify({ title: msg, type: 'success' });
-        if(this.soundOn) successSfx.play();
-    },
-    notifyInfo(msg) {
-        notify({ title: msg });
-        if(this.soundOn) successSfx.play();
-    },
-    notifyWarning(msg) {
-        if(this.isHidden()) return;
-        
-        notify({ title: msg, type: 'warn' });
-        console.warn(msg);
-        if(this.soundOn) failureSfx.play();
-    },
-    notifyError(msg) {
+        console.log(msg);
         if(this.isHidden()) return;
 
-        notify({ title: msg, type: 'error' });
-        console.error(msg);
-        if(this.soundOn) failureSfx.play();
+        notify({ title: msg, type: 'success' });
+        this.playSfx('success');
     },
+    notifyInfo(msg) {
+        console.log(msg);
+        if(this.isHidden()) return;
+
+        notify({ title: msg });
+        this.playSfx('success');
+    },
+    notifyWarning(msg) {
+        console.warn(msg);
+        if(this.isHidden()) return;
+
+        notify({ title: msg, type: 'warn', clean: true });
+        this.playSfx('error');
+    },
+    notifyError(msg) {
+        console.error(msg);
+        if(this.isHidden()) return;
+
+        notify({ title: msg, type: 'error', clean: true });
+        this.playSfx('error');
+    },
+    playSfx(type) {
+        if(!this.soundOn)   return;
+        (type == 'success') ? successSfx.play() : failureSfx.play();
+    }
 }

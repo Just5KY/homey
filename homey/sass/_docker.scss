@@ -50,6 +50,8 @@
 
     margin-left: 7rem;
 
+    transition: all .3s ease-in-out;
+
     @media (max-width: $mobile-break-med) {
         margin-left: 0;
     }

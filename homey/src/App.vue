@@ -22,7 +22,9 @@
   <BookmarkCard v-if="configLoaded && (config.minimal_mode || !isAPIOnline)" 
     :bookmarks="config.bookmarks"
     :center="true" />
-  <notifications v-if="config.enable_notifications" position="top left" />
+  <notifications v-if="config.enable_notifications 
+    && (!config.minimal_mode && isAPIOnline)" 
+    position="top center" />
 </template>
 
 <script>
@@ -97,9 +99,17 @@ export default {
         return;
       }
       this.axios.get('/api/ping').then(() => { 
-        this.isOnline = true;
+        if(!this.isOnline){
+          this.isOnline = true;
+          notifications.hide = !this.config.enable_notifications;
+          this.loadConfig()
+        }
         if(this.config.enable_service_status) this.checkServices(); 
-      }).catch(() => { this.isOnline = false; });
+      }).catch(() => {
+        this.isOnline = false;
+        notifications.hide = true;
+        this.config.enable_service_status = false;
+      });
 
       if(this.config.minimal_mode == true && this.pingTimer) clearInterval(this.pingTimer);
     },
@@ -120,8 +130,15 @@ export default {
   },
   mounted() {
     // track up/down status of frontend application
-    window.addEventListener('online', (() => { this.isOnline = true }));
-    window.addEventListener('offline', (() => { this.isOnline = false; notifications.hide = true; }));
+    window.addEventListener('online', (() => {
+      this.isOnline = true; 
+      //console.log(this.config)
+      notifications.hide = !this.config.enable_notifications;
+    }));
+    window.addEventListener('offline', (() => { 
+      this.isOnline = false; 
+      notifications.hide = true;
+    }));
   },
 }
 </script>
