@@ -454,7 +454,6 @@
   background-color: #44475a;
   font-weight: 600;
   padding: 0 .8rem;
-  padding-bottom: .2rem;
   height: 100%;
   vertical-align: middle;
   font-family: 'Montserrat';
@@ -462,8 +461,6 @@
   display: flex;
   justify-content: center;
   align-items: center; }
-  .modal-button--service-panel {
-    padding-bottom: 0; }
   .modal-button .material-icon {
     font-size: 1.7rem;
     color: #f8f8f2;
@@ -528,6 +525,61 @@
       .header-container__main h1 {
         font-size: 3rem;
         letter-spacing: .3rem; } }
+  .header-container__main--bookmark-container {
+    display: flex;
+    flex-grow: 1;
+    margin-left: 5%;
+    margin-right: 5%;
+    flex-wrap: wrap;
+    z-index: 3;
+    max-height: 100%;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none; }
+    .header-container__main--bookmark-container::-webkit-scrollbar {
+      width: 0 !important; }
+    .header-container__main--bookmark-container .bookmark {
+      position: relative;
+      height: fit-content;
+      width: fit-content;
+      flex-grow: 1;
+      padding: .5rem;
+      margin: .5rem;
+      background-color: rgba(248, 248, 242, 0.1);
+      border-radius: .3rem;
+      display: flex;
+      align-content: center;
+      cursor: pointer; }
+      .header-container__main--bookmark-container .bookmark, .header-container__main--bookmark-container .bookmark:link, .header-container__main--bookmark-container .bookmark:hover, .header-container__main--bookmark-container .bookmark:visited, .header-container__main--bookmark-container .bookmark:active {
+        text-decoration: none;
+        color: #f8f8f2; }
+      .header-container__main--bookmark-container .bookmark__arrow {
+        margin-right: 0;
+        margin-left: auto;
+        transition: all ease-in-out 1s; }
+      .header-container__main--bookmark-container .bookmark:hover > .bookmark__arrow {
+        color: #8be9fd; }
+      .header-container__main--bookmark-container .bookmark::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        border: 2px solid #8be9fd;
+        transition: all ease-in-out .7s;
+        clip-path: polygon(2% 80%, 50% 50%, 80% 100%, 2% 100%);
+        border-radius: .3rem; }
+      .header-container__main--bookmark-container .bookmark:hover::before {
+        clip-path: polygon(50% 80%, 130% -100%, 100% 130%, 80% 100%); }
+      .header-container__main--bookmark-container .bookmark h3 {
+        font-size: 1.5rem;
+        transform: translateY(3px);
+        font-style: italic;
+        font-family: Montserrat;
+        font-weight: 400; }
   .header-container__main .icon-settings {
     color: #6272a4;
     margin: 1rem;
@@ -539,10 +591,11 @@
     .header-container__main .icon-settings__activated {
       z-index: 9999;
       transform: scale(1.4) rotateZ(-40deg); }
-    .header-container__main .icon-settings:hover {
+    .header-container__main .icon-settings__deactivated:hover {
       transform: scale(1.2);
       text-shadow: 0.5rem 0.5rem 1rem rgba(28, 28, 28, 0.3); }
-    .header-container__main .icon-settings:active {
+    .header-container__main .icon-settings__deactivated:active {
+      transform: translateY(2px);
       text-shadow: 0.25rem 0.25rem 0.5rem rgba(28, 28, 28, 0.3); }
 
 #house-canvas {

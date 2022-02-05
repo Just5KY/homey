@@ -4,6 +4,13 @@
       <HouseScene v-if="showHouse" />
       <div v-else class="header-container__main--house-padding"></div>
       <h1>{{ title }}</h1>
+      <div v-if="config.bookmarks_in_header" class="header-container__main--bookmark-container">
+          <a :href="b.url" v-for="b in config.bookmarks" :key="b.name" class="bookmark"
+             :title="b.hover">
+              <h3>{{b.name}}</h3>
+              <span class="material-icon icon-arrow_right bookmark__arrow"></span>
+          </a>
+      </div>
       <span v-if="APIOnline" 
         title="Settings" :class="getSettingsIconClass"
         @click="showOptions = !showOptions">
@@ -57,9 +64,9 @@ export default {
       return !this.config.minimal_mode;
     },
     getSettingsIconClass() {
-      let cls = 'material-icon icon-settings';
-      if(this.showOptions)  cls += ' icon-settings__activated';
-      return cls;
+      let cls = 'deactivated';
+      if(this.showOptions)  cls = 'activated';
+      return 'material-icon icon-settings icon-settings__' + cls;
     }
   },
   methods: {

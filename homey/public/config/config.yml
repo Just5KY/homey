@@ -5,6 +5,7 @@ compact_services: false
 enable_service_status: true
 enable_notifications: true
 audio_notifications: true
+bookmarks_in_header: true
 docker_api_backend: docker
 services:
 - icon: portainer.png
@@ -35,6 +36,10 @@ services:
   name: Mealie
   subtitle: Recipe collection
   url: http://192.168.1.5:9004/app/#/login
+- icon: whoogle.png
+  name: Whoogle Search
+  subtitle: Anonymous search engine
+  url: http://192.168.1.3:5000
 - icon: hoppscotch.png
   name: Hoppscotch
   subtitle: Rapid API development
@@ -47,10 +52,14 @@ services:
   name: NGINX Proxy Manager
   subtitle: Reverse proxy manager
   url: http://192.168.1.5:81
+- icon: router.png
+  name: Router
+  subtitle: Netgear admin panel
+  url: http://192.168.1.1
 cards:
-- enable: false
-  name: Torrents
 - enable: true
+  name: Torrents
+- enable: false
   name: Weather
 - enable: true
   name: System

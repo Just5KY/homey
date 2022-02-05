@@ -98,7 +98,6 @@
     background-color: $backgroundColor2;
     font-weight: 600;
     padding: 0 .8rem;
-    padding-bottom: .2rem;
     height: 100%;
     vertical-align: middle;
     font-family: 'Montserrat';
@@ -106,10 +105,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    &--service-panel {
-        padding-bottom: 0;
-    }
 
     & .material-icon {
         font-size: 1.7rem;

@@ -46,6 +46,13 @@
                 </div>
               </li>
               <li class="modal-option">
+                <h3>Bookmarks in Header</h3>
+                <div class="modal-option__button-container">
+                  On<input type="radio" :value="true" v-model="localConfig.bookmarks_in_header">
+                  Off<input type="radio" :value="false" v-model="localConfig.bookmarks_in_header">
+                </div>
+              </li>
+              <li class="modal-option">
                 <h3>Notifications
                   <span :title="'Website-level alerts for errors & selected events.\nNo browser permissions required.'" class="material-icon icon-info"></span>
                 </h3>
@@ -162,9 +169,9 @@
                 class="modal-button modal-button__delete">
                 Delete</button>
             </transition>
-            <button @click="showServices = !showServices" class="modal-button modal-button--service-panel modal-button__cancel">
+            <button @click="showServices = !showServices" class="modal-button modal-button__cancel">
               Back<span class="material-icon icon-arrow_right"></span></button>
-            <button @click="close(true)" class="modal-button modal-button--service-panel modal-button__save">
+            <button @click="close(true)" class="modal-button modal-button__save">
               {{getSaveString}}<span class="material-icon icon-check"></span></button>
           </div>
         </div>
