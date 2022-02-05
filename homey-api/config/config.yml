@@ -48,13 +48,13 @@ services:
   subtitle: Reverse proxy manager
   url: http://192.168.1.5:81
 cards:
-- enable: true
+- enable: false
   name: Torrents
-- enable: false
-  name: Weather
-- enable: false
-  name: System
 - enable: true
+  name: Weather
+- enable: true
+  name: System
+- enable: false
   name: Bookmarks
 bookmarks:
 - name: GitHub

@@ -9,7 +9,7 @@
     position: relative;
     width: calc(50% - 1rem);
     flex-grow: 1;
-    height: 34rem;
+    min-height: 34rem;
     transition: all .35s ease-out;
 
     border-radius: .5rem;
@@ -80,7 +80,7 @@
             text-transform: lowercase;
             text-align: right;
 
-            padding: .5rem 1rem;
+            padding: .5rem .75rem;
             border-radius: 5px;
 
             background-image: linear-gradient(
@@ -117,7 +117,6 @@
             display: flex;
             justify-content: space-between;
             align-content: center;
-            padding: .5rem 0;
 
             :first-child {
                 flex-grow: 1;
@@ -126,9 +125,10 @@
             &__skycon {
                 margin-left: 1rem;
             }
-
+            
             &:not(:first-child){
-                border-top: 1px solid $white;
+                padding-top: .5rem;
+                border-top: 1px solid rgba($white, .1);
             }
         }
     }

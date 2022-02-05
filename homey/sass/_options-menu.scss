@@ -87,6 +87,7 @@
     height: 2.5rem;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
 }
 
 // footer buttons
@@ -96,9 +97,29 @@
     color: $white;
     background-color: $backgroundColor2;
     font-weight: 600;
-    padding: 0 .75rem;
+    padding: 0 .8rem;
+    padding-bottom: .2rem;
+    height: 100%;
+    vertical-align: middle;
     font-family: 'Montserrat';
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &--service-panel {
+        padding-bottom: 0;
+    }
+
+    & .material-icon {
+        font-size: 1.7rem;
+        color: $white;
+        margin: auto;
+        margin-top: .4rem;
+        padding: 0;
+        margin-right: -.25rem;
+        margin-left: .3rem;
+    }
 
     &__services {
         justify-self: flex-start;
@@ -110,10 +131,22 @@
         margin-right: auto;
     }
 
+    &__cancel {
+        & .material-icon {
+            // margin-left: -.25rem;
+            // margin-right: .25rem;
+            transform: rotateY(180deg);
+        }
+    }
+
     &__save {
         background-color: $cyan;
         color: $backgroundColor2;
         margin-left: 1rem;
+
+        & .material-icon {
+            color: $backgroundColor2;
+        }
     }
 
     &__delete {

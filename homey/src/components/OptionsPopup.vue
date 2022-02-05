@@ -32,9 +32,7 @@
                 </div>
               </li>
               <li class="modal-option">
-                <h3>Compact Services
-                  <span title="Reduces padding in services pane." class="material-icon icon-info"></span>
-                </h3>
+                <h3>Compact Services</h3>
                 <div class="modal-option__button-container">
                   On<input type="radio" :value="true" v-model="localConfig.compact_services">
                   Off<input type="radio" :value="false" v-model="localConfig.compact_services">
@@ -48,7 +46,9 @@
                 </div>
               </li>
               <li class="modal-option">
-                <h3>Notifications</h3>
+                <h3>Notifications
+                  <span :title="'Website-level alerts for errors & selected events.\nNo browser permissions required.'" class="material-icon icon-info"></span>
+                </h3>
                 <div class="modal-option__button-container">
                   On<input type="radio" :value="true" v-model="localConfig.enable_notifications">
                   Off<input type="radio" :value="false" v-model="localConfig.enable_notifications">
@@ -76,8 +76,8 @@
           <div class="modal-footer">
             <button @click="showServices = !showServices" class="modal-button modal-button__services">Services</button>
             <button @click="showCards = !showCards" class="modal-button modal-button__cards">Cards</button>
-            <button @click="close(false)" class="modal-button modal-button__cancel">Cancel</button>
-            <button @click="close(true)" class="modal-button modal-button__save">Save</button>
+            <button @click="close(false)" class="modal-button modal-button__cancel">Cancel<span class="material-icon icon-arrow_right"></span></button>
+            <button @click="close(true)" class="modal-button modal-button__save">Save<span class="material-icon icon-check"></span></button>
           </div>
 
         </div>
@@ -162,8 +162,10 @@
                 class="modal-button modal-button__delete">
                 Delete</button>
             </transition>
-            <button @click="showServices = !showServices" class="modal-button modal-button__cancel">Back</button>
-            <button @click="close(true)" class="modal-button modal-button__save">{{getSaveString}}</button>
+            <button @click="showServices = !showServices" class="modal-button modal-button--service-panel modal-button__cancel">
+              Back<span class="material-icon icon-arrow_right"></span></button>
+            <button @click="close(true)" class="modal-button modal-button--service-panel modal-button__save">
+              {{getSaveString}}<span class="material-icon icon-check"></span></button>
           </div>
         </div>
       
@@ -193,8 +195,8 @@
                 class="modal-button modal-button__delete">
                 Delete</button>
             </transition>
-            <button @click="showCards = !showCards" class="modal-button modal-button__cancel">Back</button>
-            <button @click="close(true)" class="modal-button modal-button__save">{{getSaveString}}</button>
+            <button @click="showCards = !showCards" class="modal-button modal-button__cancel">Back<span class="material-icon icon-arrow_right"></span></button>
+            <button @click="close(true)" class="modal-button modal-button__save">{{getSaveString}}<span class="material-icon icon-check"></span></button>
           </div>
         </div>
       
