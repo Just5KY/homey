@@ -3,7 +3,7 @@
 
     <div class="system-card-front-chart-container__panel">
         <div class="front-chart-container">
-            <DoughnutChart :chartData="cpuChartData" :options="config"/>
+            <DoughnutChart :chartData="cpuChartData" :options="config" :plugins="[backgroundPlugin]"/>
             <div class="front-chart-container__label">{{Math.floor(this.chartData.cpu)}}%</div>
         </div>
         <div class="system-card-front-chart-container__panel--details">
@@ -14,7 +14,7 @@
     <div class="system-card-front-chart-container__panel"
         :title="getMemoryInfo">
         <div class="front-chart-container">
-            <DoughnutChart :chartData="memoryChartData" :options="config"/>
+            <DoughnutChart :chartData="memoryChartData" :options="config" :plugins="[backgroundPlugin]"/>
             <div class="front-chart-container__label">{{Math.floor(this.chartData.ram.percent_used)}}%</div>
         </div>
         <div class="system-card-front-chart-container__panel--details">
@@ -29,6 +29,8 @@
 import { DoughnutChart } from 'vue-chart-3';
 import Chart from 'chart.js/auto';
 
+
+
 export default {
     name: 'SystemCardFrontChart',
     extends: DoughnutChart,
@@ -40,6 +42,22 @@ export default {
     },
     data: function() {
         return {
+            backgroundPlugin: {
+                id: 'custom_canvas_background_color',
+                beforeDraw: (chart) => {
+                    const ctx = chart.canvas.getContext('2d');
+                    const centerX = chart.canvas.width / 2;
+                    const centerY = chart.canvas.height / 2;
+                    const radius = (chart.canvas.width / 2) - 10;
+
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+                    ctx.lineWidth = 20;
+                    ctx.strokeStyle = 'rgba(248, 248, 242, .1)';
+                    ctx.stroke();
+
+                }
+            },
             config: {
                 responsive: true,
                 plugins: {
@@ -49,6 +67,7 @@ export default {
                     tooltip: {
                         enabled: false,
                     },
+                    
                 }
             }
         }
@@ -60,7 +79,6 @@ export default {
                 datasets: [{
                     borderWidth: 0,
                     borderRadius: 7.5,
-                    rotation: 180,
                     backgroundColor: ['#f8f8f2', 'transparent'],
                     label: 'CPU',
                     data: [ this.chartData.cpu, 100 - this.chartData.cpu ],

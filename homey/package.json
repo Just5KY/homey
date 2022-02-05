@@ -27,7 +27,7 @@
     "node-sass": "^7.0.1",
     "raw-loader": "^4.0.2",
     "three": "^0.136.0",
-    "vue": "^3.0.0",
+    "vue": "^3.2.29",
     "vue-axios": "^3.4.0",
     "vue-chart-3": "^3.0.9",
     "vue-skycons": "^4.1.1"

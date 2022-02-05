@@ -1019,7 +1019,7 @@ h2 {
       .system-card-front-chart-container__panel .front-chart-container__label {
         position: absolute;
         font-size: 1.5rem;
-        top: calc(50% - .75rem);
+        top: calc(50% - .9rem);
         left: 2.55rem;
         width: 3rem;
         color: #f8f8f2; }

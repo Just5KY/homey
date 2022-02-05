@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import WhaleScene from './WhaleScene.vue';
+import WhaleScene from './WhaleScene.vue'
 import DockerService from './DockerService.vue'
 import DockerControlPanel from './DockerControlPanel.vue';
 import DockerInfoPopup from './DockerInfoPopup.vue';
