@@ -46,16 +46,13 @@ export default {
                 id: 'custom_canvas_background_color',
                 beforeDraw: (chart) => {
                     const ctx = chart.canvas.getContext('2d');
-                    const centerX = chart.canvas.width / 2;
-                    const centerY = chart.canvas.height / 2;
-                    const radius = (chart.canvas.width / 2) - 10;
+                    const center = chart.canvas.height / 2;
 
                     ctx.beginPath();
-                    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+                    ctx.arc(center, center, center - 10, 0, 2 * Math.PI, false);
                     ctx.lineWidth = 20;
                     ctx.strokeStyle = 'rgba(248, 248, 242, .1)';
                     ctx.stroke();
-
                 }
             },
             config: {
@@ -78,7 +75,7 @@ export default {
                 labels: ['CPU', 'a'],
                 datasets: [{
                     borderWidth: 0,
-                    borderRadius: 7.5,
+                    borderRadius: 5,
                     backgroundColor: ['#f8f8f2', 'transparent'],
                     label: 'CPU',
                     data: [ this.chartData.cpu, 100 - this.chartData.cpu ],
@@ -90,7 +87,7 @@ export default {
                 labels: ['RAM'],
                 datasets: [{
                     borderWidth: 0,
-                    borderRadius: [7.5, 0],
+                    borderRadius: 5,
                     backgroundColor: ['#f8f8f2', 'transparent'],
                     label: 'RAM',
                     data: [ this.chartData.ram.percent_used, 100 - this.chartData.ram.percent_used ],

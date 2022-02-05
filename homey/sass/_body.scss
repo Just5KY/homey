@@ -12,6 +12,7 @@ body {
     
     display: grid;
     min-height: 100vh;
+    overflow: hidden;
         
     grid-template-rows: 15rem auto auto;
     grid-template-columns: 66% 34%;

@@ -50,13 +50,28 @@
     }
 
     // Settings icon
-    & span {    
+    & .icon-settings {    
         color: $commentColor;
         margin: 1rem;
         font-size: 3.5rem;
         align-self: flex-start;
         margin-left: auto;
         cursor: pointer;
+        transition: all .35s ease-out;
+        
+        &__activated {
+            z-index: 9999;
+            transform: scale(1.4) rotateZ(-40deg);
+        }
+
+        &:hover {
+            transform: scale(1.2);
+            text-shadow: .5rem .5rem 1rem rgba($shadowColor, .3);
+        }
+
+        &:active {
+            text-shadow: .25rem .25rem .5rem rgba($shadowColor, .3);
+        }
     }
 }
 

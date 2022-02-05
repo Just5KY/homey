@@ -5,7 +5,7 @@
       <div v-else class="header-container__main--house-padding"></div>
       <h1>{{ title }}</h1>
       <span v-if="APIOnline" 
-        title="Settings" class="material-icon icon-settings"
+        title="Settings" :class="getSettingsIconClass"
         @click="showOptions = !showOptions">
       </span>
       <transition name="fade">
@@ -56,6 +56,11 @@ export default {
       if(this.config.hide_house)  return false;
       return !this.config.minimal_mode;
     },
+    getSettingsIconClass() {
+      let cls = 'material-icon icon-settings';
+      if(this.showOptions)  cls += ' icon-settings__activated';
+      return cls;
+    }
   },
   methods: {
     loadConfig() {

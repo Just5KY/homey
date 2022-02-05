@@ -27,4 +27,4 @@ class service_checker:
         except:
             return False
 
-        return (res.status_code == 200)
+        return (res.status_code < 404)

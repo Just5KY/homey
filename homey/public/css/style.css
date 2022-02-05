@@ -528,13 +528,22 @@
       .header-container__main h1 {
         font-size: 3rem;
         letter-spacing: .3rem; } }
-  .header-container__main span {
+  .header-container__main .icon-settings {
     color: #6272a4;
     margin: 1rem;
     font-size: 3.5rem;
     align-self: flex-start;
     margin-left: auto;
-    cursor: pointer; }
+    cursor: pointer;
+    transition: all .35s ease-out; }
+    .header-container__main .icon-settings__activated {
+      z-index: 9999;
+      transform: scale(1.4) rotateZ(-40deg); }
+    .header-container__main .icon-settings:hover {
+      transform: scale(1.2);
+      text-shadow: 0.5rem 0.5rem 1rem rgba(28, 28, 28, 0.3); }
+    .header-container__main .icon-settings:active {
+      text-shadow: 0.25rem 0.25rem 0.5rem rgba(28, 28, 28, 0.3); }
 
 #house-canvas {
   width: 15rem;
@@ -567,6 +576,7 @@ body {
   color: #f8f8f2;
   display: grid;
   min-height: 100vh;
+  overflow: hidden;
   grid-template-rows: 15rem auto auto;
   grid-template-columns: 66% 34%; }
   @media (max-width: 1350px) {
