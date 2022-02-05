@@ -5,7 +5,8 @@ import json
 class api:
 
     def __init__(self, portainerURL, portainerUser, portainerPassword):
-        self.host = portainerURL
+        # self.host = portainerURL + '/api'
+        self.host = 'https://192.168.1.5:9443/api'
         self.user = {
             "Username": portainerUser, 
             "Password": portainerPassword
@@ -19,7 +20,7 @@ class api:
         userData = json.dumps(self.user)
 
         try:
-            response = ses.request('POST', url=self.host + '/auth', data=userData, timeout=5)
+            response = ses.request('POST', url=self.host + '/auth', data=userData, timeout=5, verify=False)
         except:
             print('Error: Could not connect to Portainer API at ' + self.host)
             return False
@@ -50,6 +51,7 @@ class api:
         response = ses.request('GET', 
             url=self.host + '/endpoints/' + str(self.endpointId) + '/docker/containers/json', 
             headers={"Authorization": self.authToken},
+            verify=False,
             params={'all': 'true'}  # without this only running containers are returned
         )
 
@@ -88,7 +90,7 @@ class api:
         if operation == 'info':
             rawInfo = ses.request('GET',
                 url=self.host + '/endpoints/' + str(self.endpointId) + '/docker/containers/' + targetId + '/json', 
-                headers={"Authorization": self.authToken}
+                headers={"Authorization": self.authToken}, verify=False
             ).json()
 
             print(rawInfo)
@@ -96,7 +98,7 @@ class api:
 
         response = ses.request('POST', 
             url=self.host + '/endpoints/' + str(self.endpointId) + '/docker/containers/' + targetId + '/' + operation, 
-            headers={"Authorization": self.authToken}
+            headers={"Authorization": self.authToken}, verify=False
         )
 
         if response.status_code == 204:

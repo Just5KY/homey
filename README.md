@@ -37,6 +37,8 @@ When the project is released, docker images and better documentation will be pro
 
     docker-compose up
 
+IMPORTANT: Unless you've deployed Flood with an SSL cert or behind a reverse proxy, credentials will be transmitted in plaintext upon authentication. **This should not be an issue as Flood only exposes its API/login page on 127.0.0.1 by default.** However do be aware that someone snooping through local network traffic could obtain your `HOMEY_API_FLOOD_USER` & `HOMEY_API_FLOOD_PASSWORD`.
+
 ### System monitor module
 
 Displays CPU/RAM/disk usage and uptime. Docker containers cannot query the host for this information (for security reasons). This can be circumvented by **running a script on the host**: `monitorSystem.py`
@@ -50,10 +52,10 @@ Displays CPU/RAM/disk usage and uptime. Docker containers cannot query the host 
 - Launch homey
 
 ### Docker backends
-**Portainer** - Communicates with a running [Portainer](https://github.com/portainer/portainer) instance. Preferred as it provides an additional layer of security.
-- To use, expose port 9000:9000 on the target Portainer container
-- Currently only the HTTP API is supported. Therefore..
-- **Do not connect to Portainer instances outside of the local network - credentials will be leaked.**
+**Portainer** - Communicates with a running [Portainer](https://github.com/portainer/portainer) instance. Preferred as it protects container access behind SSL password authentication.
+- Ensure your target instance is reachable via https at the url provided in `.env`
+- Portainer's default port is **9443**
+- Don't worry about self-signed cert warnings
 
 **Docker API** - Communicates with the parent Docker Engine process if running in a container. Communicates with the local Docker Engine process otherwise. To find the appropriate config values for `.env`:
 - User ID: `id -u`
@@ -72,9 +74,11 @@ If you're running homey on a Windows host and wish to use the local Docker API b
 This will allow homey to view and control containers on the host machine. It's safe to ignore `HOMEY_API_DOCKER_USER_ID` and `GROUP_ID`.
 
 ### Minimal mode
-**Minimal mode** turns homey into a more traditional dashboard with links to services and low overhead. All features besides service links and bookmarks are disabled, along with 3D eyecandy. This option can be toggled using the settings menu or the `minimal_mode` flag in `config.yml`.
+**Minimal mode** turns homey into a more traditional dashboard with links to services and low overhead. Weight is reduced from ~1mb to ~3kb. 3D eyecandy, service links, and bookmarks are disabled. If you'd like to run homey in minimal mode and are not running in Docker, work with the local config file: `/public/config/config.yml`. If you're running in Docker, edit the config file in homey's Docker volume as usual. 
 
-*Note: Once switched on, minimal mode can only be disabled by editing `config.yml`. Writing config to disk is API functionality.*
+This option can be toggled using the settings menu or the `minimal_mode` flag.  
+
+*Note: Once switched on, minimal mode can only be disabled by editing `config.yml`.*
 
 ### Icons
 Homey looks for service icons in <docker_volume>/icons and /public/data/icons. Icons can also be uploaded via GUI in the settings menu. **Currently only PNG is supported.** 
@@ -84,8 +88,9 @@ Docker containers will use icons which share their exact name. For example: to s
 You can find a collection of PNG self-hosted service icons at NX211's [Homer Icons](https://github.com/NX211/homer-icons) (512x512) or [Homer Icons Compressed](https://github.com/vlfldr/homer-icons) (128x128). 
 
 ## Planned features
-- **HTTPS Portainer API support**
 - ruTorrent support
+- Color configuration
+- Additional cards?
 
 ## Built with:
 

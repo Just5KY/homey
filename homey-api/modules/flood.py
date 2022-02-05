@@ -6,7 +6,7 @@ from dateutil.parser import parse
 class api:
 
     def __init__(self, floodURL, floodUser, floodPassword):
-        self.host = floodURL
+        self.host = floodURL + '/api'
         self.user = {
             "username": floodUser,
             "password": floodPassword
