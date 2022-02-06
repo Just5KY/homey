@@ -39,14 +39,16 @@
 </template>
 
 <script>
-import OptionsPopup from './OptionsPopup.vue';
+import { defineAsyncComponent } from 'vue';
 import HouseScene from './HouseScene.vue';
 
 export default {
   name: 'HeaderContainer',
   components: {
-    OptionsPopup,
-    HouseScene
+    OptionsPopup: defineAsyncComponent(() =>
+      import('@/components/OptionsPopup.vue')
+    ),
+    HouseScene,
   },
   props: {
     title: String,

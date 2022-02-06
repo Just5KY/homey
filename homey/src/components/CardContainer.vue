@@ -9,18 +9,15 @@
 </template>
 
 <script>
-import WeatherCard from './WeatherCard.vue'
-import FloodCard from './FloodCard.vue'
-import BookmarkCard from './BookmarkCard.vue'
-import SystemCard from './SystemCard.vue'
+import { defineAsyncComponent } from 'vue'
 
 export default {
   name: 'CardContainer',
   components: {
-      WeatherCard,
-      FloodCard,
-      BookmarkCard,
-      SystemCard
+      WeatherCard: defineAsyncComponent(() => import('@/components/WeatherCard.vue')),
+      FloodCard: defineAsyncComponent(() => import('@/components/FloodCard.vue')),
+      BookmarkCard: defineAsyncComponent(() => import('@/components/BookmarkCard.vue')),
+      SystemCard: defineAsyncComponent(() => import('@/components/SystemCard.vue'))
   },
   props: {
     cards: Array,

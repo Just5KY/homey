@@ -27,8 +27,10 @@
 
 <script>
 import { DoughnutChart } from 'vue-chart-3';
-import Chart from 'chart.js/auto';
-
+import { Chart, DoughnutController, ArcElement, CategoryScale, LinearScale, 
+    BarController, BarElement, LineController, LineElement, PointElement, Tooltip } from 'chart.js'
+Chart.register(DoughnutController, ArcElement, CategoryScale, LinearScale,
+    BarController, BarElement, LineController, LineElement, PointElement, Tooltip);
 
 
 export default {
@@ -46,11 +48,13 @@ export default {
                 id: 'custom_canvas_background_color',
                 beforeDraw: (chart) => {
                     const ctx = chart.canvas.getContext('2d');
+                    chart.canvas.width = 80;
+                    chart.canvas.height = 80;
                     const center = chart.canvas.height / 2;
-
+                    
                     ctx.beginPath();
-                    ctx.arc(center, center, center - 10, 0, 2 * Math.PI, false);
-                    ctx.lineWidth = 20;
+                    ctx.arc(center, center, center * .75, 0, 2 * Math.PI, false);
+                    ctx.lineWidth = center / 2;
                     ctx.strokeStyle = 'rgba(248, 248, 242, .1)';
                     ctx.stroke();
                 }

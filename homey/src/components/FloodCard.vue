@@ -30,13 +30,14 @@
 </template>
 
 <script>
-
-import FloodCardChart from './FloodCardChart.vue';
+import { defineAsyncComponent } from 'vue';
 
 export default {
   name: 'FloodCard',
   components: {
-    FloodCardChart,
+    FloodCardChart: defineAsyncComponent( () => 
+      import('@/components/FloodCardChart.vue')
+    )
   },
   data () {
     return {

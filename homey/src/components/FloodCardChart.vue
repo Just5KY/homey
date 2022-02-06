@@ -4,7 +4,11 @@
 
 <script>
     import { LineChart } from 'vue-chart-3';
-    import Chart from 'chart.js/auto';
+    import { Chart, DoughnutController, ArcElement, CategoryScale, LinearScale, 
+    BarController, BarElement, LineController, LineElement, PointElement, Tooltip } from 'chart.js'
+    Chart.register(DoughnutController, ArcElement, CategoryScale, LinearScale,
+        BarController, BarElement, LineController, LineElement, PointElement, Tooltip);
+
 
     export default {
         name: 'FloodCardChart',

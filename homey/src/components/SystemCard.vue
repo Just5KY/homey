@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import SystemCardFrontChart from './SystemCardFrontChart.vue'
-import SystemCardBackChart from './SystemCardBackChart.vue'
+import SystemCardFrontChart from './SystemCardFrontChart.vue';
+import SystemCardBackChart from './SystemCardBackChart.vue';
 import notifications from '../notifications';
 
 export default {

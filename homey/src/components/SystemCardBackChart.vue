@@ -17,89 +17,92 @@
 </template>
 
 <script>
-    import { BarChart } from 'vue-chart-3';
-    import Chart from 'chart.js/auto';
+import { BarChart } from 'vue-chart-3';
+import { Chart, DoughnutController, ArcElement, CategoryScale, LinearScale, 
+    BarController, BarElement, LineController, LineElement, PointElement, Tooltip } from 'chart.js'
+Chart.register(DoughnutController, ArcElement, CategoryScale, LinearScale,
+    BarController, BarElement, LineController, LineElement, PointElement, Tooltip);
 
-    export default {
-        name: 'SystemCardBackChart',
-        components: {
-            BarChart
-        },
-        props: {
-            chartData: Object,
-        },
-        data: function() {
-            return {
-                config: {
-                    indexAxis: 'y',
-                    reactive: true,
-                    maintainAspectRatio: false,
-                    layout: {
-                        padding: {
-                            left: -10,
-                            bottom: -10,
-                        },
+export default {
+    name: 'SystemCardBackChart',
+    components: {
+        BarChart
+    },
+    props: {
+        chartData: Object,
+    },
+    data: function() {
+        return {
+            config: {
+                indexAxis: 'y',
+                reactive: true,
+                maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        left: -10,
+                        bottom: -10,
                     },
-                    scales: {
-                        x: {
-                            ticks: { display: false},
-                            grid: {
-                                display: false,
-                                drawBorder: false
-                            }
-                        },
-                        y: {
-                            stacked: true,
-                            ticks: { display: false},
-                            grid: {
-                                display: false,
-                                drawBorder: false
-                            }
+                },
+                scales: {
+                    x: {
+                        ticks: { display: false},
+                        grid: {
+                            display: false,
+                            drawBorder: false
                         }
                     },
-                    plugins: {
-                        tooltip: { enabled: false },
-                        legend: { display: false },
+                    y: {
+                        stacked: true,
+                        ticks: { display: false},
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        }
                     }
+                },
+                plugins: {
+                    tooltip: { enabled: false },
+                    legend: { display: false },
                 }
             }
-        },
-        methods: {
-            diskChartData(disk) {
-                return  {
-                    labels: [disk.label],
-                    datasets: [{
-                        borderWidth: 0,
-                        borderRadius: 5,
-                        borderSkipped: false,
-                        barPercentage: 1,
-                        categoryPercentage: 1,
-                        backgroundColor: ['#8be9fd'],
-                        label: disk.label,
-                        data: [ disk.percent_used ],
-                    },
-                    {
-                        borderWidth: 0,
-                        borderRadius: 5,
-                        borderSkipped: false,
-                        barPercentage: 1,
-                        categoryPercentage: 1,
-                        backgroundColor: ['rgba(248, 248, 242, .1)'],
-                        label: disk.label,
-                        data: [ 100 ],
-                    }]
-                };
-            },
-            getDiskInfo(disk){
-                return 'Label: ' + disk.label + '\nTotal size: ' + disk.total 
-                    + 'GB\nUsed: ' + disk.used + 'GB (' + disk.percent_used 
-                    + '%) \nFree: ' + disk.free + 'GB (' + (100 - disk.percent_used) + '%)'
-            }
-        },
-        computed: {
-            
-        },
-        mounted() {
         }
+    },
+    methods: {
+        diskChartData(disk) {
+            return  {
+                labels: [disk.label],
+                datasets: [{
+                    borderWidth: 0,
+                    borderRadius: 5,
+                    borderSkipped: false,
+                    barPercentage: 1,
+                    categoryPercentage: 1,
+                    backgroundColor: ['#8be9fd'],
+                    label: disk.label,
+                    data: [ disk.percent_used ],
+                },
+                {
+                    borderWidth: 0,
+                    borderRadius: 5,
+                    borderSkipped: false,
+                    barPercentage: 1,
+                    categoryPercentage: 1,
+                    backgroundColor: ['rgba(248, 248, 242, .1)'],
+                    label: disk.label,
+                    data: [ 100 ],
+                }]
+            };
+        },
+        getDiskInfo(disk){
+            return 'Label: ' + disk.label + '\nTotal size: ' + disk.total 
+                + 'GB\nUsed: ' + disk.used + 'GB (' + disk.percent_used 
+                + '%) \nFree: ' + disk.free + 'GB (' + (100 - disk.percent_used) + '%)'
+        }
+    },
+    computed: {
+        
+    },
+    mounted() {
     }
+}
 </script>

@@ -2,13 +2,15 @@ FROM node:lts-slim as build
 
 WORKDIR /app
 
+COPY package.json .
+
+RUN npm install 
+
 COPY . .
 
 ENV NODE_ENV production
-
-# build production
-RUN npm install --production && \
-    npm run prod_compile:sass && \
+    
+RUN npm run prod_compile:sass && \
     npm run build
 
 # final image

@@ -24,19 +24,23 @@
 </template>
 
 <script>
-import WhaleScene from './WhaleScene.vue'
 import DockerService from './DockerService.vue'
 import DockerControlPanel from './DockerControlPanel.vue';
-import DockerInfoPopup from './DockerInfoPopup.vue';
 import notifications from '../notifications';
+
+import { defineAsyncComponent } from 'vue'
 
 export default {
   name: 'DockerContainer',
   components: {
       DockerService,
       DockerControlPanel,
-      DockerInfoPopup,
-      WhaleScene,
+      DockerInfoPopup: defineAsyncComponent(() =>
+        import('@/components/DockerInfoPopup.vue')
+      ),
+      WhaleScene: defineAsyncComponent(() => 
+        import('@/components/WhaleScene.vue'),
+      ),
   },
   emits: ['openSettings'],
   props: {

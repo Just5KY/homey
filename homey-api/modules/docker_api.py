@@ -41,17 +41,18 @@ class api:
         
         # get detailed container stats & logs
         if operation == 'info':
-            logs = []
-            for line in container.logs(timestamps=True, tail=100).split(b'\n'):
-                logs.append(line.decode().replace('\"','').strip())
-            logs.pop()
-
             stats = container.stats(stream=False)
+            
+            logs = []
+            try:
+                logs = container.logs(timestamps=True, tail=100).split(b'\n')
+                for line in logs:
+                    logs.append(line.decode().replace('\"','').strip())
+                logs.pop()
+            except:
+                logs = [containerName + '\'s configured logging driver is not supported by the Docker API.']
 
-            return {
-                'stats': stats,
-                'log': logs,
-            }
+            return { 'stats': stats, 'log': logs }
 
         # every other operation name is a valid Docker API method
         try:
