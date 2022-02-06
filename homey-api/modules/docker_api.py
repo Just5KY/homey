@@ -44,11 +44,14 @@ class api:
         if operation == 'info':
             stats = self.api_client.inspect_container(targetId)
             logs = []
-
+            
             rawLogs = self.api_client.logs(targetId, timestamps=True, tail=100).split(b'\n')
             for line in rawLogs:
                 logs.append(line.decode().replace('\"','').strip())
             logs.pop()  # trim blank line
+
+            if logs == []:
+                logs = ['<No entries in log>']
 
             return { 'stats': stats, 'log': logs }
 

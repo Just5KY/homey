@@ -605,6 +605,55 @@
   background-color: #ff5555;
 }
 
+.option-dropdown-menu,
+.option-text-field {
+  border-radius: 0.5rem;
+  color: #f8f8f2;
+  background-color: #44475a;
+  border: none;
+  box-shadow: inset 0.5rem 0.5rem 1rem rgba(28, 28, 28, 0.3);
+  height: 2.4rem;
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+  font-family: "Montserrat";
+}
+
+.option-toggle-switch {
+  width: 5rem;
+  height: 2.4rem;
+  position: relative;
+  border-radius: 5rem;
+  background-color: #44475a;
+  transition: background-color 0.4s;
+  box-shadow: inset 0.5rem 0.5rem 1rem rgba(28, 28, 28, 0.3);
+}
+.option-toggle-switch__checkbox {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 50;
+  cursor: pointer;
+}
+.option-toggle-switch--enabled {
+  background-color: #50fa7b;
+}
+.option-toggle-switch__slider {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 5rem;
+  transition: all 0.4s;
+  background-color: #f8f8f2;
+}
+.option-toggle-switch__slider--enabled {
+  transform: translateX(2.6rem);
+}
+
 .header-container {
   grid-row: 1;
   grid-column: 1/3;

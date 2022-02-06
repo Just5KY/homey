@@ -23,7 +23,7 @@ def validateWeather(lat, long):
     return True
 
 class Config:
-    RUNNING_IN_DOCKER = os.environ.get('HOMEY_API_RUNNING_IN_DOCKER', False)
+    RUNNING_IN_DOCKER = os.environ.get('HOMEY_API_RUNNING_IN_DOCKER', 'False').lower() == 'true'
 
     # if running on metal, load .env file from project root
     if not RUNNING_IN_DOCKER:

@@ -15,7 +15,7 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 app.config.from_object(config)
 app.config['JSON_SORT_KEYS'] = False
 
-if config.RUNNING_IN_DOCKER:
+if config.RUNNING_IN_DOCKER == True:
     app.config['UPLOAD_FOLDER'] = './config/icons'  
 else:
     app.config['UPLOAD_FOLDER'] = '../homey/public/data/icons'
@@ -84,10 +84,6 @@ def portainerControl():
     return jsonify(portainerAPI.controlContainer(request.json['name'], request.json['operation']))
 
 ### DOCKER
-@app.route('/dockerAuth', methods=['GET'])
-def dockerAuth():
-    return jsonify('True')                  # TODO: implement
-
 @app.route('/dockerList', methods=['GET'])
 def dockerList():
     return jsonify(dockerAPI.listContainers())

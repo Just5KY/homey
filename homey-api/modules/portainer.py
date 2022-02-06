@@ -109,6 +109,9 @@ class api:
             for line in logReq.iter_lines(100):
                 logs.append(line[8:].decode('utf-8', errors='replace').strip())
 
+            if logs == []:
+                logs = ['<No entries in log>']
+
             return { 'stats': stats, 'log': logs }
 
         response = ses.request('POST', 

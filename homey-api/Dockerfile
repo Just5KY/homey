@@ -5,15 +5,12 @@ WORKDIR /code
 # tell the API it's inside a container
 ENV HOMEY_API_RUNNING_IN_DOCKER Yes
 
-# set proper timezone from .env configuration
-RUN date
-
 # install dependencies
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # install docker-cli to communicate with mounted socket
-RUN apk add --no-cache docker-cli openrc
+RUN apk add --no-cache docker-cli
 
 # copy source into container
 COPY . .

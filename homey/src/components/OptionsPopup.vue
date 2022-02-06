@@ -14,64 +14,43 @@
               <li class="modal-option">
                 <h3>Title</h3>
                 <div class="modal-option__button-container">
-                  <input v-model="localConfig.title">
+                  <input class="option-text-field" v-model="localConfig.title">
                 </div>
               </li>
               <li class="modal-option">
                 <h3>Minimal Mode<span :title="this.minimalModeWarning" class="material-icon icon-info"></span></h3>
-                <div class="modal-option__button-container">
-                  On<input type="radio" :value="true" v-model="localConfig.minimal_mode">
-                  Off<input type="radio" :value="false" v-model="localConfig.minimal_mode">
-                </div>
+                <OptionToggleSwitch v-model:val="localConfig.minimal_mode" />
               </li>
               <li v-if="!localConfig.minimal_mode" class="modal-option">
                 <h3>3D House</h3>
-                <div class="modal-option__button-container">
-                  On<input type="radio" :value="false" v-model="localConfig.hide_house">
-                  Off<input type="radio" :value="true" v-model="localConfig.hide_house">
-                </div>
+                <OptionToggleSwitch v-model:val="localConfig.hide_house" />
               </li>
               <li class="modal-option">
                 <h3>Compact Services</h3>
-                <div class="modal-option__button-container">
-                  On<input type="radio" :value="true" v-model="localConfig.compact_services">
-                  Off<input type="radio" :value="false" v-model="localConfig.compact_services">
-                </div>
+                <OptionToggleSwitch v-model:val="localConfig.compact_services" />
               </li>
               <li v-if="!localConfig.minimal_mode" class="modal-option">
                 <h3>Status Indicators</h3>
-                <div class="modal-option__button-container">
-                  On<input type="radio" :value="true" v-model="localConfig.enable_service_status">
-                  Off<input type="radio" :value="false" v-model="localConfig.enable_service_status">
-                </div>
+                <OptionToggleSwitch v-model:val="localConfig.enable_service_status" />
               </li>
               <li class="modal-option">
                 <h3>Bookmarks in Header</h3>
-                <div class="modal-option__button-container">
-                  On<input type="radio" :value="true" v-model="localConfig.bookmarks_in_header">
-                  Off<input type="radio" :value="false" v-model="localConfig.bookmarks_in_header">
-                </div>
+                <OptionToggleSwitch v-model:val="localConfig.bookmarks_in_header" />
               </li>
               <li class="modal-option">
                 <h3>Notifications
                   <span :title="'Website-level alerts for errors & selected events.\nNo browser permissions required.'" class="material-icon icon-info"></span>
                 </h3>
-                <div class="modal-option__button-container">
-                  On<input type="radio" :value="true" v-model="localConfig.enable_notifications">
-                  Off<input type="radio" :value="false" v-model="localConfig.enable_notifications">
-                </div>
+                <OptionToggleSwitch v-model:val="localConfig.enable_notifications" />
               </li>
               <li v-if="localConfig.enable_notifications" class="modal-option">
                 <h3>Audio Notifications</h3>
-                <div class="modal-option__button-container">
-                  On<input type="radio" :value="true" v-model="localConfig.audio_notifications">
-                  Off<input type="radio" :value="false" v-model="localConfig.audio_notifications">
-                </div>
+                <OptionToggleSwitch v-model:val="localConfig.audio_notifications" />
               </li>
               <li v-if="!localConfig.minimal_mode" class="modal-option">
                 <h3>Docker Backend</h3>
                 <div class="modal-option__button-container">
-                  <select v-model="localConfig.docker_api_backend">
+                  <select class="option-dropdown-menu" v-model="localConfig.docker_api_backend">
                     <option value="docker">Docker</option>
                     <option value="portainer">Portainer</option>
                   </select>
@@ -98,7 +77,7 @@
 
           <div class="modal-body">
               <div class="modal-option__header">
-                  <select @change="dropdownUpdated" v-model="selectedService">
+                  <select @change="dropdownUpdated" v-model="selectedService" class="option-dropdown-menu">
                     <option value="newService">New Service</option>
                     <option v-for="(s, i) in localConfig.services" :key="i" :value="s.name">{{s.name}}</option>
                   </select>
@@ -107,10 +86,12 @@
                 <div class="service-editor__image-container">
                   <img v-if="getSelectedService().icon && !newImage" 
                     :src="'./data/icons/'+getSelectedService().icon" 
-                    class="service-editor__image-container__image" />
+                    class="service-editor__image-container__image"
+                    onerror="this.onerror=null; this.src='data/icons/default.png'" />
                   <img v-if="newImage"
                     :src="newImage" 
-                    class="service-editor__image-container__image" />
+                    class="service-editor__image-container__image"
+                    onerror="this.onerror=null; this.src='data/icons/default.png'" />
                   <label for="uploader">
                     <transition name="slide-up">
                       <span v-if="(getSelectedService().icon || newImage || newService.icon != '') && !showGallery" 
@@ -142,19 +123,19 @@
                     <li class="modal-option">
                       <h3>Name</h3>
                       <div class="modal-option__button-container">
-                        <input v-model="localName">
+                        <input class="option-text-field" v-model="localName">
                       </div>
                     </li>
                     <li class="modal-option">
                       <h3>Subtitle</h3>
                       <div class="modal-option__button-container">
-                        <input v-model="getSelectedService().subtitle">
+                        <input class="option-text-field" v-model="getSelectedService().subtitle">
                       </div>
                     </li>
                     <li class="modal-option">
                       <h3>URL</h3>
                       <div class="modal-option__button-container">
-                        <input v-model="getSelectedService().url">
+                        <input class="option-text-field" v-model="getSelectedService().url">
                       </div>
                     </li>
                   </ul>
@@ -187,10 +168,7 @@
             <ul>
               <li v-for="c in localConfig.cards" :key="c.name" class="modal-option">
                 <h3>{{ c.name }}</h3>
-                <div class="modal-option__button-container">
-                  On<input type="radio" :value="true" v-model="c.enable">
-                  Off<input type="radio" :value="false" v-model="c.enable">
-                </div>
+                <OptionToggleSwitch v-model:val="c.enable" />
               </li>
             </ul>
           </div>
@@ -213,6 +191,7 @@
 
 <script>
 import IconGallery from './IconGallery.vue';
+import OptionToggleSwitch from './OptionToggleSwitch.vue';
 
 export default {
   name: 'OptionsPopup',
@@ -232,6 +211,7 @@ export default {
   },
   components: {
     IconGallery,
+    OptionToggleSwitch
   },
   props: {
       header: String,
