@@ -139,6 +139,8 @@ export default {
       this.isOnline = false; 
       notifications.hide = true;
     }));
+    // always re-open scrolled to top
+    window.scrollTo(0, 0);
   },
 }
 </script>

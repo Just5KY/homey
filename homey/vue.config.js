@@ -2,7 +2,7 @@ const { defineConfig } = require('@vue/cli-service');
 const CompressionPlugin = require("compression-webpack-plugin");
 const ThreeMinifierPlugin = require("@yushijinhun/three-minifier-webpack");
 const threeMinifier = new ThreeMinifierPlugin();
-
+const webpack = require("webpack");
 //const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = defineConfig({
@@ -30,6 +30,11 @@ module.exports = defineConfig({
   },
   configureWebpack: {
     plugins: [
+      //new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/,
+        contextRegExp: /moment$/,
+      }),
       new CompressionPlugin({ threshold: 5120 }),
       threeMinifier
     ],

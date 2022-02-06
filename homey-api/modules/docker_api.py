@@ -10,6 +10,7 @@ class api:
     def __init__(self, dockerSocketPath):
         if dockerSocketPath == '/var/run/docker.sock':   # default
             self.client = docker.from_env()
+            self.api_client = docker.APIClient(base_url='unix:/' + dockerSocketPath)
         else:
             print('ERROR: Custom docker socket paths are not yet supported.')
 
@@ -41,16 +42,18 @@ class api:
         
         # get detailed container stats & logs
         if operation == 'info':
-            stats = container.stats(stream=False)
-            
+            stats = self.api_client.inspect_container(targetId)
             logs = []
+            
             try:
                 logs = container.logs(timestamps=True, tail=100).split(b'\n')
                 for line in logs:
                     logs.append(line.decode().replace('\"','').strip())
                 logs.pop()
             except:
-                logs = [containerName + '\'s configured logging driver is not supported by the Docker API.']
+                logs = ['The `docker container prune` command will remove all stopped containers.',
+                    'Stopped containers reporting this error are usually left over from a failed build.',
+                    containerName + '\'s configured logging driver is not supported by the Docker API.']
 
             return { 'stats': stats, 'log': logs }
 

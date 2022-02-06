@@ -5,7 +5,7 @@
         <div class="modal-container modal-container--large">
 
           <div class="modal-header">
-            <h2>Statistics &amp; logs for {{ details.stats.name.substring(1) }}
+            <h2>Statistics &amp; logs for {{ details.stats.Name.substring(1) }}
               <span class="material-icon icon-info"></span>
             </h2>
           </div>

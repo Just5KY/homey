@@ -86,15 +86,30 @@ class api:
         if targetId == '':
             return 'error: ' + containerName + ' not found'
 
-        # TODO: ensure parity with docker format
         if operation == 'info':
-            rawInfo = ses.request('GET',
-                url=self.host + '/endpoints/' + str(self.endpointId) + '/docker/containers/' + targetId + '/json', 
-                headers={"Authorization": self.authToken}, verify=False
-            ).json()
+            try:
+                stats = ses.request('GET',
+                    url=self.host + '/endpoints/' + str(self.endpointId) + '/docker/containers/' + targetId + '/json', 
+                    headers={"Authorization": self.authToken}, verify=False
+                ).json()
 
-            print(rawInfo)
-            return rawInfo
+                logReq = ses.request('GET',
+                    url=self.host + '/endpoints/' + str(self.endpointId) + '/docker/containers/' + targetId + '/logs',
+                    params={"tail": "100", "stdout": True, "stderr": True, "timestamps": True}, 
+                    headers={"Authorization": self.authToken}, verify=False, stream=True
+                )
+            except:
+                return { "stats": {}, "logs": 
+                    ['The `docker container prune` command will remove all stopped containers.',
+                    'Stopped containers reporting this error are usually left over from a failed build.',
+                    containerName + '\'s configured logging driver is not supported by the Docker API.'] }
+
+            # strip 8 bytes of raw TTY info off beginning of each line
+            logs = []
+            for line in logReq.iter_lines(100):
+                logs.append(line[8:].decode('utf-8', errors='replace').strip())
+
+            return { 'stats': stats, 'log': logs }
 
         response = ses.request('POST', 
             url=self.host + '/endpoints/' + str(self.endpointId) + '/docker/containers/' + targetId + '/' + operation, 
