@@ -44,16 +44,11 @@ class api:
         if operation == 'info':
             stats = self.api_client.inspect_container(targetId)
             logs = []
-            
-            try:
-                logs = container.logs(timestamps=True, tail=100).split(b'\n')
-                for line in logs:
-                    logs.append(line.decode().replace('\"','').strip())
-                logs.pop()
-            except:
-                logs = ['The `docker container prune` command will remove all stopped containers.',
-                    'Stopped containers reporting this error are usually left over from a failed build.',
-                    containerName + '\'s configured logging driver is not supported by the Docker API.']
+
+            rawLogs = self.api_client.logs(targetId, timestamps=True, tail=100).split(b'\n')
+            for line in rawLogs:
+                logs.append(line.decode().replace('\"','').strip())
+            logs.pop()  # trim blank line
 
             return { 'stats': stats, 'log': logs }
 

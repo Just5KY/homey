@@ -2,7 +2,7 @@
   <div class="docker-container">
     <div v-if="perspective == '2d'" :class="gridClass">
       <DockerService v-for="(s, index) in dockerServices" 
-        :key="index" 
+        :key="s.name" 
         :gridIndex = "index+1" 
         :serviceName="s.name" 
         :state="s.status" 
@@ -16,7 +16,7 @@
       @toggleView="togglePerspective()"
       @refreshContainers="loadContainerList(true)"
       @openSettings="this.$emit('openSettings')" />
-    <img v-if="perspective == '2d' && gridClass != 'docker-container__grid'" class="docker-container__whale" :src="'./images/docker-large-blank.png'">
+    <img v-if="perspective == '2d'" class="docker-container__whale" src="images/docker-large-blank.png">
     <transition name="fade">
       <DockerInfoPopup v-if="showDetails" :details="containerDetails" @close="showDetails = false" />
     </transition>
@@ -112,10 +112,8 @@ export default {
         this.perspective = '2d';
 
         // wait 25ms to ensure 2D services are present before grid size calc
-        this.refreshHandle = setInterval(() => {
-          this.setGridSize();
-          clearInterval(this.refreshHandle);
-        }, 25)
+        // this.refreshHandle = setInterval(() => { this.setGridSize();
+        //   clearInterval(this.refreshHandle); }, 25)
       }
     },
     // 3-row, 8-row, etc based on highest cell

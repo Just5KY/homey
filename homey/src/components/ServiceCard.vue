@@ -7,7 +7,7 @@
     </div>
     <span v-if="displayStatus" :title="getStatusFormatted" :id="getStatus + ((isCompact) ? '__compact' : '')" :class="'service-card-container__indicator material-icon ' + getStatus"></span>
     <div class="service-card-container__image-container">
-      <img :src="iconPath">
+      <img :src="iconPath" onerror="this.onerror=null; this.src='data/icons/default.png'">
     </div>
   </a>
 </template>
