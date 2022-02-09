@@ -3,7 +3,7 @@
     <!-- main settings menu -->
     <div class="modal-mask">
       <div class="modal-wrapper">
-        <div v-if="!showServices && !showCards" class="modal-container">
+        <div v-if="!showServices && !showCards && !showBookmarks" class="modal-container">
 
           <div class="modal-header">
             <h2>Settings</h2>
@@ -61,6 +61,7 @@
 
           <div class="modal-footer">
             <button @click="showServices = !showServices" class="modal-button modal-button__services">Services</button>
+            <button @click="showBookmarks = !showBookmarks" class="modal-button modal-button__bookmarks">Bookmarks</button>
             <button @click="showCards = !showCards" class="modal-button modal-button__cards">Cards</button>
             <button @click="close(false)" class="modal-button modal-button__cancel">Cancel<span class="material-icon icon-arrow_right"></span></button>
             <button @click="close(true)" class="modal-button modal-button__save">Save<span class="material-icon icon-check"></span></button>
@@ -184,7 +185,56 @@
             <button @click="close(true)" class="modal-button modal-button__save">{{getSaveString}}<span class="material-icon icon-check"></span></button>
           </div>
         </div>
-      
+
+        <!-- bookmark editor sub-menu -->
+
+        <div v-if="showBookmarks" class="modal-container">
+          <div class="modal-header">
+            <h2>Bookmarks</h2>
+          </div>
+
+          <div class="modal-body">
+            <div class="modal-option__header">
+                <select @change="localBookmarkName = getSelectedBookmark().name;" 
+                  v-model="selectedBookmark" class="option-dropdown-menu">
+                  <option value="newBookmark">New Bookmark</option>
+                  <option v-for="(b, i) in localConfig.bookmarks" :key="i" :value="b.name">{{b.name}}</option>
+                </select>
+            </div>
+            <ul>
+              <li class="modal-option">
+                <h3>Name</h3>
+                <div class="modal-option__button-container">
+                  <input class="option-text-field" v-model="localBookmarkName">
+                </div>
+              </li>
+              <li class="modal-option">
+                <h3>URL</h3>
+                <div class="modal-option__button-container">
+                  <input class="option-text-field" v-model="getSelectedBookmark().url">
+                </div>
+              </li>
+              <li class="modal-option">
+                <h3>Hover Text</h3>
+                <div class="modal-option__button-container">
+                  <input class="option-text-field" v-model="getSelectedBookmark().hover"
+                    placeholder="Optional">
+                </div>
+              </li>
+            </ul>
+          </div>
+  
+          <div class="modal-footer">
+            <transition name="fade">
+              <button v-if="selectedBookmark != 'newBookmark'" 
+                @click="deleteBookmark(getSelectedBookmark() /* CREATE THIS METHOD */)" 
+                class="modal-button modal-button__delete">
+                Delete</button>
+            </transition>
+            <button @click="showBookmarks = !showBookmarks" class="modal-button modal-button__cancel">Back<span class="material-icon icon-arrow_right"></span></button>
+            <button @click="close(true)" class="modal-button modal-button__save">{{getSaveString}}<span class="material-icon icon-check"></span></button>
+          </div>
+        </div>
       </div>
     </div>
 </template>
@@ -200,9 +250,13 @@ export default {
       localConfig: Object,
       showServices: false,
       showCards: false,
+      showBookmarks: false,
       newService: {'name': '', 'icon': '', 'subtitle': '', 'url': ''},
       selectedService: 'newService',
+      newBookmark: {'name': '', 'hover': '', 'url': ''},
+      selectedBookmark: 'newBookmark',
       localName: String,
+      localBookmarkName: String,
       newImage: null,
       showGallery: false,
       servicesDeleted: false,
@@ -226,16 +280,45 @@ export default {
   },
   created: function() {
     this.localConfig = this.config;
-    this.localName = ''
+    this.localName = '';
+    this.localBookmarkName = '';
   },
   methods: {
     // close(true) will write newly selected settings to config.yml
     close(shouldSave) {
       if (shouldSave){
         // save main options
-        if(!this.showServices || this.servicesDeleted){
+        if( (!this.showServices && !this.showBookmarks) || this.servicesDeleted ){
           this.$emit('saveConfig');
           this.$emit('close');
+          return;
+        }
+
+        // save bookmarks
+        if(this.showBookmarks) {
+          // create new bookmark
+          if(this.selectedBookmark == 'newBookmark') {
+            this.newBookmark.name = this.localBookmarkName;
+            if(this.newBookmark.name == '' || this.newBookmark.url == '') {
+              console.error("Error creating bookmark: Name & URL are required.");
+              this.$emit('close');
+              return;
+            }
+            else {
+              this.localConfig.bookmarks.push(this.newBookmark)
+            }
+          }
+          // update existing bookmark
+          else {
+            let toUpdate = this.getSelectedBookmark();
+            toUpdate.name = this.localBookmarkName;
+            if(toUpdate.name == '' || toUpdate.url == ''){
+              console.log("Error saving bookmark: Name & URL are required.");
+              this.$emit('close');
+              return;
+            }
+          }
+          this.$emit('saveConfig');
           return;
         }
 
@@ -244,7 +327,7 @@ export default {
           this.newService.name = this.localName;
           if(this.newService.icon == '' && !this.newImage) console.error("Error creating new service: Image is required.")
           else if(this.newService.name == '' || this.newService.url == '') {
-            console.error("Error saving service: Name & URL are required.");
+            console.error("Error creating service: Name & URL are required.");
           }
           // upload new image
           else {
@@ -293,12 +376,27 @@ export default {
 
       return this.newService;
     },
+    getSelectedBookmark() {
+      for(let i = 0; i < this.localConfig.bookmarks.length; i++) {
+        if (this.localConfig.bookmarks[i].name == this.selectedBookmark)  {
+          return this.localConfig.bookmarks[i];
+        }
+      }
+
+      return this.newBookmark;
+    },
     // remove a service from the list & flag it for deletion from config file
     // changes are discarded if user does not hit 'Save' after
     deleteService(service){
       this.localConfig.services.splice(this.localConfig.services.indexOf(service), 1);
       this.selectedService = 'newService'
       this.localName = ''
+      this.servicesDeleted = true;
+    },
+    deleteBookmark(bookmark) {
+      this.localConfig.bookmarks.splice(this.localConfig.bookmarks.indexOf(bookmark), 1);
+      this.selectedBookmark = 'newBookmark';
+      this.localBookmarkName = '';
       this.servicesDeleted = true;
     },
     selectNewIcon(filename){
