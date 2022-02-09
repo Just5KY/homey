@@ -98,14 +98,14 @@ You can find a collection of PNG self-hosted service icons at NX211's [Homer Ico
 These options can all be modified through the GUI settings menu.
 Option | Type | Purpose
 ---|---|---
-title | String
+title | String | Change the title of your dashboard
 minimal_mode | Boolean | Disables 3D eyecandy and most functionality. See *Minimal Mode* for more info.
-show_house | Boolean | Disables 3D house in header.
-compact_services | Boolean | Reduces padding around services.
-enable_service_status | Boolean | Toggles service up/down indicators.
-enable_notifications | Boolean | Toggles in-page notifications.
-audio_notifications | Boolean | Toggles in-page notification audio.
-bookmarks_in_header | Boolean | Fills empty space in the header with configured bookmarks.
+show_house | Boolean | Disables 3D house in header
+compact_services | Boolean | Reduces padding around services
+enable_service_status | Boolean | Toggles service up/down indicators
+enable_notifications | Boolean | Toggles in-page notifications
+audio_notifications | Boolean | Toggles in-page notification audio
+bookmarks_in_header | Boolean | Fills empty space in the header with bookmarks.
 docker_api_backend | String | Docker display/control backend. Valid options: `docker`, `portainer`
 service.name | String | Service display name
 service.subtitle | String | Service description
@@ -114,7 +114,7 @@ service.icon | String | Service icon filename without path i.e. `portainer.png`
 bookmark.name | String | Bookmark display name
 bookmark.url | String | Bookmark target URL
 bookmark.hover | String | Optional hovertext for bookmarks 
-card.enabled | Boolean | Toggles visibility of individual cards in the bottom right section.
+card.enabled | Boolean | Toggles visibility of individual cards in bottom right section
 
 **Backend** - *.env*
 
@@ -139,7 +139,7 @@ HOMEY_API_RUNNING_IN_DOCKER | Boolean | Set to false if you're running without D
 - ruTorrent support
 - In-page notifications for flood downloads
 - Color configuration
-- Additional cards?
+- Additional cards
 
 ## Built with:
 

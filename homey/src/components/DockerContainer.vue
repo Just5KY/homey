@@ -111,9 +111,9 @@ export default {
         this.$refs.whale.cleanup();
         this.perspective = '2d';
 
-        // wait 25ms to ensure 2D services are present before grid size calc
-        // this.refreshHandle = setInterval(() => { this.setGridSize();
-        //   clearInterval(this.refreshHandle); }, 25)
+        //wait 25ms to ensure 2D services are present before grid size calc
+        this.refreshHandle = setInterval(() => { this.setGridSize();
+          clearInterval(this.refreshHandle); }, 25)
       }
     },
     // 3-row, 8-row, etc based on highest cell

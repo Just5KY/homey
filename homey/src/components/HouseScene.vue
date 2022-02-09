@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import { PerspectiveCamera, WebGLRenderer, Scene, Mesh, Group, 
+import { PerspectiveCamera, WebGLRenderer, Scene, Mesh, Group, Color,
     HemisphereLight, BoxGeometry, ConeGeometry, MeshBasicMaterial, Vector3 } from 'three';
-import { randFloat, degToRad } from 'three/src/math/MathUtils';
+import { randFloat, degToRad, randInt } from 'three/src/math/MathUtils';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Tween, update, Easing, removeAll as tweenRemoveAll } from '@tweenjs/tween.js'
 
@@ -81,7 +81,7 @@ export default {
         camera.lookAt(houseGroup);    
         
         renderer.setPixelRatio( window.devicePixelRatio );
-        
+
         this.initTweens();
         this.initControls();
     },
@@ -89,6 +89,7 @@ export default {
     mounted: function() {
         this.$refs.threeCanvas.appendChild(renderer.domElement);
 
+        this.$refs.threeCanvas.addEventListener('mousedown', this.onMouseDown, false);
         this.animate();
     },
     methods: {
@@ -105,12 +106,30 @@ export default {
             controls.update();
 
             // spin house
-            houseGroup.rotation.y -= .005;
+            houseGroup.rotateY(.005)
 
             renderer.setSize(width, height);
             requestAnimationFrame(this.animate)
             
             renderer.render(scene, camera); 
+        },
+        // mix up the colors
+        onMouseDown() {
+            roof.material.color = this.genRandomColor();
+            let winColor = this.genRandomColor();
+            lwWindow.material.color = winColor;
+            rwWindow.material.color = winColor;
+            fwDoor.material.color = this.genRandomColor();
+            chimney.material.color = this.genRandomColor();
+        },
+        // generate random color
+        genRandomColor() {
+            let d = new Date();
+            return new Color('rgb(' +
+                + randInt(0, 255) + ', ' + 
+                + randInt(0, 255) + ', ' +
+                + randInt(0, 255) + ')'
+            );
         },
         // update camera to canvas size
         updateCameraAspect(width, height){
