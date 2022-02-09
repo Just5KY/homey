@@ -11,43 +11,44 @@
 
           <div class="modal-body">
             <ul>
-              <li class="modal-option">
+              <TransitionGroup name="smooth-list">
+              <li class="modal-option" :key="1">
                 <h3>Title</h3>
                 <div class="modal-option__button-container">
                   <input class="option-text-field" v-model="localConfig.title">
                 </div>
               </li>
-              <li class="modal-option">
+              <li class="modal-option" :key="2">
                 <h3>Minimal Mode<span :title="this.minimalModeWarning" class="material-icon icon-info"></span></h3>
                 <OptionToggleSwitch v-model:val="localConfig.minimal_mode" />
               </li>
-              <li v-if="!localConfig.minimal_mode" class="modal-option">
+              <li v-if="!localConfig.minimal_mode" class="modal-option" :key="3">
                 <h3>3D House</h3>
-                <OptionToggleSwitch v-model:val="localConfig.hide_house" />
+                <OptionToggleSwitch v-model:val="localConfig.show_house" />
               </li>
-              <li class="modal-option">
+              <li class="modal-option" :key="4">
                 <h3>Compact Services</h3>
                 <OptionToggleSwitch v-model:val="localConfig.compact_services" />
               </li>
-              <li v-if="!localConfig.minimal_mode" class="modal-option">
+              <li v-if="!localConfig.minimal_mode" class="modal-option" :key="5">
                 <h3>Status Indicators</h3>
                 <OptionToggleSwitch v-model:val="localConfig.enable_service_status" />
               </li>
-              <li class="modal-option">
+              <li class="modal-option" :key="6">
                 <h3>Bookmarks in Header</h3>
                 <OptionToggleSwitch v-model:val="localConfig.bookmarks_in_header" />
               </li>
-              <li class="modal-option">
+              <li class="modal-option" :key="7">
                 <h3>Notifications
                   <span :title="'Website-level alerts for errors & selected events.\nNo browser permissions required.'" class="material-icon icon-info"></span>
                 </h3>
                 <OptionToggleSwitch v-model:val="localConfig.enable_notifications" />
               </li>
-              <li v-if="localConfig.enable_notifications" class="modal-option">
+              <li v-if="localConfig.enable_notifications" class="modal-option" :key="8">
                 <h3>Audio Notifications</h3>
                 <OptionToggleSwitch v-model:val="localConfig.audio_notifications" />
               </li>
-              <li v-if="!localConfig.minimal_mode" class="modal-option">
+              <li v-if="!localConfig.minimal_mode" class="modal-option" :key="9">
                 <h3>Docker Backend</h3>
                 <div class="modal-option__button-container">
                   <select class="option-dropdown-menu" v-model="localConfig.docker_api_backend">
@@ -56,6 +57,7 @@
                   </select>
                 </div>
               </li>
+              </TransitionGroup>
             </ul>
           </div>
 

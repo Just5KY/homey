@@ -372,6 +372,25 @@
   transform: translateY(100%);
 }
 
+.smooth-list-move,
+.smooth-list-enter-active,
+.smooth-list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.smooth-list-enter-from,
+.smooth-list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.smooth-list-leave-active {
+  position: absolute;
+  display: none;
+}
+
 .service-editor {
   display: flex;
   justify-content: space-between;
@@ -517,12 +536,14 @@
 }
 .modal-body ul {
   list-style: none;
+  position: relative;
 }
 .modal-body .modal-option {
   display: flex;
   justify-content: flex-end;
   font-size: 1.2rem;
   padding: 1rem;
+  width: 100%;
 }
 .modal-body .modal-option__header {
   justify-content: center;
@@ -537,6 +558,7 @@
   margin-left: 0;
   font-weight: 400;
   display: flex;
+  align-items: center;
 }
 .modal-body .modal-option h3 span {
   font-size: 1.8rem;
@@ -545,7 +567,6 @@
   margin-left: 0.5rem;
   display: inline-flex;
   color: #f8f8f2;
-  height: 1.2rem;
   cursor: default;
 }
 

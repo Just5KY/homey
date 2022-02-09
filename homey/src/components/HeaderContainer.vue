@@ -62,7 +62,7 @@ export default {
   },
   computed: {
     showHouse() {
-      if(this.config.hide_house)  return false;
+      if(!this.config.show_house)  return false;
       return !this.config.minimal_mode;
     },
     getSettingsIconClass() {

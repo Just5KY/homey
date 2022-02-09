@@ -68,3 +68,23 @@
 .slide-up-leave-to {
     transform: translateY(100%);
 }
+
+// smooth list add/remove
+.smooth-list-move, /* apply transition to moving elements */
+.smooth-list-enter-active,
+.smooth-list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.smooth-list-enter-from,
+.smooth-list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.smooth-list-leave-active {
+  position: absolute;
+  display: none;
+}

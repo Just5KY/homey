@@ -7,7 +7,7 @@ minimal_mode: false
 # reduces service grid padding
 compact_services: false
 # toggles 3D house
-hide_house: false
+show_house: false
 # toggles service up/down indicators
 enable_service_status: true
 

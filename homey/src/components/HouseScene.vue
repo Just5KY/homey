@@ -4,10 +4,10 @@
 
 <script>
 import { PerspectiveCamera, WebGLRenderer, Scene, Mesh, Group, 
-    HemisphereLight, BoxGeometry, ConeGeometry, MeshBasicMaterial } from 'three';
+    HemisphereLight, BoxGeometry, ConeGeometry, MeshBasicMaterial, Vector3 } from 'three';
 import { randFloat, degToRad } from 'three/src/math/MathUtils';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Tween, update, Easing } from '@tweenjs/tween.js'
+import { Tween, update, Easing, removeAll as tweenRemoveAll } from '@tweenjs/tween.js'
 
 // define three.js objects outside of vue export
 // to avoid making them reactive
@@ -59,27 +59,6 @@ leftWall.add(lwWindow)
 const roof = new Mesh(roofGeo, roofMat)
 const chimney = new Mesh(chimneyGeo, chimneyMat)
 
-leftWall.position.x -= .5
-rotateDegrees(leftWall, 90)
-rightWall.position.x += .5
-rotateDegrees(rightWall, -90)
-backWall.position.z -= .5
-
-frontWall.position.z += .5
-fwDoor.position.z += .03;
-fwDoor.position.y -= .29;
-
-lwWindow.position.x += (randFloat(-.3, .3))
-rwWindow.position.x += (randFloat(-.3, .3))
-rwWindow.position.z -= .03;
-lwWindow.position.z -= .03;
-rwWindow.position.y += (randFloat(-.1, .2))
-lwWindow.position.y += (randFloat(-.1, .2))
-
-roof.position.y += 3
-chimney.position.y -= 5
-chimney.position.x += .35
-
 let houseGroup;
 
 export default {
@@ -102,15 +81,14 @@ export default {
         camera.lookAt(houseGroup);    
         
         renderer.setPixelRatio( window.devicePixelRatio );
-
+        
+        this.initTweens();
         this.initControls();
     },
     // add canvas & begin animation loop
     mounted: function() {
         this.$refs.threeCanvas.appendChild(renderer.domElement);
-        chimney.scale.set(0, 0, 0);
 
-        this.initTweens();
         this.animate();
     },
     methods: {
@@ -127,7 +105,7 @@ export default {
             controls.update();
 
             // spin house
-            houseGroup.rotation.y -= .007;
+            houseGroup.rotation.y -= .005;
 
             renderer.setSize(width, height);
             requestAnimationFrame(this.animate)
@@ -152,6 +130,8 @@ export default {
         initTweens() {
           const startHeight = 7
 
+          tweenRemoveAll();
+
           // roof
           const tween = new Tween({x: 0, y: startHeight, z: 0 })
               .to({x: 0, y: .9, z: 0 }, 3000)
@@ -175,29 +155,29 @@ export default {
                   chimney.position.set(x, y, z)
           })
           // left wall
-          const leftTween = new Tween({x: leftWall.position.x, y: leftWall.position.y - startHeight, z: leftWall.position.z})
-              .to({x: leftWall.position.x, y: leftWall.position.y, z: leftWall.position.z}, 2000)
+          const leftTween = new Tween({x: 0, y: -startHeight, z: 0})
+              .to({x: -.5, y: 0, z: 0}, 2000)
               .easing(Easing.Bounce.Out)
               .onUpdate(function ({ x, y, z }, elapsed) {
                   leftWall.position.set(x, y, z)
           })
           // right wall
-          const rightTween = new Tween({x: rightWall.position.x, y: rightWall.position.y - startHeight + .7, z: rightWall.position.z})
-              .to({x: rightWall.position.x, y: rightWall.position.y, z: rightWall.position.z}, 2600)
+          const rightTween = new Tween({x: 0, y: -startHeight + .7, z: 0})
+              .to({x: .5, y: 0, z: 0}, 2600)
               .easing(Easing.Bounce.Out)
               .onUpdate(function ({ x, y, z }, elapsed) {
                   rightWall.position.set(x, y, z)
           })
           // front wall
-          const frontTween = new Tween({x: backWall.position.x, y: backWall.position.y - startHeight - .4, z: backWall.position.z})
-              .to({x: backWall.position.x, y: backWall.position.y, z: backWall.position.z}, 1800)
+          const frontTween = new Tween({x: 0, y: -startHeight - .4, z: 0})
+              .to({x: 0, y: 0, z: .5}, 1800)
               .easing(Easing.Bounce.Out)
               .onUpdate(function ({ x, y, z }, elapsed) {
                   backWall.position.set(x, y, z)
           })
           // back wall
-          const backTween = new Tween({x: frontWall.position.x, y: frontWall.position.y - startHeight, z: frontWall.position.z})
-              .to({x: frontWall.position.x, y: frontWall.position.y, z: frontWall.position.z}, 2900)
+          const backTween = new Tween({x: 0, y: -startHeight, z: 0})
+              .to({x: 0, y: 0, z: -.5}, 2900)
               .easing(Easing.Bounce.Out)
               .onUpdate(function ({ x, y, z }, elapsed) {
                   frontWall.position.set(x, y, z)
@@ -213,6 +193,24 @@ export default {
         },
         // house components
         initMeshes() {
+          leftWall.position.x = -.5
+          leftWall.setRotationFromAxisAngle(new Vector3(0, 1, 0), Math.PI / 2)
+          rightWall.position.x = .5
+          rightWall.setRotationFromAxisAngle(new Vector3(0, 1, 0), -Math.PI / 2)
+          backWall.position.z = -.5  
+          frontWall.position.z = .5
+          fwDoor.position.z = .03;
+          fwDoor.position.y = -.29;  
+          lwWindow.position.x = (randFloat(-.3, .3))
+          rwWindow.position.x = (randFloat(-.3, .3))
+          rwWindow.position.z = -.03;
+          lwWindow.position.z = -.03;
+          rwWindow.position.y = (randFloat(-.1, .2))
+          lwWindow.position.y = (randFloat(-.1, .2))  
+          roof.position.y = 3
+          chimney.position.y = -5
+          chimney.position.x = .35
+
           if(houseGroup)    return;
 
           houseGroup = new Group()
@@ -226,11 +224,5 @@ export default {
           scene.add(houseGroup);
         },
     },
-}
-
-// rotate mesh on Y axis
-function rotateDegrees(mesh, degrees){
-    const rad = degrees * Math.PI / 180;
-    mesh.rotateY(rad)
 }
 </script>
