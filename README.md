@@ -79,7 +79,7 @@ If you're running homey on a Windows host and wish to use the local Docker API b
 This will allow homey to view and control containers on the host machine. It's safe to ignore `HOMEY_API_DOCKER_USER_ID` and `GROUP_ID`.
 
 ## Minimal mode
-**Minimal mode** turns homey into a more traditional dashboard with links to services and low overhead. 3D eyecandy, service links, and bookmarks are disabled. If you'd like to run homey in minimal mode and are not running in Docker, work with the local config file: `/public/config/config.yml`. If you're running in Docker, edit the config file in homey's Docker volume as usual. 
+**Minimal mode** turns homey into a more traditional dashboard with links to services and low overhead. Everything is disabled except service links and bookmarks. If you'd like to run homey in minimal mode and are not running in Docker, work with the local config file: `/public/config/config.yml`. If you're running in Docker, edit the config file in homey's Docker volume as usual. 
 
 This option can be toggled using the settings menu or the `minimal_mode` flag.  
 
@@ -105,7 +105,7 @@ compact_services | Boolean | Reduces padding around services
 enable_service_status | Boolean | Toggles service up/down indicators
 enable_notifications | Boolean | Toggles in-page notifications
 audio_notifications | Boolean | Toggles in-page notification audio
-bookmarks_in_header | Boolean | Fills empty space in the header with bookmarks.
+bookmarks_in_header | Boolean | Fills empty space in the header with bookmarks
 docker_api_backend | String | Docker display/control backend. Valid options: `docker`, `portainer`
 service.name | String | Service display name
 service.subtitle | String | Service description
@@ -144,8 +144,9 @@ HOMEY_API_RUNNING_IN_DOCKER | Boolean | Set to false if you're running without D
 ## Built with:
 
 * [Vue.js](https://github.com/vuejs/vue)
-* [SASS](https://github.com/sass/sass)
+* [Three.js](https://github.com/mrdoob/three.js/)
+* [Tween.js](https://github.com/tweenjs/tween.js)
 * [Chart.js](https://github.com/chartjs/Chart.js)
-* [Three.js](https://github.com/mrdoob/three.js/) & [Tween.js](https://github.com/tweenjs/tween.js)
+* [SASS](https://github.com/sass/sass)
 * [Flask](https://github.com/pallets/flask)
 * ❤️
