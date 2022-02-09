@@ -5,7 +5,7 @@
 
 Homey is a simple home server dashboard packed with functionality. The layout is loosely inspired by [Homer](https://github.com/bastienwirtz/homer).
 
-**Work in progress! Not ready yet.**
+**In development - please report all bugs!**
 
 ## Features
 
@@ -22,7 +22,7 @@ Homey is a simple home server dashboard packed with functionality. The layout is
 
 ## Installation & Configuration
 Supported platforms:
-- Docker
+- Docker (Linux & Windows)
 - Linux x86
 
 Running on Windows without Docker is not currently supported. ARM has not been tested.

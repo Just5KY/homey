@@ -1,5 +1,6 @@
 <template>
   <div class="docker-container">
+    <transition name="fade-in">
     <div v-if="perspective == '2d'" :class="gridClass">
       <DockerService v-for="(s, index) in dockerServices" 
         :key="s.name" 
@@ -12,11 +13,14 @@
       />
     </div>
     <WhaleScene @3dClick="controlContainer" v-else ref="whale" :services="dockerServices" />
+    </transition>
     <DockerControlPanel
       @toggleView="togglePerspective()"
       @refreshContainers="loadContainerList(true)"
       @openSettings="this.$emit('openSettings')" />
-    <img v-if="perspective == '2d'" class="docker-container__whale" src="images/docker-large-blank.png">
+    <transition name="fade-in">
+      <img v-if="perspective == '2d'" class="docker-container__whale" src="images/docker-large-blank.png">
+    </transition>
     <transition name="fade">
       <DockerInfoPopup v-if="showDetails" :details="containerDetails" @close="showDetails = false" />
     </transition>

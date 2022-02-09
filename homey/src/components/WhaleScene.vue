@@ -23,13 +23,16 @@ let boundingBoxes = [];
 let hoveredButton;
 
 // define three.js objects outside vue to avoid making them reactive
-let scene, raycaster, light, ambientLight, camera, renderer, controls, clippingPlane;
-let gltfLoader, imgLoader, invisMat, boxMat, buttonGeo, roundedBoxGeo;
+let scene, raycaster, light, ambientLight, camera, renderer, controls, clippingPlane, camSpawnTween;
+let gltfLoader, imgLoader, invisMat, boxMat, buttonGeo, roundedBoxGeo, whale;
 let btnStartMat, btnRestartMat, btnPauseMat, btnUnpauseMat, btnStopMat, btnInfoMat, placeholderIconTex;
 
 threeInitScene();
 threeLoadAssets();
 threeCreateAssets();
+
+let modelLoaded = false;
+let sceneStarted = false;
 
 export default {
     name: 'WhaleScene',
@@ -57,8 +60,7 @@ export default {
     created: function() {
         this.serviceData = this.services;
         
-        // spawn a crate for each service
-        this.serviceData.forEach(s => { this.addCrate(s.name, s.status); });
+        
 
         // for bounding boxes
         raycaster.layers.set(1);
@@ -72,19 +74,18 @@ export default {
         scene.add(light);
 
         // initial camera transition animation
-        const camSpawnTween = new Tween(camera).to({
+        camSpawnTween = new Tween(camera).to({
           position: { 
             x: -8, 
-            y: Math.max(this.services.length / 5, 2), 
-            z: Math.max((this.services.length / 5) -.5, 3), 
+            y: Math.max(this.services.length / 7, 2), 
+            z: Math.max((this.services.length / 9) -.5, 3), 
           },
         }, 4000)
         .easing(Easing.Sinusoidal.InOut)
-        .delay(1000)
+        .delay(2000)
         .onStart(() => { this.animationFinished = false; })
         //.onUpdate(() => { camera.updateProjectionMatrix() })  // ortho camera swap
         .onComplete(() => { this.animationFinished = true; })
-        .start();
         
         renderer.setPixelRatio( window.devicePixelRatio );
         renderer.localClippingEnabled = true;
@@ -113,6 +114,8 @@ export default {
         // main loop
         animate: function() {
             if(!this.$refs.threeCanvas) return;
+
+            if(modelLoaded && !sceneStarted) this.startScene();
             
             let width = this.$refs.threeCanvas.clientWidth;
             let height = this.$refs.threeCanvas.clientHeight;
@@ -129,6 +132,17 @@ export default {
             requestAnimationFrame(this.animate)
             
             renderer.render(scene, camera); 
+        },
+        // begin animations only after model is loaded
+        startScene() {
+          this.serviceData.forEach(s => { this.addCrate(s.name, s.status); });
+          camSpawnTween.start();
+          whale.scale.set(0, 0, 0);
+          let tScale = new Tween(whale.scale)
+            .to({x: 1, y: 1, z: 1}, 1000)   // slightly random stagger
+            .easing(Easing.Elastic.Out)
+          tScale.start();
+          sceneStarted = true;
         },
         // detect crate and button mouseover events
         raycast() {
@@ -555,6 +569,7 @@ export default {
           boundingBoxes.splice(0, boundingBoxes.length);
           this.crates.splice(0, this.crates.length);
           tweenRemoveAll();
+          sceneStarted = false;
         },
         // free material & attached textures
         disposeMat(material) {
@@ -612,21 +627,16 @@ function threeLoadAssets() {
   
   // load whale
   gltfLoader.load('./models/whale_optimized.glb', (model) => { 
+    whale = model.scene;
     model.scene.position.y -= .75;
     scene.add(model.scene); 
+    modelLoaded = true;
   });
 }
 // create geometries and materials that will not be destroyed on view swap
 function threeCreateAssets() {
   invisMat = new MeshBasicMaterial({side: FrontSide, color: 0x000000, visible: false});
   boxMat = new MeshPhongMaterial({ side: FrontSide, color: 0xf8f8f2 });
-   
-  // imgLoader.load('./images/textures/crate_tex.png', (tex) => {
-  //     crateTex = tex;
-  //     boxMat = new MeshBasicMaterial({ map: crateTex, });
-  //     crateTex.wrapS = RepeatWrapping;
-  //     crateTex.needsUpdate = true;
-  //   });
 
   buttonGeo = new PlaneGeometry(btnSize, btnSize);
   roundedBoxGeo = new RoundedBoxGeometry(1, 1, 1, 6, .1);

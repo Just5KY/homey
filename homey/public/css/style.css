@@ -372,6 +372,21 @@
   transform: translateY(100%);
 }
 
+.fade-in-enter-active {
+  transition: opacity 0.3s ease-out;
+}
+
+.fade-in-leave-from,
+.fade-in-enter-from,
+.fade-in-leave-to {
+  opacity: 0;
+}
+
+.fade-in-leave-active {
+  position: absolute;
+  display: none;
+}
+
 .smooth-list-move,
 .smooth-list-enter-active,
 .smooth-list-leave-active {
@@ -384,8 +399,6 @@
   transform: translateY(30px);
 }
 
-/* ensure leaving items are taken out of layout flow so that moving
-   animations can be calculated correctly. */
 .smooth-list-leave-active {
   position: absolute;
   display: none;
@@ -1694,7 +1707,6 @@ h2 {
   row-gap: 0.5rem;
   column-gap: 0.5rem;
   margin-left: 7rem;
-  transition: all 0.3s ease-in-out;
   margin-top: -29rem;
 }
 @media (max-width: 1350px) {
