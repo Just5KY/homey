@@ -124,7 +124,7 @@
                     <li class="modal-option">
                       <h3>Name</h3>
                       <div class="modal-option__button-container">
-                        <input class="option-text-field" v-model="localName">
+                        <input class="option-text-field" v-model="localServiceName">
                       </div>
                     </li>
                     <li class="modal-option">
@@ -255,7 +255,7 @@ export default {
       selectedService: 'newService',
       newBookmark: {'name': '', 'hover': '', 'url': ''},
       selectedBookmark: 'newBookmark',
-      localName: String,
+      localServiceName: String,
       localBookmarkName: String,
       newImage: null,
       showGallery: false,
@@ -280,7 +280,7 @@ export default {
   },
   created: function() {
     this.localConfig = this.config;
-    this.localName = '';
+    this.localServiceName = '';
     this.localBookmarkName = '';
   },
   methods: {
@@ -324,7 +324,7 @@ export default {
 
         // add new service
         if(this.selectedService == 'newService') {
-          this.newService.name = this.localName;
+          this.newService.name = this.localServiceName;
           if(this.newService.icon == '' && !this.newImage) console.error("Error creating new service: Image is required.")
           else if(this.newService.name == '' || this.newService.url == '') {
             console.error("Error creating service: Name & URL are required.");
@@ -342,7 +342,7 @@ export default {
         // update existing service
         else {
           let toUpdate = this.getSelectedService();
-          toUpdate.name = this.localName;
+          toUpdate.name = this.localServiceName;
           if(toUpdate.name == '' || toUpdate.url == ''){
             console.log("Error saving service: Name & URL are required.");
           }
@@ -390,7 +390,7 @@ export default {
     deleteService(service){
       this.localConfig.services.splice(this.localConfig.services.indexOf(service), 1);
       this.selectedService = 'newService'
-      this.localName = ''
+      this.localServiceName = ''
       this.servicesDeleted = true;
     },
     deleteBookmark(bookmark) {
@@ -438,7 +438,7 @@ export default {
       this.newImage = null;
       this.newService.icon = '';
       this.showGallery = false;
-      this.localName = this.getSelectedService().name;
+      this.localServiceName = this.getSelectedService().name;
     },
   },
 }

@@ -5,7 +5,11 @@
       <div class="service-card-container__text-container__subtitle">{{subtitle}}
       </div>
     </div>
-    <span v-if="displayStatus" :title="getStatusFormatted" :id="getStatus + ((isCompact) ? '__compact' : '')" :class="'service-card-container__indicator material-icon ' + getStatus"></span>
+    <div class="service-card-container__indicator">
+      <transition name="fade">
+        <span v-if="displayStatus" :title="getStatusFormatted" :id="getStatus + ((isCompact) ? '__compact' : '')" :class="'service-card-container__indicator--icon material-icon ' + getStatus"></span>
+      </transition>
+    </div>
     <div class="service-card-container__image-container">
       <img :src="iconPath" onerror="this.onerror=null; this.src='data/icons/default.png'">
     </div>

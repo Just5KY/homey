@@ -6,7 +6,7 @@ enable_service_status: true
 enable_notifications: true
 audio_notifications: true
 bookmarks_in_header: true
-docker_api_backend: docker
+docker_api_backend: portainer
 services:
 - icon: portainer.png
   name: Portainer

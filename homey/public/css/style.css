@@ -1549,6 +1549,7 @@ h2 {
   flex-direction: column;
   padding: 1.5rem;
   justify-content: space-between;
+  transition: all 0.35s ease-in-out;
 }
 .service-card-container__text-container h3 {
   font-size: 2.2rem;
@@ -1595,11 +1596,13 @@ h2 {
   box-shadow: 2px 2px 7px 5px #1c1c1c;
 }
 .service-card-container__indicator {
-  transition: all 0.35s ease-out;
   font-size: 2.2rem;
-  height: fit-content;
-  width: 2.2rem;
+  min-width: 2.2rem;
+  min-height: 2.2rem;
   margin-top: 1.5rem;
+}
+.service-card-container__indicator--icon {
+  transition: all 0.35s ease-out;
 }
 .service-card-container #icon-arrow_up,
 .service-card-container #icon-arrow_up__compact {
@@ -1610,10 +1613,10 @@ h2 {
   color: #ff5555;
 }
 .service-card-container:hover #icon-arrow_up {
-  transform: translateY(210%) rotate(90deg) scale(1.2);
+  transform: translateY(190%) rotate(90deg) scale(1.2);
 }
 .service-card-container:hover #icon-arrow_up__compact {
-  transform: translateY(180%) rotate(90deg) scale(1.2);
+  transform: translateY(170%) rotate(90deg) scale(1.2);
 }
 .service-card-container:hover #icon-arrow_down {
   transform: translateY(200%) scale(1.2);

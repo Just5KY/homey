@@ -10,7 +10,7 @@
   <ServiceContainer v-if="configLoaded"
     :fullscreen="!isAPIOnline" 
     :compactServices="config.compact_services" 
-    :statusIndicators="config.enable_service_status && !config.minimal_mode" 
+    :statusIndicators="config.enable_service_status && !config.minimal_mode && servicesLoaded" 
     :services="config.services" 
     :statuses="this.serviceStatuses"/>
   <DockerContainer v-if="configLoaded && isAPIOnline" 
@@ -44,6 +44,7 @@ export default {
     return {
       config: {},
       configLoaded: false,
+      servicesLoaded: false,
       isOnline: true,
       pingTimer: Number,
       serviceStatuses: [],
@@ -104,12 +105,13 @@ export default {
           notifications.hide = !this.config.enable_notifications;
           this.loadConfig()
         }
-        if(this.config.enable_service_status) this.checkServices(); 
       }).catch(() => {
         this.isOnline = false;
         notifications.hide = true;
         this.config.enable_service_status = false;
-      });
+      }).finally(() => {
+        if(this.config.enable_service_status) this.checkServices(); 
+      })
 
       if(this.config.minimal_mode == true && this.pingTimer) clearInterval(this.pingTimer);
     },
@@ -117,6 +119,7 @@ export default {
     checkServices: function() {
       this.axios.get('/api/checkServices').then((res) => { 
         this.serviceStatuses = res.data;
+        this.servicesLoaded = true;
       }).catch(() => {
         if(this.isOnline) notifications.notifyWarning('Warning: Could not retrieve service uptime information');
       });
@@ -132,7 +135,6 @@ export default {
     // track up/down status of frontend application
     window.addEventListener('online', (() => {
       this.isOnline = true; 
-      //console.log(this.config)
       notifications.hide = !this.config.enable_notifications;
     }));
     window.addEventListener('offline', (() => { 

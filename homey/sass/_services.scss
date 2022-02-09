@@ -73,6 +73,7 @@
         flex-direction: column;
         padding: 1.5rem;
         justify-content: space-between;
+        transition: all .35s ease-in-out;
 
         & h3 {
             font-size: 2.2rem;
@@ -133,11 +134,14 @@
 
     // up/down arrows
     &__indicator {
-        transition: all .35s ease-out;
         font-size: 2.2rem;
-        height: fit-content;
-        width: 2.2rem;
+        min-width: 2.2rem;
+        min-height: 2.2rem;
         margin-top: 1.5rem;
+
+        &--icon {
+            transition: all .35s ease-out;
+        }
     }
 
     #icon-arrow_up,
@@ -151,11 +155,11 @@
     }
 
     &:hover #icon-arrow_up {
-        transform: translateY(210%) rotate(90deg) scale(1.2);
+        transform: translateY(190%) rotate(90deg) scale(1.2);
     }
 
     &:hover #icon-arrow_up__compact {
-        transform: translateY(180%) rotate(90deg) scale(1.2);
+        transform: translateY(170%) rotate(90deg) scale(1.2);
     }
 
     // don't rotate down arrow (ends up backwards)
