@@ -201,7 +201,7 @@
         white-space: nowrap;
         direction: ltr;
 
-        content: "\EAD0";
+        content: "\E5C5";
         position: absolute;
         right: .2rem;
         top: .35rem;
@@ -210,11 +210,6 @@
         font-size: 1.8rem;
         color: $white;
     }
-}
-
-.option-dropdown-menu {
-    //position: relative;
-    
 }
 
 // Toggle sliders
