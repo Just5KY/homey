@@ -103,6 +103,18 @@
   content: "\e932";
 }
 
+.icon-house::after {
+  content: "\ea44";
+}
+
+.icon-house_alt::after {
+  content: "\f202";
+}
+
+.icon-dropdown::after {
+  content: "\e5c5";
+}
+
 .vue-notification {
   border: none;
   border-bottom: 2px solid #f8f8f2;
@@ -683,7 +695,7 @@
   word-wrap: normal;
   white-space: nowrap;
   direction: ltr;
-  content: "\ead0";
+  content: "\e5c5";
   position: absolute;
   right: 0.2rem;
   top: 0.35rem;
