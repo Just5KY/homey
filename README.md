@@ -3,9 +3,6 @@
   <img width="1080px" src="https://github.com/vlfldr/homey/blob/master/screenshot.png?raw=true" alt="homey dashboard"/>
 </p>
 
-*Get config files on [GitHub](https://github.com/vlfldr/homey)*
-
-
 Homey is a simple home server dashboard packed with functionality. The layout is loosely inspired by [Homer](https://github.com/bastienwirtz/homer).
 
 **In development - please report all bugs!**
@@ -51,14 +48,14 @@ Running on Windows without Docker is not currently supported. ARM has not been t
 2. Download `docker-compose.yml`, `.env.example`, and `config.yml.example` from the ADD LINK Releases page or above. Place in newly created directory.
 3. Configure external integrations in `.env.example`. Leave fields blank to disable. Once satisfied, rename to `.env`.
 
-    - *Refer to **Docker Backends** section to configure Docker/Portainer API access*
+    - *Refer to [Docker Backends](#docker-backends) section to configure Docker/Portainer API access*
 4. Configure UI options if desired in `config.yml.example` and rename to `config.yml`. *These options can be changed while homey is running.*
 5. Configure volumes and port (default 9102) in `docker-compose.yml`.
 6. Ensure `docker-compose.yml` and `.env` are in the same directory. It's easiest to keep all three files in the config folder.
 7. (Optional) Create a subdirectory for icons and populate it: `mkdir ~/homey-data/icons`
 
     - *Icons can also be added while homey is running or uploaded via GUI*
-8. (Optional) Download and run `monitorSystem.py` to enable host machine stats. See **System Monitor Module**.
+8. (Optional) Download and run `monitorSystem.py` to enable host machine stats. See [System Monitor Module](#system-monitor-module).
 9. In the original directory: `docker-compose up -d`
 
 ### Linux
@@ -143,7 +140,7 @@ These options can all be modified through the GUI settings menu.
 Option | Type | Purpose
 ---|---|---
 title | String | Change the title of your dashboard
-minimal_mode | Boolean | Disables 3D eyecandy and most functionality. See *Minimal Mode* for more info.
+minimal_mode | Boolean | Disables 3D eyecandy and most functionality. See [Minimal Mode](#minimal-mode) for more info.
 show_house | Boolean | Disables 3D house in header
 compact_services | Boolean | Reduces padding around services
 enable_service_status | Boolean | Toggles service up/down indicators
@@ -169,16 +166,16 @@ Option | Type | Purpose
 TZ | String | Accepts a standard unix tz value i.e. `"America/Chicago"`. Ensures container's clock matches local clock. [List of all valid tz strings](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
 HOMEY_API_WEATHER_LAT | String | Float with up to four decimal places i.e. `"23.4809"`. Sent to [Open Meteo](https://open-meteo.com/en/docs) weather API. *If location seems incorrect, double check +/- signs.*
 HOMEY_API_WEATHER_LONG | String | Float with up to four decimal places. Sent to [Open Meteo](https://open-meteo.com/en/docs) weather API.
-HOMEY_API_DOCKER_USER_ID | Integer | The user ID of an appropriately priveleged member of the `docker` group. See *Docker backends* for more info.
-HOMEY_API_DOCKER_GROUP_ID | Integer | The group ID of the `docker` group. See *Docker backends* for more info.
-HOMEY_API_DOCKER_SOCKET | String | Custom socket paths are not supported yet - do not modify this value. See *Docker backends* for more info.
+HOMEY_API_DOCKER_USER_ID | Integer | The user ID of an appropriately priveleged member of the `docker` group. See [Docker Backends](#docker-backends) for more info.
+HOMEY_API_DOCKER_GROUP_ID | Integer | The group ID of the `docker` group. See [Docker Backends](#docker-backends) for more info.
+HOMEY_API_DOCKER_SOCKET | String | Custom socket paths are not supported yet - do not modify this value. See [Docker Backends](#docker-backends) for more info.
 HOMEY_API_PORTAINER_URL | String | Portainer URL including protocol & port i.e. `"https://192.168.1.2:9443"`
 HOMEY_API_PORTAINER_USER | String | Portainer username
 HOMEY_API_PORTAINER_PASSWORD | String | Portainer password
 HOMEY_API_FLOOD_URL | String | Flood URL including protocol & port
 HOMEY_API_FLOOD_USER | String | Flood username
 HOMEY_API_FLOOD_PASSWORD | String | Flood password
-HOMEY_API_RUNNING_IN_DOCKER | Boolean | Set to false if you're running without Docker
+HOMEY_API_RUNNING_IN_DOCKER | Boolean | Set to false if not running in Docker
 
 ## Planned Features
 - ruTorrent support
