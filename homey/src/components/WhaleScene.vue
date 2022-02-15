@@ -499,7 +499,8 @@ export default {
               break;
           }
 
-          this.tooltipText = hoveredButton.name[0].toUpperCase() + hoveredButton.name.substring(1) + ' ' + hoveredButton.parent.parent.name;
+          if(hoveredButton.name == 'info')  this.tooltipText = hoveredButton.parent.parent.name + ' information';
+          else  this.tooltipText = hoveredButton.name[0].toUpperCase() + hoveredButton.name.substring(1) + ' ' + hoveredButton.parent.parent.name;
         },
         // keep track of mouse position (normalized to [-1, 1])
         onMouseMove(event) {
@@ -514,9 +515,11 @@ export default {
             return;
           }
           this.$refs.tooltip.style.opacity = 1;
-          this.tooltipText = hoveredButton.name[0].toUpperCase() + hoveredButton.name.substring(1) + ' ' + hoveredButton.parent.parent.name;
           this.$refs.tooltip.style.left = event.offsetX + 'px';
           this.$refs.tooltip.style.top = event.offsetY -25 + 'px';
+
+          if(hoveredButton.name == 'info')  this.tooltipText = hoveredButton.parent.parent.name + ' information';
+          else  this.tooltipText = hoveredButton.name[0].toUpperCase() + hoveredButton.name.substring(1) + ' ' + hoveredButton.parent.parent.name;
         },
         // returns a transparent plane with specified text drawn
         // credit to dcromley: https://discourse.threejs.org/t/13757

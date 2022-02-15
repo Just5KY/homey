@@ -14,9 +14,7 @@
               <TransitionGroup name="smooth-list">
               <li class="modal-option" :key="1">
                 <h3>Title</h3>
-                <div class="modal-option__button-container">
-                  <input class="option-text-field" v-model="localConfig.title">
-                </div>
+                <input class="option-text-field" v-model="localConfig.title">
               </li>
               <li class="modal-option" :key="2">
                 <h3>Minimal Mode<span :title="this.minimalModeWarning" class="material-icon icon-info"></span></h3>
@@ -50,8 +48,8 @@
               </li>
               <li v-if="!localConfig.minimal_mode" class="modal-option" :key="9">
                 <h3>Docker Backend</h3>
-                <div class="modal-option__button-container">
-                  <select class="option-dropdown-menu" v-model="localConfig.docker_api_backend">
+                <div class="modal-option__dropdown-container">
+                    <select class="option-dropdown-menu" v-model="localConfig.docker_api_backend">
                     <option value="docker">Docker</option>
                     <option value="portainer">Portainer</option>
                   </select>
@@ -125,21 +123,15 @@
                   <ul>
                     <li class="modal-option">
                       <h3>Name</h3>
-                      <div class="modal-option__button-container">
                         <input class="option-text-field" v-model="localServiceName">
-                      </div>
                     </li>
                     <li class="modal-option">
                       <h3>Subtitle</h3>
-                      <div class="modal-option__button-container">
                         <input class="option-text-field" v-model="getSelectedService().subtitle">
-                      </div>
                     </li>
                     <li class="modal-option">
                       <h3>URL</h3>
-                      <div class="modal-option__button-container">
                         <input class="option-text-field" v-model="getSelectedService().url">
-                      </div>
                     </li>
                   </ul>
                 </div>
@@ -206,22 +198,16 @@
             <ul>
               <li class="modal-option">
                 <h3>Name</h3>
-                <div class="modal-option__button-container">
-                  <input class="option-text-field" v-model="localBookmarkName">
-                </div>
+                <input class="option-text-field" v-model="localBookmarkName">
               </li>
               <li class="modal-option">
                 <h3>URL</h3>
-                <div class="modal-option__button-container">
-                  <input class="option-text-field" v-model="getSelectedBookmark().url">
-                </div>
+                <input class="option-text-field" v-model="getSelectedBookmark().url">
               </li>
               <li class="modal-option">
                 <h3>Hover Text</h3>
-                <div class="modal-option__button-container">
-                  <input class="option-text-field" v-model="getSelectedBookmark().hover"
-                    placeholder="Optional">
-                </div>
+                <input class="option-text-field" v-model="getSelectedBookmark().hover"
+                  placeholder="Optional">
               </li>
             </ul>
           </div>
