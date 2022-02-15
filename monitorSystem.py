@@ -1,50 +1,52 @@
+import argparse
 from genericpath import exists
 from shutil import disk_usage
 from psutil import cpu_percent, virtual_memory, boot_time
 from time import sleep, time
 from datetime import datetime, timedelta
 from socket import gethostname
+from os import path
 import json
 
-# README ################################################################
-# Outputs host info to file in an infinite loop.
-# 1. pip install psutil
-# 2. Configure dataFile to match homey-api's config volume path.
-# 3. Configure watchedDisks if desired.
-# 4. Run on host machine (where docker engine is running). 
-#       * To run in background:     pythonw monitorSystem.py
-# CONFIGURATION #########################################################
-dataFile = "/home/steve/homey-data/local_machine_data.json"    # output file
-watchedDisks = ["/", "/cyan", "/red", "/blue", "/green"]    # report disk usage for: "/", "/mnt/media", etc
-intervalSeconds = 30    # write to file every X seconds
-intervalCPUCalc = 6     # average CPU usage over X seconds  
-#########################################################################
+# help menu
+parser = argparse.ArgumentParser(
+    description = 'Writes system usage information to JSON file on a timer. Use pythonw to run in background.',
+    epilog='Quickstart: pythonw monitorSystem.py /path/to/homey-config-folder /')
+parser.add_argument('filePath', metavar='path', type=str, nargs=1,
+    help='Output directory i.e. /home/bob/homey-data')
+parser.add_argument('disks', metavar='disks', type=str, nargs='+',
+    help='Space-separated list of mount points to monitor (i.e. / /mnt/backups /mnt/media/work-ssd)')
+parser.add_argument('--interval', metavar='N', type=int, nargs=1, default=30,
+    help='Query system & update file every N seconds (default: 30)',)
+parser.add_argument('--cpu_window', metavar='N', type=int, nargs=1, default=6,
+    help='Average CPU usage over N seconds (default: 6)')
 
+# byte -> mb/gb calculation
+MB = 2**20
+GB = 2**30
 
-
-
-# get free, available, & total space for each disk in watchedDisks
+# get free, available, & total space for each disk in args.disks
 def getDiskUsage():
-    if len(watchedDisks) < 1:   return
+    if len(args.disks) < 1:   return
 
     diskUsage = []
-    for d in watchedDisks:
+    for d in args.disks:
         if d.split() == []: continue
         
         total, used, free = disk_usage(d)
         diskUsage.append(formatDiskLine(d, total, used, free))
-    return '\"disks\": [ ' + ', '.join(diskUsage) + ' ]'
+    return diskUsage
 
-# average CPU usage over intervalCPUCalc seconds
-# blocks for intervalCPUCalc seconds
+# average CPU usage over args.cpu_window seconds
+# blocks for args.cpu_window seconds
 def getCPUUsage():
-    return '\"cpu\": ' + str(cpu_percent(intervalCPUCalc))
+    return str(cpu_percent(args.cpu_window))
 
 # get system uptime
 def getUptime():
     secondsUp = time() - boot_time()
     uptime = datetime(1,1,1) + timedelta(seconds=secondsUp)
-    toReturn = '\"uptime\": \"'
+    toReturn = ''
 
     # construct intelligent uptime string
     if uptime.day-1 > 0:
@@ -55,42 +57,51 @@ def getUptime():
             toReturn += 's, '
     if uptime.hour > 0:
         toReturn += ('%d hours, ' % uptime.hour)
-    toReturn += ('%d minutes\"' % uptime.minute)
+    toReturn += ('%d minutes' % uptime.minute)
 
     return toReturn
 
-# return mem usage values formatted in MB as JSON
+# return mem usage values formatted in MB
 def getRAMUsage():
     raw = virtual_memory()
 
-    return '\"ram\": ' + json.dumps({
-        "total": round(raw[0] / 1000000),
-        "free":  round(raw[1] / 1000000),
-        "used": round(raw[3] / 1000000),
+    return {
+        "total": round(raw[0] / MB),
+        "free":  round(raw[1] / MB),
+        "used": round(raw[3] / MB),
         "percent_used": raw[2]
-    })
+    }
 
-# convert int disk usage values to JSON
+# convert byte disk usage vaalues to GB
 def formatDiskLine(label, total, used, free):
-    return json.dumps({
+    return {
         "label":  label.replace(":", ""),
-        "total": total // (2**30),
-        "used":  used // (2**30),
-        "free":  free // (2**30),
+        "total": total // GB,
+        "used":  used // GB,
+        "free":  free // GB,
         "percent_used": round((used / total) * 100)
-    })
+    }
 
 # entrypoint
+args = parser.parse_args()
+dataFile = path.join(args.filePath[0], 'local_machine_data.json')
+
+if args.interval < args.cpu_window:
+    print('Error: cpu_window must be shorter than interval')
+    exit(1)
+
 while(True):
-    currentCPU = getCPUUsage()  # blocks for intervalCPUCalc seconds
+    data = {
+        "hostname": gethostname(),
+        "uptime": getUptime(),
+        "cpu": getCPUUsage(),       # blocks for args.cpu_window seconds
+        "ram": getRAMUsage(),
+        "disks": getDiskUsage()
+    }
 
     with open(dataFile, "w") as f:
-        f.write('{ ')
-        f.write('\"hostname\" : \"' + gethostname() + '\", ')
-        f.write(getUptime() + ', ')
-        f.write(getDiskUsage() + ', ')
-        f.write(currentCPU + ', ')
-        f.write(getRAMUsage())
-        f.write(' }')
+        f.write(json.dumps(data))
 
-    sleep( intervalSeconds - intervalCPUCalc )
+    print(json.dumps(data))
+        
+    sleep( args.interval - args.cpu_window )   # compensate for CPU calc block

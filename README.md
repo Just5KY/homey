@@ -101,11 +101,32 @@ Displays CPU/RAM/disk usage and uptime. By design, Docker containers do not have
 - Download the script from the [Releases](https://github.com/vlfldr/homey/releases) page or above
 - Place anywhere (does not have to be in config directory)
 - Install process utilities: `pip install psutil`
-- Point `dataFile` at homey's config Docker volume
-    - Or at `homey-api/config` if running outside of Docker
-- Add mount points to `watchedDisks` to enable space usage reports
-- Save & run in background with `pythonw monitorSystem.py`
+- Run in background: `pythonw monitorSystem.py /path/to/homey-config-dir /`
+
+  - This will write stats to file every 30 seconds and monitor disk usage on the OS drive.
 - Launch homey
+
+
+To monitor aditional drives, add them to the launch command: `pythonw monitorSystem.py /path/to/homey/config-dir / /mnt/backups /mnt/media/work-ssd`
+
+Change file write frequency: `--interval 30`
+
+Reference:
+```
+monitorSystem.py [-h] [--interval N] [--cpu_window N] path disks [disks ...]
+
+Writes system usage information to JSON file on a timer.
+
+positional arguments:
+  path            Output directory i.e. /home/bob/homey-data
+  disks           Space-separated list of mount points to monitor (i.e. / /mnt/backups /mnt/media/work-ssd)
+
+optional arguments:
+  -h, --help      show this help message and exit
+  --interval N    Query system & update file every N seconds (default: 30)
+  --cpu_window N  Average CPU usage over N seconds (default: 6)
+```
+
 
 ## Docker Backends
 **Portainer** - Communicates with a running [Portainer](https://github.com/portainer/portainer) instance. Preferred for its additional security (SSL password authentication). Its API should be accessible with no additional configuration at the same port as the web UI (default 9443).
