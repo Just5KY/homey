@@ -1,18 +1,20 @@
 <template>
-    <span  v-on:click="controlContainer(this.type)" :title="getTooltip" :class="getIcon + ' material-icon docker-card-btn'"></span>
+    <span v-on:click="this.$emit('controlEvent', type)" 
+        :title="getTooltip" 
+        :class="getIcon + ' material-icon docker-card-btn'"></span>
 </template>
 
 <script>
-import notifications from '../notifications';
 
 export default {
     name: 'DockerServiceButton',
+    emits: ['controlEvent'],
     props: {
       type: String,
       serviceName: String,
       serviceData: String,
     },
-    emits: [ 'showDetailsPopup' ],
+    emits: [ 'controlEvent' ],
     computed: {
         getTooltip: function(){
             if(this.type == 'info'){
@@ -39,23 +41,7 @@ export default {
         }
     },
     methods: {  
-        controlContainer: function(operation){
-            if(operation != 'info')
-                notifications.notifyInfo('Attempting to ' + operation + ' container ' + this.serviceName + '...');
-
-            let postData = {name: this.serviceName, operation: operation}
-            this.axios.post('/api/' + this.$parent.$parent.backend + 'Control',  postData).then((res) => {
-                if(operation == 'info'){
-                    this.$emit('showDetailsPopup', res.data)
-                    return;
-                }
-                if(res.data != 'success') throw 'controlException';
-                notifications.notifySuccess('Successfully ' + operation + ((operation == 'pause' || operation == 'unpause') ? 'd' : 'ed') + ' container ' + this.serviceName + '!');
-                this.$parent.$parent.loadContainerList();
-            }).catch(e => { 
-                console.warn('Error: could not ' + operation + ' container ' + this.serviceName + '. Is the selected Docker backend up and reachable?'); 
-            });
-        },
+        
     },
 }
 </script>

@@ -9,8 +9,8 @@ Homey is a simple home server dashboard packed with functionality. The layout is
 - [Features](#features)
 - [Installation & Configuration](#installation--configuration)
   - [Docker](#docker)
-  - [Linux](#linux)
-  - [Windows](#windows)
+  - [Docker for Windows](#docker-for-windows)
+  - [GNU/Linux](#gnulinux)
 - [System Monitor Module](#system-monitor-module)
 - [Docker Backends](#docker-backends)
 - [Flood](#flood)
@@ -33,15 +33,14 @@ Homey is a simple home server dashboard packed with functionality. The layout is
 * Monitor up/down status of services
 * Monitor server's CPU usage, RAM usage, disk usage, uptime
 * Tablet & mobile layouts
-* GUI configuration
 * Easter eggs 🥚 👀
 
 ## Installation & Configuration
 Supported platforms:
 - Docker (Linux & Windows)
-- Linux x86
+- GNU/Linux
 
-Running on Windows without Docker is not currently supported. ARM has not been tested.
+Running on Windows without Docker is not currently supported. For GNU/Linux ARM should work fine, but only x86_64 has been tested.
 
 ### Docker
 1. Create a directory for config files: `mkdir ~/homey-data`
@@ -74,7 +73,7 @@ If you're running homey on a Windows host and wish to use the local Docker API b
 
 This will allow homey to view and control containers on the host machine. It's safe to ignore `HOMEY_API_DOCKER_USER_ID` and `GROUP_ID`.
 
-### Linux
+### GNU/Linux
 Not recommended - the Docker images were created to orchestrate serving the frontend/backend, proxy rewrite rules, sharing resources, keeping track of gunicorn, etc. so you don't have to do so manually.
 
 Prerequisites:
@@ -148,7 +147,7 @@ optional arguments:
 ```
 
 ## Docker Backends
-**Portainer** - Communicates with a running [Portainer](https://github.com/portainer/portainer) instance. Preferred for its additional security (SSL password authentication). Its API should be accessible with no additional configuration at the same port as the web UI (default 9443).
+**Portainer** - Communicates with a running [Portainer](https://github.com/portainer/portainer) instance. Provides SSL password authentication. Its API should be accessible with no additional configuration at the same port as the web UI (default 9443).
 
 - *Note: If using a self-signed cert, ignore self-signed warnings*
 
@@ -223,11 +222,12 @@ HOMEY_API_RUNNING_IN_DOCKER | Boolean | Set to false if not running in Docker
 
 ## Planned Features
 - ruTorrent support
+- More fine-grained control over torrents
 - In-page notifications for flood downloads
 - Color configuration
 - Additional cards
 
-## Built With:
+## Built With
 
 * [Vue.js](https://github.com/vuejs/vue)
 * [Three.js](https://github.com/mrdoob/three.js/)

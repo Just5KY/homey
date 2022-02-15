@@ -5,12 +5,18 @@
     <div class="docker-cell__content">
       <h3>{{ serviceName }}</h3>
       <div class="docker-cell__content--buttons">
-        <DockerServiceButton v-if="state=='running'" :serviceName="serviceName" type="pause"/>
-        <DockerServiceButton v-if="state=='paused'" :serviceName="serviceName" type="unpause"/>
-        <DockerServiceButton v-if="state=='exited'" :serviceName="serviceName" type="start"/>
-        <DockerServiceButton v-if="state=='running' || state=='paused'" :serviceName="serviceName" type="stop"/>
-        <DockerServiceButton v-if="state=='running' || state=='paused'" :serviceName="serviceName" type="restart"/>
-        <DockerServiceButton @showDetailsPopup="emitToParent" :serviceName="serviceName" :serviceData="infoString" type="info"/>
+        <DockerServiceButton type="pause" v-if="state=='running'"   
+          @controlEvent="passEmit" :serviceName="serviceName"/>
+        <DockerServiceButton type="unpause" v-if="state=='paused'"  
+          @controlEvent="passEmit" :serviceName="serviceName" />
+        <DockerServiceButton type="start" v-if="state=='exited'"    
+          @controlEvent="passEmit" :serviceName="serviceName" />
+        <DockerServiceButton type="stop" v-if="state=='running' || state=='paused'"     
+          @controlEvent="passEmit" :serviceName="serviceName" />
+        <DockerServiceButton type="restart" v-if="state=='running' || state=='paused'"  
+          @controlEvent="passEmit" || :serviceName="serviceName" />
+        <DockerServiceButton type="info" :serviceName="serviceName" 
+          @controlEvent="passEmit" :serviceData="infoString" />
       </div>
     </div>
   </div>
@@ -25,7 +31,7 @@ export default {
   components: {
     DockerServiceButton,
   },
-  emits: [ 'showDetailsPopup' ],
+  emits: [ 'controlEvent' ],
   props: {
       gridIndex: Number,
       serviceName: String,
@@ -47,8 +53,8 @@ export default {
     };
   },
   methods: {
-    emitToParent(containerData){
-      this.$emit('showDetailsPopup', containerData);
+    passEmit(type){
+      this.$emit('controlEvent', this.serviceName, type);
     },
     onImageError: function() {
       this.imageError = true;

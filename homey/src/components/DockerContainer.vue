@@ -8,11 +8,11 @@
         :serviceName="s.name" 
         :state="s.status" 
         :uptime="s.uptime"
-        @showDetailsPopup="showDetailedInfo"
+        @controlEvent="controlContainer"
         ref="cell"
       />
     </div>
-    <WhaleScene @3dClick="controlContainer" v-else ref="whale" :services="dockerServices" />
+    <WhaleScene @controlEvent="controlContainer" v-else ref="whale" :services="dockerServices" />
     </transition>
     <DockerControlPanel
       @toggleView="togglePerspective()"

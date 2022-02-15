@@ -39,7 +39,7 @@ export default {
     props: {
       services: Array,
     },
-    emits: ['3dClick'],
+    emits: ['controlEvent'],
     watch: {
       services: {
         handler: function() {
@@ -463,8 +463,8 @@ export default {
         onMouseDown(event) {
           if(!hoveredButton)  return;
 
-          // emit 3dClick(serviceName, operation)
-          this.$emit('3dClick', hoveredButton.parent.parent.name, hoveredButton.name)
+          // emit controlEvent(serviceName, operation)
+          this.$emit('controlEvent', hoveredButton.parent.parent.name, hoveredButton.name)
 
           // update UI
           switch (hoveredButton.name) {
