@@ -1,13 +1,13 @@
 version: "3.1"
 
-# Create ./.env and <config_vol_path>/config.yml before running
+# Please refer to readme before running docker-compose up
 
 services:
   homey-api:
     container_name: homey-api
     hostname: homey-api
     image: vlfldr/homey-api:latest
-    build: ./homey-api/
+    # build: ./homey-api/
     user: "${HOMEY_API_DOCKER_USER_ID}:${HOMEY_API_DOCKER_GROUP_ID}"
     env_file: .env
     ports: 
@@ -20,9 +20,9 @@ services:
     container_name: homey
     hostname: homey
     image: vlfldr/homey:latest
-    build: ./homey/
+    # build: ./homey/
     ports:
-      - "8080:80"
+      - "9080:80"
     volumes:
       - ~/homey-data:/app/data
     depends_on:

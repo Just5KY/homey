@@ -5,8 +5,6 @@
 
 Homey is a simple home server dashboard packed with functionality. The layout is loosely inspired by [Homer](https://github.com/bastienwirtz/homer).
 
-**In development - please report all bugs!**
-
 <!-- TOC -->
 - [Features](#features)
 - [Installation & Configuration](#installation--configuration)
@@ -22,6 +20,8 @@ Homey is a simple home server dashboard packed with functionality. The layout is
 - [Planned Features](#planned-features)
 - [Built With](#built-with)
 <!-- /TOC -->
+
+**In development - please report all bugs!**
 
 ## Features
 
@@ -45,15 +45,18 @@ Running on Windows without Docker is not currently supported. ARM has not been t
 
 ### Docker
 1. Create a directory for config files: `mkdir ~/homey-data`
-2. Download `docker-compose.yml`, `.env.example`, and `config.yml.example` from the ADD LINK Releases page or above. Place in newly created directory.
+2. Download `docker-compose.yml`, `.env.example`, and `config.yml.example` from the [Releases](https://github.com/vlfldr/homey/releases) page or above. Place in newly created directory.
 3. Configure external integrations in `.env.example`. Leave fields blank to disable. Once satisfied, rename to `.env`.
 
     - *Refer to [Docker Backends](#docker-backends) section to configure Docker/Portainer API access*
-4. Configure UI options if desired in `config.yml.example` and rename to `config.yml`. *These options can be changed while homey is running.*
-5. Configure volumes and port (default 9102) in `docker-compose.yml`.
+4. Configure UI options if desired in `config.yml.example` and rename to `config.yml`. Defaults should work out of the box.
+
+    - *These options can be changed while homey is running.*
+5. Map both volumes to the config folder and set homey's port (default 9080) in `docker-compose.yml`.
 6. Ensure `docker-compose.yml` and `.env` are in the same directory. It's easiest to keep all three files in the config folder.
 7. (Optional) Create a subdirectory for icons and populate it: `mkdir ~/homey-data/icons`
 
+    - *Icons are **not** required for each service*
     - *Icons can also be added while homey is running or uploaded via GUI*
 8. (Optional) Download and run `monitorSystem.py` to enable host machine stats. See [System Monitor Module](#system-monitor-module).
 9. In the original directory: `docker-compose up -d`
@@ -95,7 +98,8 @@ This will allow homey to view and control containers on the host machine. It's s
 
 Displays CPU/RAM/disk usage and uptime. By design, Docker containers do not have access to detailed host information. This can be circumvented by **running a script on the host**: `monitorSystem.py`
 
-- Put the script anywhere
+- Download the script from the [Releases](https://github.com/vlfldr/homey/releases) page or above
+- Place anywhere (does not have to be in config directory)
 - Install process utilities: `pip install psutil`
 - Point `dataFile` at homey's config Docker volume
     - Or at `homey-api/config` if running outside of Docker
@@ -126,7 +130,7 @@ This option can be toggled using the settings menu or the `minimal_mode` flag.
 *Note: Once switched on, minimal mode can only be disabled by editing `config.yml`.*
 
 ## Icons
-Homey looks for service icons in <docker_volume>/icons and /public/data/icons. Icons can also be uploaded via GUI in the settings menu. **Currently only PNG is supported.** 
+Homey looks for service icons in `<docker_volume>/icons` and `/public/data/icons`. Icons can also be uploaded via GUI in the settings menu. **Currently only PNG is supported.** 
 
 Docker containers will use icons which share their exact name. For example: to set `portainer-agent`'s icon, upload a new icon named `portainer-agent.png`.
 
