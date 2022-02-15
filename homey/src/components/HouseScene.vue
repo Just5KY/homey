@@ -218,7 +218,7 @@ export default {
           rightWall.setRotationFromAxisAngle(new Vector3(0, 1, 0), -Math.PI / 2)
           backWall.position.z = -.5  
           frontWall.position.z = .5
-          fwDoor.position.z = .03;
+          fwDoor.position.z = -.03;
           fwDoor.position.y = -.29;  
           lwWindow.position.x = (randFloat(-.3, .3))
           rwWindow.position.x = (randFloat(-.3, .3))
