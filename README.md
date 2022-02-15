@@ -46,7 +46,7 @@ Running on Windows without Docker is not currently supported. ARM has not been t
 ### Docker
 1. Create a directory for config files: `mkdir ~/homey-data`
 2. Download `docker-compose.yml`, `.env.example`, and `config.yml.example` from the [Releases](https://github.com/vlfldr/homey/releases) page or above. Place in newly created directory.
-3. Configure external integrations in `.env.example`. Leave fields blank to disable. Once satisfied, rename to `.env`.
+3. Configure external integrations in `.env.example`. Leave fields blank to disable. Rename to `.env`.
 
     - *Refer to [Docker Backends](#docker-backends) section to configure Docker/Portainer API access*
 4. Configure UI options if desired in `config.yml.example` and rename to `config.yml`. Defaults should work out of the box.
@@ -61,27 +61,7 @@ Running on Windows without Docker is not currently supported. ARM has not been t
 8. (Optional) Download and run `monitorSystem.py` to enable host machine stats. See [System Monitor Module](#system-monitor-module).
 9. In the original directory: `docker-compose up -d`
 
-### Linux
-Prerequisites:
-- Python 3 
-- Node.js 16.14+
-- npm 8.3.1+
-
-1. Clone the repository: `git clone https://github.com/vlfldr/homey && cd homey`
-2. Install dependencies:
-```
-python3 -m pip install -r homey-api/requirements.txt
-cd homey && npm i
-```
-3. Follow steps 3-8 of Docker configuration. Key differences:
-
-    - Keep `.env` in the project root
-    - Edit `config.yml` in `homey-api/config` instead of an arbitrary docker volume
-    - At the bottom of `.env` set `HOMEY_API_RUNNING_IN_DOCKER=False`
-
-5. In the project root: `./run.sh`
-
-### Windows
+### Docker for Windows
 **Under Construction**
 
 
@@ -94,6 +74,47 @@ If you're running homey on a Windows host and wish to use the local Docker API b
 
 This will allow homey to view and control containers on the host machine. It's safe to ignore `HOMEY_API_DOCKER_USER_ID` and `GROUP_ID`.
 
+### Linux
+Not recommended - the Docker images were created to orchestrate serving the frontend/backend, proxy rewrite rules, sharing resources, keeping track of gunicorn, etc. so you don't have to do so manually.
+
+Prerequisites:
+- Python 3 
+- Node.js 16.14+
+- npm 8.3.1+
+- An http server of your choosing with proxy support
+  - *Sample NGINX configuration can be found in the [client folder](homey/nginx.conf)*
+ 
+1. Clone the repository: `git clone https://github.com/vlfldr/homey && cd homey`
+2. Install dependencies:
+```
+python3 -m pip install -r homey-api/requirements.txt
+cd homey && npm i
+```
+3. Configure external integrations in `.env.example`. Leave fields blank to disable. Rename to `.env`.
+
+    - **Important!** Set `HOMEY_API_RUNNING_IN_DOCKER=False`
+    - *Refer to [Docker Backends](#docker-backends) section to configure Docker/Portainer API access*
+4. Configure UI options if desired in `homey-api/config/config.yml.example` and rename to `config.yml`. Defaults should work out of the box.
+5. (Optional) Copy icons into `homey/public/data/icons`
+
+    - *Icons are **not** required for each service*
+    - *Icons can also be added while homey is running or uploaded via GUI*
+6. (Optional) Download and run `monitorSystem.py` to enable host machine stats. See [System Monitor Module](#system-monitor-module).
+7. Build frontend:
+```
+cd homey
+npm run prod_compile:sass
+npm run build
+```
+8. Run backend: 
+```
+cd homey-api
+gunicorn -b 0.0.0.0:9101 --threads 4 --worker-class gthread --log-file - app:app
+```
+9. Serve the `/dist` folder however you like. 
+
+*Note: If you just want to check out the project but don't want to bother with Docker or NGINX, follow steps 1-6 and then run `./run-dev.sh` in the project root. This is not only insecure, it's over 10x heavier than it needs to be with all the development dependencies bundled in. **Do not run homey as a dashboard this way.***
+
 ## System Monitor Module
 
 Displays CPU/RAM/disk usage and uptime. By design, Docker containers do not have access to detailed host information. This can be circumvented by **running a script on the host**: `monitorSystem.py`
@@ -105,7 +126,6 @@ Displays CPU/RAM/disk usage and uptime. By design, Docker containers do not have
 
   - This will write stats to file every 30 seconds and monitor disk usage on the OS drive.
 - Launch homey
-
 
 To monitor aditional drives, add them to the launch command: `pythonw monitorSystem.py /path/to/homey/config-dir / /mnt/backups /mnt/media/work-ssd`
 
@@ -127,7 +147,6 @@ optional arguments:
   --cpu_window N  Average CPU usage over N seconds (default: 6)
 ```
 
-
 ## Docker Backends
 **Portainer** - Communicates with a running [Portainer](https://github.com/portainer/portainer) instance. Preferred for its additional security (SSL password authentication). Its API should be accessible with no additional configuration at the same port as the web UI (default 9443).
 
@@ -141,7 +160,7 @@ optional arguments:
 ## Flood
 [Flood](https://github.com/jesec/flood/) is a web-based frontend for multiple torrent clients. Once it's running and talking to your client of choice, the API should be accessible via the same port as the web UI. No additional configuration is required.
 
-*Note: Unless you've deployed Flood with an SSL cert or behind a reverse proxy, credentials will be transmitted in plaintext upon authentication. **This should not pose a security risk as Flood only exposes its interfaces on the 127.0.0.1 by default.** However do be aware that someone snooping through local network traffic could theoretically obtain your Flood username & password.*
+*Note: Unless you've deployed Flood with an SSL cert or behind a reverse proxy, credentials will be transmitted in plaintext upon authentication. **This should not pose a security risk as Flood only exposes its interfaces on 127.0.0.1 by default.** However do be aware that someone snooping through local network traffic could theoretically obtain your Flood username & password.*
 
 ## Minimal Mode
 **Minimal mode** turns homey into a more traditional dashboard with links to services and low overhead. Everything is disabled except service links and bookmarks. If you'd like to run homey in minimal mode and are not running in Docker, work with the local config file: `/public/config/config.yml`. If you're running in Docker, edit the config file in homey's Docker volume as usual. 
@@ -151,7 +170,7 @@ This option can be toggled using the settings menu or the `minimal_mode` flag.
 *Note: Once switched on, minimal mode can only be disabled by editing `config.yml`.*
 
 ## Icons
-Homey looks for service icons in `<docker_volume>/icons` and `/public/data/icons`. Icons can also be uploaded via GUI in the settings menu. **Currently only PNG is supported.** 
+Homey looks for service icons in `<docker_volume>/icons` and `homey/public/data/icons`. Icons can also be uploaded via GUI in the settings menu. **Currently only PNG is supported.** 
 
 Docker containers will use icons which share their exact name. For example: to set `portainer-agent`'s icon, upload a new icon named `portainer-agent.png`.
 

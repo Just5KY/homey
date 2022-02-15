@@ -10,8 +10,8 @@ COPY . .
 
 ENV NODE_ENV production
     
-RUN npm run prod_compile:sass && \
-    npm run build
+RUN npm run --no-update-notifier prod_compile:sass && \
+    npm run --no-update-notifier build 
 
 # final image
 FROM nginx:alpine

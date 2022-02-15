@@ -59,7 +59,7 @@ services:
 cards:
 - enable: true
   name: Torrents
-- enable: false
+- enable: true
   name: Weather
 - enable: true
   name: System

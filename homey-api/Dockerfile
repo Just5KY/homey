@@ -16,5 +16,5 @@ RUN apk add --no-cache docker-cli
 COPY . .
 
 # entrypoint
-CMD [ "gunicorn", "-b", "0.0.0.0:9101", "--worker-tmp-dir", "/dev/shm", "--workers", "2", \
+CMD [ "gunicorn", "-b", "0.0.0.0:9101", "--worker-tmp-dir", "/dev/shm", \
 "--threads", "4", "--worker-class", "gthread", "--log-file", "-", "app:app" ]

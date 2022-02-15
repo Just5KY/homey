@@ -4,6 +4,7 @@
 
 # install requirements
 # cd homey && npm i && cd ../homey-api && pip install -r ./requirements.txt
+
 cd homey-api
 
 # copy config file to frontend (fallback)
