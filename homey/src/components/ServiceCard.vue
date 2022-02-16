@@ -1,13 +1,13 @@
 <template>
-  <a :href="url" target="_blank" :class="getClass">
+  <a :href="url" target="_blank" :class="getClass" rel="noopener noreferrer">
     <div class="service-card-container__text-container">
       <h3>{{ title }}</h3>
-      <div class="service-card-container__text-container__subtitle">{{subtitle}}
-      </div>
+      <div class="service-card-container__text-container__subtitle">{{subtitle}}</div>
     </div>
     <div class="service-card-container__indicator">
       <transition name="fade">
-        <span v-if="displayStatus" :title="getStatusFormatted" :id="getStatus + ((isCompact) ? '__compact' : '')" :class="'service-card-container__indicator--icon material-icon ' + getStatus"></span>
+        <span v-if="displayStatus" :title="getStatusFormatted" :id="getStatus + ((isCompact) ? '__compact' : '')" 
+          :class="'service-card-container__indicator--icon material-icon ' + getStatus"></span>
       </transition>
     </div>
     <div class="service-card-container__image-container">

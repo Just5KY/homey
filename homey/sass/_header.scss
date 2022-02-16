@@ -4,6 +4,7 @@
 
     display: flex;
     flex-direction: column;
+    max-height: 15rem;
 }
 
 .header-container__main {
@@ -95,9 +96,11 @@
                 transition: all ease-in-out 1s;
             }
 
-            &:hover > .bookmark__arrow {
+	@media (hover: hover) { 
+	            &:hover > .bookmark__arrow {
                 color: $cyan;
             }
+	}
 
             &::before {
                 content: "";
@@ -121,7 +124,8 @@
                 border-radius: .3rem;
             }
 
-            &:hover::before {
+	@media (hover: hover) { 
+	            &:hover::before {
                 clip-path: polygon(
                     50% 80%,
                     130% -100%,
@@ -129,6 +133,7 @@
                     80% 100%
                 );
             }
+	}
                 
             h3 {
                 font-size: 1.5rem;
@@ -157,10 +162,14 @@
         }
 
         &__deactivated {
-            &:hover {
+@media (hover: hover) { 
+	@media (hover: hover) { 
+		            &:hover {
                 transform: scale(1.2);
                 text-shadow: .5rem .5rem 1rem rgba($shadowColor, .3);
             }
+	}
+}
 
             &:active {
                 transform: translateY(2px);
@@ -173,7 +182,7 @@
 // Three.js container
 #house-canvas {
     width: 15rem;
-    height: 100%;
+    height: 15rem;
 }
 
 // Displayed when offline
