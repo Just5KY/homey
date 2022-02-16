@@ -1,8 +1,8 @@
 
 <template>
     <!-- main settings menu -->
-    <div class="modal-mask">
-      <div class="modal-wrapper">
+    <div class="modal-mask" ref="mask">
+      <div class="modal-wrapper" >
         <div v-if="!showServices && !showCards && !showBookmarks" class="modal-container">
 
           <div class="modal-header">
@@ -270,6 +270,9 @@ export default {
     this.localConfig = this.config;
     this.localServiceName = '';
     this.localBookmarkName = '';
+  },
+  mounted() {
+    this.$refs.mask.focus();
   },
   methods: {
     // close(true) will write newly selected settings to config.yml

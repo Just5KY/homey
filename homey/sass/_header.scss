@@ -162,14 +162,12 @@
         }
 
         &__deactivated {
-@media (hover: hover) { 
-	@media (hover: hover) { 
-		            &:hover {
-                transform: scale(1.2);
-                text-shadow: .5rem .5rem 1rem rgba($shadowColor, .3);
+            @media (hover: hover) { 
+                &:hover {
+                    transform: scale(1.2);
+                    text-shadow: .5rem .5rem 1rem rgba($shadowColor, .3);
+                }
             }
-	}
-}
 
             &:active {
                 transform: translateY(2px);

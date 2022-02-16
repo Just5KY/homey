@@ -63,7 +63,7 @@ cards:
   name: Weather
 - enable: true
   name: System
-- enable: false
+- enable: true
   name: Bookmarks
 bookmarks:
 - name: GitHub

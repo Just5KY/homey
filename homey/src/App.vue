@@ -72,12 +72,12 @@ export default {
         this.configLoaded = true;
       }).catch(() => {
         // on error, fall back to local file
-        console.info('Failed to fetch config from backend. Loading local config.yml.')
+        notifications.notifyWarning('Failed to fetch config from backend. Loading local fallback...')
         this.axios.get('/config/config.yml').then((res) => {
           this.config = JsYaml.load(res.data);
           this.configLoaded = true;
         }).catch(() => {
-          notifications.notifyError('Error: Failed to load configuration file');
+          notifications.notifyError('Fatal Error: Failed to load configuration file');
         });
       })
       .finally(() => {

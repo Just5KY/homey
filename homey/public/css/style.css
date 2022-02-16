@@ -880,7 +880,7 @@
   z-index: 9999;
   transform: scale(1.4) rotateZ(-40deg);
 }
-@media (hover: hover) and (hover: hover) {
+@media (hover: hover) {
   .header-container__main .icon-settings__deactivated:hover {
     transform: scale(1.2);
     text-shadow: 0.5rem 0.5rem 1rem rgba(28, 28, 28, 0.3);
@@ -1959,13 +1959,20 @@ h2 {
   left: -2rem;
   bottom: 0;
 }
-.docker-control-panel span {
+.docker-control-panel .material-icon {
   margin-top: 1rem;
   color: #6272a4;
   cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+.docker-control-panel .material-icon:hover {
+  transform: scale(1.2);
+}
+.docker-control-panel .material-icon:active {
+  transform: scale(1) translateY(2px);
 }
 @media (max-width: 600px) {
-  .docker-control-panel span {
+  .docker-control-panel .material-icon {
     margin-top: 0.5rem;
   }
 }

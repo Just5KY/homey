@@ -65,9 +65,9 @@ Running without Docker on Windows is not currently supported. For GNU/Linux ARM 
 Folder structure visualization:
 ```
 homey-data
-│   docker-compose.yml
-│   config.yml    
 │   .env
+│   config.yml  
+│   docker-compose.yml  
 └───icons
     │   homey.png
     │   portainer.png
@@ -132,9 +132,9 @@ gunicorn -b 0.0.0.0:9101 --threads 4 --worker-class gthread --log-file - app:app
 
 Displays CPU/RAM/disk usage and uptime. By design, Docker containers do not have access to detailed host information. This can be circumvented by **running a script on the host**: `monitorSystem.py`
 
-- Download the script from the [Releases](https://github.com/vlfldr/homey/releases) page or above
+- Download `monitorSystem.py` from the [Releases](https://github.com/vlfldr/homey/releases) page or above
 - Place anywhere (does not have to be in config directory)
-- Install process utilities: `pip install psutil`
+- Install dependencies: `pip install psutil`
 - Run in background: `pythonw monitorSystem.py /path/to/homey-config-dir /`
 
   - This will write stats to file every 30 seconds and monitor disk usage on the OS drive.
@@ -249,4 +249,5 @@ HOMEY_API_RUNNING_IN_DOCKER | Boolean | Set to false if not running in Docker
 * [Chart.js](https://github.com/chartjs/Chart.js)
 * [SASS](https://github.com/sass/sass)
 * [Flask](https://github.com/pallets/flask)
+* Modified [Moby Dock 3D Model](https://sketchfab.com/3d-models/moby-dock-docker-whale-b706010291ca46ad8daca2d4aeb79edd) by Maurice Svay ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))
 * ❤️

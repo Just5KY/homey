@@ -222,10 +222,19 @@
     left: -2rem;
     bottom: 0;
 
-    & span {
+    & .material-icon {
         margin-top: 1rem;
         color: $commentColor;
         cursor: pointer;
+        transition: all .3s ease-out;
+
+        &:hover {
+            transform: scale(1.2);
+        }
+
+        &:active {
+            transform: scale(1) translateY(2px);
+        }
 
         @media (max-width: $mobile-break-small) {
             margin-top: .5rem;
