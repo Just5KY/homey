@@ -37,7 +37,7 @@ class Config:
     # if running in docker, .env is passed in via docker-compose.yml
 
     # verify frontend config exists. actual load is performed in app::readFrontendConfig()
-    if not os.path.exists('./config/config.yml') or os.path.exists('../homey/dist/config/config.yml'):
+    if not os.path.exists('./config/config.yml') and not os.path.exists('../homey/dist/config/config.yml'):
         print('\nFatal error: Failed to load config.yml')
         print('Please refer to the readme for configuration instructions.\n')
         sys.exit(4)

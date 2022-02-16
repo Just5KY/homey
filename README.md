@@ -62,6 +62,18 @@ Running without Docker on Windows is not currently supported. For GNU/Linux ARM 
 7. (Optional) Download and run `monitorSystem.py` to enable host machine stats. See [System Monitor Module](#system-monitor-module).
 8. Launch with: `docker-compose up -d`
 
+Folder structure visualization:
+```
+homey-data
+│   docker-compose.yml
+│   config.yml    
+│   .env
+└───icons
+    │   homey.png
+    │   portainer.png
+    │   ...
+    └───────────────
+```
 ### Docker for Windows
 **Under Construction**
 

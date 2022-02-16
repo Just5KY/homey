@@ -8,7 +8,6 @@
 
 export default {
     name: 'DockerServiceButton',
-    emits: ['controlEvent'],
     props: {
       type: String,
       serviceName: String,
@@ -18,7 +17,7 @@ export default {
     computed: {
         getTooltip: function(){
             if(this.type == 'info'){
-                return this.serviceData;
+                return (this.serviceData) ? this.serviceData : '';
             }
             return this.type.charAt(0).toUpperCase() + this.type.slice(1) + ' ' + this.serviceName;
         },

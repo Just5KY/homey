@@ -6,7 +6,7 @@
       <h3>{{ serviceName }}</h3>
       <div class="docker-cell__content--buttons">
         <DockerServiceButton type="pause" v-if="state=='running'"   
-          @controlEvent="passEmit" :serviceName="serviceName"/>
+          @controlEvent="passEmit" :serviceName="serviceName" />
         <DockerServiceButton type="unpause" v-if="state=='paused'"  
           @controlEvent="passEmit" :serviceName="serviceName" />
         <DockerServiceButton type="start" v-if="state=='exited'"    
@@ -14,7 +14,7 @@
         <DockerServiceButton type="stop" v-if="state=='running' || state=='paused'"     
           @controlEvent="passEmit" :serviceName="serviceName" />
         <DockerServiceButton type="restart" v-if="state=='running' || state=='paused'"  
-          @controlEvent="passEmit" || :serviceName="serviceName" />
+          @controlEvent="passEmit" :serviceName="serviceName" />
         <DockerServiceButton type="info" :serviceName="serviceName" 
           @controlEvent="passEmit" :serviceData="infoString" />
       </div>
