@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+import sys
 
 ### See config.yml for frontend config and .env for backend ###
 ################## DO NOT MODIFY THIS FILE ####################
@@ -28,12 +29,18 @@ class Config:
     # if running on metal, load .env file from project root
     if not RUNNING_IN_DOCKER:
         if not os.path.exists('../.env'):
-            print('Fatal error: Could not load ../.env.')
-            print('Please refer to the readme for configuration instructions.')
-            quit(1)
+            print('\nFatal error: Failed to load .env')
+            print('Please refer to the readme for configuration instructions.\n')
+            sys.exit(4)
         load_dotenv('../.env')
 
     # if running in docker, .env is passed in via docker-compose.yml
+
+    # verify frontend config exists. actual load is performed in app::readFrontendConfig()
+    if not os.path.exists('./config/config.yml') or os.path.exists('../homey/dist/config/config.yml'):
+        print('\nFatal error: Failed to load config.yml')
+        print('Please refer to the readme for configuration instructions.\n')
+        sys.exit(4)
  
     NICEHASH_URL = os.environ.get('HOMEY_API_NICEHASH_URL')
     NICEHASH_API_KEY = os.environ.get('HOMEY_API_NICEHASH_API_KEY')
@@ -51,7 +58,6 @@ class Config:
     PORTAINER_URL = os.environ.get('HOMEY_API_PORTAINER_URL')
     PORTAINER_USER = os.environ.get('HOMEY_API_PORTAINER_USER')
     PORTAINER_PASSWORD = os.environ.get('HOMEY_API_PORTAINER_PASSWORD')
-    #PORTAINER_VALID = validatePortainer(PORTAINER_URL, PORTAINER_USER, PORTAINER_PASSWORD)
     
     FLOOD_URL = os.environ.get('HOMEY_API_FLOOD_URL')
     FLOOD_USER = os.environ.get('HOMEY_API_FLOOD_USER')

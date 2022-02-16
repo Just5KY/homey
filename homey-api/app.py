@@ -18,7 +18,7 @@ app.config['JSON_SORT_KEYS'] = False
 if config.RUNNING_IN_DOCKER == True:
     app.config['UPLOAD_FOLDER'] = './config/icons'  
 else:
-    app.config['UPLOAD_FOLDER'] = '../homey/public/data/icons'
+    app.config['UPLOAD_FOLDER'] = '../homey/dist/data/icons'
 
 weatherAPI = open_meteo.api(config.WEATHER_LAT, config.WEATHER_LONG)
 portainerAPI = portainer.api(config.PORTAINER_URL, config.PORTAINER_USER, config.PORTAINER_PASSWORD)
