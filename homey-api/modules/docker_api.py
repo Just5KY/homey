@@ -44,13 +44,17 @@ class api:
         if operation == 'info':
             stats = self.api_client.inspect_container(targetId)
             logs = []
-            
-            rawLogs = self.api_client.logs(targetId, timestamps=True, tail=100).split(b'\n')
-            for line in rawLogs:
-                logs.append(line.decode().replace('\"','').strip())
-            logs.pop()  # trim blank line
+            try:
+                rawLogs = self.api_client.logs(targetId, timestamps=True, tail=100).split(b'\n')
 
-            if logs == []:
+                for line in rawLogs:
+                    logs.append(line.decode().replace('\"','').strip())
+                logs.pop()  # trim blank line
+
+            except:
+                logs = []
+
+            if logs == [] or (len(logs) == 1 and 'does not support' in logs[0] ):
                 logs = ['<No entries in log>']
 
             return { 'stats': stats, 'log': logs }

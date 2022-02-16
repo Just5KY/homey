@@ -98,18 +98,15 @@ class api:
                     params={"tail": "100", "stdout": True, "stderr": True, "timestamps": True}, 
                     headers={"Authorization": self.authToken}, verify=False, stream=True
                 )
+
+                # strip 8 bytes of raw TTY info off beginning of each line
+                logs = []
+                for line in logReq.iter_lines(100):
+                    logs.append(line[8:].decode('utf-8', errors='replace').strip())
             except:
-                return { "stats": {}, "logs": 
-                    ['The `docker container prune` command will remove all stopped containers.',
-                    'Stopped containers reporting this error are usually left over from a failed build.',
-                    containerName + '\'s configured logging driver is not supported by the Docker API.'] }
+                logs = []
 
-            # strip 8 bytes of raw TTY info off beginning of each line
-            logs = []
-            for line in logReq.iter_lines(100):
-                logs.append(line[8:].decode('utf-8', errors='replace').strip())
-
-            if logs == []:
+            if logs == [] or (len(logs) == 1 and 'does not support' in logs[0] ):
                 logs = ['<No entries in log>']
 
             return { 'stats': stats, 'log': logs }
@@ -123,3 +120,10 @@ class api:
             return 'success'
 
         return response.json()  # Error information
+
+    def getErrorLog(self, containerName):
+        # log is reversed to display most recent messages at the top.
+        # in the event of an error, our error message lines will be reversed as well
+        return ['The `docker container prune` command will remove all stopped containers.',
+                'Stopped containers reporting this error are usually left over from a failed build.',
+                containerName + '\'s configured logging driver is not supported by the Docker API.']
