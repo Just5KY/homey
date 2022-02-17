@@ -47,15 +47,18 @@
 
 // vue animations
 
-// page dim
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity .3s ease-out;
+// modal page dim
+.modal-fade-enter-active {
+  transition: opacity 0.3s ease-in;
 }
 
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
+.modal-fade-leave-active {
+    transition: opacity 0.3s ease-out;
+  }
+
+.modal-fade-enter-from,
+.modal-fade-leave-active {
+  opacity: 0;
 }
 
 // slide in from bottom

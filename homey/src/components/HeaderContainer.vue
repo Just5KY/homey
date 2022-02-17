@@ -15,14 +15,16 @@
         title="Settings" :class="getSettingsIconClass"
         @click="showOptions = !showOptions">
       </span>
-      <transition name="fade">
-        <OptionsPopup v-if="showOptions" 
-          :config="this.config"
-          tabindex="0"
-          @loadConfig="loadConfig" 
-          @saveConfig="saveConfig" 
-          @close="showOptions = false" 
-          @keydown.esc="showOptions = false" />
+      <transition name="modal-fade">
+        <div v-if="showOptions" class="header__modal-container">
+          <OptionsPopup  
+            :config="this.config"
+            tabindex="0"
+            @loadConfig="loadConfig" 
+            @saveConfig="saveConfig" 
+            @close="showOptions = false" 
+            @keydown.esc="showOptions = false" />
+          </div>
       </transition>
     </div>
     <transition name="fade">

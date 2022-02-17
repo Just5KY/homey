@@ -1,5 +1,5 @@
 <template>
-  <div :class="['docker-cell', 'd' + gridIndex]" ref="cell">
+  <div :class="['docker-cell', 'd' + gridIndex]" ref="cell" tabindex="0">
     <img v-if="!imageError" :src="getIconPath" @error="onImageError">
     <span v-if="imageError" class="docker-cell__image-placeholder material-icon icon-storage"></span>
     <div class="docker-cell__content">

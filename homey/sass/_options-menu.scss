@@ -1,5 +1,10 @@
 @import "services-menu";
 
+// transition wrapper
+.header__modal-container {
+    z-index: 9998;
+}
+
 // global page dim
 .modal-mask {
     position: fixed;
