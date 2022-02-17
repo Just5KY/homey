@@ -41,7 +41,7 @@ Supported platforms:
 - Docker for Windows
 - GNU/Linux
 
-Running without Docker on Windows is not currently supported. For GNU/Linux ARM should work fine, but only x86_64 has been tested.
+Docker for Mac should work with minimal modifications but has not been tested. Running without Docker on Windows is not currently supported. 
 
 ### Docker
 1. Create a directory for config files: `mkdir ~/homey-data`
@@ -75,17 +75,20 @@ homey-data
     └───────────────
 ```
 ### Docker for Windows
-**Under Construction**
+The Docker socket and its permissions differ slightly on Windows.
+1. In `docker-compose.yml`, add an extra slash to the Docker socket path:
+```
+  - //var/run/docker.sock:${HOMEY_API_DOCKER_SOCKET}
+```
+2. Replace `"${HOMEY_API_DOCKER_USER_ID}:${HOMEY_API_DOCKER_GROUP_ID}"` with `root`:
+```
+  user: root
+```
+3. (Optional) Remove the unused USER_ID & GROUP_ID lines from your .env file
+4. Follow [Docker](#docker) setup instructions.
 
+*Note: The tilde character (~) maps to C:\Users\\\<you> on Windows.*
 
-If you're running homey on a Windows host and wish to use the local Docker API backend, modify `docker-compose.yml` as follows:
-
-    ...
-    volumes:
-      - //var/run/docker.sock://var/run/docker.sock
-    ...
-
-This will allow homey to view and control containers on the host machine. It's safe to ignore `HOMEY_API_DOCKER_USER_ID` and `GROUP_ID`.
 
 ### GNU/Linux
 Not recommended - the Docker images were created to orchestrate serving the frontend/backend, proxy rewrite rules, sharing resources, keeping track of gunicorn, etc. so you don't have to do so manually.
