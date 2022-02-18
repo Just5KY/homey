@@ -1,5 +1,6 @@
 <template>
-  <div :class="['docker-cell', 'd' + gridIndex, this.overflowClass]" ref="cell" tabindex="0">
+  <div :class="['docker-cell', 'd' + gridIndex, this.overflowClass, this.expansionClass]" 
+    ref="cell" tabindex="0" @touchstart="expand" @mouseenter="expand" @mouseleave="contract" @touchend="contract">
     <img v-if="!imageError" :src="getIconPath" @error="onImageError">
     <span v-else class="docker-cell__image-placeholder material-icon icon-storage"></span>
     <div class="docker-cell__content">
@@ -46,6 +47,7 @@ export default {
   data () {
     return {
       overflowClass: '',
+      expansionClass: '',
       infoString: this.state.charAt(0).toUpperCase() + this.state.slice(1) + ' - ' + this.uptime,
       pauseString: 'Pause ' + this.serviceName,
       stopString: 'Stop ' + this.serviceName,
@@ -58,6 +60,13 @@ export default {
     this.calcOverflow()
   },
   methods: {
+    expand() {
+      if (this.expansionClass == '')  this.expansionClass = 'docker-cell--expanded';
+      //else this.expansionClass = ''
+    },
+    contract() {
+      this.expansionClass = '';
+    },
     passEmit(type){
       this.$emit('controlEvent', this.serviceName, type);
     },
@@ -66,7 +75,7 @@ export default {
     },
     // if expansion would overflow page, shift to the left 
     calcOverflow() {
-      let xPos = this.$refs.cell.getBoundingClientRect().x + 30;
+      let xPos = this.$refs.cell.getBoundingClientRect().x + 20;
       if( this.$refs.cell.scrollWidth > window.innerWidth - xPos ){
         this.overflowClass = 'docker-cell__overflow'
       }

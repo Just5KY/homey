@@ -1908,39 +1908,19 @@ h2 {
   align-content: center;
   justify-content: center;
 }
-@media (pointer: coarse) {
-  .docker-cell:focus {
-    max-width: 40rem;
-    width: max-content;
-    z-index: 3;
-    pointer-events: none;
-    box-shadow: 0.5rem 0.5rem 1.5rem rgba(28, 28, 28, 0.5);
-    transition-delay: 0s;
-  }
-  .docker-cell:focus .docker-cell__content {
-    opacity: 1;
-    transition-delay: 0s;
-  }
-  .docker-cell__overflow:focus {
-    transform: translateX(-50%);
-  }
+.docker-cell--expanded {
+  max-width: 40rem;
+  width: max-content;
+  z-index: 3;
+  box-shadow: 0.5rem 0.5rem 1.5rem rgba(28, 28, 28, 0.5);
+  transition-delay: 0s;
 }
-@media (hover: hover) {
-  .docker-cell:hover {
-    max-width: 40rem;
-    width: max-content;
-    text-align: right;
-    z-index: 3;
-    box-shadow: 0.5rem 0.5rem 1.5rem rgba(28, 28, 28, 0.5);
-    transition-delay: 0s;
-  }
-  .docker-cell:hover .docker-cell__content {
-    opacity: 1;
-    transition-delay: 0s;
-  }
-  .docker-cell__overflow:hover {
-    transform: translateX(-50%);
-  }
+.docker-cell--expanded .docker-cell__content {
+  opacity: 1;
+  transition-delay: 0s;
+}
+.docker-cell--expanded.docker-cell__overflow:hover, .docker-cell--expanded.docker-cell__overflow:focus {
+  transform: translateX(-50%);
 }
 
 .docker-card-btn {
