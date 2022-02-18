@@ -4,6 +4,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
 import yaml
+import multiprocessing
 
 from config import config
 from modules import open_meteo, docker_api, portainer, flood, service_checker

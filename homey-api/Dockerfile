@@ -17,4 +17,4 @@ COPY . .
 
 # entrypoint
 CMD [ "gunicorn", "-b", "0.0.0.0:9101", "--worker-tmp-dir", "/dev/shm", \
-"--threads", "4", "--worker-class", "gthread", "--log-file", "-", "app:app" ]
+"--workers", "4", "--threads", "50", "--log-file", "-", "app:app" ]
