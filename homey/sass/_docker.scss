@@ -150,10 +150,6 @@
             justify-content: center;
         }
     }
-
-    &__overflow {
-        transform: translateX(-50%);
-    }
     
     // mobile click expansion/contraction
     @media (pointer:coarse) {
@@ -169,6 +165,10 @@
                 opacity: 1;
                 transition-delay: 0s;
             }
+        }
+
+        &__overflow:focus {
+            transform: translateX(-50%);
         }
     }
 
@@ -186,6 +186,9 @@
                 opacity: 1;
                 transition-delay: 0s;
             }
+        }
+        &__overflow:hover {
+            transform: translateX(-50%);
         }
     }
 }

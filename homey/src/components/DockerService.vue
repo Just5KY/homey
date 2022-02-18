@@ -54,7 +54,8 @@ export default {
     };
   },
   mounted() {
-    window.addEventListener('resize', this.getYIndex)
+    window.addEventListener('resize', this.calcOverflow)
+    this.calcOverflow()
   },
   methods: {
     passEmit(type){
@@ -63,19 +64,21 @@ export default {
     onImageError: function() {
       this.imageError = true;
     },
-    getYPos(){
-      return this.$refs.cell.getBoundingClientRect().y;
-    },
-    // 8 rows, offset for 1-indexed grid__n-row class
-    getYIndex(){
-      //let xPos = this.$refs.cell.getBoundingClientRect().x;
-      //if( this.$refs.cell.scrollWidth > window.innerWidth - xPos ){
-      if( window.getComputedStyle(this.$refs.cell).getPropertyValue('grid-column-start') > 3 ){
+    // if expansion would overflow page, shift to the left 
+    calcOverflow() {
+      let xPos = this.$refs.cell.getBoundingClientRect().x + 30;
+      if( this.$refs.cell.scrollWidth > window.innerWidth - xPos ){
         this.overflowClass = 'docker-cell__overflow'
       }
       else {
         this.overflowClass = ''
       }
+    },
+    getYPos(){
+      return this.$refs.cell.getBoundingClientRect().y;
+    },
+    // 8 rows, offset for 1-indexed grid__n-row class
+    getYIndex(){
       return 9 - window.getComputedStyle(this.$refs.cell).getPropertyValue('grid-row-start');
     }
   },

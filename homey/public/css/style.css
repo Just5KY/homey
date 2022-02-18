@@ -1908,9 +1908,6 @@ h2 {
   align-content: center;
   justify-content: center;
 }
-.docker-cell__overflow {
-  transform: translateX(-50%);
-}
 @media (pointer: coarse) {
   .docker-cell:focus {
     max-width: 40rem;
@@ -1923,6 +1920,9 @@ h2 {
   .docker-cell:focus .docker-cell__content {
     opacity: 1;
     transition-delay: 0s;
+  }
+  .docker-cell__overflow:focus {
+    transform: translateX(-50%);
   }
 }
 @media (hover: hover) {
@@ -1937,6 +1937,9 @@ h2 {
   .docker-cell:hover .docker-cell__content {
     opacity: 1;
     transition-delay: 0s;
+  }
+  .docker-cell__overflow:hover {
+    transform: translateX(-50%);
   }
 }
 
