@@ -48,12 +48,12 @@ Docker for Mac should work with minimal modifications but has not been tested. R
 2. Download `docker-compose.yml`, `.env.example`, and `config.yml.example` from the [Releases](https://github.com/vlfldr/homey/releases) page or above. Place in newly created directory.
 3. Configure external integrations in `.env.example`. Rename to `.env`.
 
-    - Leave fields blank to disable
+    - Leave values blank to disable
     - *Refer to [Docker Backends](#docker-backends) section to configure Docker/Portainer API access*
 4. Configure UI options if desired in `config.yml.example` and rename to `config.yml`.
 
     - Defaults should work out of the box
-    - These options can be changed while homey is running.
+    - *These options can be changed while homey is running*
 5. Map both volumes to the config folder and set homey's port (default 9080) in `docker-compose.yml`.
 6. (Optional) Create a subdirectory for icons and populate it: `mkdir ~/homey-data/icons`
 
@@ -129,7 +129,7 @@ gunicorn -b 0.0.0.0:9101 --threads 4 --worker-class gthread --log-file - app:app
 ```
 9. Serve the `/dist` folder however you like. 
 
-*Note: If you just want to check out the project but don't want to bother with Docker or NGINX, follow steps 1-6 and then run `./run-dev.sh` in the project root. This is not only insecure, it's over 10x heavier than it needs to be with all the development dependencies bundled in. **Do not run homey as a dashboard this way.***
+*Note: If you just want to check out the project but don't want to bother with Docker or NGINX, follow steps 1-6 and then run `./run-dev.sh` in the project root. This is not only insecure, it's over 10x heavier than it needs to be with all the development dependencies bundled in! Image uploads will not work because they are uploaded to /dist and the development script serves /public. **Do not run homey as a dashboard this way.***
 
 ## System Monitor Module
 

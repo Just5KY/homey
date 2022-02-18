@@ -139,7 +139,6 @@ def uploadIcon():
         f = request.files['image']
         print(f.filename.rsplit('.', 1), flush=True)
         if f and f.filename != '' and f.filename.rsplit('.', 1)[1] in config.VALID_ICON_EXTS:
-            print('asdasdadada', flush=True)
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
             return jsonify ({'Success': 'Uploaded ' + f.filename})
     except:

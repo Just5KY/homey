@@ -1912,7 +1912,7 @@ h2 {
   .docker-cell:focus {
     max-width: 40rem;
     width: max-content;
-    z-index: 2;
+    z-index: 3;
     pointer-events: none;
     box-shadow: 0.5rem 0.5rem 1.5rem rgba(28, 28, 28, 0.5);
     transition-delay: 0s;
@@ -1930,7 +1930,7 @@ h2 {
     max-width: 40rem;
     width: max-content;
     text-align: right;
-    z-index: 2;
+    z-index: 3;
     box-shadow: 0.5rem 0.5rem 1.5rem rgba(28, 28, 28, 0.5);
     transition-delay: 0s;
   }

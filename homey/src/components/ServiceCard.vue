@@ -5,13 +5,13 @@
       <div class="service-card-container__text-container__subtitle">{{subtitle}}</div>
     </div>
     <div class="service-card-container__indicator">
-      <transition name="fade">
+      <transition name="modal-fade">
         <span v-if="displayStatus" :title="getStatusFormatted" :id="getStatus + ((isCompact) ? '__compact' : '')" 
           :class="'service-card-container__indicator--icon material-icon ' + getStatus"></span>
       </transition>
     </div>
     <div class="service-card-container__image-container">
-      <img :src="iconPath" onerror="this.onerror=null; this.src='data/icons/default.png'">
+      <img :src="iconPath" onerror="this.onerror=null; this.src='data/icons/default.png' + new Date().getTime()">
     </div>
   </a>
 </template>

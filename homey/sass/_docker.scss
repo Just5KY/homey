@@ -156,7 +156,8 @@
         &:focus {
             max-width: 40rem;
             width: max-content;
-            z-index: 2;
+            $lastZIndex: $lastZIndex + 1;
+            z-index: $lastZIndex;
             pointer-events: none;
             box-shadow: .5rem .5rem 1.5rem rgba($shadowColor, .5);
 
@@ -178,7 +179,8 @@
             max-width: 40rem;
             width: max-content;
             text-align: right;
-            z-index: 2;
+            $lastZIndex: $lastZIndex + 1;
+            z-index: $lastZIndex;
             box-shadow: .5rem .5rem 1.5rem rgba($shadowColor, .5);
 
             transition-delay: 0s;   
