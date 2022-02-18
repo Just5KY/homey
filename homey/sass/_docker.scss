@@ -150,6 +150,10 @@
             justify-content: center;
         }
     }
+
+    &__overflow {
+        transform: translateX(-50%);
+    }
     
     // mobile click expansion/contraction
     @media (pointer:coarse) {
@@ -173,6 +177,7 @@
         &:hover {
             max-width: 40rem;
             width: max-content;
+            text-align: right;
             z-index: 2;
             box-shadow: .5rem .5rem 1.5rem rgba($shadowColor, .5);
 

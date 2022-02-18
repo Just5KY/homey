@@ -59,9 +59,9 @@ services:
 cards:
 - enable: true
   name: Torrents
-- enable: true
+- enable: false
   name: Weather
-- enable: true
+- enable: false
   name: System
 - enable: true
   name: Bookmarks

@@ -1,7 +1,7 @@
 <template>
-  <div :class="['docker-cell', 'd' + gridIndex]" ref="cell" tabindex="0">
+  <div :class="['docker-cell', 'd' + gridIndex, this.overflowClass]" ref="cell" tabindex="0">
     <img v-if="!imageError" :src="getIconPath" @error="onImageError">
-    <span v-if="imageError" class="docker-cell__image-placeholder material-icon icon-storage"></span>
+    <span v-else class="docker-cell__image-placeholder material-icon icon-storage"></span>
     <div class="docker-cell__content">
       <h3>{{ serviceName }}</h3>
       <div class="docker-cell__content--buttons">
@@ -45,12 +45,16 @@ export default {
   },
   data () {
     return {
+      overflowClass: '',
       infoString: this.state.charAt(0).toUpperCase() + this.state.slice(1) + ' - ' + this.uptime,
       pauseString: 'Pause ' + this.serviceName,
       stopString: 'Stop ' + this.serviceName,
       rebootString: 'Reboot ' + this.serviceName,
       imageError: false,
     };
+  },
+  mounted() {
+    window.addEventListener('resize', this.getYIndex)
   },
   methods: {
     passEmit(type){
@@ -64,6 +68,13 @@ export default {
     },
     // 8 rows, offset for 1-indexed grid__n-row class
     getYIndex(){
+      let xPos = this.$refs.cell.getBoundingClientRect().x;
+      if( this.$refs.cell.scrollWidth > window.innerWidth - xPos ){
+        this.overflowClass = 'docker-cell__overflow'
+      }
+      else {
+        this.overflowClass = ''
+      }
       return 9 - window.getComputedStyle(this.$refs.cell).getPropertyValue('grid-row-start');
     }
   },

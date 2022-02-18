@@ -6,7 +6,7 @@ class api:
 
     def __init__(self, portainerURL, portainerUser, portainerPassword):
         # self.host = portainerURL + '/api'
-        self.host = 'https://192.168.1.5:9443/api'
+        self.host = portainerURL + '/api'
         self.user = {
             "Username": portainerUser, 
             "Password": portainerPassword

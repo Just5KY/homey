@@ -21,10 +21,10 @@ if config.RUNNING_IN_DOCKER == True:
 else:
     app.config['UPLOAD_FOLDER'] = '../homey/dist/data/icons'
 
-weatherAPI = open_meteo.api(config.WEATHER_LAT, config.WEATHER_LONG)
-portainerAPI = portainer.api(config.PORTAINER_URL, config.PORTAINER_USER, config.PORTAINER_PASSWORD)
+if config.WEATHER_VALID:        weatherAPI = open_meteo.api(config.WEATHER_LAT, config.WEATHER_LONG)
+if config.PORTAINER_ENABLED:    portainerAPI = portainer.api(config.PORTAINER_URL, config.PORTAINER_USER, config.PORTAINER_PASSWORD)
+if config.FLOOD_ENABLED:        floodAPI = flood.api(config.FLOOD_URL, config.FLOOD_USER, config.FLOOD_PASSWORD)
 dockerAPI = docker_api.api(config.DOCKER_SOCKET)
-floodAPI = flood.api(config.FLOOD_URL, config.FLOOD_USER, config.FLOOD_PASSWORD)
 serviceChecker = service_checker.service_checker()
 
 def readConfigFile():
