@@ -46,7 +46,7 @@ services:
   url: http://192.168.1.5:9007
 - icon: nextcloud.png
   name: Nextcloud
-  subtitle: Online file storage
+  subtitle: 
   url: http://redacted
 - icon: nginx-proxy-manager.png
   name: NGINX Proxy Manager

@@ -1,8 +1,8 @@
 <template>
   <div :class="['docker-cell', 'd' + gridIndex, this.overflowClass, this.expansionClass]" 
     ref="cell" tabindex="0" @touchstart="expand" @mouseenter="expand" @mouseleave="contract" @touchend="contract">
-    <img v-if="!imageError" :src="getIconPath" @error="onImageError">
-    <span v-else class="docker-cell__image-placeholder material-icon icon-storage"></span>
+    <img :src="'./data/icons/' + this.serviceName + '.png'" alt=""
+      onerror="this.onerror=null; this.src='data/icons/default.png'">
     <div class="docker-cell__content">
       <h3>{{ serviceName }}</h3>
       <div class="docker-cell__content--buttons">
@@ -39,11 +39,6 @@ export default {
       state: String,
       uptime: String,
   },
-  computed: {
-    getIconPath: function() {
-      return ((this.imageError) ? './data/icons/default.png' : './data/icons/' + this.serviceName + '.png')
-    },
-  },
   data () {
     return {
       overflowClass: '',
@@ -52,7 +47,6 @@ export default {
       pauseString: 'Pause ' + this.serviceName,
       stopString: 'Stop ' + this.serviceName,
       rebootString: 'Reboot ' + this.serviceName,
-      imageError: false,
     };
   },
   mounted() {
@@ -69,9 +63,6 @@ export default {
     },
     passEmit(type){
       this.$emit('controlEvent', this.serviceName, type);
-    },
-    onImageError: function() {
-      this.imageError = true;
     },
     // if expansion would overflow page, shift to the left 
     calcOverflow() {

@@ -46,13 +46,11 @@
             transition: all .2s ease-in-out;
             background-color: $backgroundColor2;
 
-@media (hover: hover) { 
-	@media (hover: hover) { 
-		            &:hover {
-                background-color: $commentColor;
+	        @media (hover: hover) { 
+		        &:hover {
+                    background-color: $commentColor;
+                }
             }
-	}
-}
 
             // open/close gallery, upload new image corner buttons
             &__corner {
@@ -109,13 +107,11 @@
                     margin: auto;
                 }
 
-@media (hover: hover) { 
-	@media (hover: hover) { 
-		                &:hover {
-                    background-color: $commentColor;
+                @media (hover: hover) { 
+                    &:hover {
+                        background-color: $commentColor;
+                    }
                 }
-	}
-}
             }
         }
     }

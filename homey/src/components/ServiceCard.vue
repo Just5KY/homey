@@ -11,7 +11,7 @@
       </transition>
     </div>
     <div class="service-card-container__image-container">
-      <img :src="iconPath" onerror="this.onerror=null; this.src='data/icons/default.png' + new Date().getTime()">
+      <img :src="iconPath" onerror="this.onerror=null; this.src='data/icons/default.png?t=' + new Date().getTime()">
     </div>
   </a>
 </template>

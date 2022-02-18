@@ -2,12 +2,12 @@
   font-family: "Montserrat";
   font-display: swap;
   font-weight: 100 900;
-  src: local(""), url("../fonts/montserrat_variable_min.woff2") format("woff2");
+  src: url("../fonts/montserrat_variable_min.woff2") format("woff2"), url("../fonts/montserrat_variable_min.otf") format("opentype");
 }
 @font-face {
   font-family: "Material Icons";
   font-display: swap;
-  src: local(""), url("../fonts/material_icons_min.woff2") format("woff2");
+  src: url("../fonts/material_icons_min.woff2") format("woff2"), url("../fonts/material_icons_min.otf") format("opentype");
 }
 .material-icon {
   font-family: "Material Icons";
@@ -469,7 +469,7 @@
   transition: all 0.2s ease-in-out;
   background-color: #44475a;
 }
-@media (hover: hover) and (hover: hover) {
+@media (hover: hover) {
   .service-editor__image-container .uploader-button:hover {
     background-color: #6272a4;
   }
@@ -522,7 +522,7 @@
   height: 32px;
   margin: auto;
 }
-@media (hover: hover) and (hover: hover) {
+@media (hover: hover) {
   .service-editor__image-container .icon-gallery__icon:hover {
     background-color: #6272a4;
   }
@@ -927,6 +927,7 @@
   text-align: center;
   font-size: 1.6rem;
   font-weight: 400;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1949,7 +1950,7 @@ h2 {
   justify-self: center;
   transition: all 0.25s ease-out;
 }
-@media (hover: hover) and (hover: hover) {
+@media (hover: hover) {
   .docker-card-btn:hover {
     cursor: pointer;
     transform: scale(1.3);
