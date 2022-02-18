@@ -1700,6 +1700,9 @@ h2 {
   font-weight: 300;
   text-align: left;
 }
+.service-card-container__text-container h3:only-child {
+  margin: auto 0;
+}
 @media (max-width: 1350px) {
   .service-card-container__text-container h3 {
     font-size: 1.8rem;

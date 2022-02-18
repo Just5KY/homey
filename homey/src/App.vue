@@ -117,11 +117,13 @@ export default {
     },
     // retrieve service statuses
     checkServices: function() {
-      this.axios.get('/api/checkServices').then((res) => { 
+      this.axios.get('/api/checkServices').then((res) => {
         this.serviceStatuses = res.data;
         this.servicesLoaded = true;
       }).catch(() => {
+        setTimeout(() => {
         if(this.isOnline) notifications.notifyWarning('Warning: Could not retrieve service uptime information');
+        }, 500);
       });
     }
   },

@@ -89,6 +89,10 @@
             font-weight: 300;
             text-align: left;
 
+            &:only-child {
+               margin: auto 0;
+            }
+
             @media (max-width: $mobile-break-med) {
                 font-size: 1.8rem;
                 word-wrap: break-word

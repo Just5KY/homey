@@ -2,7 +2,7 @@
   <a :href="url" target="_blank" :class="getClass" rel="noopener noreferrer">
     <div class="service-card-container__text-container">
       <h3>{{ title }}</h3>
-      <div class="service-card-container__text-container__subtitle">{{subtitle}}</div>
+      <div v-if="subtitle && subtitle != ''" class="service-card-container__text-container__subtitle">{{subtitle}}</div>
     </div>
     <div class="service-card-container__indicator">
       <transition name="modal-fade">
