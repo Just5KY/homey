@@ -3,14 +3,16 @@
   font-family: 'Montserrat';
   font-display: swap;
   font-weight: 100 900;
-  src: local(''), url('../fonts/montserrat_variable_min.woff2') format('woff2');   
+  src:  url('../fonts/montserrat_variable_min.woff2') format('woff2'),
+        url('../fonts/montserrat_variable_min.otf')   format('opentype');   
 }
 
 // Icon font (material icons subset)
 @font-face {
   font-family: 'Material Icons';
   font-display: swap;
-  src: local(''), url('../fonts/material_icons_min.woff2') format('woff2');   
+  src:  url('../fonts/material_icons_min.woff2')  format('woff2'),
+        url('../fonts/material_icons_min.otf')    format('opentype');   
 }
 
 .material-icon {

@@ -113,7 +113,7 @@ cd homey && npm i
 4. Configure UI options if desired in `homey-api/config/config.yml.example` and rename to `config.yml`. Defaults should work out of the box.
 5. (Optional) Copy icons into `homey/public/data/icons`
 
-    - *Icons are **not** required for each service*
+    - Icons are **not** required for each service
     - *Icons can also be added while homey is running or uploaded via GUI*
 6. (Optional) Download and run `monitorSystem.py` to enable host machine stats. See [System Monitor Module](#system-monitor-module).
 7. Build frontend:
@@ -127,9 +127,23 @@ npm run build
 cd homey-api
 gunicorn -b 0.0.0.0:9101 --threads 4 --worker-class gthread --log-file - app:app
 ```
-9. Serve the `/dist` folder however you like. 
+9. Serve the `/dist` folder however you like. For example:
+```
+nginx -c './nginx.conf'
+```
+Folder structure must remain as follows:
+```
+homey
+│   .env
+├───homey
+│   └───dist
+├───homey-api
+    └───config
+        └───config.yml
+```
+Icons are uploaded to & managed through `/dist/data/icons` after building.
 
-*Note: If you just want to check out the project but don't want to bother with Docker or NGINX, follow steps 1-6 and then run `./run-dev.sh` in the project root. This is not only insecure, it's over 10x heavier than it needs to be with all the development dependencies bundled in! Image uploads will not work because they are uploaded to /dist and the development script serves /public. **Do not run homey as a dashboard this way.***
+*Note: If you just want to check out the project but don't want to bother with Docker or NGINX, follow steps 1-6 and then run `./run-dev.sh` in the project root. This is not only insecure, it's over 10x heavier than it needs to be with all the development dependencies bundled in! **Do not run homey as a dashboard this way.***
 
 ## System Monitor Module
 

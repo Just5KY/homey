@@ -16,11 +16,6 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 app.config.from_object(config)
 app.config['JSON_SORT_KEYS'] = False
 
-if config.RUNNING_IN_DOCKER == True:
-    app.config['UPLOAD_FOLDER'] = './config/icons'  
-else:
-    app.config['UPLOAD_FOLDER'] = '../homey/dist/data/icons'
-
 if config.WEATHER_VALID:        weatherAPI = open_meteo.api(config.WEATHER_LAT, config.WEATHER_LONG)
 if config.PORTAINER_ENABLED:    portainerAPI = portainer.api(config.PORTAINER_URL, config.PORTAINER_USER, config.PORTAINER_PASSWORD)
 if config.FLOOD_ENABLED:        floodAPI = flood.api(config.FLOOD_URL, config.FLOOD_USER, config.FLOOD_PASSWORD)
@@ -139,19 +134,19 @@ def uploadIcon():
         f = request.files['image']
         print(f.filename.rsplit('.', 1), flush=True)
         if f and f.filename != '' and f.filename.rsplit('.', 1)[1] in config.VALID_ICON_EXTS:
-            f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+            f.save(os.path.join(config.UPLOAD_FOLDER, secure_filename(f.filename)))
             return jsonify ({'Success': 'Uploaded ' + f.filename})
     except:
-        print('Error saving to ' + app.config['UPLOAD_FOLDER'] + '. Are permissions correct?')
+        print('Error saving to ' + config.UPLOAD_FOLDER + '. Are permissions correct?')
     return jsonify({'Error': 'Could not upload image. Check logs for details.'})
 
 @app.route('/getIconPath/<filename>', methods=['GET'])
 def getIcon(filename):
-    paths = os.listdir(app.config['UPLOAD_FOLDER'])
+    paths = os.listdir(config.UPLOAD_FOLDER)
     if filename == 'all':   return jsonify(paths)
-    if exists(os.path.join(app.config['UPLOAD_FOLDER'], filename)):
+    if exists(os.path.join(config.UPLOAD_FOLDER, filename)):
         return jsonify(filename)
-    return jsonify({'Error': 'Image not found: ' + os.path.join(app.config['UPLOAD_FOLDER'], filename)})
+    return jsonify({'Error': 'Image not found: ' + os.path.join(config.UPLOAD_FOLDER, filename)})
 
 
 ### NICEHASH (deprecated)
@@ -169,5 +164,6 @@ def nicehashMinerStats():
 
 ### ENTRYPOINT
 if __name__ == '__main__':
+    # debug script serves /public, not /dist
+    config.UPLOAD_FOLDER = '../homey/public/data/icons'
     app.run('0.0.0.0', 9101, debug=True)
-

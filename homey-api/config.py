@@ -26,6 +26,8 @@ def validateWeather(lat, long):
 class Config:
     RUNNING_IN_DOCKER = os.environ.get('HOMEY_API_RUNNING_IN_DOCKER', default='False').lower() == 'true'
 
+    UPLOAD_FOLDER = './config/icons'
+
     # if running on metal, load .env file from project root
     if not RUNNING_IN_DOCKER:
         if not os.path.exists('../.env'):
@@ -33,6 +35,8 @@ class Config:
             print('Please refer to the readme for configuration instructions.\n')
             sys.exit(4)
         load_dotenv('../.env')
+
+        UPLOAD_FOLDER = '../homey/dist/data/icons'
 
     # if running in docker, .env is passed in via docker-compose.yml
 
