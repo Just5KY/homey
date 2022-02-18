@@ -137,9 +137,10 @@ def readFrontendConfig():
 def uploadIcon():
     try:
         f = request.files['image']
-        if f and f.filename != '' and '.' in f.filename and f.filename.rsplit('.')[1].lower() in config.VALID_ICON_EXTS:
-            filename = secure_filename(f.filename)
-            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        print(f.filename.rsplit('.', 1), flush=True)
+        if f and f.filename != '' and f.filename.rsplit('.', 1)[1] in config.VALID_ICON_EXTS:
+            print('asdasdadada', flush=True)
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
             return jsonify ({'Success': 'Uploaded ' + f.filename})
     except:
         print('Error saving to ' + app.config['UPLOAD_FOLDER'] + '. Are permissions correct?')
