@@ -78,6 +78,7 @@ export default {
         // house
         this.initMeshes();
         chimney.scale.set(0, 0, 0);
+        houseGroup.rotateY(-Math.PI / 2)
         camera.lookAt(houseGroup);    
         
         renderer.setPixelRatio( window.devicePixelRatio );

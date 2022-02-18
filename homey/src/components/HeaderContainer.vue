@@ -3,7 +3,7 @@
     <div class="header-container__main">
       <HouseScene v-if="showHouse" />
       <div v-else class="header-container__main--house-padding"></div>
-      <h1>{{ title }}</h1>
+      <h1 :class="(config.bookmarks_in_header) ? 'header-title header-title--tiny' : 'header-title'">{{ title }}</h1>
       <div v-if="config.bookmarks_in_header" class="header-container__main--bookmark-container">
           <a :href="b.url" v-for="b in config.bookmarks" :key="b.name" class="bookmark"
              :title="b.hover">
