@@ -53,34 +53,34 @@ def weatherHourly():
 ### FLOOD
 @app.route('/floodAuth', methods=['GET'])
 def floodAuth():
-    if not floodAPI.validConfig:    return jsonify({'Error': 'Flood API not configured'})
+    if not config.FLOOD_ENABLED:    return jsonify({'Error': 'Flood API not configured'})
     return jsonify(floodAPI.authenticate())
 
 @app.route('/floodStats', methods=['GET'])
 def floodStats():
-    if not floodAPI.validConfig:    return jsonify({'Error': 'Flood API not configured'})
+    if not config.FLOOD_ENABLED:    return jsonify({'Error': 'Flood API not configured'})
     return jsonify(floodAPI.getStats())
 
 @app.route('/floodNotifications', methods=['GET'])
 def floodNotifications():
-    if not floodAPI.validConfig:    return jsonify({'Error': 'Flood API not configured'})
+    if not config.FLOOD_ENABLED:    return jsonify({'Error': 'Flood API not configured'})
     return jsonify(floodAPI.getNotifications())
 
 
 ### PORTAINER
 @app.route('/portainerAuth', methods=['GET'])
 def portainerAuth():
-    if not portainerAPI.validConfig:    return jsonify({'Error': 'Portainer API not configured'})
+    if not config.PORTAINER_ENABLED:    return jsonify({'Error': 'Portainer API not configured'})
     return jsonify(portainerAPI.authenticate())
 
 @app.route('/portainerList', methods=['GET'])
 def portainerList():
-    if not portainerAPI.validConfig:    return jsonify({'Error': 'Portainer API not configured'})
+    if not config.PORTAINER_ENABLED:    return jsonify({'Error': 'Portainer API not configured'})
     return jsonify(portainerAPI.listContainers())
 
 @app.route('/portainerControl', methods=['POST'])
 def portainerControl():
-    if not portainerAPI.validConfig:    return jsonify({'Error': 'Portainer API not configured'})
+    if not config.PORTAINER_ENABLED:    return jsonify({'Error': 'Portainer API not configured'})
     return jsonify(portainerAPI.controlContainer(request.json['name'], request.json['operation']))
 
 ### DOCKER

@@ -24,7 +24,7 @@ def validateWeather(lat, long):
     return True
 
 class Config:
-    RUNNING_IN_DOCKER = os.environ.get('HOMEY_API_RUNNING_IN_DOCKER', 'False').lower() == 'true'
+    RUNNING_IN_DOCKER = os.environ.get('HOMEY_API_RUNNING_IN_DOCKER', default='False').lower() == 'true'
 
     # if running on metal, load .env file from project root
     if not RUNNING_IN_DOCKER:
@@ -41,28 +41,23 @@ class Config:
         print('\nFatal error: Failed to load config.yml')
         print('Please refer to the readme for configuration instructions.\n')
         sys.exit(4)
- 
-    NICEHASH_URL = os.environ.get('HOMEY_API_NICEHASH_URL')
-    NICEHASH_API_KEY = os.environ.get('HOMEY_API_NICEHASH_API_KEY')
-    NICEHASH_SECRET = os.environ.get('HOMEY_API_NICEHASH_SECRET')
-    NICEHASH_ORG_ID = os.environ.get('HOMEY_API_NICEHASH_ORG_ID')
     
-    WEATHER_LAT = os.environ.get('HOMEY_API_WEATHER_LAT')
-    WEATHER_LONG = os.environ.get('HOMEY_API_WEATHER_LONG')
-    WEATHER_VALID = validateWeather(WEATHER_LAT, WEATHER_LONG)
+    WEATHER_LAT = os.environ.get('HOMEY_API_WEATHER_LAT', default='')
+    WEATHER_LONG = os.environ.get('HOMEY_API_WEATHER_LONG', default='')
+    WEATHER_ENABLED = not (WEATHER_LAT == '' and WEATHER_LONG == '')
+    WEATHER_VALID = WEATHER_ENABLED and validateWeather(WEATHER_LAT, WEATHER_LONG)
     
-    DOCKER_USER_ID = os.environ.get('HOMEY_API_DOCKER_USER_ID')
-    DOCKER_GROUP_ID = os.environ.get('HOMEY_API_DOCKER_GROUP_ID')
-    DOCKER_SOCKET = os.environ.get('HOMEY_API_DOCKER_SOCKET')
+    PORTAINER_URL = os.environ.get('HOMEY_API_PORTAINER_URL', default='')
+    PORTAINER_USER = os.environ.get('HOMEY_API_PORTAINER_USER', default='')
+    PORTAINER_PASSWORD = os.environ.get('HOMEY_API_PORTAINER_PASSWORD', default='')
+    PORTAINER_ENABLED = not PORTAINER_URL == ''
     
-    PORTAINER_URL = os.environ.get('HOMEY_API_PORTAINER_URL')
-    PORTAINER_USER = os.environ.get('HOMEY_API_PORTAINER_USER')
-    PORTAINER_PASSWORD = os.environ.get('HOMEY_API_PORTAINER_PASSWORD')
+    FLOOD_URL = os.environ.get('HOMEY_API_FLOOD_URL', default='')
+    FLOOD_USER = os.environ.get('HOMEY_API_FLOOD_USER', default='')
+    FLOOD_PASSWORD = os.environ.get('HOMEY_API_FLOOD_PASSWORD', default='')
+    FLOOD_ENABLED = not FLOOD_URL == ''
     
-    FLOOD_URL = os.environ.get('HOMEY_API_FLOOD_URL')
-    FLOOD_USER = os.environ.get('HOMEY_API_FLOOD_USER')
-    FLOOD_PASSWORD = os.environ.get('HOMEY_API_FLOOD_PASSWORD')
-    
+    DOCKER_SOCKET = os.environ.get('HOMEY_API_DOCKER_SOCKET', default='/var/run/docker.sock')
     SYSTEM_MONITOR_FILE = './config/local_machine_data.json'
     VALID_ICON_EXTS = {'png', 'jpeg', 'jpg'}
 
