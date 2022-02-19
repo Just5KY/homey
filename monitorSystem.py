@@ -100,8 +100,9 @@ while(True):
     }
 
     with open(dataFile, "w") as f:
-        f.write(json.dumps(data))
+        f.write(json.dumps(data, indent=4))
 
-    print(json.dumps(data))
-        
+    print(json.dumps(data, indent=4))
+    print(str(datetime.now()) + ' :: Successfully wrote to ' + dataFile)
+
     sleep( args.interval - args.cpu_window )   # compensate for CPU calc block

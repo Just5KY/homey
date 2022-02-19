@@ -122,7 +122,7 @@ export default {
         this.servicesLoaded = true;
       }).catch(() => {
         setTimeout(() => {
-        if(this.isOnline) notifications.notifyWarning('Warning: Could not retrieve service uptime information');
+          if(this.isOnline) notifications.notifyWarning('Warning: Could not retrieve service uptime information');
         }, 500);
       });
     }

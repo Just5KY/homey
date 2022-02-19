@@ -5,6 +5,9 @@
 </template>
 
 <script>
+
+// no human being should ever be subjected to reading this file. turn back now
+
 import { Vector2, Group, Mesh, BoxGeometry, MeshPhongMaterial, Box3, CanvasTexture, 
   MeshBasicMaterial, PlaneGeometry, TextureLoader, Scene, PerspectiveCamera, 
   WebGLRenderer, Raycaster, DirectionalLight, AmbientLight, Plane, Vector3, FrontSide 
@@ -59,8 +62,6 @@ export default {
     // scene setup
     created: function() {
         this.serviceData = this.services;
-        
-        
 
         // for bounding boxes
         raycaster.layers.set(1);
@@ -392,6 +393,7 @@ export default {
           btnInfo.name = 'info'
           uiGrp.add(btnInfo);
 
+          // show/hide buttons based on container status
           switch (serviceStatus) {
             case 'paused':
               btnPause.scale.set(0, 0, 0); 
@@ -574,16 +576,6 @@ export default {
           tweenRemoveAll();
           sceneStarted = false;
         },
-        // free material & attached textures
-        disposeMat(material) {
-          material.dispose();
-
-          // dispose of textures
-          for (const key of Object.keys(material)) {
-            const value = material[key];
-            if (value && typeof value === 'object' && 'minFilter' in value)   value.dispose();
-          }
-        }
     },
 }
 // load external assets that will not be reloaded on view swap
