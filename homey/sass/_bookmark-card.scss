@@ -1,14 +1,14 @@
 .bookmark-card-container {
 
-    @media(max-width: $mobile-break-small){
-        width: auto;
-    }
-
     width: calc(50% - 1rem);
     flex-grow: 1;
     min-height: 34rem;
     transition: all .35s ease-out;
     display: flex;
+
+    @media (max-width: $mobile-break-small) {
+        width: auto;
+    }
 
     &--centered {
         grid-column: 2;
@@ -19,13 +19,13 @@
         height: auto;
 
         @media(max-width: $mobile-break-med) {
-            margin: 2rem;
-            margin-top: 0;
+            margin: 1rem;
+            margin-top: .45rem;
         }
 
         @media(max-width: $mobile-break-small) {
             margin: .75rem;
-            margin-top: 0;
+            margin-top: -.35rem;
         }
     }
 

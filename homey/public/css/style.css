@@ -1251,14 +1251,14 @@ h2 {
 }
 @media (max-width: 1350px) {
   .bookmark-card-container--centered {
-    margin: 2rem;
-    margin-top: 0;
+    margin: 1rem;
+    margin-top: 0.45rem;
   }
 }
 @media (max-width: 600px) {
   .bookmark-card-container--centered {
     margin: 0.75rem;
-    margin-top: 0;
+    margin-top: -0.35rem;
   }
 }
 .bookmark-card-container__side {
@@ -1460,29 +1460,6 @@ h2 {
 .system-card-container__main {
   height: calc(100% - 7.1rem);
 }
-.system-card-container__notifications ul {
-  list-style: none;
-}
-.system-card-container__notifications ul li {
-  text-align: center;
-  font-size: 1.3rem;
-  display: flex;
-  align-items: center;
-  outline: 1px solid #6272a4;
-  border-radius: 0.3rem;
-  margin: 1rem;
-}
-.system-card-container__notifications ul li p {
-  overflow-wrap: break-word;
-  flex-grow: 1;
-  width: 80%;
-  padding: 0.5rem;
-  cursor: default;
-}
-.system-card-container__notifications ul li span {
-  color: #50fa7b;
-  margin-left: 0.5rem;
-}
 
 .system-card-front-chart-container {
   display: flex;
@@ -1569,18 +1546,20 @@ h2 {
   padding: 1rem;
   padding-bottom: 0;
   width: 100%;
+  justify-content: space-between;
 }
 .system-card-back-chart-container__panel--details h3 {
   font-size: 1.7rem;
-  margin-right: auto;
   color: #f8f8f2;
   font-family: "Montserrat";
   font-weight: 400;
 }
 .system-card-back-chart-container__panel--details p {
   font-size: 1.4rem;
-  font-style: italic;
   font-family: "Montserrat";
+}
+.system-card-back-chart-container__panel--details p:not(:nth-child(2)) {
+  font-style: italic;
 }
 
 .system-card-container__details--back {

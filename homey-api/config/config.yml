@@ -46,7 +46,7 @@ services:
   url: http://192.168.1.5:9007
 - icon: nextcloud.png
   name: Nextcloud
-  subtitle: 
+  subtitle: null
   url: http://redacted
 - icon: nginx-proxy-manager.png
   name: NGINX Proxy Manager
@@ -57,11 +57,11 @@ services:
   subtitle: Netgear admin panel
   url: http://192.168.1.1
 cards:
-- enable: true
+- enable: false
   name: Torrents
 - enable: false
   name: Weather
-- enable: false
+- enable: true
   name: System
 - enable: true
   name: Bookmarks

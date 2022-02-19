@@ -150,7 +150,7 @@ Icons are uploaded to & managed through `/dist/data/icons` after building.
 Displays CPU/RAM/disk usage and uptime. By design, Docker containers do not have access to detailed host information. This can be circumvented by **running a script on the host**: `monitorSystem.py`
 
 - Download `monitorSystem.py` from the [Releases](https://github.com/vlfldr/homey/releases) page or above
-- Place anywhere (does not have to be in config directory)
+- Place anywhere (does not have to be in config directory - can be)
 - Install dependencies: `pip install psutil`
 - Run in background: `pythonw monitorSystem.py /path/to/homey-config-dir /`
 
@@ -163,18 +163,22 @@ Change file write frequency: `--interval 30`
 
 Reference:
 ```
-monitorSystem.py [-h] [--interval N] [--cpu_window N] path disks [disks ...]
+usage: monitorSystem.py [-h] [--interval N] [--cpu_window N] path disks [disks ...]
 
-Writes system usage information to JSON file on a timer.
+Writes system usage information to JSON file on a timer. Use pythonw to run in background.
 
 positional arguments:
   path            Output directory i.e. /home/bob/homey-data
-  disks           Space-separated list of mount points to monitor (i.e. / /mnt/backups /mnt/media/work-ssd)
+  disks           Space-separated list of mount points to monitor. Examples:
+                    Linux: / /mnt/backups /mnt/media/work-ssd 
+                    Windows: C:\ E:\ Z:\
 
 optional arguments:
   -h, --help      show this help message and exit
   --interval N    Query system & update file every N seconds (default: 30)
   --cpu_window N  Average CPU usage over N seconds (default: 6)
+
+Quickstart: pythonw monitorSystem.py /path/to/homey-config-folder /
 ```
 
 ## Docker Backends

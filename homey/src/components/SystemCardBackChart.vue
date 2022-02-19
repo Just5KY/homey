@@ -6,7 +6,9 @@
         class="system-card-back-chart-container__panel">
         <div class="system-card-back-chart-container__panel--details">
             <h3>{{ d.label }}</h3>
-            <p>{{ d.free }}GB free</p>
+            <p v-if="d.total > 1024"> {{ Math.round(d.total / 1024) % 1024 }}TB</p>
+            <p v-else> {{ d.total }}GB </p>
+            <p> {{ d.free }}GB free</p>
         </div>
         <div class="back-chart-container">
             <BarChart :chartData="diskChartData(d)" :options="config"/>

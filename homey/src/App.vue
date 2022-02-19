@@ -84,6 +84,7 @@ export default {
         this.checkConnection();
         notifications.hide = !this.config.enable_notifications;
         notifications.soundOn = this.config.audio_notifications;
+        document.getElementById('favicon').href = './favicon.gif'
       } );
     },
     // write settings to config.yml

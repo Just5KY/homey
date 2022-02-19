@@ -107,7 +107,7 @@ export default {
             controls.update();
 
             // spin house
-            houseGroup.rotateY(.005)
+            houseGroup.rotateY(-.005)
 
             renderer.setSize(width, height);
             requestAnimationFrame(this.animate)
