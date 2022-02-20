@@ -107,14 +107,8 @@ python3 -m pip install -r homey-api/requirements.txt
 cd homey && npm i
 ```
 3. Configure external integrations in `.env.example`. Leave fields blank to disable. Rename to `.env`.
-
-    - **Important!** Set `HOMEY_API_RUNNING_IN_DOCKER=False`
-    - *Refer to [Docker Backends](#docker-backends) section to configure Docker/Portainer API access*
-4. Configure UI options if desired in `homey-api/config/config.yml.example` and rename to `config.yml`. Defaults should work out of the box.
+4. Configure UI options if desired in `homey-api/config/config.yml.example` and rename to `config.yml`.
 5. (Optional) Copy icons into `homey/public/data/icons`
-
-    - Icons are **not** required for each service
-    - *Icons can also be added while homey is running or uploaded via GUI*
 6. (Optional) Download and run `monitorSystem.py` to enable host machine stats. See [System Monitor Module](#system-monitor-module).
 7. Build frontend:
 ```
@@ -131,6 +125,8 @@ gunicorn -b 0.0.0.0:9101 --threads 4 --worker-class gthread --log-file - app:app
 ```
 nginx -c './nginx.conf'
 ```
+- *Sample NGINX configuration can be found in the [client folder](homey/nginx.conf)*
+
 Folder structure must remain as follows:
 ```
 homey
@@ -253,7 +249,6 @@ HOMEY_API_PORTAINER_PASSWORD | String | Portainer password
 HOMEY_API_FLOOD_URL | String | Flood URL including protocol & port
 HOMEY_API_FLOOD_USER | String | Flood username
 HOMEY_API_FLOOD_PASSWORD | String | Flood password
-HOMEY_API_RUNNING_IN_DOCKER | Boolean | Set to false if not running in Docker
 
 ## Planned Features
 - ruTorrent support

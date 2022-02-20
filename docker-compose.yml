@@ -1,6 +1,6 @@
 version: "3.1"
 
-# Please refer to readme before running docker-compose up
+# Please refer to README.md before running docker-compose up
 
 services:
   homey-api:
