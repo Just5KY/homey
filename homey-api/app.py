@@ -28,9 +28,11 @@ def readConfigFile():
         cfg = jsonify(yaml.safe_load(f))
         serviceChecker.assignAll(cfg.json['services'])
 
+        # strip ?=new from image names in config file (appended on upload to cache bust)
         retCfg = copy.deepcopy(cfg)
         cfg.set_data(cfg.get_data(as_text=True).replace('?=new', ''))
 
+    # write stripped image names
     with open('./config/config.yml', 'w+') as f:
         yaml.dump(cfg.json, f, sort_keys=False)
 
