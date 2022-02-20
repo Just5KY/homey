@@ -4,6 +4,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
 import yaml
+import copy
 import multiprocessing
 
 from config import config
@@ -26,7 +27,14 @@ def readConfigFile():
     with open('./config/config.yml') as f:
         cfg = jsonify(yaml.safe_load(f))
         serviceChecker.assignAll(cfg.json['services'])
-        return cfg
+
+        retCfg = copy.deepcopy(cfg)
+        cfg.set_data(cfg.get_data(as_text=True).replace('?=new', ''))
+
+    with open('./config/config.yml', 'w+') as f:
+        yaml.dump(cfg.json, f, sort_keys=False)
+
+    return retCfg
 
 ### WEATHER
 @app.route('/weatherWeekly', methods=['GET'])
@@ -166,4 +174,8 @@ def nicehashMinerStats():
 if __name__ == '__main__':
     # debug script serves /public, not /dist
     config.UPLOAD_FOLDER = '../homey/public/data/icons'
+
+    if config.RUNNING_IN_DOCKER:
+        print('Warning: RUNNING_IN_DOCKER is set to True, but the debug server is running. Should it be set to False?')
+        
     app.run('0.0.0.0', 9101, debug=True)

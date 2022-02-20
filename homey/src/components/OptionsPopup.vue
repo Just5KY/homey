@@ -324,7 +324,7 @@ export default {
           else {
             if(this.newImage){
               this.uploadIcon(this.$refs.uploader.files[0]);
-              this.newService.icon = this.$refs.uploader.files[0].name;
+              this.newService.icon = this.$refs.uploader.files[0].name + '?=new';
             }
             this.localConfig.services.push(this.newService);
             this.$emit('saveConfig');
@@ -341,7 +341,7 @@ export default {
             // upload new image if selected
             if(this.newImage){
               this.uploadIcon(this.$refs.uploader.files[0]);
-              toUpdate.icon = this.$refs.uploader.files[0].name;
+              toUpdate.icon = this.$refs.uploader.files[0].name + '?=new';
             }
             for(let i = 0; i < this.localConfig.services.length; i++) {
               if (this.localConfig.services[i].name == this.selectedService)  this.localConfig.services[i] = this.getSelectedService()
