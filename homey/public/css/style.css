@@ -926,7 +926,7 @@
   text-align: center;
   font-size: 1.6rem;
   font-weight: 400;
-  z-index: 2;
+  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1248,6 +1248,7 @@ h2 {
   margin-left: 0;
   width: auto;
   height: auto;
+  max-height: 100%;
 }
 @media (max-width: 1350px) {
   .bookmark-card-container--centered {
