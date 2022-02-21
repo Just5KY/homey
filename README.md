@@ -121,9 +121,13 @@ npm run build
 cd homey-api
 gunicorn -b 0.0.0.0:9101 --threads 4 --worker-class gthread --log-file - app:app
 ```
+*Note: If pip didn't automatically add gunicorn to $PATH, try:*
+```
+export PATH="$PATH:/user/<you>/.local/bin"
+```
 9. Serve the `/dist` folder however you like. For example:
 ```
-nginx -c './nginx.conf'
+sudo nginx -c '/path/to/downloaded/nginx.conf'
 ```
 - *Sample NGINX configuration can be found in the [client folder](homey/nginx.conf)*
 

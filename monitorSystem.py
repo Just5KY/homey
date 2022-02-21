@@ -83,7 +83,6 @@ def formatDiskLine(label, total, used, free):
             label = label[:-1]
         label = label.rsplit("/")[-1]
         
-    print(label.rsplit("/"))
     return {
         "label":  label,
         "total": total // GB,

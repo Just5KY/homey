@@ -65,4 +65,7 @@ class Config:
     SYSTEM_MONITOR_FILE = './config/local_machine_data.json'
     VALID_ICON_EXTS = {'png', 'jpeg', 'jpg'}
 
+    # fix service checker for local URLs
+    os.environ['NO_PROXY'] = '127.0.0.1,localhost,0.0.0.0'
+
 config = Config

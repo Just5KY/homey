@@ -67,11 +67,10 @@
     &--bookmark-container {
         display: flex;
         flex-grow: 1;
-        margin-left: 5%;
-        margin-right: 5%;
+        padding: .5rem;
         flex-wrap: wrap;
         z-index: 3;
-        max-height: 100%;
+        max-height: 15rem;
 
         // hide scrollbar
         overflow-y: scroll;
@@ -109,11 +108,11 @@
                 transition: all ease-in-out 1s;
             }
 
-	@media (hover: hover) { 
+	        @media (hover: hover) { 
 	            &:hover > .bookmark__arrow {
-                color: $cyan;
+                        color: $cyan;
+                    }
             }
-	}
 
             &::before {
                 content: "";
@@ -137,16 +136,16 @@
                 border-radius: .3rem;
             }
 
-	@media (hover: hover) { 
+	        @media (hover: hover) { 
 	            &:hover::before {
-                clip-path: polygon(
-                    50% 80%,
-                    130% -100%,
-                    100% 130%,
-                    80% 100%
-                );
+                    clip-path: polygon(
+                        50% 80%,
+                        130% -100%,
+                        100% 130%,
+                        80% 100%
+                    );
+                }
             }
-	}
                 
             h3 {
                 font-size: 1.5rem;

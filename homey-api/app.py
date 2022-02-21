@@ -69,8 +69,85 @@ def floodStats():
 
 @app.route('/floodNotifications', methods=['GET'])
 def floodNotifications():
-    if not config.FLOOD_ENABLED:    return jsonify({'Error': 'Flood API not configured'})
-    return jsonify(floodAPI.getNotifications())
+    # if not config.FLOOD_ENABLED:    return jsonify({'Error': 'Flood API not configured'})
+    # return jsonify(floodAPI.getNotifications())
+
+    # FAKE DEMO DATA
+
+    return jsonify([
+        {
+            "msg": "Animal Collective - Time Skiffs (2022) [FLAC]",
+            "time": "02/20 12:29 AM"
+        },
+        {
+            "msg": "Ecco2K - Amygdala (2022) [FLAC]",
+            "time": "02/18 1:49 AM"
+        },
+        {
+            "msg": "Steve Roach - Structures From Silence (1984) [FLAC]",
+            "time": "02/11 3:42 AM"
+        },
+        {
+            "msg": "debian-11.2.0-amd64-DVD-1.iso",
+            "time": "02/09 8:51 PM"
+        },
+        {
+            "msg": "The.Longest.Yard.1974.720p.Blueray.x264-x0r",
+            "time": "02/17 2:01 PM"
+        },
+        {
+            "msg": "The Animatrix (2003) 1080p BrRip x264 - YIFY",
+            "time": "02/17 1:59 PM"
+        },
+        {
+            "msg": "Secret Circle - Tube Socks (2017) [Single]",
+            "time": "02/19 4:19 AM"
+        },
+        {
+            "msg": "How.To.With.John.Wilson.S01.1080p.AMZN.WEBRip.DDP5.1.x264-NTb",
+            "time": "02/17 1:18 PM"
+        },
+        {
+            "msg": "Paprika 2006 JAPANESE 1080p BluRay H264 AAC-VXT",
+            "time": "02/14 1:59 PM"
+        },
+        {
+            "msg": "Higher Brothers - Black Cab [WEB FLAC]",
+            "time": "02/14 1:54 PM"
+        },
+        {
+            "msg": "Datach'i - System (Bonus Tracks) (2016)",
+            "time": "02/14 1:53 PM"
+        },
+        {
+            "msg": "Ski Mask the Slump God - Beware the Book of Eli (2018) [WEB - FLAC]",
+            "time": "02/11 8:16 PM"
+        },
+        {
+            "msg": "Code Monkeys - Seasons 1-2 + Extras (Complete)",
+            "time": "02/11 3:52 AM"
+        },
+        {
+            "msg": "Firefly.2002.S01.1080p.x265.HEVC",
+            "time": "02/09 8:40 PM"
+        },
+        {
+            "msg": "Seinfeld (1989) S01-S09 (Mixed)",
+            "time": "02/09 8:39 PM"
+        },
+        {
+            "msg": "bladee - The Fool (2021) [WEB-FLAC]",
+            "time": "02/09 8:28 PM"
+        },
+        {
+            "msg": "Subtronics - FRACTALS (2022) [WEB-FLAC]",
+            "time": "02/09 8:27 PM"
+        },
+        {
+            "msg": "Adobe.Master.Collection.CC.2022.x64.Multilingual",
+            "time": "02/18 1:38 AM"
+        }
+    ])
 
 
 ### PORTAINER

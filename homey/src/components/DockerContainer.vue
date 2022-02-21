@@ -69,12 +69,13 @@ export default {
     },
     loadContainerList: function(shouldNotify=false) {
         this.axios.get('/api/' + this.backend + 'List').then((res) => {
+          if(res.data.Error)  throw 'BackendError'
           this.dockerServices = res.data;
       }).then(() => { 
         this.setGridSize();
         if (shouldNotify)   notifications.notifySuccess('Successfully refreshed container list');
       }).catch(e => {
-        notifications.notifyWarning('Warning: Could not retrieve Docker container information');
+        notifications.notifyWarning('Warning: Could not retrieve ' + this.backend + ' container information');
       });
     },
     authenticate: function() {

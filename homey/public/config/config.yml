@@ -6,7 +6,7 @@ enable_service_status: true
 enable_notifications: true
 audio_notifications: false
 bookmarks_in_header: false
-docker_api_backend: docker
+docker_api_backend: portainer
 services:
 - icon: portainer.png
   name: Portainer
@@ -47,7 +47,7 @@ services:
 - icon: nextcloud.png
   name: Nextcloud
   subtitle: Online file storage
-  url: http://redacted
+  url: https://docs.mntn.top
 - icon: nginx-proxy-manager.png
   name: NGINX Proxy Manager
   subtitle: Reverse proxies!
@@ -56,10 +56,6 @@ services:
   name: Router
   subtitle: Netgear admin panel
   url: http://192.168.1.1
-- name: homey
-  icon: homey.png
-  subtitle: naga
-  url: pls
 cards:
 - enable: true
   name: Torrents
