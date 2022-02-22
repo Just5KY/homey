@@ -18,6 +18,7 @@ Homey is a simple home server dashboard packed with functionality. The layout is
 - [Icons](#icons)
 - [Configuration Options](#configuration-options)
 - [Planned Features](#planned-features)
+- [Other Things Called "Homey"](#other-things-called-homey)
 - [Built With](#built-with)
 <!-- /TOC -->
 
@@ -269,6 +270,9 @@ HOMEY_API_FLOOD_PASSWORD | String | Flood password
 - In-page notifications for flood downloads
 - Color configuration
 - Additional cards
+
+## Other Things Called "Homey"
+More than a few people have already coined the named homey, including a [home automation](https://homey.app) app, [apartment rental](https://www.homey.com.ro/) service, and [children's budget management](https://www.homeyapp.net/) app. The project could certainly use a different title - open to suggestions! 
 
 ## Built With
 
