@@ -21,8 +21,6 @@ Homey is a simple home server dashboard packed with functionality. The layout is
 - [Built With](#built-with)
 <!-- /TOC -->
 
-**In development - please report all bugs!**
-
 ## Features
 
 * Local Docker container management
@@ -37,29 +35,26 @@ Homey is a simple home server dashboard packed with functionality. The layout is
 
 ## Installation & Configuration
 Supported platforms:
-- Docker
-- Docker for Windows
-- GNU/Linux
+- [Docker](#docker)
+- [Docker Desktop for Windows](#docker-for-windows)
+- [GNU/Linux](#gnulinux)
 
-Docker for Mac should work with minimal modifications but has not been tested. Running without Docker on Windows is not currently supported. 
+Untested platforms:
+- Windows (no Docker)
+- Docker Desktop for Mac
+
+*In theory, homey can run with minimal modification anywhere node & python are installed.*
+
+**In development - bug reports welcome from all platforms!**
 
 ### Docker
-1. Create a directory for config files: `mkdir ~/homey-data`
-2. Download `docker-compose.yml`, `.env.example`, and `config.yml.example` from the [Releases](https://github.com/vlfldr/homey/releases) page or above. Place in newly created directory.
-3. Configure external integrations in `.env.example`. Rename to `.env`.
-
-    - Leave values blank to disable
-    - *Refer to [Docker Backends](#docker-backends) section to configure Docker/Portainer API access*
-4. Configure UI options if desired in `config.yml.example` and rename to `config.yml`.
-
-    - Defaults should work out of the box
-    - *These options can be changed while homey is running*
-5. Map both volumes to the config folder and set homey's port (default 9080) in `docker-compose.yml`.
-6. (Optional) Create a subdirectory for icons and populate it: `mkdir ~/homey-data/icons`
-
-    - *Icons are **not** required for each service*
-    - *Icons can also be added while homey is running or uploaded via GUI*
-7. (Optional) Download and run `monitorSystem.py` to enable host machine stats. See [System Monitor Module](#system-monitor-module).
+1. Download [homey-data.zip](https://github.com/vlfldr/homey/releases) from the [Releases](https://github.com/vlfldr/homey/releases) page.
+2. Unzip to a permanent location. This is where homey's config files and icons will be stored.
+3. Configure integrations in `dotenv.example`. Rename to `.env`.
+4. Configure UI options in `config.yml.example`. Rename to `config.yml`.
+5. *(Optional) Edit homey's port (defualt 9080) in `docker-compose.yml`*
+6. *(Optional) Add service icons to the `icons` subdirectory.*
+7. *(Optional) Run [monitorSystem.py](#system-monitor-module) to enable host machine stats.*
 8. Launch with: `docker-compose up -d`
 
 Folder structure visualization:
@@ -74,9 +69,22 @@ homey-data
     │   ...
     └───────────────
 ```
+Notes:
+
+  - See [Configuration Options](#configuration-options) for a description of each option
+  - If homey fails to launch, ensure `.env` (**not dotenv**) is located in the same directory as `docker-compose.yml`
+  - Leave `.env` values blank to disable
+  - Refer to [Docker Backends](#docker-backends) to configure Docker/Portainer API access
+  - `config.yml` defaults work out of the box
+    - *These options can be changed while homey is running*
+  - Icons can also be added while homey is running or uploaded via GUI
+    - *Icons are **not** required for each service*
+  - Refer to [System Monitor Module](#system-monitor-module) for more information on `monitorSystem.py`
+
+
 ### Docker for Windows
 The Docker socket and its permissions differ slightly on Windows.
-1. In `docker-compose.yml`, add an extra slash to the Docker socket path:
+1. In `docker-compose.yml`, add an extra slash to the host (first) Docker socket path:
 ```
   - //var/run/docker.sock:${HOMEY_API_DOCKER_SOCKET}
 ```
@@ -84,11 +92,11 @@ The Docker socket and its permissions differ slightly on Windows.
 ```
   user: root
 ```
-3. (Optional) Remove the unused USER_ID & GROUP_ID lines from your .env file
-4. Follow [Docker](#docker) setup instructions.
+3. Save & exit
+4. (Optional) Remove the unused USER_ID & GROUP_ID lines from your .env file
+5. Follow [Docker](#docker) setup instructions.
 
-*Note: The tilde character (~) maps to C:\Users\\\<you> on Windows.*
-
+*Volume Mapping Note: The tilde character (~) maps to C:\Users\\\<you> on Windows.*
 
 ### GNU/Linux
 Not recommended - the Docker images were created to orchestrate serving the frontend/backend, proxy rewrite rules, sharing resources, keeping track of gunicorn, etc. so you don't have to do so manually.
@@ -125,7 +133,7 @@ gunicorn -b 0.0.0.0:9101 --threads 4 --worker-class gthread --log-file - app:app
 ```
 export PATH="$PATH:/user/<you>/.local/bin"
 ```
-9. Serve the `/dist` folder however you like. For example:
+9. Serve the `/dist` folder however you like. Quick 'n' dirty:
 ```
 sudo nginx -c '/path/to/downloaded/nginx.conf'
 ```
@@ -139,7 +147,8 @@ homey
 │   └───dist
 ├───homey-api
     └───config
-        └───config.yml
+        │   config.yml
+        └────────────
 ```
 Icons are uploaded to & managed through `/dist/data/icons` after building.
 

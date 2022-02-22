@@ -6,3 +6,5 @@ homey/dist
 homey/node_modules
 homey/package-lock.json
 homey-api/*/config.yml
+*.zip
+*dotenv

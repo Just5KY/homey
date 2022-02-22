@@ -14,16 +14,15 @@ services:
       - "9101:9101"
     volumes:
       - /var/run/docker.sock:${HOMEY_API_DOCKER_SOCKET}
-      - ~/homey-data:/code/config
+      - ./:/code/config
 
   homey:
     container_name: homey
     hostname: homey
     image: vlfldr/homey:latest
-    build: ./homey/
     ports:
       - "9080:80"
     volumes:
-      - ~/homey-data:/app/data
+      - ./:/app/dist/data
     depends_on:
       - "homey-api"

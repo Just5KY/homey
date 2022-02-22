@@ -1,3 +1,4 @@
+# Rename to .env
 # Refer to README.md for configuration instructions
 
 TZ="America/Chicago"

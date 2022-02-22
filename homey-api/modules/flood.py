@@ -20,7 +20,7 @@ class api:
 
         try:
             self.session = ses
-            response = ses.request('POST', url=self.host + '/auth/authenticate', data=userData)
+            response = ses.request('POST', url=self.host + '/auth/authenticate', data=userData, timeout=5)
             return response.json()['success']
         except:
             self.session = None
