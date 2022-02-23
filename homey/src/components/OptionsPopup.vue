@@ -327,6 +327,14 @@ export default {
               this.newService.icon = this.$refs.uploader.files[0].name + '?=new';
             }
             this.localConfig.services.push(this.newService);
+
+            // update service checker
+            this.axios.post('/api/addService', this.newService).then((res) => {
+              // successful service checker update
+            }).catch(() => {
+              console.warn('Warning: Failed to update service checker for new ' + toUpdate.name + ' URL')
+            })
+
             this.$emit('saveConfig');
           }
         }
@@ -346,6 +354,14 @@ export default {
             for(let i = 0; i < this.localConfig.services.length; i++) {
               if (this.localConfig.services[i].name == this.selectedService)  this.localConfig.services[i] = this.getSelectedService()
             }
+
+            // update service checker
+            this.axios.post('/api/updateService', toUpdate).then((res) => {
+              console.log(res.data)
+              // successful service checker update
+            }).catch(() => {
+              console.warn('Warning: Failed to update service checker for new ' + toUpdate.name + ' URL')
+            })
             this.$emit('saveConfig');
           }
         }

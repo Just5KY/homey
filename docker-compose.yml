@@ -7,7 +7,6 @@ services:
     container_name: homey-api
     hostname: homey-api
     image: vlfldr/homey-api:latest
-    build: ./homey-api/
     user: "${HOMEY_API_DOCKER_USER_ID}:${HOMEY_API_DOCKER_GROUP_ID}"
     env_file: .env
     ports: 
@@ -23,6 +22,6 @@ services:
     ports:
       - "9080:80"
     volumes:
-      - ./:/app/dist/data
+      - ./:/app/public/data
     depends_on:
       - "homey-api"

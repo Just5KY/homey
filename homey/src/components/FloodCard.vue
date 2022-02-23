@@ -58,9 +58,8 @@ export default {
           this.notifications = res.data;
       }).then(() => {
       this.axios.get('/api/floodStats').then((res) => {
-        if(!res.data.length > 1) {
+        if(res.data.minuteData) {
           this.floodStats = res.data
-          console.log(res.data)
           this.loaded = true;
         }
         else {

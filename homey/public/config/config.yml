@@ -47,7 +47,7 @@ services:
 - icon: nextcloud.png
   name: Nextcloud
   subtitle: Online file storage
-  url: http://redacted
+  url: https://docds.mntn.top
 - icon: nginx-proxy-manager.png
   name: NGINX Proxy Manager
   subtitle: Reverse proxies!

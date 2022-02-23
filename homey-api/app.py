@@ -5,10 +5,10 @@ from werkzeug.utils import secure_filename
 import os
 import yaml
 import copy
-import multiprocessing
+import threading
 
 from config import config
-from modules import open_meteo, docker_api, portainer, flood, service_checker
+from modules import service_checker, open_meteo, docker_api, portainer, flood
 
 ### INITIALIZATION
 app = Flask(__name__)
@@ -190,11 +190,35 @@ def systemInfo():
 def checkServices():
     if serviceChecker.services == []:
         readConfigFile()
-    return jsonify(serviceChecker.checkAll())
+
+    serviceChecker.checkAll()
+        
+    return jsonify(serviceChecker.getStatuses())
+
+@app.route('/updateService', methods=['POST'])
+def updateService():
+    if serviceChecker.services == []:
+        readConfigFile()
+    if serviceChecker.updateServiceURL(request.json):
+        return {'success': 'updated service'}
+    return {'error': 'failed to update service'}
+
+@app.route('/addService', methods=['POST'])
+def addService():
+    serviceChecker.addService(request.json)
+    return {'success': 'added new service'}
+
+@app.route('/deleteService', methods=['POST'])
+def deleteService():
+    if serviceChecker.deleteService(request.json):
+        return {'success': 'deleted service'}
+    return {'error': 'failed to delete service'}
 
 @app.route('/ping', methods=['GET'])
 def ping():
     return {'status': 'up'}
+
+
 
 ### SETTINGS
 @app.route('/writeFrontendConfig', methods=['POST'])
