@@ -5,7 +5,7 @@
 
 Homey is a simple home server dashboard packed with functionality. The layout is loosely inspired by [Homer](https://github.com/bastienwirtz/homer).
 
-[Demo Video](https://odysee.com/homey-demo)
+**[Demo Video](https://odysee.com/homey-demo)**
 
 <!-- TOC -->
 - [Features](#features)
@@ -51,7 +51,7 @@ Untested platforms:
 **In development - bug reports welcome from all platforms!**
 
 ### Docker
-1. Download [homey-data.zip](https://github.com/vlfldr/homey/releases) from the [Releases](https://github.com/vlfldr/homey/releases) page.
+1. Download `homey-data.zip` from the [Releases](https://github.com/vlfldr/homey/releases) page.
 2. Unzip to a permanent location. This is where homey's config files and icons will be stored.
 3. Configure integrations in `dotenv.example`. Rename to `.env`.
 4. Configure UI options in `config.yml.example`. Rename to `config.yml`.
@@ -275,7 +275,9 @@ HOMEY_API_FLOOD_PASSWORD | String | Flood password
 - Additional cards
 
 ## Other Things Called "Homey"
-More than a few people have already coined the named homey, including a [home automation](https://homey.app) app, [apartment rental](https://www.homey.com.ro/) service, and [children's budget management](https://www.homeyapp.net/) app. The project could certainly use a different title - open to suggestions! 
+A few other (very cool) projects have already coined the name "homey", including a [home automation](https://homey.app) solution, an [apartment rental](https://www.homey.com.ro/) service, and a [children's budget management](https://www.homeyapp.net/) app. 
+
+This project is in need of different title - open to suggestions!
 
 ## Built With
 
