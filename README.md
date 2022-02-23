@@ -5,6 +5,8 @@
 
 Homey is a simple home server dashboard packed with functionality. The layout is loosely inspired by [Homer](https://github.com/bastienwirtz/homer).
 
+[Demo Video](https://odysee.com/homey-demo)
+
 <!-- TOC -->
 - [Features](#features)
 - [Installation & Configuration](#installation--configuration)
