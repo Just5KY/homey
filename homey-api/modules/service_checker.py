@@ -33,20 +33,12 @@ class service_checker:
 
     def checkAll(self):
         newStatuses = []
-        # for s in self.services:
-        #     newStatuses.append({
-        #         'name': s['name'],
-        #         'up': self.checkService(s)
-        #     })
-        # self.statuses = newStatuses
         with FuturesSession(max_workers=len(self.services)) as ses:
             for s in self.services:
-                up = False
                 future = ses.get(s['url'], verify=False, timeout=1.5)
-                try:
-                    up = future.result().status_code < 404
-                except:
-                    up = False
+                
+                try:    up = future.result().status_code < 404
+                except: up = False
 
                 newStatuses.append({
                     'name': s['name'],

@@ -67,7 +67,7 @@ export default {
         raycaster.layers.set(1);
 
         // lights & camera
-        camera.position.set(-.25, 0, 8);
+        camera.position.set(-.25, -1 * Math.floor(this.serviceData.length / 13), 8);
         scene.add(camera);
 
         light.position.set(-5, 5, 2);
@@ -139,6 +139,8 @@ export default {
           this.serviceData.forEach(s => { this.addCrate(s.name, s.status); });
           camSpawnTween.start();
           whale.scale.set(0, 0, 0);
+          whale.position.y = -1 * Math.floor(this.serviceData.length / 13) - .75
+
           let tScale = new Tween(whale.scale)
             .to({x: 1, y: 1, z: 1}, 1000)   // slightly random stagger
             .easing(Easing.Elastic.Out)
@@ -275,6 +277,7 @@ export default {
           // position
           grp.position.x = crateIndexes.CrateIndexes[this.crates.length].x - 3.8;
           grp.position.y = crateIndexes.CrateIndexes[this.crates.length].y
+          grp.position.y -= Math.floor(this.serviceData.length / 13)
 
           // rounded box          
           let box = new Mesh(roundedBoxGeo, boxMat);
@@ -623,7 +626,7 @@ function threeLoadAssets() {
   // load whale
   gltfLoader.load('./models/whale_optimized.glb', (model) => { 
     whale = model.scene;
-    model.scene.position.y -= .75;
+    //model.scene.position.y = -.75;
     scene.add(model.scene); 
     modelLoaded = true;
   });

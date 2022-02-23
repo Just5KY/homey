@@ -78,8 +78,9 @@ Notes:
   - Refer to [Docker Backends](#docker-backends) to configure Docker/Portainer API access
   - `config.yml` defaults work out of the box
     - *These options can be changed while homey is running*
-  - Icons can also be added while homey is running or uploaded via GUI
+  - Icons can also be added while homey is running, via the options menu or `icons` folder
     - *Icons are **not** required for each service*
+  - When running inside Docker, 0.0.0.0/localhost/127.0.0.1 resolve to the container's IP address - not the host's. To add services running on the host, use the machine's explicit local IP (i.e. 192.168.1.XX) instead.
   - Refer to [System Monitor Module](#system-monitor-module) for more information on `monitorSystem.py`
 
 
