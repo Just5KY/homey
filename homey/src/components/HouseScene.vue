@@ -154,7 +154,7 @@ export default {
 
           // roof
           const tween = new Tween({x: 0, y: startHeight, z: 0 })
-              .to({x: 0, y: .9, z: 0 }, 3000)
+              .to({x: 0, y: .7, z: 0 }, 3000)
               .easing(Easing.Bounce.Out)
               .onStart(() => {chimney.scale.set(0, 0, 0)})
               .onUpdate(function ({ x, y, z }, elapsed) {
@@ -168,7 +168,7 @@ export default {
           })
           // chimney
           const chimneyTween = new Tween({x:.35, y: 0, z: 0})
-              .to({x: .35, y: 1, z: 0}, 1200)
+              .to({x: .35, y: .8, z: 0}, 1200)
               .easing(Easing.Elastic.Out)
               .onStart(() => {chimney.scale.set(1, 1, 1)})
               .onUpdate(function ({x, y, z}, elapsed) {
@@ -176,28 +176,28 @@ export default {
           })
           // left wall
           const leftTween = new Tween({x: 0, y: -startHeight, z: 0})
-              .to({x: -.5, y: 0, z: 0}, 2000)
+              .to({x: -.5, y: -.2, z: 0}, 2000)
               .easing(Easing.Bounce.Out)
               .onUpdate(function ({ x, y, z }, elapsed) {
                   leftWall.position.set(x, y, z)
           })
           // right wall
           const rightTween = new Tween({x: 0, y: -startHeight + .7, z: 0})
-              .to({x: .5, y: 0, z: 0}, 2600)
+              .to({x: .5, y: -.2, z: 0}, 2600)
               .easing(Easing.Bounce.Out)
               .onUpdate(function ({ x, y, z }, elapsed) {
                   rightWall.position.set(x, y, z)
           })
           // front wall
           const frontTween = new Tween({x: 0, y: -startHeight - .4, z: 0})
-              .to({x: 0, y: 0, z: .5}, 1800)
+              .to({x: 0, y: -.2, z: .5}, 1800)
               .easing(Easing.Bounce.Out)
               .onUpdate(function ({ x, y, z }, elapsed) {
                   backWall.position.set(x, y, z)
           })
           // back wall
           const backTween = new Tween({x: 0, y: -startHeight, z: 0})
-              .to({x: 0, y: 0, z: -.5}, 2900)
+              .to({x: 0, y: -.2, z: -.5}, 2900)
               .easing(Easing.Bounce.Out)
               .onUpdate(function ({ x, y, z }, elapsed) {
                   frontWall.position.set(x, y, z)

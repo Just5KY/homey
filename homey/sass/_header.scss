@@ -39,26 +39,37 @@
         letter-spacing: .75rem;
         margin: 2rem;
         margin-left: 0;
+        white-space: nowrap;
+        line-height: 3.5rem;
 
         @media (max-width: $mobile-break-med) {
-            font-size: 5rem;
+            font-size: 4.5rem;
+            margin: 1rem;
+            margin-left: 0;
             letter-spacing: .55rem;
+            white-space: normal;
         }
 
         @media (max-width: $mobile-break-small) {
-            letter-spacing: .3rem;
-            font-size: 3rem;
 
             &--tiny {
                 // fade in after house comes together
                 opacity: 0;
                 animation: fadeDelay 1.5s forwards;
                 animation-delay: 2.5s;
+                letter-spacing: .3rem;
 
                 font-size: 2rem;
+                margin: 0;
+                padding: 0;
                 position: absolute;
-                left: 3.15rem;
-                bottom: -1rem;
+                left: .5rem;
+                bottom: .5rem;
+                line-height: 2rem;
+                white-space: normal;
+                word-wrap: break-word;
+                width: 15rem;
+                
             }
         }
     }

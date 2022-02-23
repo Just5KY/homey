@@ -802,26 +802,34 @@
   letter-spacing: 0.75rem;
   margin: 2rem;
   margin-left: 0;
+  white-space: nowrap;
+  line-height: 3.5rem;
 }
 @media (max-width: 1350px) {
   .header-container__main .header-title {
-    font-size: 5rem;
+    font-size: 4.5rem;
+    margin: 1rem;
+    margin-left: 0;
     letter-spacing: 0.55rem;
+    white-space: normal;
   }
 }
 @media (max-width: 600px) {
-  .header-container__main .header-title {
-    letter-spacing: 0.3rem;
-    font-size: 3rem;
-  }
   .header-container__main .header-title--tiny {
     opacity: 0;
     animation: fadeDelay 1.5s forwards;
     animation-delay: 2.5s;
+    letter-spacing: 0.3rem;
     font-size: 2rem;
+    margin: 0;
+    padding: 0;
     position: absolute;
-    left: 3.15rem;
-    bottom: -1rem;
+    left: 0.5rem;
+    bottom: 0.5rem;
+    line-height: 2rem;
+    white-space: normal;
+    word-wrap: break-word;
+    width: 15rem;
   }
 }
 .header-container__main--bookmark-container {
