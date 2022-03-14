@@ -40,14 +40,30 @@ WEATHER_CODES = {
 
 class api:
 
-    def __init__(self, weatherLat, weatherLong):
+    def __init__(self, weatherLat, weatherLong, weatherTimezone, weatherUnits):
 
         self.weatherLat = weatherLat
         self.weatherLong = weatherLong
+        self.timezone = weatherTimezone.replace('/', '%2F')
+
+        self.tempUnit   = 'fahrenheit'
+        self.speedUnit  = 'mph'
+        self.precipUnit = 'inch'
+        
+        if weatherUnits.lower() == 'metric':
+            self.tempUnit   = 'celsius'
+            self.speedUnit  = 'kmh'
+            self.precipUnit = 'mm'
 
     def buildUrl(self, params):
-        return 'https://api.open-meteo.com/v1/forecast?latitude=' + self.weatherLat + '&longitude=' + self.weatherLong \
-            + params + '&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=America%2FNew_York'
+        return 'https://api.open-meteo.com/v1/forecast' + \
+            '?latitude=' + self.weatherLat + \
+            '&longitude=' + self.weatherLong + \
+            params + \
+            '&temperature_unit=' + self.tempUnit + \
+            '&windspeed_unit=' + self.speedUnit + \
+            '&precipitation_unit=' + self.precipUnit + \
+            '&timezone=' + self.timezone
     
     def request(self, method, url):
         

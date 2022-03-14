@@ -258,6 +258,7 @@ Option | Type | Purpose
 TZ | String | Accepts a standard unix tz value i.e. `"America/Chicago"`. Ensures container's clock matches local clock. [List of all valid tz strings](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
 HOMEY_API_WEATHER_LAT | String | Float with up to four decimal places i.e. `"23.4809"`. Sent to [Open Meteo](https://open-meteo.com/en/docs) weather API. *If location seems incorrect, double check +/- signs.*
 HOMEY_API_WEATHER_LONG | String | Float with up to four decimal places. Sent to [Open Meteo](https://open-meteo.com/en/docs) weather API.
+HOMEY_API_WEATHER_UNITS | String | Toggles weather units between Fahrenheit/mph/inches & Celsius/kmh/mm. Valid values: `standard` & `metric`. Case insensitive.
 HOMEY_API_DOCKER_USER_ID | Integer | The user ID of an appropriately priveleged member of the `docker` group. See [Docker Backends](#docker-backends) for more info.
 HOMEY_API_DOCKER_GROUP_ID | Integer | The group ID of the `docker` group. See [Docker Backends](#docker-backends) for more info.
 HOMEY_API_DOCKER_SOCKET | String | Custom socket paths are not supported yet - do not modify this value. See [Docker Backends](#docker-backends) for more info.

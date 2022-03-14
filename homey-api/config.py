@@ -48,6 +48,8 @@ class Config:
     
     WEATHER_LAT = os.environ.get('HOMEY_API_WEATHER_LAT', default='')
     WEATHER_LONG = os.environ.get('HOMEY_API_WEATHER_LONG', default='')
+    WEATHER_TZ = os.environ.get('TZ', default='America/New_York')
+    WEATHER_UNITS = os.environ.get('HOMEY_API_WEATHER_UNITS', default='Standard')
     WEATHER_ENABLED = not (WEATHER_LAT == '' and WEATHER_LONG == '')
     WEATHER_VALID = WEATHER_ENABLED and validateWeather(WEATHER_LAT, WEATHER_LONG)
     

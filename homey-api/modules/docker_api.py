@@ -6,13 +6,13 @@ from datetime import datetime
 import time
 
 class api:
-
     def __init__(self, dockerSocketPath):
-        if dockerSocketPath == '/var/run/docker.sock':   # default
-            self.client = docker.from_env()
-            self.api_client = docker.APIClient(base_url='unix:/' + dockerSocketPath)
-        else:
-            print('ERROR: Custom docker socket paths are not yet supported.')
+        if dockerSocketPath != '/var/run/docker.sock':   # default
+            print('WARNING: Custom Docker socket path not yet supported.')
+            print('Attempting to bind to /var/run/docker.sock...')
+
+        self.client = docker.from_env()
+        self.api_client = docker.APIClient(base_url='unix:/' + dockerSocketPath)
 
     def listContainers(self):
         containerData = []

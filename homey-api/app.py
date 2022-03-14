@@ -17,7 +17,7 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 app.config.from_object(config)
 app.config['JSON_SORT_KEYS'] = False
 
-if config.WEATHER_VALID:        weatherAPI = open_meteo.api(config.WEATHER_LAT, config.WEATHER_LONG)
+if config.WEATHER_VALID:        weatherAPI = open_meteo.api(config.WEATHER_LAT, config.WEATHER_LONG, config.WEATHER_TZ, config.WEATHER_UNITS)
 if config.PORTAINER_ENABLED:    portainerAPI = portainer.api(config.PORTAINER_URL, config.PORTAINER_USER, config.PORTAINER_PASSWORD)
 if config.FLOOD_ENABLED:        floodAPI = flood.api(config.FLOOD_URL, config.FLOOD_USER, config.FLOOD_PASSWORD)
 dockerAPI = docker_api.api(config.DOCKER_SOCKET)
