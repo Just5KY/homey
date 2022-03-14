@@ -55,7 +55,7 @@ Untested platforms:
 2. Unzip to a permanent location. This is where homey's config files and icons will be stored.
 3. Configure integrations in `dotenv.example`. Rename to `.env`.
 4. Configure UI options in `config.yml.example`. Rename to `config.yml`.
-5. *(Optional) Edit homey's port (defualt 9080) in `docker-compose.yml`*
+5. *(Optional) Edit homey's port (default 9080) in `docker-compose.yml`*
 6. *(Optional) Add service icons to the `icons` subdirectory.*
 7. *(Optional) Run [monitorSystem.py](#system-monitor-module) to enable host machine stats.*
 8. Launch with: `docker-compose up -d`
