@@ -40,7 +40,7 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v2
         with:
-          context: homey/homey
+          context: "{{defaultContext}}:homey"
           file: Dockerfile
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
